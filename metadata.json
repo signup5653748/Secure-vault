@@ -1,0 +1,6 @@
+{
+  "name": "Vault",
+  "description": "Offline personal credential manager with encrypted storage.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
