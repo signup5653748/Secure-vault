@@ -1,6 +1,7 @@
 package com.example.ui
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.navigation.compose.NavHost
@@ -15,21 +16,26 @@ fun AppNavigation(viewModel: KeePassViewModel) {
 
     NavHost(navController = navController, startDestination = "auth") {
         composable("auth") {
-            if (database != null) {
-                // If already unlocked, skip auth screen
-                navController.navigate("vault") {
-                    popUpTo("auth") { inclusive = true }
+            LaunchedEffect(database) {
+                if (database != null) {
+                    navController.navigate("vault") {
+                        popUpTo("auth") { inclusive = true }
+                    }
                 }
-            } else {
+            }
+            if (database == null) {
                 AuthScreen(viewModel = viewModel)
             }
         }
         composable("vault") {
-            if (database == null) {
-                navController.navigate("auth") {
-                    popUpTo("vault") { inclusive = true }
+            LaunchedEffect(database) {
+                if (database == null) {
+                    navController.navigate("auth") {
+                        popUpTo("vault") { inclusive = true }
+                    }
                 }
-            } else {
+            }
+            if (database != null) {
                 VaultScreen(
                     viewModel = viewModel, 
                     onNavigateToView = {
@@ -39,10 +45,18 @@ fun AppNavigation(viewModel: KeePassViewModel) {
             }
         }
         composable("view") {
-            ViewEntryScreen(
-                viewModel = viewModel,
-                onNavigateBack = { navController.popBackStack() }
-            )
+            if (database != null) {
+                ViewEntryScreen(
+                    viewModel = viewModel,
+                    onNavigateBack = { navController.popBackStack() }
+                )
+            } else {
+                LaunchedEffect(Unit) {
+                    navController.navigate("auth") {
+                        popUpTo(0)
+                    }
+                }
+            }
         }
     }
 }
