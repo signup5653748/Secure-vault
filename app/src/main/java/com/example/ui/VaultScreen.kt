@@ -23,7 +23,8 @@ import org.linguafranca.pwdb.Group
 @Composable
 fun VaultScreen(
     viewModel: KeePassViewModel,
-    onNavigateToView: () -> Unit
+    onNavigateToView: () -> Unit,
+    onNavigateToSettings: () -> Unit = {}
 ) {
     val currentGroup by viewModel.currentGroup.collectAsState()
 
@@ -48,6 +49,9 @@ fun VaultScreen(
                     }
                 },
                 actions = {
+                    IconButton(onClick = onNavigateToSettings) {
+                        Icon(Icons.Default.Settings, contentDescription = "Settings")
+                    }
                     IconButton(onClick = { viewModel.lockDatabase() }) {
                         Icon(Icons.Default.Lock, contentDescription = "Lock")
                     }

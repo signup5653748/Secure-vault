@@ -5,6 +5,7 @@ import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.data.KeePassHelper
+import com.example.data.SettingsRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,6 +18,7 @@ import java.io.File
 class KeePassViewModel(application: Application) : AndroidViewModel(application) {
 
     private val context = application.applicationContext
+    val settings = SettingsRepository(context)
 
     private val _dbFile = MutableStateFlow<File?>(null)
     val dbFile: StateFlow<File?> = _dbFile.asStateFlow()

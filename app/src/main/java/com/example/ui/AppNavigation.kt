@@ -40,6 +40,9 @@ fun AppNavigation(viewModel: KeePassViewModel) {
                     viewModel = viewModel, 
                     onNavigateToView = {
                         navController.navigate("view")
+                    },
+                    onNavigateToSettings = {
+                        navController.navigate("settings")
                     }
                 )
             }
@@ -57,6 +60,12 @@ fun AppNavigation(viewModel: KeePassViewModel) {
                     }
                 }
             }
+        }
+        composable("settings") {
+            SettingsScreen(
+                viewModel = viewModel,
+                onNavigateBack = { navController.popBackStack() }
+            )
         }
     }
 }
