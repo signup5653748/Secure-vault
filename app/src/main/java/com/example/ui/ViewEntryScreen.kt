@@ -17,7 +17,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.viewmodel.KeePassViewModel
-import org.linguafranca.pwdb.Entry
+import app.keemobile.kotpass.constants.BasicField
+import app.keemobile.kotpass.models.Entry
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -34,7 +35,7 @@ fun ViewEntryScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(currentEntry?.title ?: "Entry") },
+                title = { Text((currentEntry?.get(BasicField.Title)?.content ?: "Entry")) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
@@ -77,7 +78,7 @@ fun ViewEntryScreen(
             
             Spacer(modifier = Modifier.height(16.dp))
             
-            Text(text = entry.title ?: "", fontWeight = FontWeight.Bold, fontSize = 24.sp)
+            Text(text = (entry[BasicField.Title]?.content ?: "") ?: "", fontWeight = FontWeight.Bold, fontSize = 24.sp)
             Text(text = "Personal Credentials", fontSize = 14.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
 
             Spacer(modifier = Modifier.height(32.dp))
@@ -87,19 +88,19 @@ fun ViewEntryScreen(
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
             ) {
                 Column {
-                    if (!entry.url.isNullOrEmpty()) {
+                    if (!(entry[BasicField.Url]?.content ?: "").isNullOrEmpty()) {
                         ViewFieldRow(
                             icon = Icons.Default.Link,
-                            text = entry.url,
-                            onCopy = { clipboardManager.setText(AnnotatedString(entry.url)) }
+                            text = (entry[BasicField.Url]?.content ?: ""),
+                            onCopy = { clipboardManager.setText(AnnotatedString((entry[BasicField.Url]?.content ?: ""))) }
                         )
                         HorizontalDivider(color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f))
                     }
-                    if (!entry.username.isNullOrEmpty()) {
+                    if (!(entry[BasicField.UserName]?.content ?: "").isNullOrEmpty()) {
                         ViewFieldRow(
                             icon = Icons.Default.Person,
-                            text = entry.username,
-                            onCopy = { clipboardManager.setText(AnnotatedString(entry.username)) }
+                            text = (entry[BasicField.UserName]?.content ?: ""),
+                            onCopy = { clipboardManager.setText(AnnotatedString((entry[BasicField.UserName]?.content ?: ""))) }
                         )
                         HorizontalDivider(color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f))
                     }
@@ -118,7 +119,7 @@ fun ViewEntryScreen(
                         )
                         Spacer(modifier = Modifier.width(16.dp))
                         Text(
-                            text = if (passwordVisible) entry.password else "••••••••••••",
+                            text = if (passwordVisible) (entry[BasicField.Password]?.content ?: "") else "••••••••••••",
                             modifier = Modifier.weight(1f),
                             fontSize = 16.sp
                         )
@@ -128,7 +129,7 @@ fun ViewEntryScreen(
                                 contentDescription = "Toggle Visibility"
                             )
                         }
-                        IconButton(onClick = { clipboardManager.setText(AnnotatedString(entry.password)) }) {
+                        IconButton(onClick = { clipboardManager.setText(AnnotatedString((entry[BasicField.Password]?.content ?: ""))) }) {
                             Icon(Icons.Default.ContentCopy, contentDescription = "Copy Password")
                         }
                     }
@@ -137,7 +138,7 @@ fun ViewEntryScreen(
             
             Spacer(modifier = Modifier.height(24.dp))
             
-            if (!entry.notes.isNullOrEmpty()) {
+            if (!(entry[BasicField.Notes]?.content ?: "").isNullOrEmpty()) {
                 Text(
                     text = "Notes",
                     fontWeight = FontWeight.Medium,
@@ -150,7 +151,7 @@ fun ViewEntryScreen(
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
                 ) {
                     Text(
-                        text = entry.notes,
+                        text = (entry[BasicField.Notes]?.content ?: ""),
                         modifier = Modifier.padding(16.dp),
                         fontSize = 16.sp
                     )

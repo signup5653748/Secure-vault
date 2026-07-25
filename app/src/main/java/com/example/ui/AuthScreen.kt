@@ -4,6 +4,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.FolderOpen
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.*
@@ -17,8 +18,8 @@ import androidx.compose.ui.unit.sp
 import com.example.viewmodel.KeePassViewModel
 
 @Composable
-fun AuthScreen(viewModel: KeePassViewModel) {
-    val dbFile by viewModel.dbFile.collectAsState()
+fun AuthScreen(viewModel: KeePassViewModel, onNavigateToCreate: () -> Unit) {
+    val dbUri by viewModel.dbUri.collectAsState()
     val error by viewModel.error.collectAsState()
     
     var password by remember { mutableStateOf("") }
@@ -48,22 +49,25 @@ fun AuthScreen(viewModel: KeePassViewModel) {
         Text("Vault", fontSize = 32.sp, fontWeight = FontWeight.Bold)
         Spacer(modifier = Modifier.height(32.dp))
 
-        if (dbFile == null) {
-            Text(
-                "No database selected.",
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
+        if (dbUri == null) {
+            
             Spacer(modifier = Modifier.height(16.dp))
             Button(
                 onClick = { filePickerLauncher.launch(arrayOf("*/*")) }
             ) {
                 Icon(Icons.Default.FolderOpen, contentDescription = null)
                 Spacer(modifier = Modifier.width(8.dp))
-                Text("Open Database")
+                Text("Open Existing Vault")
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+            OutlinedButton(onClick = onNavigateToCreate) {
+                Icon(Icons.Default.Add, contentDescription = null)
+                Spacer(modifier = Modifier.width(8.dp))
+                Text("Create New Vault")
             }
         } else {
             Text(
-                "Database selected: ${dbFile?.name}",
+                "Database selected",
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             Spacer(modifier = Modifier.height(16.dp))
@@ -83,10 +87,20 @@ fun AuthScreen(viewModel: KeePassViewModel) {
                 Text("Unlock")
             }
             Spacer(modifier = Modifier.height(16.dp))
-            TextButton(
-                onClick = { filePickerLauncher.launch(arrayOf("*/*")) }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                Text("Select different database")
+                TextButton(
+                    onClick = { filePickerLauncher.launch(arrayOf("*/*")) }
+                ) {
+                    Text("Select different")
+                }
+                TextButton(
+                    onClick = onNavigateToCreate
+                ) {
+                    Text("Create new")
+                }
             }
         }
 

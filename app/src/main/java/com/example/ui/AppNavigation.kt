@@ -24,8 +24,17 @@ fun AppNavigation(viewModel: KeePassViewModel) {
                 }
             }
             if (database == null) {
-                AuthScreen(viewModel = viewModel)
+                AuthScreen(
+                    viewModel = viewModel,
+                    onNavigateToCreate = { navController.navigate("create_database") }
+                )
             }
+        }
+        composable("create_database") {
+            CreateDatabaseScreen(
+                viewModel = viewModel,
+                onNavigateBack = { navController.popBackStack() }
+            )
         }
         composable("vault") {
             LaunchedEffect(database) {
@@ -43,6 +52,12 @@ fun AppNavigation(viewModel: KeePassViewModel) {
                     },
                     onNavigateToSettings = {
                         navController.navigate("settings")
+                    },
+                    onNavigateToCreate = {
+                        navController.navigate("create_database")
+                    },
+                    onNavigateToAbout = {
+                        navController.navigate("about")
                     }
                 )
             }
@@ -64,6 +79,11 @@ fun AppNavigation(viewModel: KeePassViewModel) {
         composable("settings") {
             SettingsScreen(
                 viewModel = viewModel,
+                onNavigateBack = { navController.popBackStack() }
+            )
+        }
+        composable("about") {
+            AboutScreen(
                 onNavigateBack = { navController.popBackStack() }
             )
         }

@@ -18,6 +18,9 @@ class SettingsRepository(context: Context) {
     private val _openFromFileManager = MutableStateFlow(prefs.getBoolean("open_from_file_manager", true))
     val openFromFileManager: StateFlow<Boolean> = _openFromFileManager.asStateFlow()
 
+    private val _databaseUri = MutableStateFlow(prefs.getString("database_uri", null))
+    val databaseUri: StateFlow<String?> = _databaseUri.asStateFlow()
+
     fun setThemeColor(color: String) {
         prefs.edit().putString("theme_color", color).apply()
         _themeColor.value = color
@@ -31,5 +34,10 @@ class SettingsRepository(context: Context) {
     fun setOpenFromFileManager(enabled: Boolean) {
         prefs.edit().putBoolean("open_from_file_manager", enabled).apply()
         _openFromFileManager.value = enabled
+    }
+
+    fun setDatabaseUri(uri: String?) {
+        prefs.edit().putString("database_uri", uri).apply()
+        _databaseUri.value = uri
     }
 }

@@ -43,8 +43,12 @@ googleid = "1.1.1"
 
 
 [libraries]
+stax-api = { group = "javax.xml.stream", name = "stax-api", version = "1.0-2" }
+aalto-xml = { group = "com.fasterxml", name = "aalto-xml", version = "1.3.2" }
 keepassjava-kdbx = { group = "org.linguafranca.pwdb", name = "KeePassJava2-kdbx", version.ref = "keepassjava" }
 keepassjava-dom = { group = "org.linguafranca.pwdb", name = "KeePassJava2-dom", version.ref = "keepassjava" }
+keepassjava-simple = { group = "org.linguafranca.pwdb", name = "KeePassJava2-simple", version.ref = "keepassjava" }
+keepassjava-jackson = { group = "org.linguafranca.pwdb", name = "KeePassJava2-jackson", version.ref = "keepassjava" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
