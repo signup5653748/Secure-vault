@@ -29,7 +29,8 @@ import app.keemobile.kotpass.models.EntryValue
 @Composable
 fun ViewEntryScreen(
     viewModel: KeePassViewModel,
-    onNavigateBack: () -> Unit
+    onNavigateBack: () -> Unit,
+    onNavigateToEdit: () -> Unit
 ) {
     val currentEntry by viewModel.currentEntry.collectAsState()
     val clipboardManager: ClipboardManager = LocalClipboardManager.current
@@ -37,11 +38,23 @@ fun ViewEntryScreen(
 
     Scaffold(
         topBar = {
+            var isEditing by remember { mutableStateOf(false) }
             TopAppBar(
                 title = { Text((currentEntry?.get(BasicField.Title)?.content ?: "Entry")) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                    }
+                },
+                actions = {
+                    IconButton(onClick = {
+                        if (!isEditing) {
+                            isEditing = true
+                            onNavigateToEdit()
+                            isEditing = false
+                        }
+                    }) {
+                        Icon(Icons.Default.Edit, contentDescription = "Edit")
                     }
                 }
             )

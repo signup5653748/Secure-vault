@@ -301,30 +301,30 @@ fun VaultScreen(
                     items(searchResults, key = { it.uuid.toString() }) { entry ->
                         EntryItem(
                             entry,
-                            onClick = { 
+                            onClick = debounced { 
                                 viewModel.selectEntry(entry)
                                 onNavigateToView()
                             },
-                            onDelete = { viewModel.deleteEntry(entry) }
+                            onDelete = debounced { viewModel.deleteEntry(entry) }
                         )
                     }
                 } else {
                     items(groups, key = { it.uuid.toString() }) { group ->
                         GroupItem(
                             group,
-                            onClick = { viewModel.selectGroup(group) },
-                            onDelete = { viewModel.deleteGroup(group) }
+                            onClick = debounced { viewModel.selectGroup(group) },
+                            onDelete = debounced { viewModel.deleteGroup(group) }
                         )
                     }
                     
                     items(entries, key = { it.uuid.toString() }) { entry ->
                         EntryItem(
                             entry,
-                            onClick = { 
+                            onClick = debounced { 
                                 viewModel.selectEntry(entry)
                                 onNavigateToView()
                             },
-                            onDelete = { viewModel.deleteEntry(entry) }
+                            onDelete = debounced { viewModel.deleteEntry(entry) }
                         )
                     }
                 }
@@ -367,6 +367,7 @@ fun GroupItem(group: app.keemobile.kotpass.models.Group, onClick: () -> Unit, on
     val iconColor = parseColor(group.customData["ThemeColor"]?.value)
     val iconVector = parseIcon(group.icon.name)
     var showMenu by remember { mutableStateOf(false) }
+
     
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -425,6 +426,7 @@ fun EntryItem(entry: app.keemobile.kotpass.models.Entry, onClick: () -> Unit, on
     val iconColor = parseColor(entry.customData["ThemeColor"]?.value)
     val iconVector = parseIcon(entry.icon.name)
     var showMenu by remember { mutableStateOf(false) }
+
 
     Card(
         modifier = Modifier

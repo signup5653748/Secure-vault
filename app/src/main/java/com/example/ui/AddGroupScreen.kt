@@ -57,6 +57,7 @@ fun AddGroupScreen(
     var color by remember { mutableStateOf("Blue") }
     
     var showIconDialog by remember { mutableStateOf(false) }
+    var isSaving by remember { mutableStateOf(false) }
     var showColorDialog by remember { mutableStateOf(false) }
     
     val predefinedIcons = listOf("Folder", "Key", "Network", "Lock", "Email", "World", "Money", "Note")
@@ -83,8 +84,11 @@ fun AddGroupScreen(
             ) {
                 FloatingActionButton(
                     onClick = {
-                        viewModel.createGroup(title, iconName, color)
-                        onNavigateBack()
+                        if (!isSaving) {
+                            isSaving = true
+                            viewModel.createGroup(title, iconName, color)
+                            onNavigateBack()
+                        }
                     },
                     containerColor = Color(0xFF0066FF),
                     contentColor = Color.White,

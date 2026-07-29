@@ -24,6 +24,7 @@ fun AddNoteScreen(
 ) {
     var title by remember { mutableStateOf("") }
     var notes by remember { mutableStateOf("") }
+    var isSaving by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -46,17 +47,20 @@ fun AddNoteScreen(
             ) {
                 FloatingActionButton(
                     onClick = {
-                        viewModel.createEntry(
-                            title = title,
-                            username = "",
-                            pass = "",
-                            url = "",
-                            notes = notes,
-                            iconName = "Note",
-                            color = "Blue",
-                            customFields = emptyList()
-                        )
-                        onNavigateBack()
+                        if (!isSaving) {
+                            isSaving = true
+                            viewModel.createEntry(
+                                title = title,
+                                username = "",
+                                pass = "",
+                                url = "",
+                                notes = notes,
+                                iconName = "Note",
+                                color = "Blue",
+                                customFields = emptyList()
+                            )
+                            onNavigateBack()
+                        }
                     },
                     containerColor = Color(0xFF0066FF),
                     contentColor = Color.White,

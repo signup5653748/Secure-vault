@@ -26,6 +26,7 @@ fun AuthScreen(viewModel: KeePassViewModel, onNavigateToCreate: () -> Unit) {
     val dbUri by viewModel.dbUri.collectAsState()
     val error by viewModel.error.collectAsState()
     val enableBiometrics by viewModel.settings.enableBiometrics.collectAsState()
+    val isLoading by viewModel.isLoading.collectAsState()
     val context = LocalContext.current
     
     var biometricPrompted by remember { mutableStateOf(false) }
@@ -105,7 +106,8 @@ fun AuthScreen(viewModel: KeePassViewModel, onNavigateToCreate: () -> Unit) {
             Spacer(modifier = Modifier.height(16.dp))
             Button(
                 onClick = { viewModel.unlockDatabase(password) },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                enabled = !isLoading && password.isNotEmpty()
             ) {
                 Text("Unlock")
             }
@@ -147,6 +149,13 @@ fun AuthScreen(viewModel: KeePassViewModel, onNavigateToCreate: () -> Unit) {
         if (error != null) {
             Spacer(modifier = Modifier.height(16.dp))
             Text(error!!, color = MaterialTheme.colorScheme.error)
+        }
+        
+        if (isLoading) {
+            Spacer(modifier = Modifier.height(32.dp))
+            ColorfulLoadingIndicator()
+            Spacer(modifier = Modifier.height(16.dp))
+            Text("Decrypting Vault...", color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.SemiBold)
         }
     }
 }

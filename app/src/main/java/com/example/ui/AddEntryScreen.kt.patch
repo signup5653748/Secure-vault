@@ -1,0 +1,22 @@
+--- /app/applet/app/src/main/java/com/example/ui/AddEntryScreen.kt
++++ /app/applet/app/src/main/java/com/example/ui/AddEntryScreen.kt
+@@ -702,6 +702,8 @@
+                                     .fillMaxWidth()
+                                     .padding(vertical = 8.dp)
+                                     .clickable {
++                                        try {
++                                            android.util.Log.d("AddEntryScreen", "Template clicked: ${template[app.keemobile.kotpass.constants.BasicField.Title]?.content}")
+                                         title = template[app.keemobile.kotpass.constants.BasicField.Title]?.content ?: ""
+                                         username = template[app.keemobile.kotpass.constants.BasicField.UserName]?.content ?: ""
+                                         url = template[app.keemobile.kotpass.constants.BasicField.Url]?.content ?: ""
+@@ -723,6 +725,10 @@
+                                                 showTemplateSheet = false
+                                             }
+                                         }
++                                        } catch (e: Exception) {
++                                            e.printStackTrace()
++                                            android.util.Log.e("AddEntryScreen", "Error loading template", e)
++                                        }
+                                     },
+                                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
+                             ) {

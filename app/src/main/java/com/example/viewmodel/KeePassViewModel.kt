@@ -34,7 +34,10 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
     val settings = SettingsRepository(context)
 
     private val _dbUri = MutableStateFlow<Uri?>(null)
-    val dbUri: StateFlow<Uri?> = _dbUri.asStateFlow()
+    val dbUri: StateFlow<Uri?> = _dbUri
+    
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
 
     private val _database = MutableStateFlow<KeePassDatabase?>(null)
     val database: StateFlow<KeePassDatabase?> = _database.asStateFlow()
@@ -119,6 +122,7 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
 
     fun unlockDatabase(password: String) {
         viewModelScope.launch {
+            _isLoading.value = true
             val uri = _dbUri.value
             if (uri != null) {
                 try {
@@ -132,9 +136,12 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
                     }
                 } catch (e: Exception) {
                     _error.value = "Error: ${e.message}"
+                } finally {
+                    _isLoading.value = false
                 }
             } else {
                 _error.value = "No database file selected."
+                _isLoading.value = false
             }
         }
     }
@@ -353,7 +360,11 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
                         BasicField.Title() to EntryValue.Plain("Bank Account"),
                         BasicField.UserName() to EntryValue.Plain(""),
                         BasicField.Password() to EntryValue.Encrypted(EncryptedValue.fromString("")),
-                        BasicField.Url() to EntryValue.Plain("")
+                        BasicField.Url() to EntryValue.Plain(""),
+                        BasicField.Notes() to EntryValue.Plain(""),
+                        "Account Number" to EntryValue.Encrypted(EncryptedValue.fromString("")),
+                        "Routing Number" to EntryValue.Encrypted(EncryptedValue.fromString("")),
+                        "Bank Name" to EntryValue.Plain("")
                     ))
                 ),
                 Entry(
@@ -361,7 +372,11 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
                     icon = app.keemobile.kotpass.constants.PredefinedIcon.Note,
                     fields = EntryFields(mutableMapOf(
                         BasicField.Title() to EntryValue.Plain("Note"),
-                        BasicField.Notes() to EntryValue.Plain("")
+                        BasicField.UserName() to EntryValue.Plain(""),
+                        BasicField.Password() to EntryValue.Encrypted(EncryptedValue.fromString("")),
+                        BasicField.Url() to EntryValue.Plain(""),
+                        BasicField.Notes() to EntryValue.Plain(""),
+                        "Note Content" to EntryValue.Plain("")
                     )),
                     customData = mapOf("TemplateType" to app.keemobile.kotpass.models.CustomDataValue("Note"), "ThemeColor" to app.keemobile.kotpass.models.CustomDataValue("Yellow"))
                 )
@@ -427,7 +442,7 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
         val newEntry = Entry(
             uuid = java.util.UUID.randomUUID(),
             icon = icon,
-            customData = mapOf("ThemeColor" to app.keemobile.kotpass.models.CustomDataValue(color)),
+            customData = mapOf("ThemeColor" to app.keemobile.kotpass.models.CustomDataValue(color)) + customFields.associate { "ShowCopyButton_${it.name}" to app.keemobile.kotpass.models.CustomDataValue(it.showCopyButton.toString()) },
             fields = EntryFields(fieldsMap)
         )
         viewModelScope.launch(Dispatchers.Default) {
@@ -528,4 +543,61 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
         _currentGroup.value = null
         _currentEntry.value = null
     }
+
+
+
+    fun updateEntry(
+        title: String,
+        username: String,
+        pass: String,
+        url: String,
+        notes: String,
+        iconName: String,
+        color: String,
+        customFields: List<com.example.ui.CustomFieldData>
+    ) {
+        val currentDb = _database.value ?: return
+        val currentGroup = _currentGroup.value ?: return
+        val entry = _currentEntry.value ?: return
+
+        val icon = try {
+            app.keemobile.kotpass.constants.PredefinedIcon.valueOf(iconName)
+        } catch (e: Exception) {
+            app.keemobile.kotpass.constants.PredefinedIcon.Key
+        }
+
+        val fieldsMap = mutableMapOf<String, app.keemobile.kotpass.models.EntryValue>(
+            app.keemobile.kotpass.constants.BasicField.Title() to app.keemobile.kotpass.models.EntryValue.Plain(title),
+            app.keemobile.kotpass.constants.BasicField.UserName() to app.keemobile.kotpass.models.EntryValue.Plain(username),
+            app.keemobile.kotpass.constants.BasicField.Password() to app.keemobile.kotpass.models.EntryValue.Encrypted(app.keemobile.kotpass.cryptography.EncryptedValue.fromString(pass)),
+            app.keemobile.kotpass.constants.BasicField.Url() to app.keemobile.kotpass.models.EntryValue.Plain(url),
+            app.keemobile.kotpass.constants.BasicField.Notes() to app.keemobile.kotpass.models.EntryValue.Plain(notes)
+        )
+
+        for (field in customFields) {
+            if (field.isHidden) {
+                fieldsMap[field.name] = app.keemobile.kotpass.models.EntryValue.Encrypted(app.keemobile.kotpass.cryptography.EncryptedValue.fromString(field.value))
+            } else {
+                fieldsMap[field.name] = app.keemobile.kotpass.models.EntryValue.Plain(field.value)
+            }
+        }
+
+        val updatedEntry = entry.copy(
+            icon = icon,
+            customData = entry.customData.toMutableMap().apply {
+                put("ThemeColor", app.keemobile.kotpass.models.CustomDataValue(color))
+            },
+            fields = EntryFields(fieldsMap)
+        )
+        
+        // Remove old entry and add new entry
+        val updatedDb = currentDb.modifyGroup(currentGroup.uuid) {
+            copy(entries = entries.filter { it.uuid != entry.uuid } + updatedEntry)
+        }
+
+        _database.value = updatedDb
+        _currentEntry.value = updatedEntry
+        saveDatabase()
+    }
+
 }

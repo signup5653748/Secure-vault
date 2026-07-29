@@ -81,7 +81,8 @@ fun AppNavigation(viewModel: KeePassViewModel) {
             if (database != null) {
                 ViewEntryScreen(
                     viewModel = viewModel,
-                    onNavigateBack = { navController.popBackStack() }
+                    onNavigateBack = { navController.popBackStack() },
+                    onNavigateToEdit = { navController.navigate("edit_entry") }
                 )
             } else {
                 LaunchedEffect(Unit) {
@@ -97,6 +98,21 @@ fun AppNavigation(viewModel: KeePassViewModel) {
                     viewModel = viewModel,
                     onNavigateBack = { navController.popBackStack() }
                 )
+            }
+        }
+                composable("edit_entry") {
+            if (database != null) {
+                AddEntryScreen(
+                    viewModel = viewModel,
+                    onNavigateBack = { navController.popBackStack() },
+                    isEdit = true
+                )
+            } else {
+                LaunchedEffect(Unit) {
+                    navController.navigate("auth") {
+                        popUpTo(0)
+                    }
+                }
             }
         }
         composable("add_entry") {

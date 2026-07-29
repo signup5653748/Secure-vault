@@ -1,6 +1,5 @@
-import org.linguafranca.pwdb.kdbx.KdbxCredentials
-import org.linguafranca.pwdb.kdbx.dom.DomDatabaseWrapper
+package test
+import app.keemobile.kotpass.constants.BasicField
 fun main() {
-    val db = DomDatabaseWrapper.create(KdbxCredentials.Password("test".toByteArray()))
-    println(db)
+    println(BasicField.Title())
 }

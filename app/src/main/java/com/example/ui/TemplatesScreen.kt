@@ -39,8 +39,14 @@ fun TemplatesScreen(viewModel: KeePassViewModel, onNavigateBack: () -> Unit, onN
             )
         },
         floatingActionButton = {
+            var isNavigating by remember { mutableStateOf(false) }
             FloatingActionButton(
-                onClick = onNavigateToAddTemplate,
+                onClick = {
+                    if (!isNavigating) {
+                        isNavigating = true
+                        onNavigateToAddTemplate()
+                    }
+                },
                 containerColor = Color(0xFF0066FF),
                 contentColor = Color.White
             ) {

@@ -66,8 +66,10 @@ data class CustomFieldData(val id: String = java.util.UUID.randomUUID().toString
 fun AddEntryScreen(
     viewModel: KeePassViewModel,
     onNavigateBack: () -> Unit,
-    isTemplate: Boolean = false
+    isTemplate: Boolean = false,
+    isEdit: Boolean = false
 ) {
+    val currentEntry by viewModel.currentEntry.collectAsState()
     var title by remember { mutableStateOf("") }
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -87,6 +89,7 @@ fun AddEntryScreen(
     val predefinedColors = listOf("Blue", "Red", "Green", "Yellow", "Cyan", "Magenta", "Gray", "Black", "White")
     var showMoreMenu by remember { mutableStateOf(false) }
     var showAttachmentsDialog by remember { mutableStateOf(false) }
+    var isSaving by remember { mutableStateOf(false) }
 
     val clipboardManager: ClipboardManager = LocalClipboardManager.current
 
@@ -99,7 +102,7 @@ fun AddEntryScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(if (isTemplate) "New Template" else "New Entry") },
+                title = { Text(if (isEdit) "Edit Entry" else if (isTemplate) "New Template" else "New Entry") },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
@@ -131,12 +134,17 @@ fun AddEntryScreen(
 
                 Spacer(modifier = Modifier.weight(1f))
                 IconButton(onClick = {
-                    if (isTemplate) {
-                        viewModel.addTemplate(title, username, password, url, notes, iconName, color, customFields)
-                    } else {
-                        viewModel.createEntry(title, username, password, url, notes, iconName, color, customFields)
+                    if (!isSaving) {
+                        isSaving = true
+                        if (isTemplate) {
+                            viewModel.addTemplate(title, username, password, url, notes, iconName, color, customFields)
+                        } else if (isEdit) {
+                            viewModel.updateEntry(title, username, password, url, notes, iconName, color, customFields)
+                        } else {
+                            viewModel.createEntry(title, username, password, url, notes, iconName, color, customFields)
+                        }
+                        onNavigateBack()
                     }
-                    onNavigateBack()
                 }) {
                     Icon(Icons.Default.Check, contentDescription = "Save")
                 }
@@ -291,25 +299,21 @@ fun AddEntryScreen(
                 }
             }
             items(customFields, key = { it.id }) { field ->
-                Card(modifier = Modifier.fillMaxWidth()) {
-                    var isVisible by remember { mutableStateOf(false) }
-                    Column(modifier = Modifier.padding(16.dp)) {
-                        Text(field.name, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Text(
-                                if (field.isHidden && !isVisible) "••••••••" else field.value, 
-                                modifier = Modifier.weight(1f),
-                                fontSize = 16.sp
-                            )
+                var isVisible by remember { mutableStateOf(!field.isHidden) }
+                OutlinedTextField(
+                    value = field.value,
+                    onValueChange = { newValue -> 
+                        customFields = customFields.map { 
+                            if (it.id == field.id) it.copy(value = newValue) else it 
+                        }
+                    },
+                    label = { Text(field.name) },
+                    visualTransformation = if (!isVisible && field.isHidden) PasswordVisualTransformation() else VisualTransformation.None,
+                    trailingIcon = {
+                        Row {
                             if (field.isHidden) {
                                 IconButton(onClick = { isVisible = !isVisible }) {
-                                    Icon(if (isVisible) Icons.Default.VisibilityOff else Icons.Default.Visibility, "Toggle Visibility")
-                                }
-                            }
-                            if (field.showCopyButton) {
-                                IconButton(onClick = { clipboardManager.setText(AnnotatedString(field.value)) }) {
-                                    Icon(Icons.Default.ContentCopy, "Copy")
+                                    Icon(if (isVisible) Icons.Default.VisibilityOff else Icons.Default.Visibility, contentDescription = "Toggle Visibility")
                                 }
                             }
                             IconButton(onClick = {
@@ -318,8 +322,10 @@ fun AddEntryScreen(
                                 Icon(Icons.Default.Delete, "Delete")
                             }
                         }
-                    }
-                }
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(12.dp)
+                )
             }
             item { Spacer(modifier = Modifier.height(16.dp)) }
         }
@@ -702,30 +708,36 @@ fun AddEntryScreen(
                                     .fillMaxWidth()
                                     .padding(vertical = 8.dp)
                                     .clickable {
-                                        title = template[app.keemobile.kotpass.constants.BasicField.Title]?.content ?: ""
-                                        username = template[app.keemobile.kotpass.constants.BasicField.UserName]?.content ?: ""
-                                        url = template[app.keemobile.kotpass.constants.BasicField.Url]?.content ?: ""
-                                        notes = template[app.keemobile.kotpass.constants.BasicField.Notes]?.content ?: ""
-                                        iconName = template.icon.name
-                                        color = template.customData["ThemeColor"]?.value ?: "Blue"
-                                        
-                                        val newCustomFields = mutableListOf<CustomFieldData>()
-                                        val basicFields = listOf(app.keemobile.kotpass.constants.BasicField.Title(), app.keemobile.kotpass.constants.BasicField.UserName(), app.keemobile.kotpass.constants.BasicField.Password(), app.keemobile.kotpass.constants.BasicField.Url(), app.keemobile.kotpass.constants.BasicField.Notes())
-                                        template.fields.entries.forEach { (key, value) ->
-                                            if (key !in basicFields) {
-                                                val fieldName = key
-                                                val isHidden = value is app.keemobile.kotpass.models.EntryValue.Encrypted
-                                                val fieldValue = value.content
-                                                val showCopy = template.customData["ShowCopyButton_$fieldName"]?.value == "true"
-                                                newCustomFields.add(CustomFieldData(name = fieldName, value = fieldValue, isHidden = isHidden, showCopyButton = showCopy))
+                                        try {
+                                            title = template[app.keemobile.kotpass.constants.BasicField.Title]?.content ?: ""
+                                            username = template[app.keemobile.kotpass.constants.BasicField.UserName]?.content ?: ""
+                                            password = template[app.keemobile.kotpass.constants.BasicField.Password]?.content ?: ""
+                                            url = template[app.keemobile.kotpass.constants.BasicField.Url]?.content ?: ""
+                                            notes = template[app.keemobile.kotpass.constants.BasicField.Notes]?.content ?: ""
+                                            iconName = template.icon.name
+                                            color = template.customData["ThemeColor"]?.value ?: "Blue"
+                                            
+                                            val newCustomFields = mutableListOf<CustomFieldData>()
+                                            val basicFields = listOf(app.keemobile.kotpass.constants.BasicField.Title(), app.keemobile.kotpass.constants.BasicField.UserName(), app.keemobile.kotpass.constants.BasicField.Password(), app.keemobile.kotpass.constants.BasicField.Url(), app.keemobile.kotpass.constants.BasicField.Notes())
+                                            
+                                            for ((key, value) in template.fields) {
+                                                if (key !in basicFields) {
+                                                    val fieldName = key
+                                                    val isHidden = value is app.keemobile.kotpass.models.EntryValue.Encrypted
+                                                    val fieldValue = value.content
+                                                    val showCopy = template.customData["ShowCopyButton_$fieldName"]?.value == "true"
+                                                    newCustomFields.add(CustomFieldData(name = fieldName, value = fieldValue, isHidden = isHidden, showCopyButton = showCopy))
+                                                }
                                             }
-                                        }
-                                        customFields = newCustomFields
-                                        
-                                        scope.launch { templateSheetState.hide() }.invokeOnCompletion {
-                                            if (!templateSheetState.isVisible) {
-                                                showTemplateSheet = false
+                                            customFields = newCustomFields
+                                            
+                                            scope.launch { templateSheetState.hide() }.invokeOnCompletion {
+                                                if (!templateSheetState.isVisible) {
+                                                    showTemplateSheet = false
+                                                }
                                             }
+                                        } catch (e: Exception) {
+                                            android.util.Log.e("AddEntryScreen", "Error loading template", e)
                                         }
                                     },
                                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
