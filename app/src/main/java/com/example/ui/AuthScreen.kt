@@ -16,11 +16,34 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.viewmodel.KeePassViewModel
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.material.icons.filled.Fingerprint
+import com.example.ui.BiometricHelper
+
 
 @Composable
 fun AuthScreen(viewModel: KeePassViewModel, onNavigateToCreate: () -> Unit) {
     val dbUri by viewModel.dbUri.collectAsState()
     val error by viewModel.error.collectAsState()
+    val enableBiometrics by viewModel.settings.enableBiometrics.collectAsState()
+    val context = LocalContext.current
+    
+    var biometricPrompted by remember { mutableStateOf(false) }
+
+    LaunchedEffect(dbUri, enableBiometrics) {
+        if (dbUri != null && enableBiometrics && !biometricPrompted) {
+            val hasSavedPass = com.example.data.CryptoHelper.getPassword(context) != null
+            if (hasSavedPass) {
+                biometricPrompted = true
+                BiometricHelper.showPrompt(
+                    context = context,
+                    onSuccess = { viewModel.unlockWithSavedPassword() },
+                    onError = { }
+                )
+            }
+        }
+    }
+
     
     var password by remember { mutableStateOf("") }
 
@@ -85,6 +108,23 @@ fun AuthScreen(viewModel: KeePassViewModel, onNavigateToCreate: () -> Unit) {
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text("Unlock")
+            }
+            if (enableBiometrics && com.example.data.CryptoHelper.getPassword(context) != null) {
+                Spacer(modifier = Modifier.height(8.dp))
+                OutlinedButton(
+                    onClick = {
+                        BiometricHelper.showPrompt(
+                            context = context,
+                            onSuccess = { viewModel.unlockWithSavedPassword() },
+                            onError = { }
+                        )
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Icon(Icons.Default.Fingerprint, contentDescription = null)
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text("Unlock with Biometrics")
+                }
             }
             Spacer(modifier = Modifier.height(16.dp))
             Row(

@@ -1,6 +1,9 @@
 package com.example.ui
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
@@ -21,6 +24,10 @@ fun SettingsScreen(
     val themeColor by viewModel.settings.themeColor.collectAsState()
     val textSizeMultiplier by viewModel.settings.textSizeMultiplier.collectAsState()
     val openFromFileManager by viewModel.settings.openFromFileManager.collectAsState()
+    val lockOnBackground by viewModel.settings.lockOnBackground.collectAsState()
+    val clipboardAutoClear by viewModel.settings.clipboardAutoClear.collectAsState()
+    val enableBiometrics by viewModel.settings.enableBiometrics.collectAsState()
+
 
     val colors = listOf("Blue", "Green", "Purple", "Orange", "Dynamic")
 
@@ -40,7 +47,8 @@ fun SettingsScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .padding(16.dp),
+                .padding(16.dp)
+                .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Text("Theme Color", style = MaterialTheme.typography.titleMedium)
@@ -55,7 +63,7 @@ fun SettingsScreen(
                 }
             }
 
-            Divider()
+            HorizontalDivider()
 
             Text("Text Size Multiplier: ${String.format("%.1f", textSizeMultiplier)}x", style = MaterialTheme.typography.titleMedium)
             Slider(
@@ -65,7 +73,7 @@ fun SettingsScreen(
                 steps = 9
             )
 
-            Divider()
+            HorizontalDivider()
 
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -85,6 +93,66 @@ fun SettingsScreen(
                     onCheckedChange = { viewModel.settings.setOpenFromFileManager(it) }
                 )
             }
+            HorizontalDivider()
+            Text("Security & Auto-lock", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.primary)
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Column(modifier = Modifier.weight(1f)) {
+                    Text("Lock on background", style = MaterialTheme.typography.titleMedium)
+                    Text(
+                        text = "Automatically lock vault when app goes to background.",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+                Switch(
+                    checked = lockOnBackground,
+                    onCheckedChange = { viewModel.settings.setLockOnBackground(it) }
+                )
+            }
+            
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Column(modifier = Modifier.weight(1f)) {
+                    Text("Clipboard auto-clear", style = MaterialTheme.typography.titleMedium)
+                    Text(
+                        text = "Clear clipboard when app is locked.",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+                Switch(
+                    checked = clipboardAutoClear,
+                    onCheckedChange = { viewModel.settings.setClipboardAutoClear(it) }
+                )
+            }
+            
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Column(modifier = Modifier.weight(1f)) {
+                    Text("Fingerprint / Biometrics", style = MaterialTheme.typography.titleMedium)
+                    Text(
+                        text = "Use biometric authentication to unlock.",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+                Switch(
+                    checked = enableBiometrics,
+                    onCheckedChange = { viewModel.settings.setEnableBiometrics(it) }
+                )
+            }
+
         }
     }
 }

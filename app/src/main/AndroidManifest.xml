@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -16,6 +17,9 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
+            android:launchMode="singleTask"
+            android:taskAffinity=".SecureVault"
+            android:clearTaskOnLaunch="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.MyApplication">
             <intent-filter>
@@ -33,15 +37,42 @@
                 <data android:pathPattern=".*\\.kdbx" />
                 <data android:host="*" />
             </intent-filter>
+                                                                        <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="file" />
+                <data android:scheme="content" />
+                <data android:mimeType="application/x-keepass2" />
+                <data android:mimeType="application/keepass" />
+                <data android:mimeType="application/x-keepass" />
+                <data android:mimeType="application/x-keepass-databases" />
+            </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="content" />
                 <data android:scheme="file" />
+                <data android:scheme="content" />
+                <data android:host="*" />
                 <data android:mimeType="*/*" />
                 <data android:pathPattern=".*\\.kdbx" />
+                <data android:pathPattern=".*\\..*\\.kdbx" />
+                <data android:pathPattern=".*\\..*\\..*\\.kdbx" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\.kdbx" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="file" />
+                <data android:scheme="content" />
                 <data android:host="*" />
+                <data android:mimeType="application/octet-stream" />
+                <data android:pathPattern=".*\\.kdbx" />
+                <data android:pathPattern=".*\\..*\\.kdbx" />
+                <data android:pathPattern=".*\\..*\\..*\\.kdbx" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\.kdbx" />
             </intent-filter>
         </activity>
     </application>

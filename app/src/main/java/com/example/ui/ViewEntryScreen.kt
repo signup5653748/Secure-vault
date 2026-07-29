@@ -1,6 +1,10 @@
 package com.example.ui
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.filled.Label
+import androidx.compose.material.icons.filled.Attachment
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -19,8 +23,7 @@ import androidx.compose.ui.unit.sp
 import com.example.viewmodel.KeePassViewModel
 import app.keemobile.kotpass.constants.BasicField
 import app.keemobile.kotpass.models.Entry
-import java.text.SimpleDateFormat
-import java.util.*
+import app.keemobile.kotpass.models.EntryValue
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -50,8 +53,9 @@ fun ViewEntryScreen(
             }
             return@Scaffold
         }
-
         val entry = currentEntry!!
+        val iconColor = parseColor(entry.customData["ThemeColor"]?.value)
+        val iconVector = parseIcon(entry.icon.name)
 
         Column(
             modifier = Modifier
@@ -65,14 +69,14 @@ fun ViewEntryScreen(
             
             Surface(
                 shape = MaterialTheme.shapes.large,
-                color = MaterialTheme.colorScheme.surfaceVariant,
+                color = iconColor.copy(alpha = 0.2f),
                 modifier = Modifier.size(80.dp)
             ) {
                 Icon(
-                    Icons.Default.Lock,
+                    iconVector,
                     contentDescription = null,
                     modifier = Modifier.padding(16.dp),
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    tint = iconColor
                 )
             }
             
@@ -96,6 +100,7 @@ fun ViewEntryScreen(
                         )
                         HorizontalDivider(color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f))
                     }
+
                     if (!(entry[BasicField.UserName]?.content ?: "").isNullOrEmpty()) {
                         ViewFieldRow(
                             icon = Icons.Default.Person,
@@ -138,6 +143,59 @@ fun ViewEntryScreen(
             
             Spacer(modifier = Modifier.height(24.dp))
             
+            // Custom fields
+            val basicKeys = setOf("Title", "UserName", "Password", "URL", "Notes")
+            val customFields = entry.fields.entries.filter { it.key !in basicKeys }
+            
+            if (customFields.isNotEmpty()) {
+                Text(
+                    text = "Custom Fields",
+                    fontWeight = FontWeight.Medium,
+                    modifier = Modifier.align(Alignment.Start),
+                    color = MaterialTheme.colorScheme.primary
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
+                ) {
+                    Column {
+                        customFields.forEachIndexed { index, (key, value) ->
+                            var isVisible by remember { mutableStateOf(false) }
+                            val isHidden = value is EntryValue.Encrypted
+                            val displayValue = if (isHidden && !isVisible) "••••••••" else value.content
+                            
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(16.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Column(modifier = Modifier.weight(1f)) {
+                                    Text(text = key, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                    Text(text = displayValue, fontSize = 16.sp)
+                                }
+                                if (isHidden) {
+                                    IconButton(onClick = { isVisible = !isVisible }) {
+                                        Icon(if (isVisible) Icons.Default.VisibilityOff else Icons.Default.Visibility, "Toggle")
+                                    }
+                                }
+                                val showCopyButton = entry.customData["ShowCopyButton_${key}"]?.value?.toBooleanStrictOrNull() ?: true
+                                if (showCopyButton) {
+                                    IconButton(onClick = { clipboardManager.setText(AnnotatedString(value.content)) }) {
+                                        Icon(Icons.Default.ContentCopy, contentDescription = "Copy")
+                                    }
+                                }
+                            }
+                            if (index < customFields.size - 1) {
+                                HorizontalDivider(color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f))
+                            }
+                        }
+                    }
+                }
+                Spacer(modifier = Modifier.height(24.dp))
+            }
+            
             if (!(entry[BasicField.Notes]?.content ?: "").isNullOrEmpty()) {
                 Text(
                     text = "Notes",
@@ -155,6 +213,66 @@ fun ViewEntryScreen(
                         modifier = Modifier.padding(16.dp),
                         fontSize = 16.sp
                     )
+                }
+            }
+
+            if (entry.tags.isNotEmpty()) {
+                Spacer(modifier = Modifier.height(24.dp))
+                Text(
+                    text = "Tags",
+                    fontWeight = FontWeight.Medium,
+                    modifier = Modifier.align(Alignment.Start),
+                    color = MaterialTheme.colorScheme.primary
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                LazyRow(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    items(entry.tags) { tag ->
+                        AssistChip(
+                            onClick = { },
+                            label = { Text(tag) },
+                            leadingIcon = { Icon(Icons.Default.Label, contentDescription = null, modifier = Modifier.size(16.dp)) }
+                        )
+                    }
+                }
+            }
+            
+            if (entry.binaries.isNotEmpty()) {
+                Spacer(modifier = Modifier.height(24.dp))
+                Text(
+                    text = "Attachments",
+                    fontWeight = FontWeight.Medium,
+                    modifier = Modifier.align(Alignment.Start),
+                    color = MaterialTheme.colorScheme.primary
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
+                ) {
+                    Column {
+                        entry.binaries.forEachIndexed { index, binaryRef ->
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(16.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Icon(
+                                    Icons.Default.Attachment,
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                                Spacer(modifier = Modifier.width(16.dp))
+                                Text(text = binaryRef.name, modifier = Modifier.weight(1f), fontSize = 16.sp, maxLines = 1)
+                            }
+                            if (index < entry.binaries.size - 1) {
+                                HorizontalDivider(color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f))
+                            }
+                        }
+                    }
                 }
             }
 

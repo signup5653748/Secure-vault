@@ -58,7 +58,22 @@ fun AppNavigation(viewModel: KeePassViewModel) {
                     },
                     onNavigateToAbout = {
                         navController.navigate("about")
+                    },
+                    onNavigateToTemplates = { navController.navigate("templates") },
+                    onNavigateToAddTemplate = { navController.navigate("add_template") },
+                    onNavigateToAddNote = { navController.navigate("add_note") },
+                    onNavigateToAddGroup = { navController.navigate("add_group") },
+                    onNavigateToAddEntry = {
+                        navController.navigate("add_entry")
                     }
+                )
+            }
+        }
+        composable("add_group") {
+            if (database != null) {
+                AddGroupScreen(
+                    viewModel = viewModel,
+                    onNavigateBack = { navController.popBackStack() }
                 )
             }
         }
@@ -74,6 +89,46 @@ fun AppNavigation(viewModel: KeePassViewModel) {
                         popUpTo(0)
                     }
                 }
+            }
+        }
+        composable("add_note") {
+            if (database != null) {
+                AddNoteScreen(
+                    viewModel = viewModel,
+                    onNavigateBack = { navController.popBackStack() }
+                )
+            }
+        }
+        composable("add_entry") {
+            if (database != null) {
+                AddEntryScreen(
+                    viewModel = viewModel,
+                    onNavigateBack = { navController.popBackStack() }
+                )
+            } else {
+                LaunchedEffect(Unit) {
+                    navController.navigate("auth") {
+                        popUpTo(0)
+                    }
+                }
+            }
+        }
+        composable("templates") {
+            if (database != null) {
+                TemplatesScreen(
+                    viewModel = viewModel,
+                    onNavigateBack = { navController.popBackStack() },
+                    onNavigateToAddTemplate = { navController.navigate("add_template") }
+                )
+            }
+        }
+        composable("add_template") {
+            if (database != null) {
+                AddEntryScreen(
+                    viewModel = viewModel,
+                    onNavigateBack = { navController.popBackStack() },
+                    isTemplate = true
+                )
             }
         }
         composable("settings") {

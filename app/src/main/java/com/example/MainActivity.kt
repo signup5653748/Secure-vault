@@ -2,7 +2,7 @@ package com.example
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.ComponentActivity
+import androidx.fragment.app.FragmentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -16,7 +16,7 @@ import com.example.ui.AppNavigation
 import com.example.ui.theme.MyApplicationTheme
 import com.example.viewmodel.KeePassViewModel
 
-class MainActivity : ComponentActivity() {
+class MainActivity : FragmentActivity() {
 
   private val viewModel: KeePassViewModel by viewModels()
 
@@ -43,18 +43,30 @@ class MainActivity : ComponentActivity() {
     }
   }
 
+
+  override fun onStop() {
+    super.onStop()
+    if (viewModel.settings.lockOnBackground.value) {
+        viewModel.lockDatabase()
+    }
+  }
+
   override fun onNewIntent(intent: Intent) {
     super.onNewIntent(intent)
     handleIntent(intent)
   }
 
   private fun handleIntent(intent: Intent?) {
-    if (intent?.action == Intent.ACTION_VIEW) {
-      if (viewModel.settings.openFromFileManager.value) {
-        intent.data?.let { uri ->
-          viewModel.importFile(uri)
+    try {
+        if (intent?.action == Intent.ACTION_VIEW) {
+          if (viewModel.settings.openFromFileManager.value) {
+            intent.data?.let { uri ->
+              viewModel.importFile(uri)
+            }
+          }
         }
-      }
+    } catch (e: Exception) {
+        e.printStackTrace()
     }
   }
 }
