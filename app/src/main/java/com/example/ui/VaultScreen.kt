@@ -67,8 +67,8 @@ fun VaultScreen(
     }
     
     var showBottomSheet by remember { mutableStateOf(false) }
-    var showTemplateSheet by remember { mutableStateOf(false) }
-    val templateSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+
+
     var showFabMenu by remember { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState()
     
@@ -166,17 +166,6 @@ fun VaultScreen(
                 floatingActionButton = {
                     Column(horizontalAlignment = Alignment.End) {
                         if (showFabMenu) {
-                            ExtendedFloatingActionButton(
-                                text = { Text("Template") },
-                                icon = { Icon(Icons.Default.LibraryAdd, "Template") },
-                                onClick = { 
-                                    showFabMenu = false
-                                    showTemplateSheet = true
-                                },
-                                containerColor = Color(0xFF0066FF),
-                                contentColor = Color.White,
-                                modifier = Modifier.padding(bottom = 16.dp)
-                            )
                             ExtendedFloatingActionButton(
                                 text = { Text("Add entry") },
                                 icon = { Icon(Icons.Default.VpnKey, "Add entry") },
@@ -297,52 +286,7 @@ fun VaultScreen(
             }
 
 
-            if (showTemplateSheet) {
-                val templates = viewModel.getTemplates()
-                ModalBottomSheet(
-                    onDismissRequest = { showTemplateSheet = false },
-                    sheetState = templateSheetState
-                ) {
-                    Column(modifier = Modifier.padding(16.dp)) {
-                        Text("Select Template", fontSize = 20.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(bottom = 16.dp))
-                        
-                        LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                            items(templates) { template ->
-                                Card(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .clickable {
-                                            scope.launch { templateSheetState.hide() }.invokeOnCompletion {
-                                                if (!templateSheetState.isVisible) {
-                                                    showTemplateSheet = false
-                                                    val type = template.customData["TemplateType"]?.value
-                                                    if (type == "Note") {
-                                                        onNavigateToAddNote()
-                                                    } else {
-                                                        viewModel.createEntryFromTemplate(template)
-                                                    }
-                                                }
-                                            }
-                                        },
-                                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
-                                ) {
-                                    Row(
-                                        modifier = Modifier.padding(16.dp).fillMaxWidth(),
-                                        verticalAlignment = Alignment.CenterVertically
-                                    ) {
-                                        val iconColor = parseColor(template.customData["ThemeColor"]?.value)
-                                        val iconVector = parseIcon(template.icon.name)
-                                        Icon(iconVector, contentDescription = null, tint = iconColor, modifier = Modifier.size(32.dp))
-                                        Spacer(modifier = Modifier.width(16.dp))
-                                        Text(text = template[BasicField.Title]?.content ?: "Unnamed", fontSize = 18.sp)
-                                    }
-                                }
-                            }
-                        }
-                        Spacer(modifier = Modifier.height(32.dp))
-                    }
-                }
-            }
+
             Box(modifier = Modifier.fillMaxSize()) {
                 LazyColumn(
                 modifier = Modifier

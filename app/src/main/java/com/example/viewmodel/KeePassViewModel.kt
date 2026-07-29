@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 import app.keemobile.kotpass.database.getGroup
 import app.keemobile.kotpass.models.CustomDataValue
@@ -276,28 +277,31 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
             customData = mapOf("ThemeColor" to CustomDataValue(color)) + customFields.associate { "ShowCopyButton_${it.name}" to CustomDataValue(it.showCopyButton.toString()) },
             fields = EntryFields(fieldsMap)
         )
-        val updatedDb = currentDb.modifyGroup(currentGroup.uuid) {
-            copy(entries = entries + newEntry)
-        }
-        _database.value = updatedDb
-        
-        // Save to file
-        viewModelScope.launch {
-            val uri = _dbUri.value
-            if (uri != null) {
-                try {
-                    context.contentResolver.openOutputStream(uri)?.use { outputStream ->
-                        updatedDb.encode(outputStream)
+        viewModelScope.launch(Dispatchers.Default) {
+            val updatedDb = currentDb.modifyGroup(currentGroup.uuid) {
+                copy(entries = entries + newEntry)
+            }
+            withContext(Dispatchers.Main) {
+                _database.value = updatedDb
+            }
+            withContext(Dispatchers.IO) {
+                val uri = _dbUri.value
+                if (uri != null) {
+                    try {
+                        context.contentResolver.openOutputStream(uri)?.use { outputStream ->
+                            updatedDb.encode(outputStream)
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
                     }
-                } catch (e: Exception) {
-                    e.printStackTrace()
                 }
             }
-        }
-        
-        val newCurrentGroup = if (updatedDb.content.group.uuid == currentGroup.uuid) updatedDb.content.group else updatedDb.getGroup { it.uuid == currentGroup.uuid }?.first
-        if (newCurrentGroup != null) {
-            _currentGroup.value = newCurrentGroup
+            withContext(Dispatchers.Main) {
+                val newCurrentGroup = if (updatedDb.content.group.uuid == currentGroup.uuid) updatedDb.content.group else updatedDb.getGroup { it.uuid == currentGroup.uuid }?.first
+                if (newCurrentGroup != null) {
+                    _currentGroup.value = newCurrentGroup
+                }
+            }
         }
     }
 
@@ -370,12 +374,15 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
                 entries = predefinedTemplates
             )
             
-            val updatedDb = db.modifyGroup(db.content.group.uuid) {
-                copy(groups = groups + templatesGroup!!)
+            withContext(Dispatchers.Default) {
+                val updatedDb = db.modifyGroup(db.content.group.uuid) {
+                    copy(groups = groups + templatesGroup!!)
+                }
+                withContext(Dispatchers.Main) {
+                    _database.value = updatedDb
+                    saveDatabase()
+                }
             }
-            
-            _database.value = updatedDb
-            saveDatabase()
         }
         
         return templatesGroup
@@ -388,13 +395,17 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
     }
     
     fun deleteTemplate(entry: Entry) {
-        val db = _database.value ?: return
-        val templatesGroup = db.content.group.groups.find { it.name == "Templates" } ?: return
-        val updatedDb = db.modifyGroup(templatesGroup.uuid) {
-            copy(entries = entries.filter { it.uuid != entry.uuid })
+        viewModelScope.launch(Dispatchers.Default) {
+            val db = _database.value ?: return@launch
+            val templatesGroup = db.content.group.groups.find { it.name == "Templates" } ?: return@launch
+            val updatedDb = db.modifyGroup(templatesGroup.uuid) {
+                copy(entries = entries.filter { it.uuid != entry.uuid })
+            }
+            withContext(Dispatchers.Main) {
+                _database.value = updatedDb
+                saveDatabase()
+            }
         }
-        _database.value = updatedDb
-        saveDatabase()
     }
     
     fun addTemplate(title: String, username: String, pass: String, url: String, notes: String, iconName: String, color: String, customFields: List<com.example.ui.CustomFieldData>) {
@@ -419,59 +430,76 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
             customData = mapOf("ThemeColor" to app.keemobile.kotpass.models.CustomDataValue(color)),
             fields = EntryFields(fieldsMap)
         )
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.Default) {
             val templatesGroup = getOrCreateTemplatesGroup()
             val updatedDb = _database.value!!.modifyGroup(templatesGroup.uuid) {
                 copy(entries = entries + newEntry)
             }
-            _database.value = updatedDb
-            saveDatabase()
+            withContext(Dispatchers.Main) {
+                _database.value = updatedDb
+                saveDatabase()
+            }
         }
     }
     
     fun createEntryFromTemplate(template: Entry) {
-        val db = _database.value ?: return
-        val currentGroup = _currentGroup.value ?: return
-        
-        val newEntry = template.copy(uuid = java.util.UUID.randomUUID())
-        val updatedDb = db.modifyGroup(currentGroup.uuid) {
-            copy(entries = entries + newEntry)
+        viewModelScope.launch(Dispatchers.Default) {
+            val db = _database.value ?: return@launch
+            val currentGroup = _currentGroup.value ?: return@launch
+            
+            val newEntry = template.copy(uuid = java.util.UUID.randomUUID())
+            val updatedDb = db.modifyGroup(currentGroup.uuid) {
+                copy(entries = entries + newEntry)
+            }
+            withContext(Dispatchers.Main) {
+                _database.value = updatedDb
+                saveDatabase()
+            }
         }
-        _database.value = updatedDb
-        saveDatabase()
     }
     
     fun deleteEntry(entry: Entry) {
-        val currentDb = _database.value ?: return
-        val currentGroup = _currentGroup.value ?: return
-        val updatedDb = currentDb.modifyGroup(currentGroup.uuid) {
-            copy(entries = entries.filter { it.uuid != entry.uuid })
+        viewModelScope.launch(Dispatchers.Default) {
+            val currentDb = _database.value ?: return@launch
+            val currentGroup = _currentGroup.value ?: return@launch
+            val updatedDb = currentDb.modifyGroup(currentGroup.uuid) {
+                copy(entries = entries.filter { it.uuid != entry.uuid })
+            }
+            withContext(Dispatchers.Main) {
+                _database.value = updatedDb
+                saveDatabase()
+            }
         }
-        _database.value = updatedDb
-        saveDatabase()
     }
 
     fun deleteGroup(group: Group) {
-        val currentDb = _database.value ?: return
-        val currentGroup = _currentGroup.value ?: return
-        val updatedDb = currentDb.modifyGroup(currentGroup.uuid) {
-            copy(groups = groups.filter { it.uuid != group.uuid })
+        viewModelScope.launch(Dispatchers.Default) {
+            val currentDb = _database.value ?: return@launch
+            val currentGroup = _currentGroup.value ?: return@launch
+            val updatedDb = currentDb.modifyGroup(currentGroup.uuid) {
+                copy(groups = groups.filter { it.uuid != group.uuid })
+            }
+            withContext(Dispatchers.Main) {
+                _database.value = updatedDb
+                saveDatabase()
+            }
         }
-        _database.value = updatedDb
-        saveDatabase()
     }
 
     fun saveDatabase() {
         val db = _database.value ?: return
         val uri = _dbUri.value ?: return
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 context.contentResolver.openOutputStream(uri)?.use { outputStream ->
                     db.encode(outputStream)
                 }
                 val currentGroupUuid = _currentGroup.value?.uuid
                 if (currentGroupUuid != null) {
-                    _currentGroup.value = db.getGroup { it.uuid == currentGroupUuid }?.first ?: db.content.group
+                    val newGroup = db.getGroup { it.uuid == currentGroupUuid }?.first ?: db.content.group
+                    withContext(Dispatchers.Main) {
+                        _currentGroup.value = newGroup
+                    }
                 }
             } catch (e: Exception) {
                 e.printStackTrace()

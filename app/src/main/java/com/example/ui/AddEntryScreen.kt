@@ -52,6 +52,11 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.rememberModalBottomSheetState
+import kotlinx.coroutines.launch
+
 import com.example.viewmodel.KeePassViewModel
 
 data class CustomFieldData(val id: String = java.util.UUID.randomUUID().toString(), val name: String, val value: String, val isHidden: Boolean, val showCopyButton: Boolean)
@@ -85,6 +90,12 @@ fun AddEntryScreen(
 
     val clipboardManager: ClipboardManager = LocalClipboardManager.current
 
+    var showTemplateSheet by remember { mutableStateOf(false) }
+    val templateSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val templates = viewModel.getTemplates()
+    val scope = rememberCoroutineScope()
+
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -94,6 +105,14 @@ fun AddEntryScreen(
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
                 },
+                actions = {
+                    if (!isTemplate) {
+                        TextButton(onClick = { showTemplateSheet = true }) {
+                            Text("Choose Template")
+                        }
+                    }
+                }
+
             )
         },
         bottomBar = {
@@ -132,6 +151,8 @@ fun AddEntryScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             item { Spacer(modifier = Modifier.height(8.dp)) }
+            
+
             item {
 
                 Row(
@@ -659,5 +680,72 @@ fun AddEntryScreen(
             )
         }
 
+
+        if (showTemplateSheet) {
+            ModalBottomSheet(
+                onDismissRequest = { showTemplateSheet = false },
+                sheetState = templateSheetState
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                ) {
+                    Text("Select a template", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                    Spacer(modifier = Modifier.height(16.dp))
+                    
+                    LazyColumn {
+                        items(templates.size) { index ->
+                            val template = templates[index]
+                            Card(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 8.dp)
+                                    .clickable {
+                                        title = template[app.keemobile.kotpass.constants.BasicField.Title]?.content ?: ""
+                                        username = template[app.keemobile.kotpass.constants.BasicField.UserName]?.content ?: ""
+                                        url = template[app.keemobile.kotpass.constants.BasicField.Url]?.content ?: ""
+                                        notes = template[app.keemobile.kotpass.constants.BasicField.Notes]?.content ?: ""
+                                        iconName = template.icon.name
+                                        color = template.customData["ThemeColor"]?.value ?: "Blue"
+                                        
+                                        val newCustomFields = mutableListOf<CustomFieldData>()
+                                        val basicFields = listOf(app.keemobile.kotpass.constants.BasicField.Title(), app.keemobile.kotpass.constants.BasicField.UserName(), app.keemobile.kotpass.constants.BasicField.Password(), app.keemobile.kotpass.constants.BasicField.Url(), app.keemobile.kotpass.constants.BasicField.Notes())
+                                        template.fields.entries.forEach { (key, value) ->
+                                            if (key !in basicFields) {
+                                                val fieldName = key
+                                                val isHidden = value is app.keemobile.kotpass.models.EntryValue.Encrypted
+                                                val fieldValue = value.content
+                                                val showCopy = template.customData["ShowCopyButton_$fieldName"]?.value == "true"
+                                                newCustomFields.add(CustomFieldData(name = fieldName, value = fieldValue, isHidden = isHidden, showCopyButton = showCopy))
+                                            }
+                                        }
+                                        customFields = newCustomFields
+                                        
+                                        scope.launch { templateSheetState.hide() }.invokeOnCompletion {
+                                            if (!templateSheetState.isVisible) {
+                                                showTemplateSheet = false
+                                            }
+                                        }
+                                    },
+                                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
+                            ) {
+                                Row(
+                                    modifier = Modifier.padding(16.dp).fillMaxWidth(),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    val iconColor = parseColor(template.customData["ThemeColor"]?.value)
+                                    val iconVector = parseIcon(template.icon.name)
+                                    Icon(iconVector, contentDescription = null, tint = iconColor, modifier = Modifier.size(32.dp))
+                                    Spacer(modifier = Modifier.width(16.dp))
+                                    Text(text = template[app.keemobile.kotpass.constants.BasicField.Title]?.content ?: "Unnamed", fontSize = 18.sp)
+                                }
+                            }
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(32.dp))
+                }
+            }
+        }
     }
 }
