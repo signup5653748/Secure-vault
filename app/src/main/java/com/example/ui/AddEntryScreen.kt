@@ -78,6 +78,11 @@ fun AddEntryScreen(
     var iconName by remember { mutableStateOf("Key") }
     var color by remember { mutableStateOf("Blue") }
 
+    var showUsername by remember { mutableStateOf(if (isEdit && currentEntry != null) currentEntry!!.customData["Hide_UserName"]?.value != "true" else !isTemplate) }
+    var showPassword by remember { mutableStateOf(if (isEdit && currentEntry != null) currentEntry!!.customData["Hide_Password"]?.value != "true" else !isTemplate) }
+    var showUrl by remember { mutableStateOf(if (isEdit && currentEntry != null) currentEntry!!.customData["Hide_Url"]?.value != "true" else !isTemplate) }
+    var showNotes by remember { mutableStateOf(if (isEdit && currentEntry != null) currentEntry!!.customData["Hide_Notes"]?.value != "true" else !isTemplate) }
+    
     var customFields by remember { mutableStateOf(listOf<CustomFieldData>()) }
     var attachments by remember { mutableStateOf(listOf<String>()) } // Just mock for UI
 
@@ -109,10 +114,8 @@ fun AddEntryScreen(
                     }
                 },
                 actions = {
-                    if (!isTemplate) {
-                        TextButton(onClick = { showTemplateSheet = true }) {
-                            Text("Choose Template")
-                        }
+                    TextButton(onClick = { showTemplateSheet = true }) {
+                        Text("Choose Template")
                     }
                 }
 
@@ -137,11 +140,29 @@ fun AddEntryScreen(
                     if (!isSaving) {
                         isSaving = true
                         if (isTemplate) {
-                            viewModel.addTemplate(title, username, password, url, notes, iconName, color, customFields)
+                            val hiddenFields = mutableListOf<String>()
+                            if (!showUsername) hiddenFields.add("Hide_UserName")
+                            if (!showPassword) hiddenFields.add("Hide_Password")
+                            if (!showUrl) hiddenFields.add("Hide_Url")
+                            if (!showNotes) hiddenFields.add("Hide_Notes")
+                            
+                            viewModel.addTemplate(title, username, password, url, notes, iconName, color, customFields, hiddenFields)
                         } else if (isEdit) {
-                            viewModel.updateEntry(title, username, password, url, notes, iconName, color, customFields)
+                            val hiddenFields = mutableListOf<String>()
+                            if (!showUsername) hiddenFields.add("Hide_UserName")
+                            if (!showPassword) hiddenFields.add("Hide_Password")
+                            if (!showUrl) hiddenFields.add("Hide_Url")
+                            if (!showNotes) hiddenFields.add("Hide_Notes")
+                            
+                            viewModel.updateEntry(title, username, password, url, notes, iconName, color, customFields, hiddenFields)
                         } else {
-                            viewModel.createEntry(title, username, password, url, notes, iconName, color, customFields)
+                            val hiddenFields = mutableListOf<String>()
+                            if (!showUsername) hiddenFields.add("Hide_UserName")
+                            if (!showPassword) hiddenFields.add("Hide_Password")
+                            if (!showUrl) hiddenFields.add("Hide_Url")
+                            if (!showNotes) hiddenFields.add("Hide_Notes")
+                            
+                            viewModel.createEntry(title, username, password, url, notes, iconName, color, customFields, hiddenFields)
                         }
                         onNavigateBack()
                     }
@@ -218,14 +239,21 @@ fun AddEntryScreen(
                     modifier = Modifier.fillMaxWidth()
                 )
             }
-            if (!isTemplate) {
+            if (showUsername) {
                 item {
-                    OutlinedTextField(
-                        value = username,
-                        onValueChange = { username = it },
-                        label = { Text("Username") },
-                        modifier = Modifier.fillMaxWidth()
-                    )
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        OutlinedTextField(
+                            value = username,
+                            onValueChange = { username = it },
+                            label = { Text("Username") },
+                            modifier = Modifier.weight(1f)
+                        )
+                        if (isTemplate || isEdit || !isTemplate) {
+                            IconButton(onClick = { showUsername = false; username = "" }) {
+                                Icon(Icons.Default.Delete, contentDescription = "Remove Username", tint = Color.Red)
+                            }
+                        }
+                    }
                 }
                 item {
                     var passVisible by remember { mutableStateOf(false) }
@@ -287,15 +315,22 @@ fun AddEntryScreen(
                     modifier = Modifier.fillMaxWidth()
                 )
             }
-            if (!isTemplate) {
+            if (showNotes) {
                 item {
-                    OutlinedTextField(
-                        value = notes,
-                        onValueChange = { notes = it },
-                        label = { Text("Notes") },
-                        modifier = Modifier.fillMaxWidth(),
-                        minLines = 3
-                    )
+                    Row(verticalAlignment = Alignment.Top) {
+                        OutlinedTextField(
+                            value = notes,
+                            onValueChange = { notes = it },
+                            label = { Text("Notes") },
+                            modifier = Modifier.weight(1f),
+                            minLines = 3
+                        )
+                        if (isTemplate || isEdit || !isTemplate) {
+                            IconButton(onClick = { showNotes = false; notes = "" }) {
+                                Icon(Icons.Default.Delete, contentDescription = "Remove Notes", tint = Color.Red)
+                            }
+                        }
+                    }
                 }
             }
             items(customFields, key = { it.id }) { field ->
@@ -365,7 +400,19 @@ fun AddEntryScreen(
                 },
                 confirmButton = {
                     TextButton(onClick = {
-                        if (fieldName.isNotBlank()) {
+                        if (fieldName.equals("Username", ignoreCase = true) && !showUsername) {
+                            showUsername = true
+                            username = fieldValue
+                        } else if (fieldName.equals("Password", ignoreCase = true) && !showPassword) {
+                            showPassword = true
+                            password = fieldValue
+                        } else if (fieldName.equals("URL", ignoreCase = true) && !showUrl) {
+                            showUrl = true
+                            url = fieldValue
+                        } else if (fieldName.equals("Notes", ignoreCase = true) && !showNotes) {
+                            showNotes = true
+                            notes = fieldValue
+                        } else if (fieldName.isNotBlank()) {
                             customFields = customFields + CustomFieldData(name = fieldName, value = fieldValue, isHidden = isHidden, showCopyButton = showCopyButton)
                         }
                         showAddFieldDialog = false
@@ -716,6 +763,11 @@ fun AddEntryScreen(
                                             notes = template[app.keemobile.kotpass.constants.BasicField.Notes]?.content ?: ""
                                             iconName = template.icon.name
                                             color = template.customData["ThemeColor"]?.value ?: "Blue"
+                                            
+                                            showUsername = template.customData["Hide_UserName"]?.value != "true"
+                                            showPassword = template.customData["Hide_Password"]?.value != "true"
+                                            showUrl = template.customData["Hide_Url"]?.value != "true"
+                                            showNotes = template.customData["Hide_Notes"]?.value != "true"
                                             
                                             val newCustomFields = mutableListOf<CustomFieldData>()
                                             val basicFields = listOf(app.keemobile.kotpass.constants.BasicField.Title(), app.keemobile.kotpass.constants.BasicField.UserName(), app.keemobile.kotpass.constants.BasicField.Password(), app.keemobile.kotpass.constants.BasicField.Url(), app.keemobile.kotpass.constants.BasicField.Notes())

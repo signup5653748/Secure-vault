@@ -30,11 +30,16 @@ fun AuthScreen(viewModel: KeePassViewModel, onNavigateToCreate: () -> Unit) {
     val context = LocalContext.current
     
     var biometricPrompted by remember { mutableStateOf(false) }
+    var hasSavedPass by remember { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        hasSavedPass = com.example.data.CryptoHelper.getPassword(context) != null
+    }
 
     LaunchedEffect(dbUri, enableBiometrics) {
         if (dbUri != null && enableBiometrics && !biometricPrompted) {
-            val hasSavedPass = com.example.data.CryptoHelper.getPassword(context) != null
-            if (hasSavedPass) {
+            val hasSaved = com.example.data.CryptoHelper.getPassword(context) != null
+            if (hasSaved) {
                 biometricPrompted = true
                 BiometricHelper.showPrompt(
                     context = context,
@@ -111,7 +116,7 @@ fun AuthScreen(viewModel: KeePassViewModel, onNavigateToCreate: () -> Unit) {
             ) {
                 Text("Unlock")
             }
-            if (enableBiometrics && com.example.data.CryptoHelper.getPassword(context) != null) {
+            if (enableBiometrics && hasSavedPass) {
                 Spacer(modifier = Modifier.height(8.dp))
                 OutlinedButton(
                     onClick = {

@@ -251,7 +251,8 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
         notes: String,
         iconName: String,
         color: String,
-        customFields: List<com.example.ui.CustomFieldData>
+        customFields: List<com.example.ui.CustomFieldData>,
+        hiddenFields: List<String> = emptyList()
     ) {
         val currentDb = _database.value ?: return
         val currentGroup = _currentGroup.value ?: return
@@ -281,7 +282,7 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
         val newEntry = Entry(
             uuid = UUID.randomUUID(),
             icon = icon,
-            customData = mapOf("ThemeColor" to CustomDataValue(color)) + customFields.associate { "ShowCopyButton_${it.name}" to CustomDataValue(it.showCopyButton.toString()) },
+            customData = mapOf("ThemeColor" to CustomDataValue(color)) + customFields.associate { "ShowCopyButton_${it.name}" to CustomDataValue(it.showCopyButton.toString()) } + hiddenFields.associate { it to CustomDataValue("true") },
             fields = EntryFields(fieldsMap)
         )
         viewModelScope.launch(Dispatchers.Default) {
@@ -355,7 +356,10 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
                 Entry(
                     uuid = java.util.UUID.randomUUID(),
                     icon = app.keemobile.kotpass.constants.PredefinedIcon.Money,
-                    customData = mapOf("ThemeColor" to app.keemobile.kotpass.models.CustomDataValue("Green")),
+                    customData = mapOf(
+                        "ThemeColor" to app.keemobile.kotpass.models.CustomDataValue("Green"),
+                        "Hide_Url" to app.keemobile.kotpass.models.CustomDataValue("true")
+                    ),
                     fields = EntryFields(mutableMapOf(
                         BasicField.Title() to EntryValue.Plain("Bank Account"),
                         BasicField.UserName() to EntryValue.Plain(""),
@@ -378,7 +382,13 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
                         BasicField.Notes() to EntryValue.Plain(""),
                         "Note Content" to EntryValue.Plain("")
                     )),
-                    customData = mapOf("TemplateType" to app.keemobile.kotpass.models.CustomDataValue("Note"), "ThemeColor" to app.keemobile.kotpass.models.CustomDataValue("Yellow"))
+                    customData = mapOf(
+                        "TemplateType" to app.keemobile.kotpass.models.CustomDataValue("Note"), 
+                        "ThemeColor" to app.keemobile.kotpass.models.CustomDataValue("Yellow"),
+                        "Hide_UserName" to app.keemobile.kotpass.models.CustomDataValue("true"),
+                        "Hide_Password" to app.keemobile.kotpass.models.CustomDataValue("true"),
+                        "Hide_Url" to app.keemobile.kotpass.models.CustomDataValue("true")
+                    )
                 )
             )
 
@@ -423,7 +433,7 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
         }
     }
     
-    fun addTemplate(title: String, username: String, pass: String, url: String, notes: String, iconName: String, color: String, customFields: List<com.example.ui.CustomFieldData>) {
+    fun addTemplate(title: String, username: String, pass: String, url: String, notes: String, iconName: String, color: String, customFields: List<com.example.ui.CustomFieldData>, hiddenFields: List<String> = emptyList()) {
         val icon = try { app.keemobile.kotpass.constants.PredefinedIcon.valueOf(iconName) } catch (e: Exception) { app.keemobile.kotpass.constants.PredefinedIcon.Key }
         val fieldsMap = mutableMapOf<String, EntryValue>(
             BasicField.Title() to EntryValue.Plain(title),
@@ -442,7 +452,7 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
         val newEntry = Entry(
             uuid = java.util.UUID.randomUUID(),
             icon = icon,
-            customData = mapOf("ThemeColor" to app.keemobile.kotpass.models.CustomDataValue(color)) + customFields.associate { "ShowCopyButton_${it.name}" to app.keemobile.kotpass.models.CustomDataValue(it.showCopyButton.toString()) },
+            customData = mapOf("ThemeColor" to app.keemobile.kotpass.models.CustomDataValue(color)) + customFields.associate { "ShowCopyButton_${it.name}" to app.keemobile.kotpass.models.CustomDataValue(it.showCopyButton.toString()) } + hiddenFields.associate { it to app.keemobile.kotpass.models.CustomDataValue("true") },
             fields = EntryFields(fieldsMap)
         )
         viewModelScope.launch(Dispatchers.Default) {
@@ -477,11 +487,13 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
         viewModelScope.launch(Dispatchers.Default) {
             val currentDb = _database.value ?: return@launch
             val currentGroup = _currentGroup.value ?: return@launch
+            val updatedGroup = currentGroup.copy(entries = currentGroup.entries.filter { it.uuid != entry.uuid })
             val updatedDb = currentDb.modifyGroup(currentGroup.uuid) {
                 copy(entries = entries.filter { it.uuid != entry.uuid })
             }
             withContext(Dispatchers.Main) {
                 _database.value = updatedDb
+                _currentGroup.value = updatedGroup
                 saveDatabase()
             }
         }
@@ -491,11 +503,13 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
         viewModelScope.launch(Dispatchers.Default) {
             val currentDb = _database.value ?: return@launch
             val currentGroup = _currentGroup.value ?: return@launch
+            val updatedGroup = currentGroup.copy(groups = currentGroup.groups.filter { it.uuid != group.uuid })
             val updatedDb = currentDb.modifyGroup(currentGroup.uuid) {
                 copy(groups = groups.filter { it.uuid != group.uuid })
             }
             withContext(Dispatchers.Main) {
                 _database.value = updatedDb
+                _currentGroup.value = updatedGroup
                 saveDatabase()
             }
         }
@@ -554,7 +568,8 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
         notes: String,
         iconName: String,
         color: String,
-        customFields: List<com.example.ui.CustomFieldData>
+        customFields: List<com.example.ui.CustomFieldData>,
+        hiddenFields: List<String> = emptyList()
     ) {
         val currentDb = _database.value ?: return
         val currentGroup = _currentGroup.value ?: return
@@ -586,16 +601,23 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
             icon = icon,
             customData = entry.customData.toMutableMap().apply {
                 put("ThemeColor", app.keemobile.kotpass.models.CustomDataValue(color))
+                remove("Hide_UserName")
+                remove("Hide_Password")
+                remove("Hide_Url")
+                remove("Hide_Notes")
+                hiddenFields.forEach { put(it, app.keemobile.kotpass.models.CustomDataValue("true")) }
             },
             fields = EntryFields(fieldsMap)
         )
         
         // Remove old entry and add new entry
+        val updatedGroup = currentGroup.copy(entries = currentGroup.entries.filter { it.uuid != entry.uuid } + updatedEntry)
         val updatedDb = currentDb.modifyGroup(currentGroup.uuid) {
             copy(entries = entries.filter { it.uuid != entry.uuid } + updatedEntry)
         }
 
         _database.value = updatedDb
+        _currentGroup.value = updatedGroup
         _currentEntry.value = updatedEntry
         saveDatabase()
     }
