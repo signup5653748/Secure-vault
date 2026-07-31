@@ -255,6 +255,8 @@ fun AddEntryScreen(
                         }
                     }
                 }
+            }
+            if (showPassword) {
                 item {
                     var passVisible by remember { mutableStateOf(false) }
                     val strength = when {
@@ -272,26 +274,33 @@ fun AddEntryScreen(
                         else -> Color.Green
                     }
                     Column(modifier = Modifier.fillMaxWidth()) {
-                        OutlinedTextField(
-                            value = password,
-                            onValueChange = { password = it },
-                            label = { Text("Password") },
-                            visualTransformation = if (passVisible) VisualTransformation.None else PasswordVisualTransformation(),
-                            trailingIcon = {
-                                Row {
-                                    IconButton(onClick = { showPasswordGenerator = true }) {
-                                        Icon(Icons.Default.Build, "Generate Password")
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            OutlinedTextField(
+                                value = password,
+                                onValueChange = { password = it },
+                                label = { Text("Password") },
+                                visualTransformation = if (passVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                                trailingIcon = {
+                                    Row {
+                                        IconButton(onClick = { showPasswordGenerator = true }) {
+                                            Icon(Icons.Default.Build, "Generate Password")
+                                        }
+                                        IconButton(onClick = { passVisible = !passVisible }) {
+                                            Icon(if (passVisible) Icons.Default.VisibilityOff else Icons.Default.Visibility, "Toggle Password")
+                                        }
+                                        IconButton(onClick = { clipboardManager.setText(androidx.compose.ui.text.AnnotatedString(password)) }) {
+                                            Icon(Icons.Default.ContentCopy, "Copy Password")
+                                        }
                                     }
-                                    IconButton(onClick = { passVisible = !passVisible }) {
-                                        Icon(if (passVisible) Icons.Default.VisibilityOff else Icons.Default.Visibility, "Toggle Password")
-                                    }
-                                    IconButton(onClick = { clipboardManager.setText(AnnotatedString(password)) }) {
-                                        Icon(Icons.Default.ContentCopy, "Copy Password")
-                                    }
+                                },
+                                modifier = Modifier.weight(1f)
+                            )
+                            if (isTemplate || isEdit || !isTemplate) {
+                                IconButton(onClick = { showPassword = false; password = "" }) {
+                                    Icon(Icons.Default.Delete, contentDescription = "Remove Password", tint = Color.Red)
                                 }
-                            },
-                            modifier = Modifier.fillMaxWidth()
-                        )
+                            }
+                        }
                         if (password.isNotEmpty()) {
                             LinearProgressIndicator(
                                 progress = { strength },
@@ -307,13 +316,22 @@ fun AddEntryScreen(
                     }
                 }
             }
-            item {
-                OutlinedTextField(
-                    value = url,
-                    onValueChange = { url = it },
-                    label = { Text("URL") },
-                    modifier = Modifier.fillMaxWidth()
-                )
+            if (showUrl) {
+                item {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        OutlinedTextField(
+                            value = url,
+                            onValueChange = { url = it },
+                            label = { Text("URL") },
+                            modifier = Modifier.weight(1f)
+                        )
+                        if (isTemplate || isEdit || !isTemplate) {
+                            IconButton(onClick = { showUrl = false; url = "" }) {
+                                Icon(Icons.Default.Delete, contentDescription = "Remove URL", tint = Color.Red)
+                            }
+                        }
+                    }
+                }
             }
             if (showNotes) {
                 item {

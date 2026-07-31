@@ -42,6 +42,9 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
     private val _database = MutableStateFlow<KeePassDatabase?>(null)
     val database: StateFlow<KeePassDatabase?> = _database.asStateFlow()
 
+    private val _hasUnsavedChanges = MutableStateFlow(false)
+    val hasUnsavedChanges: StateFlow<Boolean> = _hasUnsavedChanges.asStateFlow()
+
     private val _currentGroup = MutableStateFlow<Group?>(null)
     val currentGroup: StateFlow<Group?> = _currentGroup.asStateFlow()
 
@@ -200,6 +203,30 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
     
     
 
+    fun updateGroup(group: app.keemobile.kotpass.models.Group, name: String, iconName: String, color: String) {
+        val currentDb = _database.value ?: return
+        val currentGroup = _currentGroup.value ?: return
+        val icon = try {
+            app.keemobile.kotpass.constants.PredefinedIcon.valueOf(iconName)
+        } catch (e: Exception) {
+            app.keemobile.kotpass.constants.PredefinedIcon.Folder
+        }
+        val updatedGroup = group.copy(
+            name = name,
+            icon = icon,
+            customData = group.customData.toMutableMap().apply {
+                put("ThemeColor", app.keemobile.kotpass.models.CustomDataValue(color))
+            }
+        )
+        val newCurrentGroup = currentGroup.copy(groups = currentGroup.groups.filter { it.uuid != group.uuid } + updatedGroup)
+        val updatedDb = currentDb.modifyGroup(currentGroup.uuid) {
+            copy(groups = groups.filter { it.uuid != group.uuid } + updatedGroup)
+        }
+        _database.value = updatedDb
+        _currentGroup.value = newCurrentGroup
+        _hasUnsavedChanges.value = true
+    }
+
     fun createGroup(name: String, iconName: String, color: String) {
         val currentDb = _database.value ?: return
         val currentGroup = _currentGroup.value ?: return
@@ -222,19 +249,7 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
         }
         _database.value = updatedDb
         
-        // Save to file
-        viewModelScope.launch {
-            val uri = _dbUri.value
-            if (uri != null) {
-                try {
-                    context.contentResolver.openOutputStream(uri)?.use { outputStream ->
-                        updatedDb.encode(outputStream)
-                    }
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-            }
-        }
+        _hasUnsavedChanges.value = true
         
         // Update current group to trigger recompose
         val newCurrentGroup = if (updatedDb.content.group.uuid == currentGroup.uuid) updatedDb.content.group else updatedDb.getGroup { it.uuid == currentGroup.uuid }?.first
@@ -292,17 +307,8 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
             withContext(Dispatchers.Main) {
                 _database.value = updatedDb
             }
-            withContext(Dispatchers.IO) {
-                val uri = _dbUri.value
-                if (uri != null) {
-                    try {
-                        context.contentResolver.openOutputStream(uri)?.use { outputStream ->
-                            updatedDb.encode(outputStream)
-                        }
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
-                }
+            withContext(Dispatchers.Main) {
+                _hasUnsavedChanges.value = true
             }
             withContext(Dispatchers.Main) {
                 val newCurrentGroup = if (updatedDb.content.group.uuid == currentGroup.uuid) updatedDb.content.group else updatedDb.getGroup { it.uuid == currentGroup.uuid }?.first
@@ -358,7 +364,10 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
                     icon = app.keemobile.kotpass.constants.PredefinedIcon.Money,
                     customData = mapOf(
                         "ThemeColor" to app.keemobile.kotpass.models.CustomDataValue("Green"),
-                        "Hide_Url" to app.keemobile.kotpass.models.CustomDataValue("true")
+                        "Hide_Url" to app.keemobile.kotpass.models.CustomDataValue("true"),
+                        "Hide_UserName" to app.keemobile.kotpass.models.CustomDataValue("true"),
+                        "Hide_Password" to app.keemobile.kotpass.models.CustomDataValue("true"),
+                        "Hide_Notes" to app.keemobile.kotpass.models.CustomDataValue("true")
                     ),
                     fields = EntryFields(mutableMapOf(
                         BasicField.Title() to EntryValue.Plain("Bank Account"),
@@ -405,7 +414,7 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
                 }
                 withContext(Dispatchers.Main) {
                     _database.value = updatedDb
-                    saveDatabase()
+                    _hasUnsavedChanges.value = true
                 }
             }
         }
@@ -428,7 +437,7 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
             }
             withContext(Dispatchers.Main) {
                 _database.value = updatedDb
-                saveDatabase()
+                _hasUnsavedChanges.value = true
             }
         }
     }
@@ -462,7 +471,7 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
             }
             withContext(Dispatchers.Main) {
                 _database.value = updatedDb
-                saveDatabase()
+                _hasUnsavedChanges.value = true
             }
         }
     }
@@ -478,7 +487,7 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
             }
             withContext(Dispatchers.Main) {
                 _database.value = updatedDb
-                saveDatabase()
+                _hasUnsavedChanges.value = true
             }
         }
     }
@@ -494,7 +503,7 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
             withContext(Dispatchers.Main) {
                 _database.value = updatedDb
                 _currentGroup.value = updatedGroup
-                saveDatabase()
+                _hasUnsavedChanges.value = true
             }
         }
     }
@@ -510,30 +519,62 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
             withContext(Dispatchers.Main) {
                 _database.value = updatedDb
                 _currentGroup.value = updatedGroup
-                saveDatabase()
+                _hasUnsavedChanges.value = true
             }
         }
     }
 
     fun saveDatabase() {
+        realSaveDatabase()
+    }
+
+    fun realSaveDatabase() {
         val db = _database.value ?: return
         val uri = _dbUri.value ?: return
+
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                context.contentResolver.openOutputStream(uri)?.use { outputStream ->
-                    db.encode(outputStream)
+                val tempFile = java.io.File(context.cacheDir, "temp_db_${System.currentTimeMillis()}.kdbx")
+                java.io.FileOutputStream(tempFile).use { fos ->
+                    db.encode(fos)
                 }
+                
+                try {
+                    context.contentResolver.openOutputStream(uri, "wt")?.use { outputStream ->
+                        java.io.FileInputStream(tempFile).use { fis ->
+                            fis.copyTo(outputStream)
+                        }
+                    }
+                } finally {
+                    tempFile.delete()
+                }
+                
                 val currentGroupUuid = _currentGroup.value?.uuid
                 if (currentGroupUuid != null) {
                     val newGroup = db.getGroup { it.uuid == currentGroupUuid }?.first ?: db.content.group
                     withContext(Dispatchers.Main) {
                         _currentGroup.value = newGroup
+                        _hasUnsavedChanges.value = false
+                    }
+                } else {
+                    withContext(Dispatchers.Main) {
+                        _hasUnsavedChanges.value = false
                     }
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
+    }
+    fun changeMasterPassword(newPass: String) {
+        val db = _database.value ?: return
+        val newCreds = app.keemobile.kotpass.database.Credentials.from(app.keemobile.kotpass.cryptography.EncryptedValue.fromString(newPass))
+        val updatedDb = when (db) {
+            is app.keemobile.kotpass.database.KeePassDatabase.Ver4x -> db.copy(credentials = newCreds)
+            is app.keemobile.kotpass.database.KeePassDatabase.Ver3x -> db.copy(credentials = newCreds)
+        }
+        _database.value = updatedDb
+        _hasUnsavedChanges.value = true
     }
 
     fun isRootGroup(): Boolean {
@@ -619,7 +660,7 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
         _database.value = updatedDb
         _currentGroup.value = updatedGroup
         _currentEntry.value = updatedEntry
-        saveDatabase()
+        _hasUnsavedChanges.value = true
     }
 
 }

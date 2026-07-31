@@ -125,9 +125,19 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
         _currentGroup.value = group
     }
 
+    private fun findParentGroup(root: Group, childUuid: java.util.UUID): Group? {
+        if (root.groups.any { it.uuid == childUuid }) return root
+        for (g in root.groups) {
+            val p = findParentGroup(g, childUuid)
+            if (p != null) return p
+        }
+        return null
+    }
+
     fun navigateUp() {
         val currentGroupUuid = _currentGroup.value?.uuid ?: return
-        val parent = _database.value?.getGroup { it.uuid == currentGroupUuid }?.first
+        val rootGroup = _database.value?.content?.group ?: return
+        val parent = findParentGroup(rootGroup, currentGroupUuid)
         if (parent != null) {
             _currentGroup.value = parent
         }

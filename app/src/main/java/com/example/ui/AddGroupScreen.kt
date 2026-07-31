@@ -39,6 +39,7 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -50,11 +51,13 @@ import com.example.viewmodel.KeePassViewModel
 @Composable
 fun AddGroupScreen(
     viewModel: KeePassViewModel,
-    onNavigateBack: () -> Unit
+    onNavigateBack: () -> Unit,
+    isEdit: Boolean = false
 ) {
-    var title by remember { mutableStateOf("") }
-    var iconName by remember { mutableStateOf("Folder") }
-    var color by remember { mutableStateOf("Blue") }
+    val currentGroup by viewModel.currentGroup.collectAsState()
+    var title by remember { mutableStateOf(if (isEdit && currentGroup != null) currentGroup!!.name else "") }
+    var iconName by remember { mutableStateOf(if (isEdit && currentGroup != null) currentGroup!!.icon.name else "Folder") }
+    var color by remember { mutableStateOf(if (isEdit && currentGroup != null) currentGroup!!.customData["ThemeColor"]?.value ?: "Blue" else "Blue") }
     
     var showIconDialog by remember { mutableStateOf(false) }
     var isSaving by remember { mutableStateOf(false) }
@@ -86,7 +89,7 @@ fun AddGroupScreen(
                     onClick = {
                         if (!isSaving) {
                             isSaving = true
-                            viewModel.createGroup(title, iconName, color)
+                            if (isEdit && currentGroup != null) { viewModel.updateGroup(currentGroup!!, title, iconName, color) } else { viewModel.createGroup(title, iconName, color) }
                             onNavigateBack()
                         }
                     },

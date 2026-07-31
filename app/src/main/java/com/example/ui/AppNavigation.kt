@@ -63,6 +63,8 @@ fun AppNavigation(viewModel: KeePassViewModel) {
                     onNavigateToAddTemplate = { navController.navigate("add_template") },
                     onNavigateToAddNote = { navController.navigate("add_note") },
                     onNavigateToAddGroup = { navController.navigate("add_group") },
+                    onNavigateToEditGroup = { navController.navigate("edit_group") },
+                    onNavigateToEditEntry = { navController.navigate("edit_entry") },
                     onNavigateToAddEntry = {
                         navController.navigate("add_entry")
                     }
@@ -75,6 +77,21 @@ fun AppNavigation(viewModel: KeePassViewModel) {
                     viewModel = viewModel,
                     onNavigateBack = { navController.popBackStack() }
                 )
+            }
+        }
+        composable("edit_group") {
+            if (database != null) {
+                AddGroupScreen(
+                    viewModel = viewModel,
+                    onNavigateBack = { navController.popBackStack() },
+                    isEdit = true
+                )
+            } else {
+                LaunchedEffect(Unit) {
+                    navController.navigate("auth") {
+                        popUpTo(0)
+                    }
+                }
             }
         }
         composable("view") {
