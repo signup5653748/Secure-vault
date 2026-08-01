@@ -10,7 +10,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -33,6 +33,10 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.background
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.CornerRadius
 import com.example.viewmodel.KeePassViewModel
 import app.keemobile.kotpass.models.Group
 import app.keemobile.kotpass.models.Entry
@@ -378,7 +382,7 @@ fun VaultScreen(
                     navigationIcon = {
                         if (!viewModel.isRootGroup()) {
                             IconButton(onClick = { viewModel.navigateUp() }) {
-                                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                                Icon(Icons.Default.ArrowBack, contentDescription = "Back")
                             }
                         } else {
                             IconButton(onClick = { scope.launch { drawerState.open() } }) {
@@ -479,6 +483,7 @@ fun VaultScreen(
                                 onNavigateToView()
                             },
                             onEdit = debounced { viewModel.selectEntry(entry); onNavigateToEditEntry() },
+                            onDuplicate = debounced { viewModel.duplicateEntry(entry) },
                             onDelete = debounced { viewModel.deleteEntry(entry) }
                         )
                     }
@@ -488,6 +493,7 @@ fun VaultScreen(
                             group,
                             onClick = debounced { viewModel.selectGroup(group) },
                             onEdit = debounced { viewModel.selectGroup(group); onNavigateToEditGroup() },
+                            onDuplicate = debounced { viewModel.duplicateGroup(group) },
                             onDelete = debounced { viewModel.deleteGroup(group) }
                         )
                     }
@@ -500,6 +506,7 @@ fun VaultScreen(
                                 onNavigateToView()
                             },
                             onEdit = debounced { viewModel.selectEntry(entry); onNavigateToEditEntry() },
+                            onDuplicate = debounced { viewModel.duplicateEntry(entry) },
                             onDelete = debounced { viewModel.deleteEntry(entry) }
                         )
                     }
@@ -546,7 +553,7 @@ fun VaultScreen(
 }
 
 @Composable
-fun GroupItem(group: app.keemobile.kotpass.models.Group, onClick: () -> Unit, onEdit: () -> Unit = {}, onMove: () -> Unit = {}, onDelete: () -> Unit = {}) {
+fun GroupItem(group: app.keemobile.kotpass.models.Group, onClick: () -> Unit, onEdit: () -> Unit = {}, onMove: () -> Unit = {}, onDuplicate: () -> Unit = {}, onDelete: () -> Unit = {}) {
     val iconColor = parseColor(group.customData["ThemeColor"]?.value)
     val iconVector = parseIcon(group.icon.name)
     var showMenu by remember { mutableStateOf(false) }
@@ -593,6 +600,13 @@ fun GroupItem(group: app.keemobile.kotpass.models.Group, onClick: () -> Unit, on
                 }
             )
             DropdownMenuItem(
+                text = { Text("Duplicate") },
+                onClick = {
+                    showMenu = false
+                    onDuplicate()
+                }
+            )
+            DropdownMenuItem(
                 text = { Text("Delete") },
                 onClick = {
                     showMenu = false
@@ -604,8 +618,19 @@ fun GroupItem(group: app.keemobile.kotpass.models.Group, onClick: () -> Unit, on
 }
         }
 
+fun Modifier.dashedBorder(color: Color, width: Float, radius: Float) = drawBehind {
+    drawRoundRect(
+        color = color,
+        style = Stroke(
+            width = width,
+            pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f), 0f)
+        ),
+        cornerRadius = CornerRadius(radius, radius)
+    )
+}
+
 @Composable
-fun EntryItem(entry: app.keemobile.kotpass.models.Entry, onClick: () -> Unit, onEdit: () -> Unit = {}, onMove: () -> Unit = {}, onDelete: () -> Unit = {}) {
+fun EntryItem(entry: app.keemobile.kotpass.models.Entry, onClick: () -> Unit, onEdit: () -> Unit = {}, onMove: () -> Unit = {}, onDuplicate: () -> Unit = {}, onDelete: () -> Unit = {}) {
     val iconColor = parseColor(entry.customData["ThemeColor"]?.value)
     val iconVector = parseIcon(entry.icon.name)
     var showMenu by remember { mutableStateOf(false) }
@@ -620,11 +645,12 @@ fun EntryItem(entry: app.keemobile.kotpass.models.Entry, onClick: () -> Unit, on
                     onLongPress = { showMenu = true }
                 )
             },
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f)),
+        shape = RoundedCornerShape(24.dp)
     ) {
         Row(
             modifier = Modifier
-                .padding(16.dp)
+                .padding(horizontal = 24.dp, vertical = 16.dp)
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -632,16 +658,35 @@ fun EntryItem(entry: app.keemobile.kotpass.models.Entry, onClick: () -> Unit, on
                 iconVector,
                 contentDescription = "Key",
                 tint = iconColor,
-                modifier = Modifier.size(32.dp)
+                modifier = Modifier.size(40.dp)
             )
-            Spacer(modifier = Modifier.width(16.dp))
+            Spacer(modifier = Modifier.width(20.dp))
             Column {
-                Text(text = (entry[app.keemobile.kotpass.constants.BasicField.Title]?.content ?: ""), fontWeight = FontWeight.Medium, fontSize = 18.sp)
+                Text(text = (entry[app.keemobile.kotpass.constants.BasicField.Title]?.content ?: ""), fontWeight = FontWeight.Medium, fontSize = 20.sp)
                 if ((entry[app.keemobile.kotpass.constants.BasicField.UserName]?.content ?: "").isNotEmpty()) {
                     Text(text = (entry[app.keemobile.kotpass.constants.BasicField.UserName]?.content ?: ""), fontSize = 14.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
+                if (entry.tags.isNotEmpty()) {
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        entry.tags.forEach { tag ->
+                            Box(
+                                modifier = Modifier
+                                    .dashedBorder(color = iconColor.copy(alpha = 0.8f), width = 3f, radius = 16f)
+                                    .padding(horizontal = 6.dp, vertical = 2.dp)
+                            ) {
+                                Text(
+                                    text = tag,
+                                    color = iconColor.copy(alpha = 0.9f),
+                                    fontSize = 12.sp,
+                                    fontWeight = FontWeight.Medium
+                                )
+                            }
+                        }
+                    }
+                }
             }
-            
+               
             Box(modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.TopEnd)) {
         DropdownMenu(
                 expanded = showMenu,
@@ -659,6 +704,13 @@ fun EntryItem(entry: app.keemobile.kotpass.models.Entry, onClick: () -> Unit, on
                     onClick = {
                         showMenu = false
                         onMove()
+                    }
+                )
+                DropdownMenuItem(
+                    text = { Text("Duplicate") },
+                    onClick = {
+                        showMenu = false
+                        onDuplicate()
                     }
                 )
                 DropdownMenuItem(

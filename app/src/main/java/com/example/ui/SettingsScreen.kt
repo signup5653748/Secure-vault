@@ -149,7 +149,7 @@ fun SettingsScreen(
                 }
                 Switch(
                     checked = enableBiometrics,
-                    onCheckedChange = { viewModel.settings.setEnableBiometrics(it) }
+                    onCheckedChange = { viewModel.setEnableBiometrics(it) }
                 )
             }
 

@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -70,20 +70,39 @@ fun AddEntryScreen(
     isEdit: Boolean = false
 ) {
     val currentEntry by viewModel.currentEntry.collectAsState()
-    var title by remember { mutableStateOf("") }
-    var username by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var url by remember { mutableStateOf("") }
-    var notes by remember { mutableStateOf("") }
-    var iconName by remember { mutableStateOf("Key") }
-    var color by remember { mutableStateOf("Blue") }
+    var title by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry!![app.keemobile.kotpass.constants.BasicField.Title]?.content ?: "" else "") }
+    var username by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry!![app.keemobile.kotpass.constants.BasicField.UserName]?.content ?: "" else "") }
+    var password by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry!![app.keemobile.kotpass.constants.BasicField.Password]?.content ?: "" else "") }
+    var url by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry!![app.keemobile.kotpass.constants.BasicField.Url]?.content ?: "" else "") }
+    var notes by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry!![app.keemobile.kotpass.constants.BasicField.Notes]?.content ?: "" else "") }
+    var iconName by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry!!.icon.name else "Key") }
+    var color by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry!!.customData["ThemeColor"]?.value ?: "Blue" else "Blue") }
+    var tagsString by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry!!.tags.joinToString(", ") else "") }
 
-    var showUsername by remember { mutableStateOf(if (isEdit && currentEntry != null) currentEntry!!.customData["Hide_UserName"]?.value != "true" else !isTemplate) }
-    var showPassword by remember { mutableStateOf(if (isEdit && currentEntry != null) currentEntry!!.customData["Hide_Password"]?.value != "true" else !isTemplate) }
-    var showUrl by remember { mutableStateOf(if (isEdit && currentEntry != null) currentEntry!!.customData["Hide_Url"]?.value != "true" else !isTemplate) }
-    var showNotes by remember { mutableStateOf(if (isEdit && currentEntry != null) currentEntry!!.customData["Hide_Notes"]?.value != "true" else !isTemplate) }
+    var showUsername by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry!!.customData["Hide_UserName"]?.value != "true" else !isTemplate) }
+    var showPassword by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry!!.customData["Hide_Password"]?.value != "true" else !isTemplate) }
+    var showUrl by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry!!.customData["Hide_Url"]?.value != "true" else !isTemplate) }
+    var showNotes by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry!!.customData["Hide_Notes"]?.value != "true" else !isTemplate) }
     
-    var customFields by remember { mutableStateOf(listOf<CustomFieldData>()) }
+    var customFields by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) {
+        val newCustomFields = mutableListOf<CustomFieldData>()
+        val basicFields = listOf(app.keemobile.kotpass.constants.BasicField.Title(), app.keemobile.kotpass.constants.BasicField.UserName(), app.keemobile.kotpass.constants.BasicField.Password(), app.keemobile.kotpass.constants.BasicField.Url(), app.keemobile.kotpass.constants.BasicField.Notes())
+        for ((key, value) in currentEntry!!.fields) {
+            if (key !in basicFields) {
+                val fieldName = key
+                val isHidden = value is app.keemobile.kotpass.models.EntryValue.Encrypted
+                val fieldValue = value.content
+                val showCopy = currentEntry!!.customData["ShowCopyButton_$fieldName"]?.value == "true"
+                newCustomFields.add(CustomFieldData(
+                    name = fieldName,
+                    value = fieldValue,
+                    isHidden = isHidden,
+                    showCopyButton = showCopy
+                ))
+            }
+        }
+        newCustomFields
+    } else listOf<CustomFieldData>()) }
     var attachments by remember { mutableStateOf(listOf<String>()) } // Just mock for UI
 
     var showAddFieldDialog by remember { mutableStateOf(false) }
@@ -93,6 +112,8 @@ fun AddEntryScreen(
     val predefinedIcons = listOf("Key", "Folder", "Network", "Lock", "Email", "World", "Money", "Note")
     val predefinedColors = listOf("Blue", "Red", "Green", "Yellow", "Cyan", "Magenta", "Gray", "Black", "White")
     var showMoreMenu by remember { mutableStateOf(false) }
+    var isDeleteMode by remember { mutableStateOf(false) }
+    var selectedFieldsToDelete by remember { mutableStateOf(setOf<String>()) }
     var showAttachmentsDialog by remember { mutableStateOf(false) }
     var isSaving by remember { mutableStateOf(false) }
 
@@ -110,64 +131,117 @@ fun AddEntryScreen(
                 title = { Text(if (isEdit) "Edit Entry" else if (isTemplate) "New Template" else "New Entry") },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
                     }
                 },
                 actions = {
-                    TextButton(onClick = { showTemplateSheet = true }) {
-                        Text("Choose Template")
+                    if (isDeleteMode) {
+                        TextButton(onClick = { 
+                            isDeleteMode = false
+                            selectedFieldsToDelete = setOf()
+                        }) {
+                            Text("Cancel")
+                        }
+                    } else {
+                        TextButton(onClick = { showTemplateSheet = true }) {
+                            Text("Choose Template")
+                        }
+                        Box {
+                            IconButton(onClick = { showMoreMenu = true }) {
+                                Icon(Icons.Default.MoreVert, contentDescription = "More options")
+                            }
+                            DropdownMenu(
+                                expanded = showMoreMenu,
+                                onDismissRequest = { showMoreMenu = false }
+                            ) {
+                                DropdownMenuItem(
+                                    text = { Text("Delete Fields") },
+                                    onClick = {
+                                        showMoreMenu = false
+                                        isDeleteMode = true
+                                        selectedFieldsToDelete = setOf()
+                                    }
+                                )
+                            }
+                        }
                     }
                 }
 
             )
         },
         bottomBar = {
-            BottomAppBar {
-                if (!isTemplate) {
-                    IconButton(onClick = { /* Lock */ }) {
-                        Icon(Icons.Default.Lock, contentDescription = "Lock Entry")
+            if (isDeleteMode) {
+                BottomAppBar(containerColor = MaterialTheme.colorScheme.surfaceVariant) {
+                    Spacer(modifier = Modifier.weight(1f))
+                    Button(
+                        onClick = {
+                            if (selectedFieldsToDelete.contains("Username")) { showUsername = false; username = "" }
+                            if (selectedFieldsToDelete.contains("Password")) { showPassword = false; password = "" }
+                            if (selectedFieldsToDelete.contains("URL")) { showUrl = false; url = "" }
+                            if (selectedFieldsToDelete.contains("Notes")) { showNotes = false; notes = "" }
+                            
+                            val customFieldsToDelete = selectedFieldsToDelete.filter { it.startsWith("Custom:") }.map { it.substringAfter("Custom:") }
+                            if (customFieldsToDelete.isNotEmpty()) {
+                                customFields = customFields.filter { it.name !in customFieldsToDelete }
+                            }
+                            
+                            isDeleteMode = false
+                            selectedFieldsToDelete = setOf()
+                        },
+                        colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
+                    ) {
+                        Text("Delete Selected Fields")
                     }
-                    IconButton(onClick = { showAttachmentsDialog = true }) {
-                        Icon(Icons.Default.AttachFile, contentDescription = "Attachments")
-                    }
+                    Spacer(modifier = Modifier.weight(1f))
                 }
-                IconButton(onClick = { showAddFieldDialog = true }) {
-                    Icon(Icons.Default.Add, contentDescription = "Add Field")
-                }
-
-                Spacer(modifier = Modifier.weight(1f))
-                IconButton(onClick = {
-                    if (!isSaving) {
-                        isSaving = true
-                        if (isTemplate) {
-                            val hiddenFields = mutableListOf<String>()
-                            if (!showUsername) hiddenFields.add("Hide_UserName")
-                            if (!showPassword) hiddenFields.add("Hide_Password")
-                            if (!showUrl) hiddenFields.add("Hide_Url")
-                            if (!showNotes) hiddenFields.add("Hide_Notes")
-                            
-                            viewModel.addTemplate(title, username, password, url, notes, iconName, color, customFields, hiddenFields)
-                        } else if (isEdit) {
-                            val hiddenFields = mutableListOf<String>()
-                            if (!showUsername) hiddenFields.add("Hide_UserName")
-                            if (!showPassword) hiddenFields.add("Hide_Password")
-                            if (!showUrl) hiddenFields.add("Hide_Url")
-                            if (!showNotes) hiddenFields.add("Hide_Notes")
-                            
-                            viewModel.updateEntry(title, username, password, url, notes, iconName, color, customFields, hiddenFields)
-                        } else {
-                            val hiddenFields = mutableListOf<String>()
-                            if (!showUsername) hiddenFields.add("Hide_UserName")
-                            if (!showPassword) hiddenFields.add("Hide_Password")
-                            if (!showUrl) hiddenFields.add("Hide_Url")
-                            if (!showNotes) hiddenFields.add("Hide_Notes")
-                            
-                            viewModel.createEntry(title, username, password, url, notes, iconName, color, customFields, hiddenFields)
+            } else {
+                BottomAppBar {
+                    if (!isTemplate) {
+                        IconButton(onClick = { /* Lock */ }) {
+                            Icon(Icons.Default.Lock, contentDescription = "Lock Entry")
                         }
-                        onNavigateBack()
+                        IconButton(onClick = { showAttachmentsDialog = true }) {
+                            Icon(Icons.Default.AttachFile, contentDescription = "Attachments")
+                        }
                     }
-                }) {
-                    Icon(Icons.Default.Check, contentDescription = "Save")
+                    IconButton(onClick = { showAddFieldDialog = true }) {
+                        Icon(Icons.Default.Add, contentDescription = "Add Field")
+                    }
+    
+                    Spacer(modifier = Modifier.weight(1f))
+                    IconButton(onClick = {
+                        if (!isSaving) {
+                            isSaving = true
+                            if (isTemplate) {
+                                val hiddenFields = mutableListOf<String>()
+                                if (!showUsername) hiddenFields.add("Hide_UserName")
+                                if (!showPassword) hiddenFields.add("Hide_Password")
+                                if (!showUrl) hiddenFields.add("Hide_Url")
+                                if (!showNotes) hiddenFields.add("Hide_Notes")
+                                
+                                viewModel.addTemplate(title, username, password, url, notes, iconName, color, customFields, hiddenFields, tagsString.split(",").map { it.trim() }.filter { it.isNotEmpty() })
+                            } else if (isEdit) {
+                                val hiddenFields = mutableListOf<String>()
+                                if (!showUsername) hiddenFields.add("Hide_UserName")
+                                if (!showPassword) hiddenFields.add("Hide_Password")
+                                if (!showUrl) hiddenFields.add("Hide_Url")
+                                if (!showNotes) hiddenFields.add("Hide_Notes")
+                                
+                                viewModel.updateEntry(title, username, password, url, notes, iconName, color, customFields, hiddenFields, tagsString.split(",").map { it.trim() }.filter { it.isNotEmpty() })
+                            } else {
+                                val hiddenFields = mutableListOf<String>()
+                                if (!showUsername) hiddenFields.add("Hide_UserName")
+                                if (!showPassword) hiddenFields.add("Hide_Password")
+                                if (!showUrl) hiddenFields.add("Hide_Url")
+                                if (!showNotes) hiddenFields.add("Hide_Notes")
+                                
+                                viewModel.createEntry(title, username, password, url, notes, iconName, color, customFields, hiddenFields, tagsString.split(",").map { it.trim() }.filter { it.isNotEmpty() })
+                            }
+                            onNavigateBack()
+                        }
+                    }) {
+                        Icon(Icons.Default.Check, contentDescription = "Save")
+                    }
                 }
             }
         }
@@ -242,17 +316,17 @@ fun AddEntryScreen(
             if (showUsername) {
                 item {
                     Row(verticalAlignment = Alignment.CenterVertically) {
+                        if (isDeleteMode) {
+                            Checkbox(checked = selectedFieldsToDelete.contains("Username"), onCheckedChange = { checked ->
+                                if (checked) selectedFieldsToDelete = selectedFieldsToDelete + "Username" else selectedFieldsToDelete = selectedFieldsToDelete - "Username"
+                            })
+                        }
                         OutlinedTextField(
                             value = username,
                             onValueChange = { username = it },
                             label = { Text("Username") },
                             modifier = Modifier.weight(1f)
                         )
-                        if (isTemplate || isEdit || !isTemplate) {
-                            IconButton(onClick = { showUsername = false; username = "" }) {
-                                Icon(Icons.Default.Delete, contentDescription = "Remove Username", tint = Color.Red)
-                            }
-                        }
                     }
                 }
             }
@@ -273,45 +347,47 @@ fun AddEntryScreen(
                         password.length < 16 -> Color(0xFF9ACD32)
                         else -> Color.Green
                     }
-                    Column(modifier = Modifier.fillMaxWidth()) {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            OutlinedTextField(
-                                value = password,
-                                onValueChange = { password = it },
-                                label = { Text("Password") },
-                                visualTransformation = if (passVisible) VisualTransformation.None else PasswordVisualTransformation(),
-                                trailingIcon = {
-                                    Row {
-                                        IconButton(onClick = { showPasswordGenerator = true }) {
-                                            Icon(Icons.Default.Build, "Generate Password")
-                                        }
-                                        IconButton(onClick = { passVisible = !passVisible }) {
-                                            Icon(if (passVisible) Icons.Default.VisibilityOff else Icons.Default.Visibility, "Toggle Password")
-                                        }
-                                        IconButton(onClick = { clipboardManager.setText(androidx.compose.ui.text.AnnotatedString(password)) }) {
-                                            Icon(Icons.Default.ContentCopy, "Copy Password")
-                                        }
-                                    }
-                                },
-                                modifier = Modifier.weight(1f)
-                            )
-                            if (isTemplate || isEdit || !isTemplate) {
-                                IconButton(onClick = { showPassword = false; password = "" }) {
-                                    Icon(Icons.Default.Delete, contentDescription = "Remove Password", tint = Color.Red)
-                                }
-                            }
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        if (isDeleteMode) {
+                            Checkbox(checked = selectedFieldsToDelete.contains("Password"), onCheckedChange = { checked ->
+                                if (checked) selectedFieldsToDelete = selectedFieldsToDelete + "Password" else selectedFieldsToDelete = selectedFieldsToDelete - "Password"
+                            })
                         }
-                        if (password.isNotEmpty()) {
-                            LinearProgressIndicator(
-                                progress = { strength },
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 8.dp, vertical = 4.dp)
-                                    .height(4.dp)
-                                    .clip(RoundedCornerShape(2.dp)),
-                                color = strengthColor,
-                                trackColor = MaterialTheme.colorScheme.surfaceVariant,
-                            )
+                        Column(modifier = Modifier.weight(1f)) {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                OutlinedTextField(
+                                    value = password,
+                                    onValueChange = { password = it },
+                                    label = { Text("Password") },
+                                    visualTransformation = if (passVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                                    trailingIcon = {
+                                        Row {
+                                            IconButton(onClick = { showPasswordGenerator = true }) {
+                                                Icon(Icons.Default.Build, "Generate Password")
+                                            }
+                                            IconButton(onClick = { passVisible = !passVisible }) {
+                                                Icon(if (passVisible) Icons.Default.VisibilityOff else Icons.Default.Visibility, "Toggle Password")
+                                            }
+                                            IconButton(onClick = { clipboardManager.setText(androidx.compose.ui.text.AnnotatedString(password)) }) {
+                                                Icon(Icons.Default.ContentCopy, "Copy Password")
+                                            }
+                                        }
+                                    },
+                                    modifier = Modifier.weight(1f)
+                                )
+                            }
+                            if (password.isNotEmpty()) {
+                                LinearProgressIndicator(
+                                    progress = { strength },
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(horizontal = 8.dp, vertical = 4.dp)
+                                        .height(4.dp)
+                                        .clip(RoundedCornerShape(2.dp)),
+                                    color = strengthColor,
+                                    trackColor = MaterialTheme.colorScheme.surfaceVariant,
+                                )
+                            }
                         }
                     }
                 }
@@ -319,23 +395,28 @@ fun AddEntryScreen(
             if (showUrl) {
                 item {
                     Row(verticalAlignment = Alignment.CenterVertically) {
+                        if (isDeleteMode) {
+                            Checkbox(checked = selectedFieldsToDelete.contains("URL"), onCheckedChange = { checked ->
+                                if (checked) selectedFieldsToDelete = selectedFieldsToDelete + "URL" else selectedFieldsToDelete = selectedFieldsToDelete - "URL"
+                            })
+                        }
                         OutlinedTextField(
                             value = url,
                             onValueChange = { url = it },
                             label = { Text("URL") },
                             modifier = Modifier.weight(1f)
                         )
-                        if (isTemplate || isEdit || !isTemplate) {
-                            IconButton(onClick = { showUrl = false; url = "" }) {
-                                Icon(Icons.Default.Delete, contentDescription = "Remove URL", tint = Color.Red)
-                            }
-                        }
                     }
                 }
             }
             if (showNotes) {
                 item {
                     Row(verticalAlignment = Alignment.Top) {
+                        if (isDeleteMode) {
+                            Checkbox(checked = selectedFieldsToDelete.contains("Notes"), onCheckedChange = { checked ->
+                                if (checked) selectedFieldsToDelete = selectedFieldsToDelete + "Notes" else selectedFieldsToDelete = selectedFieldsToDelete - "Notes"
+                            })
+                        }
                         OutlinedTextField(
                             value = notes,
                             onValueChange = { notes = it },
@@ -343,42 +424,58 @@ fun AddEntryScreen(
                             modifier = Modifier.weight(1f),
                             minLines = 3
                         )
-                        if (isTemplate || isEdit || !isTemplate) {
-                            IconButton(onClick = { showNotes = false; notes = "" }) {
-                                Icon(Icons.Default.Delete, contentDescription = "Remove Notes", tint = Color.Red)
-                            }
-                        }
                     }
                 }
             }
+            item {
+                OutlinedTextField(
+                    value = tagsString,
+                    onValueChange = { tagsString = it },
+                    label = { Text("Tags (comma separated)") },
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
             items(customFields, key = { it.id }) { field ->
                 var isVisible by remember { mutableStateOf(!field.isHidden) }
-                OutlinedTextField(
-                    value = field.value,
-                    onValueChange = { newValue -> 
-                        customFields = customFields.map { 
-                            if (it.id == field.id) it.copy(value = newValue) else it 
-                        }
-                    },
-                    label = { Text(field.name) },
-                    visualTransformation = if (!isVisible && field.isHidden) PasswordVisualTransformation() else VisualTransformation.None,
-                    trailingIcon = {
-                        Row {
-                            if (field.isHidden) {
-                                IconButton(onClick = { isVisible = !isVisible }) {
-                                    Icon(if (isVisible) Icons.Default.VisibilityOff else Icons.Default.Visibility, contentDescription = "Toggle Visibility")
+                Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
+                    if (isDeleteMode) {
+                        Checkbox(
+                            checked = selectedFieldsToDelete.contains("Custom:${field.name}"),
+                            onCheckedChange = { checked ->
+                                val key = "Custom:${field.name}"
+                                if (checked) selectedFieldsToDelete = selectedFieldsToDelete + key
+                                else selectedFieldsToDelete = selectedFieldsToDelete - key
+                            },
+                            modifier = Modifier.padding(end = 8.dp)
+                        )
+                    }
+                    OutlinedTextField(
+                        value = field.value,
+                        onValueChange = { newValue -> 
+                            customFields = customFields.map { 
+                                if (it.id == field.id) it.copy(value = newValue) else it
+                            }
+                        },
+                        label = { Text(field.name) },
+                        visualTransformation = if (!isVisible && field.isHidden) PasswordVisualTransformation() else VisualTransformation.None,
+                        trailingIcon = {
+                            Row {
+                                if (field.isHidden) {
+                                    IconButton(onClick = { isVisible = !isVisible }) {
+                                        Icon(if (isVisible) Icons.Default.VisibilityOff else Icons.Default.Visibility, contentDescription = "Toggle Visibility")
+                                    }
+                                }
+                                IconButton(onClick = {
+                                    customFields = customFields.filter { it.id != field.id }
+                                }) {
+                                    Icon(Icons.Default.Delete, "Delete")
                                 }
                             }
-                            IconButton(onClick = {
-                                customFields = customFields.filter { it.id != field.id }
-                            }) {
-                                Icon(Icons.Default.Delete, "Delete")
-                            }
-                        }
-                    },
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(12.dp)
-                )
+                        },
+                        modifier = Modifier.weight(1f),
+                        shape = RoundedCornerShape(12.dp)
+                    )
+                }
             }
             item { Spacer(modifier = Modifier.height(16.dp)) }
         }
@@ -781,6 +878,7 @@ fun AddEntryScreen(
                                             notes = template[app.keemobile.kotpass.constants.BasicField.Notes]?.content ?: ""
                                             iconName = template.icon.name
                                             color = template.customData["ThemeColor"]?.value ?: "Blue"
+                                            tagsString = template.tags.joinToString(", ")
                                             
                                             showUsername = template.customData["Hide_UserName"]?.value != "true"
                                             showPassword = template.customData["Hide_Password"]?.value != "true"

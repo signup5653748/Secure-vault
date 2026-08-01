@@ -151,7 +151,8 @@ fun AppNavigation(viewModel: KeePassViewModel) {
                 TemplatesScreen(
                     viewModel = viewModel,
                     onNavigateBack = { navController.popBackStack() },
-                    onNavigateToAddTemplate = { navController.navigate("add_template") }
+                    onNavigateToAddTemplate = { navController.navigate("add_template") },
+                    onNavigateToEditTemplate = { navController.navigate("edit_template") }
                 )
             }
         }
@@ -161,6 +162,16 @@ fun AppNavigation(viewModel: KeePassViewModel) {
                     viewModel = viewModel,
                     onNavigateBack = { navController.popBackStack() },
                     isTemplate = true
+                )
+            }
+        }
+        composable("edit_template") {
+            if (database != null) {
+                AddEntryScreen(
+                    viewModel = viewModel,
+                    onNavigateBack = { navController.popBackStack() },
+                    isTemplate = true,
+                    isEdit = true
                 )
             }
         }

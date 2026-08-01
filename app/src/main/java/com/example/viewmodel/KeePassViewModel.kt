@@ -32,6 +32,16 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
 
     private val context = application.applicationContext
     val settings = SettingsRepository(context)
+    private var currentMasterPassword: String? = null
+    
+    fun setEnableBiometrics(enabled: Boolean) {
+        settings.setEnableBiometrics(enabled)
+        if (enabled) {
+            currentMasterPassword?.let { com.example.data.CryptoHelper.savePassword(context, it) }
+        } else {
+            com.example.data.CryptoHelper.clearPassword(context)
+        }
+    }
 
     private val _dbUri = MutableStateFlow<Uri?>(null)
     val dbUri: StateFlow<Uri?> = _dbUri
@@ -108,6 +118,7 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
 
     fun importFile(uri: Uri) {
         com.example.data.CryptoHelper.clearPassword(context)
+        currentMasterPassword = null
         _database.value = null
         _currentGroup.value = null
         _currentEntry.value = null
@@ -134,6 +145,10 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
                         _database.value = db
                         _currentGroup.value = db.content.group
                         _error.value = null
+                        currentMasterPassword = password
+                        if (settings.enableBiometrics.value) {
+                            com.example.data.CryptoHelper.savePassword(context, password)
+                        }
                     } else {
                         _error.value = "Failed to unlock database. Incorrect password or invalid file."
                     }
@@ -170,6 +185,10 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
                         _database.value = db
                         _currentGroup.value = db.content.group
                         _error.value = null
+                        currentMasterPassword = password
+                        if (settings.enableBiometrics.value) {
+                            com.example.data.CryptoHelper.savePassword(context, password)
+                        }
                     } else {
                         _error.value = "Failed to unlock database after creation."
                     }
@@ -267,7 +286,8 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
         iconName: String,
         color: String,
         customFields: List<com.example.ui.CustomFieldData>,
-        hiddenFields: List<String> = emptyList()
+        hiddenFields: List<String> = emptyList(),
+        tags: List<String> = emptyList()
     ) {
         val currentDb = _database.value ?: return
         val currentGroup = _currentGroup.value ?: return
@@ -297,6 +317,8 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
         val newEntry = Entry(
             uuid = UUID.randomUUID(),
             icon = icon,
+            tags = tags,
+            backgroundColor = color, foregroundColor = "#FFFFFF",
             customData = mapOf("ThemeColor" to CustomDataValue(color)) + customFields.associate { "ShowCopyButton_${it.name}" to CustomDataValue(it.showCopyButton.toString()) } + hiddenFields.associate { it to CustomDataValue("true") },
             fields = EntryFields(fieldsMap)
         )
@@ -442,7 +464,7 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
         }
     }
     
-    fun addTemplate(title: String, username: String, pass: String, url: String, notes: String, iconName: String, color: String, customFields: List<com.example.ui.CustomFieldData>, hiddenFields: List<String> = emptyList()) {
+    fun addTemplate(title: String, username: String, pass: String, url: String, notes: String, iconName: String, color: String, customFields: List<com.example.ui.CustomFieldData>, hiddenFields: List<String> = emptyList(), tags: List<String> = emptyList()) {
         val icon = try { app.keemobile.kotpass.constants.PredefinedIcon.valueOf(iconName) } catch (e: Exception) { app.keemobile.kotpass.constants.PredefinedIcon.Key }
         val fieldsMap = mutableMapOf<String, EntryValue>(
             BasicField.Title() to EntryValue.Plain(title),
@@ -461,6 +483,8 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
         val newEntry = Entry(
             uuid = java.util.UUID.randomUUID(),
             icon = icon,
+            tags = tags,
+            backgroundColor = color, foregroundColor = "#FFFFFF",
             customData = mapOf("ThemeColor" to app.keemobile.kotpass.models.CustomDataValue(color)) + customFields.associate { "ShowCopyButton_${it.name}" to app.keemobile.kotpass.models.CustomDataValue(it.showCopyButton.toString()) } + hiddenFields.associate { it to app.keemobile.kotpass.models.CustomDataValue("true") },
             fields = EntryFields(fieldsMap)
         )
@@ -492,6 +516,51 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
         }
     }
     
+    fun duplicateEntry(entry: Entry) {
+        val newFields = entry.fields.toMutableMap().apply {
+            val titleField = app.keemobile.kotpass.constants.BasicField.Title()
+            val oldTitle = get(titleField)?.content ?: "Unnamed"
+            put(titleField, app.keemobile.kotpass.models.EntryValue.Plain("$oldTitle (Copy)"))
+        }
+        val newEntry = entry.copy(
+            uuid = java.util.UUID.randomUUID(),
+            fields = app.keemobile.kotpass.models.EntryFields(newFields)
+        )
+        viewModelScope.launch(kotlinx.coroutines.Dispatchers.Default) {
+            val currentGroupUuid = _currentGroup.value?.uuid ?: return@launch
+            val updatedDb = _database.value?.modifyGroup(currentGroupUuid) {
+                copy(entries = entries + newEntry)
+            }
+            if (updatedDb != null) {
+                kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Main) {
+                    _database.value = updatedDb
+                    _hasUnsavedChanges.value = true
+                    _currentGroup.value = updatedDb.getGroup { it.uuid == currentGroupUuid }?.first ?: _currentGroup.value
+                }
+            }
+        }
+    }
+
+    fun duplicateGroup(group: app.keemobile.kotpass.models.Group) {
+        val newGroup = group.copy(
+            uuid = java.util.UUID.randomUUID(),
+            name = group.name + " (Copy)"
+        )
+        viewModelScope.launch(kotlinx.coroutines.Dispatchers.Default) {
+            val currentGroupUuid = _currentGroup.value?.uuid ?: return@launch
+            val updatedDb = _database.value?.modifyGroup(currentGroupUuid) {
+                copy(groups = groups + newGroup)
+            }
+            if (updatedDb != null) {
+                kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Main) {
+                    _database.value = updatedDb
+                    _hasUnsavedChanges.value = true
+                    _currentGroup.value = updatedDb.getGroup { it.uuid == currentGroupUuid }?.first ?: _currentGroup.value
+                }
+            }
+        }
+    }
+
     fun deleteEntry(entry: Entry) {
         viewModelScope.launch(Dispatchers.Default) {
             val currentDb = _database.value ?: return@launch
@@ -610,7 +679,8 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
         iconName: String,
         color: String,
         customFields: List<com.example.ui.CustomFieldData>,
-        hiddenFields: List<String> = emptyList()
+        hiddenFields: List<String> = emptyList(),
+        tags: List<String> = emptyList()
     ) {
         val currentDb = _database.value ?: return
         val currentGroup = _currentGroup.value ?: return
@@ -640,6 +710,8 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
 
         val updatedEntry = entry.copy(
             icon = icon,
+            tags = tags,
+            backgroundColor = color, foregroundColor = "#FFFFFF",
             customData = entry.customData.toMutableMap().apply {
                 put("ThemeColor", app.keemobile.kotpass.models.CustomDataValue(color))
                 remove("Hide_UserName")

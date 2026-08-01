@@ -34,7 +34,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material3.*
@@ -55,9 +55,9 @@ fun AddGroupScreen(
     isEdit: Boolean = false
 ) {
     val currentGroup by viewModel.currentGroup.collectAsState()
-    var title by remember { mutableStateOf(if (isEdit && currentGroup != null) currentGroup!!.name else "") }
-    var iconName by remember { mutableStateOf(if (isEdit && currentGroup != null) currentGroup!!.icon.name else "Folder") }
-    var color by remember { mutableStateOf(if (isEdit && currentGroup != null) currentGroup!!.customData["ThemeColor"]?.value ?: "Blue" else "Blue") }
+    var title by remember(currentGroup?.uuid) { mutableStateOf(if (isEdit && currentGroup != null) currentGroup!!.name else "") }
+    var iconName by remember(currentGroup?.uuid) { mutableStateOf(if (isEdit && currentGroup != null) currentGroup!!.icon.name else "Folder") }
+    var color by remember(currentGroup?.uuid) { mutableStateOf(if (isEdit && currentGroup != null) currentGroup!!.customData["ThemeColor"]?.value ?: "Blue" else "Blue") }
     
     var showIconDialog by remember { mutableStateOf(false) }
     var isSaving by remember { mutableStateOf(false) }
@@ -72,7 +72,7 @@ fun AddGroupScreen(
                 title = { Text("New Group") },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
                     }
                 }
             )
