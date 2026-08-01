@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.automirrored.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -27,6 +28,9 @@ import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.material.icons.filled.DragHandle
 import androidx.compose.foundation.gestures.detectDragGestures
 
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -70,6 +74,9 @@ fun AddEntryScreen(
     isEdit: Boolean = false
 ) {
     val currentEntry by viewModel.currentEntry.collectAsState()
+        val selectedTemplate by viewModel.selectedTemplate.collectAsState()
+    
+    
     var title by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry!![app.keemobile.kotpass.constants.BasicField.Title]?.content ?: "" else "") }
     var username by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry!![app.keemobile.kotpass.constants.BasicField.UserName]?.content ?: "" else "") }
     var password by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry!![app.keemobile.kotpass.constants.BasicField.Password]?.content ?: "" else "") }
@@ -78,6 +85,7 @@ fun AddEntryScreen(
     var iconName by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry!!.icon.name else "Key") }
     var color by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry!!.customData["ThemeColor"]?.value ?: "Blue" else "Blue") }
     var tagsString by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry!!.tags.joinToString(", ") else "") }
+    var fieldOrder by remember(currentEntry?.uuid) { mutableStateOf(listOf("Username", "Password", "URL", "Notes")) }
 
     var showUsername by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry!!.customData["Hide_UserName"]?.value != "true" else !isTemplate) }
     var showPassword by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry!!.customData["Hide_Password"]?.value != "true" else !isTemplate) }
@@ -88,7 +96,7 @@ fun AddEntryScreen(
         val newCustomFields = mutableListOf<CustomFieldData>()
         val basicFields = listOf(app.keemobile.kotpass.constants.BasicField.Title(), app.keemobile.kotpass.constants.BasicField.UserName(), app.keemobile.kotpass.constants.BasicField.Password(), app.keemobile.kotpass.constants.BasicField.Url(), app.keemobile.kotpass.constants.BasicField.Notes())
         for ((key, value) in currentEntry!!.fields) {
-            if (key !in basicFields) {
+            if (key !in basicFields && key != "Notes" && key != "Title" && key != "UserName" && key != "URL" && key != "Password") {
                 val fieldName = key
                 val isHidden = value is app.keemobile.kotpass.models.EntryValue.Encrypted
                 val fieldValue = value.content
@@ -101,20 +109,59 @@ fun AddEntryScreen(
                 ))
             }
         }
-        newCustomFields
-    } else listOf<CustomFieldData>()) }
-    var attachments by remember { mutableStateOf(listOf<String>()) } // Just mock for UI
+        newCustomFields.toList()
+    } else {
+        listOf<CustomFieldData>()
+    }) }
 
-    var showAddFieldDialog by remember { mutableStateOf(false) }
+    LaunchedEffect(selectedTemplate) {
+        if (selectedTemplate != null && !isEdit) {
+            val template = selectedTemplate!!
+            title = template[app.keemobile.kotpass.constants.BasicField.Title]?.content ?: ""
+            username = template[app.keemobile.kotpass.constants.BasicField.UserName]?.content ?: ""
+            password = template[app.keemobile.kotpass.constants.BasicField.Password]?.content ?: ""
+            url = template[app.keemobile.kotpass.constants.BasicField.Url]?.content ?: ""
+            notes = template[app.keemobile.kotpass.constants.BasicField.Notes]?.content ?: ""
+            iconName = template.icon.name
+            color = template.customData["ThemeColor"]?.value ?: "Blue"
+            tagsString = template.tags.joinToString(", ")
+            
+            showUsername = template.customData["Hide_UserName"]?.value != "true"
+            showPassword = template.customData["Hide_Password"]?.value != "true"
+            showUrl = template.customData["Hide_Url"]?.value != "true"
+            showNotes = template.customData["Hide_Notes"]?.value != "true"
+            
+            val newCustomFields = mutableListOf<CustomFieldData>()
+            val basicFields = listOf(app.keemobile.kotpass.constants.BasicField.Title(), app.keemobile.kotpass.constants.BasicField.UserName(), app.keemobile.kotpass.constants.BasicField.Password(), app.keemobile.kotpass.constants.BasicField.Url(), app.keemobile.kotpass.constants.BasicField.Notes())
+            
+            for ((key, value) in template.fields) {
+                if (key !in basicFields) {
+                    val fieldName = key
+                    val isHidden = value is app.keemobile.kotpass.models.EntryValue.Encrypted
+                    val fieldValue = value.content
+                    val showCopy = template.customData["ShowCopyButton_$fieldName"]?.value == "true"
+                    newCustomFields.add(CustomFieldData(name = fieldName, value = fieldValue, isHidden = isHidden, showCopyButton = showCopy))
+                }
+            }
+            customFields = newCustomFields
+            viewModel.selectTemplateForNewEntry(null)
+        }
+    }
+    var isDeleteMode by remember { mutableStateOf(false) }
+    var isReorderMode by remember { mutableStateOf(false) }
+    var selectedFieldsToDelete by remember { mutableStateOf(setOf<String>()) }
     var showPasswordGenerator by remember { mutableStateOf(false) }
+    var showAddFieldDialog by remember { mutableStateOf(false) }
     var showIconDialog by remember { mutableStateOf(false) }
     var showColorDialog by remember { mutableStateOf(false) }
-    val predefinedIcons = listOf("Key", "Folder", "Network", "Lock", "Email", "World", "Money", "Note")
-    val predefinedColors = listOf("Blue", "Red", "Green", "Yellow", "Cyan", "Magenta", "Gray", "Black", "White")
-    var showMoreMenu by remember { mutableStateOf(false) }
-    var isDeleteMode by remember { mutableStateOf(false) }
-    var selectedFieldsToDelete by remember { mutableStateOf(setOf<String>()) }
     var showAttachmentsDialog by remember { mutableStateOf(false) }
+    var attachments by remember { mutableStateOf(listOf<String>()) }
+    var showMoreMenu by remember { mutableStateOf(false) }
+    val predefinedIcons = listOf(
+        "Key", "Lock", "Person", "CreditCard", 
+        "Folder", "Mail", "Phone", "Build", 
+        "Settings", "Favorite", "Star", "Home"
+    )
     var isSaving by remember { mutableStateOf(false) }
 
     val clipboardManager: ClipboardManager = LocalClipboardManager.current
@@ -143,9 +190,7 @@ fun AddEntryScreen(
                             Text("Cancel")
                         }
                     } else {
-                        TextButton(onClick = { showTemplateSheet = true }) {
-                            Text("Choose Template")
-                        }
+
                         Box {
                             IconButton(onClick = { showMoreMenu = true }) {
                                 Icon(Icons.Default.MoreVert, contentDescription = "More options")
@@ -159,7 +204,16 @@ fun AddEntryScreen(
                                     onClick = {
                                         showMoreMenu = false
                                         isDeleteMode = true
+                                        isReorderMode = false
                                         selectedFieldsToDelete = setOf()
+                                    }
+                                )
+                                DropdownMenuItem(
+                                    text = { Text("Reorder Fields") },
+                                    onClick = {
+                                        showMoreMenu = false
+                                        isReorderMode = true
+                                        isDeleteMode = false
                                     }
                                 )
                             }
@@ -190,7 +244,15 @@ fun AddEntryScreen(
                         },
                         colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
                     ) {
-                        Text("Delete Selected Fields")
+                        Text("Delete / Done")
+                    }
+                    Spacer(modifier = Modifier.weight(1f))
+                }
+            } else if (isReorderMode) {
+                BottomAppBar(containerColor = MaterialTheme.colorScheme.surfaceVariant) {
+                    Spacer(modifier = Modifier.weight(1f))
+                    Button(onClick = { isReorderMode = false }) {
+                        Text("Done Reordering")
                     }
                     Spacer(modifier = Modifier.weight(1f))
                 }
@@ -212,14 +274,14 @@ fun AddEntryScreen(
                     IconButton(onClick = {
                         if (!isSaving) {
                             isSaving = true
-                            if (isTemplate) {
+                                                        if (isEdit && isTemplate) {
                                 val hiddenFields = mutableListOf<String>()
                                 if (!showUsername) hiddenFields.add("Hide_UserName")
                                 if (!showPassword) hiddenFields.add("Hide_Password")
                                 if (!showUrl) hiddenFields.add("Hide_Url")
                                 if (!showNotes) hiddenFields.add("Hide_Notes")
                                 
-                                viewModel.addTemplate(title, username, password, url, notes, iconName, color, customFields, hiddenFields, tagsString.split(",").map { it.trim() }.filter { it.isNotEmpty() })
+                                viewModel.updateEntry(title, username, password, url, notes, iconName, color, customFields, hiddenFields, tagsString.split(",").map { it.trim() }.filter { it.isNotEmpty() })
                             } else if (isEdit) {
                                 val hiddenFields = mutableListOf<String>()
                                 if (!showUsername) hiddenFields.add("Hide_UserName")
@@ -228,6 +290,14 @@ fun AddEntryScreen(
                                 if (!showNotes) hiddenFields.add("Hide_Notes")
                                 
                                 viewModel.updateEntry(title, username, password, url, notes, iconName, color, customFields, hiddenFields, tagsString.split(",").map { it.trim() }.filter { it.isNotEmpty() })
+                            } else if (isTemplate) {
+                                val hiddenFields = mutableListOf<String>()
+                                if (!showUsername) hiddenFields.add("Hide_UserName")
+                                if (!showPassword) hiddenFields.add("Hide_Password")
+                                if (!showUrl) hiddenFields.add("Hide_Url")
+                                if (!showNotes) hiddenFields.add("Hide_Notes")
+                                
+                                viewModel.addTemplate(title, username, password, url, notes, iconName, color, customFields, hiddenFields, tagsString.split(",").map { it.trim() }.filter { it.isNotEmpty() })
                             } else {
                                 val hiddenFields = mutableListOf<String>()
                                 if (!showUsername) hiddenFields.add("Hide_UserName")
@@ -313,13 +383,49 @@ fun AddEntryScreen(
                     modifier = Modifier.fillMaxWidth()
                 )
             }
-            if (showUsername) {
-                item {
+            items(fieldOrder.size) { index ->
+                val field = fieldOrder[index]
+                
+                if (field == "Username" && showUsername) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         if (isDeleteMode) {
                             Checkbox(checked = selectedFieldsToDelete.contains("Username"), onCheckedChange = { checked ->
                                 if (checked) selectedFieldsToDelete = selectedFieldsToDelete + "Username" else selectedFieldsToDelete = selectedFieldsToDelete - "Username"
                             })
+                        }
+                        if (isReorderMode) {
+                            Icon(
+                                Icons.Default.DragHandle, 
+                                contentDescription = "Reorder",
+                                modifier = Modifier
+                                    .padding(end = 8.dp)
+                                    .pointerInput(Unit) {
+                                        var accumulatedDrag = 0f
+                                        detectDragGesturesAfterLongPress(
+                                            onDragStart = { accumulatedDrag = 0f },
+                                            onDrag = { change, dragAmount -> 
+                                                change.consume()
+                                                accumulatedDrag += dragAmount.y
+                                                val threshold = 150f
+                                                if (accumulatedDrag > threshold && index < fieldOrder.size - 1) {
+                                                    val mutableOrder = fieldOrder.toMutableList()
+                                                    val temp = mutableOrder[index + 1]
+                                                    mutableOrder[index + 1] = mutableOrder[index]
+                                                    mutableOrder[index] = temp
+                                                    fieldOrder = mutableOrder
+                                                    accumulatedDrag = 0f
+                                                } else if (accumulatedDrag < -threshold && index > 0) {
+                                                    val mutableOrder = fieldOrder.toMutableList()
+                                                    val temp = mutableOrder[index - 1]
+                                                    mutableOrder[index - 1] = mutableOrder[index]
+                                                    mutableOrder[index] = temp
+                                                    fieldOrder = mutableOrder
+                                                    accumulatedDrag = 0f
+                                                }
+                                            }
+                                        )
+                                    }
+                            )
                         }
                         OutlinedTextField(
                             value = username,
@@ -329,9 +435,8 @@ fun AddEntryScreen(
                         )
                     }
                 }
-            }
-            if (showPassword) {
-                item {
+                
+                if (field == "Password" && showPassword) {
                     var passVisible by remember { mutableStateOf(false) }
                     val strength = when {
                         password.isEmpty() -> 0f
@@ -352,6 +457,40 @@ fun AddEntryScreen(
                             Checkbox(checked = selectedFieldsToDelete.contains("Password"), onCheckedChange = { checked ->
                                 if (checked) selectedFieldsToDelete = selectedFieldsToDelete + "Password" else selectedFieldsToDelete = selectedFieldsToDelete - "Password"
                             })
+                        }
+                        if (isReorderMode) {
+                            Icon(
+                                Icons.Default.DragHandle, 
+                                contentDescription = "Reorder",
+                                modifier = Modifier
+                                    .padding(end = 8.dp)
+                                    .pointerInput(Unit) {
+                                        var accumulatedDrag = 0f
+                                        detectDragGesturesAfterLongPress(
+                                            onDragStart = { accumulatedDrag = 0f },
+                                            onDrag = { change, dragAmount -> 
+                                                change.consume()
+                                                accumulatedDrag += dragAmount.y
+                                                val threshold = 150f
+                                                if (accumulatedDrag > threshold && index < fieldOrder.size - 1) {
+                                                    val mutableOrder = fieldOrder.toMutableList()
+                                                    val temp = mutableOrder[index + 1]
+                                                    mutableOrder[index + 1] = mutableOrder[index]
+                                                    mutableOrder[index] = temp
+                                                    fieldOrder = mutableOrder
+                                                    accumulatedDrag = 0f
+                                                } else if (accumulatedDrag < -threshold && index > 0) {
+                                                    val mutableOrder = fieldOrder.toMutableList()
+                                                    val temp = mutableOrder[index - 1]
+                                                    mutableOrder[index - 1] = mutableOrder[index]
+                                                    mutableOrder[index] = temp
+                                                    fieldOrder = mutableOrder
+                                                    accumulatedDrag = 0f
+                                                }
+                                            }
+                                        )
+                                    }
+                            )
                         }
                         Column(modifier = Modifier.weight(1f)) {
                             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -391,14 +530,47 @@ fun AddEntryScreen(
                         }
                     }
                 }
-            }
-            if (showUrl) {
-                item {
+                
+                if (field == "URL" && showUrl) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         if (isDeleteMode) {
                             Checkbox(checked = selectedFieldsToDelete.contains("URL"), onCheckedChange = { checked ->
                                 if (checked) selectedFieldsToDelete = selectedFieldsToDelete + "URL" else selectedFieldsToDelete = selectedFieldsToDelete - "URL"
                             })
+                        }
+                        if (isReorderMode) {
+                            Icon(
+                                Icons.Default.DragHandle, 
+                                contentDescription = "Reorder",
+                                modifier = Modifier
+                                    .padding(end = 8.dp)
+                                    .pointerInput(Unit) {
+                                        var accumulatedDrag = 0f
+                                        detectDragGesturesAfterLongPress(
+                                            onDragStart = { accumulatedDrag = 0f },
+                                            onDrag = { change, dragAmount -> 
+                                                change.consume()
+                                                accumulatedDrag += dragAmount.y
+                                                val threshold = 150f
+                                                if (accumulatedDrag > threshold && index < fieldOrder.size - 1) {
+                                                    val mutableOrder = fieldOrder.toMutableList()
+                                                    val temp = mutableOrder[index + 1]
+                                                    mutableOrder[index + 1] = mutableOrder[index]
+                                                    mutableOrder[index] = temp
+                                                    fieldOrder = mutableOrder
+                                                    accumulatedDrag = 0f
+                                                } else if (accumulatedDrag < -threshold && index > 0) {
+                                                    val mutableOrder = fieldOrder.toMutableList()
+                                                    val temp = mutableOrder[index - 1]
+                                                    mutableOrder[index - 1] = mutableOrder[index]
+                                                    mutableOrder[index] = temp
+                                                    fieldOrder = mutableOrder
+                                                    accumulatedDrag = 0f
+                                                }
+                                            }
+                                        )
+                                    }
+                            )
                         }
                         OutlinedTextField(
                             value = url,
@@ -408,14 +580,47 @@ fun AddEntryScreen(
                         )
                     }
                 }
-            }
-            if (showNotes) {
-                item {
+                
+                if (field == "Notes" && showNotes) {
                     Row(verticalAlignment = Alignment.Top) {
                         if (isDeleteMode) {
                             Checkbox(checked = selectedFieldsToDelete.contains("Notes"), onCheckedChange = { checked ->
                                 if (checked) selectedFieldsToDelete = selectedFieldsToDelete + "Notes" else selectedFieldsToDelete = selectedFieldsToDelete - "Notes"
                             })
+                        }
+                        if (isReorderMode) {
+                            Icon(
+                                Icons.Default.DragHandle, 
+                                contentDescription = "Reorder",
+                                modifier = Modifier
+                                    .padding(end = 8.dp)
+                                    .pointerInput(Unit) {
+                                        var accumulatedDrag = 0f
+                                        detectDragGesturesAfterLongPress(
+                                            onDragStart = { accumulatedDrag = 0f },
+                                            onDrag = { change, dragAmount -> 
+                                                change.consume()
+                                                accumulatedDrag += dragAmount.y
+                                                val threshold = 150f
+                                                if (accumulatedDrag > threshold && index < fieldOrder.size - 1) {
+                                                    val mutableOrder = fieldOrder.toMutableList()
+                                                    val temp = mutableOrder[index + 1]
+                                                    mutableOrder[index + 1] = mutableOrder[index]
+                                                    mutableOrder[index] = temp
+                                                    fieldOrder = mutableOrder
+                                                    accumulatedDrag = 0f
+                                                } else if (accumulatedDrag < -threshold && index > 0) {
+                                                    val mutableOrder = fieldOrder.toMutableList()
+                                                    val temp = mutableOrder[index - 1]
+                                                    mutableOrder[index - 1] = mutableOrder[index]
+                                                    mutableOrder[index] = temp
+                                                    fieldOrder = mutableOrder
+                                                    accumulatedDrag = 0f
+                                                }
+                                            }
+                                        )
+                                    }
+                            )
                         }
                         OutlinedTextField(
                             value = notes,
@@ -830,7 +1035,7 @@ fun AddEntryScreen(
                         Spacer(modifier = Modifier.height(16.dp))
                         attachments.forEach { file ->
                             Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(vertical = 4.dp)) {
-                                Icon(Icons.Default.InsertDriveFile, "File")
+                                Icon(Icons.AutoMirrored.Filled.InsertDriveFile, "File")
                                 Spacer(modifier = Modifier.width(8.dp))
                                 Text(file, modifier = Modifier.weight(1f))
                                 IconButton(onClick = {
@@ -889,7 +1094,7 @@ fun AddEntryScreen(
                                             val basicFields = listOf(app.keemobile.kotpass.constants.BasicField.Title(), app.keemobile.kotpass.constants.BasicField.UserName(), app.keemobile.kotpass.constants.BasicField.Password(), app.keemobile.kotpass.constants.BasicField.Url(), app.keemobile.kotpass.constants.BasicField.Notes())
                                             
                                             for ((key, value) in template.fields) {
-                                                if (key !in basicFields) {
+                                                if (key !in basicFields && key != "Notes" && key != "Title" && key != "UserName" && key != "URL" && key != "Password") {
                                                     val fieldName = key
                                                     val isHidden = value is app.keemobile.kotpass.models.EntryValue.Encrypted
                                                     val fieldValue = value.content

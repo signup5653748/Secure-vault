@@ -18,7 +18,7 @@ fun AppNavigation(viewModel: KeePassViewModel) {
         composable("auth") {
             LaunchedEffect(database) {
                 if (database != null) {
-                    navController.navigate("vault") {
+                    navController.navigate("secure") {
                         popUpTo("auth") { inclusive = true }
                     }
                 }
@@ -36,16 +36,16 @@ fun AppNavigation(viewModel: KeePassViewModel) {
                 onNavigateBack = { navController.popBackStack() }
             )
         }
-        composable("vault") {
+        composable("secure") {
             LaunchedEffect(database) {
                 if (database == null) {
                     navController.navigate("auth") {
-                        popUpTo("vault") { inclusive = true }
+                        popUpTo("secure") { inclusive = true }
                     }
                 }
             }
             if (database != null) {
-                VaultScreen(
+                SecureScreen(
                     viewModel = viewModel, 
                     onNavigateToView = {
                         navController.navigate("view")

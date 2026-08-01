@@ -37,7 +37,7 @@ object BiometricHelper {
             })
 
         val promptInfo = BiometricPrompt.PromptInfo.Builder()
-            .setTitle("Unlock Vault")
+            .setTitle("Unlock Secure")
             .setSubtitle("Use your biometric credential")
             .setNegativeButtonText("Cancel")
             .build()

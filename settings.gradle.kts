@@ -24,6 +24,6 @@ dependencyResolutionManagement {
   }
 }
 
-rootProject.name = "Vault"
+rootProject.name = "secure"
 
 include(":app")

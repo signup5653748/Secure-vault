@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.automirrored.filled.*
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -27,6 +28,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.material.icons.filled.Sort
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.shape.CircleShape
@@ -44,7 +46,7 @@ import kotlinx.coroutines.launch
 import app.keemobile.kotpass.constants.BasicField
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun VaultScreen(
+fun SecureScreen(
     viewModel: KeePassViewModel,
     onNavigateToView: () -> Unit,
     onNavigateToSettings: () -> Unit = {},
@@ -64,6 +66,8 @@ fun VaultScreen(
     val hasUnsavedChanges by viewModel.hasUnsavedChanges.collectAsState()
     val currentGroup by viewModel.currentGroup.collectAsState()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    var sortOrder by remember { mutableStateOf("Default") }
+    var showSortMenu by remember { mutableStateOf(false) }
     var showUnsavedChangesDialog by remember { mutableStateOf(false) }
     var pendingAction by remember { mutableStateOf<(() -> Unit)?>(null) }
     
@@ -96,7 +100,8 @@ fun VaultScreen(
             }
         )
     }
-    BackHandler(enabled = !viewModel.isRootGroup()) {
+    val isRoot = currentGroup?.uuid == database?.content?.group?.uuid
+    BackHandler(enabled = !isRoot) {
 
         viewModel.navigateUp()
 
@@ -111,6 +116,7 @@ fun VaultScreen(
 
 
     var showFabMenu by remember { mutableStateOf(false) }
+    var showChooseTemplateSheet by remember { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState()
     
     val searchQuery by viewModel.searchQuery.collectAsState()
@@ -155,7 +161,7 @@ fun VaultScreen(
                         )
                         Spacer(modifier = Modifier.width(16.dp))
                         Column {
-                            Text("Vault", fontWeight = FontWeight.Bold, fontSize = 18.sp, color = MaterialTheme.colorScheme.onSecondaryContainer)
+                            Text("Secure", fontWeight = FontWeight.Bold, fontSize = 18.sp, color = MaterialTheme.colorScheme.onSecondaryContainer)
                             if (hasUnsavedChanges) {
                                 Text("Unsaved changes", fontSize = 12.sp, color = MaterialTheme.colorScheme.error)
                             }
@@ -170,6 +176,7 @@ fun VaultScreen(
                 }
                 
                 var showChangePasswordDialog by remember { mutableStateOf(false) }
+    var showPasswordGenerator by remember { mutableStateOf(false) }
                 
                 if (expandedHeader) {
                     NavigationDrawerItem(
@@ -213,17 +220,46 @@ fun VaultScreen(
                                         }
                                     }
                                 )
-                                OutlinedTextField(
-                                    value = newPass,
-                                    onValueChange = { newPass = it },
-                                    label = { Text("New Password") },
-                                    visualTransformation = if (newPassVisible) androidx.compose.ui.text.input.VisualTransformation.None else androidx.compose.ui.text.input.PasswordVisualTransformation(),
-                                    trailingIcon = {
-                                        IconButton(onClick = { newPassVisible = !newPassVisible }) {
-                                            Icon(if (newPassVisible) Icons.Default.VisibilityOff else Icons.Default.Visibility, "Toggle Password")
-                                        }
+                                Column(modifier = Modifier.fillMaxWidth()) {
+                                    OutlinedTextField(
+                                        value = newPass,
+                                        onValueChange = { newPass = it },
+                                        label = { Text("New Password") },
+                                        visualTransformation = if (newPassVisible) androidx.compose.ui.text.input.VisualTransformation.None else androidx.compose.ui.text.input.PasswordVisualTransformation(),
+                                        trailingIcon = {
+                                            Row {
+                                                IconButton(onClick = { showPasswordGenerator = true }) {
+                                                    Icon(Icons.Default.Build, "Generate Password")
+                                                }
+                                                IconButton(onClick = { newPassVisible = !newPassVisible }) {
+                                                    Icon(if (newPassVisible) Icons.Default.VisibilityOff else Icons.Default.Visibility, "Toggle Password")
+                                                }
+                                            }
+                                        },
+                                        modifier = Modifier.fillMaxWidth()
+                                    )
+                                    val strength = when {
+                                        newPass.isEmpty() -> 0f
+                                        newPass.length < 8 -> 0.25f
+                                        newPass.length < 12 -> 0.5f
+                                        newPass.length < 16 -> 0.75f
+                                        else -> 1f
                                     }
-                                )
+                                    val strengthColor = when {
+                                        newPass.isEmpty() -> Color.Transparent
+                                        newPass.length < 8 -> Color.Red
+                                        newPass.length < 12 -> Color(0xFFFFA500)
+                                        newPass.length < 16 -> Color(0xFF9ACD32)
+                                        else -> Color.Green
+                                    }
+                                    if (newPass.isNotEmpty()) {
+                                        LinearProgressIndicator(
+                                            progress = { strength },
+                                            color = strengthColor,
+                                            modifier = Modifier.fillMaxWidth().height(4.dp).padding(top = 4.dp)
+                                        )
+                                    }
+                                }
                                 OutlinedTextField(
                                     value = confirmPass,
                                     onValueChange = { confirmPass = it },
@@ -259,7 +295,7 @@ fun VaultScreen(
                 HorizontalDivider()
                 NavigationDrawerItem(
                     icon = { Icon(Icons.Default.Lock, contentDescription = null) },
-                    label = { Text("Close Vault") },
+                    label = { Text("Close Secure") },
                     selected = false,
                     onClick = {
                         scope.launch { drawerState.close() }
@@ -273,7 +309,7 @@ fun VaultScreen(
                 )
                 NavigationDrawerItem(
                     icon = { Icon(Icons.Default.FolderOpen, contentDescription = null) },
-                    label = { Text("Open Existing Vault") },
+                    label = { Text("Open Existing Secure") },
                     selected = false,
                     onClick = {
                         scope.launch { drawerState.close() }
@@ -287,7 +323,7 @@ fun VaultScreen(
                 )
                 NavigationDrawerItem(
                     icon = { Icon(Icons.Default.Add, contentDescription = null) },
-                    label = { Text("Create New Vault") },
+                    label = { Text("Create New Secure") },
                     selected = false,
                     onClick = {
                         scope.launch { drawerState.close() }
@@ -296,7 +332,7 @@ fun VaultScreen(
                 )
                 HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
                 NavigationDrawerItem(
-                    icon = { Icon(Icons.Default.LibraryBooks, contentDescription = null) },
+                    icon = { Icon(Icons.AutoMirrored.Filled.LibraryBooks, contentDescription = null) },
                     label = { Text("Templates") },
                     selected = false,
                     onClick = { 
@@ -333,13 +369,68 @@ fun VaultScreen(
             Scaffold(
                 floatingActionButton = {
                     Column(horizontalAlignment = Alignment.End) {
-                        if (showFabMenu) {
+                                    if (showChooseTemplateSheet) {
+                val templates = viewModel.getTemplates()
+                ModalBottomSheet(
+                    onDismissRequest = { showChooseTemplateSheet = false }
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp)
+                    ) {
+                        Text("Select a template", fontSize = 20.sp, fontWeight = androidx.compose.ui.text.font.FontWeight.Bold)
+                        Spacer(modifier = Modifier.height(16.dp))
+                        
+                        androidx.compose.foundation.lazy.LazyColumn {
+                            items(templates.size) { index ->
+                                val template = templates[index]
+                                Card(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(vertical = 8.dp)
+                                        .clickable {
+                                            viewModel.selectTemplateForNewEntry(template)
+                                            showChooseTemplateSheet = false
+                                            onNavigateToAddEntry()
+                                        },
+                                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
+                                ) {
+                                    Row(
+                                        modifier = Modifier.padding(16.dp).fillMaxWidth(),
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        val iconColor = parseColor(template.customData["ThemeColor"]?.value)
+                                        val iconVector = parseIcon(template.icon.name)
+                                        Icon(iconVector, contentDescription = null, tint = iconColor, modifier = Modifier.size(32.dp))
+                                        Spacer(modifier = Modifier.width(16.dp))
+                                        Text(text = template[app.keemobile.kotpass.constants.BasicField.Title]?.content ?: "Unnamed", fontSize = 18.sp)
+                                    }
+                                }
+                            }
+                        }
+                        Spacer(modifier = Modifier.height(32.dp))
+                    }
+                }
+            }
+            if (showFabMenu) {
                             ExtendedFloatingActionButton(
                                 text = { Text("Add entry") },
                                 icon = { Icon(Icons.Default.VpnKey, "Add entry") },
                                 onClick = { 
                                     showFabMenu = false
                                     onNavigateToAddEntry()
+                                },
+                                containerColor = Color(0xFF0066FF),
+                                contentColor = Color.White,
+                                modifier = Modifier.padding(bottom = 16.dp)
+                            )
+                            ExtendedFloatingActionButton(
+                                text = { Text("Template") },
+                                icon = { Icon(Icons.Default.ContentPaste, "Template") },
+                                onClick = {
+                                    showFabMenu = false
+                                    showChooseTemplateSheet = true
                                 },
                                 containerColor = Color(0xFF0066FF),
                                 contentColor = Color.White,
@@ -375,12 +466,12 @@ fun VaultScreen(
                 TopAppBar(
                     title = {
                         Column {
-                            Text("Vault", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                            Text("Secure", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                             Text(currentGroup?.name ?: "Database", fontSize = 14.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                         }
                     },
                     navigationIcon = {
-                        if (!viewModel.isRootGroup()) {
+                        if (!isRoot) {
                             IconButton(onClick = { viewModel.navigateUp() }) {
                                 Icon(Icons.Default.ArrowBack, contentDescription = "Back")
                             }
@@ -391,6 +482,16 @@ fun VaultScreen(
                         }
                     },
                     actions = {
+                        IconButton(onClick = {
+                            if (hasUnsavedChanges) {
+                                pendingAction = { viewModel.lockDatabase() }
+                                showUnsavedChangesDialog = true
+                            } else {
+                                viewModel.lockDatabase()
+                            }
+                        }) {
+                            Icon(Icons.Default.Lock, contentDescription = "Lock")
+                        }
                         IconButton(onClick = { viewModel.saveDatabase() }) {
                             if (hasUnsavedChanges) {
                                 BadgedBox(badge = { Badge { Text("!") } }) {
@@ -398,6 +499,28 @@ fun VaultScreen(
                                 }
                             } else {
                                 Icon(Icons.Default.Save, contentDescription = "Save")
+                            }
+                        }
+                        Box {
+                            IconButton(onClick = { showSortMenu = true }) {
+                                Icon(Icons.Default.Sort, contentDescription = "Sort")
+                            }
+                            DropdownMenu(
+                                expanded = showSortMenu,
+                                onDismissRequest = { showSortMenu = false }
+                            ) {
+                                DropdownMenuItem(
+                                    text = { Text("Default") },
+                                    onClick = { sortOrder = "Default"; showSortMenu = false }
+                                )
+                                DropdownMenuItem(
+                                    text = { Text("A-Z") },
+                                    onClick = { sortOrder = "A-Z"; showSortMenu = false }
+                                )
+                                DropdownMenuItem(
+                                    text = { Text("Z-A") },
+                                    onClick = { sortOrder = "Z-A"; showSortMenu = false }
+                                )
                             }
                         }
                         IconButton(onClick = onNavigateToSettings) {
@@ -410,8 +533,20 @@ fun VaultScreen(
         ) { paddingValues ->
             if (currentGroup == null) return@Scaffold
             
-            val groups = currentGroup!!.groups
-            val entries = currentGroup!!.entries
+            val rawGroups = currentGroup!!.groups
+            val rawEntries = currentGroup!!.entries
+            
+            val groups = when (sortOrder) {
+                "A-Z" -> rawGroups.sortedBy { it.name.lowercase() }
+                "Z-A" -> rawGroups.sortedByDescending { it.name.lowercase() }
+                else -> rawGroups
+            }
+            
+            val entries = when (sortOrder) {
+                "A-Z" -> rawEntries.sortedBy { it[app.keemobile.kotpass.constants.BasicField.Title]?.content?.lowercase() ?: "" }
+                "Z-A" -> rawEntries.sortedByDescending { it[app.keemobile.kotpass.constants.BasicField.Title]?.content?.lowercase() ?: "" }
+                else -> rawEntries
+            }
             
 
             if (showBottomSheet) {
@@ -514,27 +649,53 @@ fun VaultScreen(
                 
                 item { Spacer(modifier = Modifier.height(80.dp)) }
                 }
+            }
                 
-                FloatingActionButton(
-                    onClick = { 
-                        if (hasUnsavedChanges) {
-                            pendingAction = { viewModel.lockDatabase() }
-                            showUnsavedChangesDialog = true
-                        } else {
-                            viewModel.lockDatabase()
-                        }
-                    },
-                    containerColor = Color(0xFF0D47A1),
-                    contentColor = Color.White,
-                    shape = androidx.compose.foundation.shape.RoundedCornerShape(16.dp),
-                    modifier = Modifier
-                        .align(Alignment.BottomStart)
-                        .padding(start = 16.dp, bottom = 16.dp)
+
+                        if (showChooseTemplateSheet) {
+                val templates = viewModel.getTemplates()
+                ModalBottomSheet(
+                    onDismissRequest = { showChooseTemplateSheet = false }
                 ) {
-                    Icon(Icons.Default.Lock, contentDescription = "Lock")
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp)
+                    ) {
+                        Text("Select a template", fontSize = 20.sp, fontWeight = androidx.compose.ui.text.font.FontWeight.Bold)
+                        Spacer(modifier = Modifier.height(16.dp))
+                        
+                        androidx.compose.foundation.lazy.LazyColumn {
+                            items(templates.size) { index ->
+                                val template = templates[index]
+                                Card(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(vertical = 8.dp)
+                                        .clickable {
+                                            viewModel.selectTemplateForNewEntry(template)
+                                            showChooseTemplateSheet = false
+                                            onNavigateToAddEntry()
+                                        },
+                                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
+                                ) {
+                                    Row(
+                                        modifier = Modifier.padding(16.dp).fillMaxWidth(),
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        val iconColor = parseColor(template.customData["ThemeColor"]?.value)
+                                        val iconVector = parseIcon(template.icon.name)
+                                        Icon(iconVector, contentDescription = null, tint = iconColor, modifier = Modifier.size(32.dp))
+                                        Spacer(modifier = Modifier.width(16.dp))
+                                        Text(text = template[app.keemobile.kotpass.constants.BasicField.Title]?.content ?: "Unnamed", fontSize = 18.sp)
+                                    }
+                                }
+                            }
+                        }
+                        Spacer(modifier = Modifier.height(32.dp))
+                    }
                 }
             }
-
             if (showFabMenu) {
                 Box(
                     modifier = Modifier

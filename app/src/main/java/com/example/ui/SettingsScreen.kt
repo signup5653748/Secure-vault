@@ -104,7 +104,7 @@ fun SettingsScreen(
                 Column(modifier = Modifier.weight(1f)) {
                     Text("Lock on background", style = MaterialTheme.typography.titleMedium)
                     Text(
-                        text = "Automatically lock vault when app goes to background.",
+                        text = "Automatically lock secure when app goes to background.",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )

@@ -19,7 +19,7 @@ fun CreateDatabaseScreen(
     viewModel: KeePassViewModel,
     onNavigateBack: () -> Unit
 ) {
-    var databaseName by remember { mutableStateOf("NewDatabase") }
+    var databaseName by remember { mutableStateOf("secure") }
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
     var errorMsg by remember { mutableStateOf<String?>(null) }

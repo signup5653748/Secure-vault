@@ -10,6 +10,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.automirrored.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -157,8 +158,8 @@ fun ViewEntryScreen(
             Spacer(modifier = Modifier.height(24.dp))
             
             // Custom fields
-            val basicKeys = setOf("Title", "UserName", "Password", "URL", "Notes")
-            val customFields = entry.fields.entries.filter { it.key !in basicKeys }
+            val basicKeys = setOf(BasicField.Title(), BasicField.UserName(), BasicField.Password(), BasicField.Url(), BasicField.Notes())
+            val customFields = entry.fields.entries.filter { it.key !in basicKeys && it.key != "Notes" && it.key != "Title" && it.key != "UserName" && it.key != "URL" && it.key != "Password" }
             
             if (customFields.isNotEmpty()) {
                 Text(
@@ -221,11 +222,13 @@ fun ViewEntryScreen(
                     modifier = Modifier.fillMaxWidth(),
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
                 ) {
-                    Text(
-                        text = (entry[BasicField.Notes]?.content ?: ""),
-                        modifier = Modifier.padding(16.dp),
-                        fontSize = 16.sp
-                    )
+                    androidx.compose.foundation.text.selection.SelectionContainer {
+                        Text(
+                            text = (entry[BasicField.Notes]?.content ?: ""),
+                            modifier = Modifier.padding(16.dp),
+                            fontSize = 16.sp
+                        )
+                    }
                 }
             }
 
@@ -246,7 +249,7 @@ fun ViewEntryScreen(
                         AssistChip(
                             onClick = { },
                             label = { Text(tag) },
-                            leadingIcon = { Icon(Icons.Default.Label, contentDescription = null, modifier = Modifier.size(16.dp)) }
+                            leadingIcon = { Icon(Icons.AutoMirrored.Filled.Label, contentDescription = null, modifier = Modifier.size(16.dp)) }
                         )
                     }
                 }

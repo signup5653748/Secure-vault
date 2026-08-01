@@ -75,7 +75,7 @@ fun AuthScreen(viewModel: KeePassViewModel, onNavigateToCreate: () -> Unit) {
             tint = MaterialTheme.colorScheme.primary
         )
         Spacer(modifier = Modifier.height(16.dp))
-        Text("Vault", fontSize = 32.sp, fontWeight = FontWeight.Bold)
+        Text("Secure", fontSize = 32.sp, fontWeight = FontWeight.Bold)
         Spacer(modifier = Modifier.height(32.dp))
 
         if (dbUri == null) {
@@ -86,13 +86,13 @@ fun AuthScreen(viewModel: KeePassViewModel, onNavigateToCreate: () -> Unit) {
             ) {
                 Icon(Icons.Default.FolderOpen, contentDescription = null)
                 Spacer(modifier = Modifier.width(8.dp))
-                Text("Open Existing Vault")
+                Text("Open Existing Secure")
             }
             Spacer(modifier = Modifier.height(8.dp))
             OutlinedButton(onClick = onNavigateToCreate) {
                 Icon(Icons.Default.Add, contentDescription = null)
                 Spacer(modifier = Modifier.width(8.dp))
-                Text("Create New Vault")
+                Text("Create New Secure")
             }
         } else {
             Text(
@@ -160,7 +160,7 @@ fun AuthScreen(viewModel: KeePassViewModel, onNavigateToCreate: () -> Unit) {
             Spacer(modifier = Modifier.height(32.dp))
             ColorfulLoadingIndicator()
             Spacer(modifier = Modifier.height(16.dp))
-            Text("Decrypting Vault...", color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.SemiBold)
+            Text("Decrypting Secure...", color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.SemiBold)
         }
     }
 }

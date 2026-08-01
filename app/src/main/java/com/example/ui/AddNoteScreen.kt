@@ -49,6 +49,7 @@ fun AddNoteScreen(
                     onClick = {
                         if (!isSaving) {
                             isSaving = true
+                            val hiddenFields = mutableListOf("Hide_UserName", "Hide_Password", "Hide_Url")
                             viewModel.createEntry(
                                 title = title,
                                 username = "",
@@ -57,7 +58,8 @@ fun AddNoteScreen(
                                 notes = notes,
                                 iconName = "Note",
                                 color = "Blue",
-                                customFields = emptyList()
+                                customFields = emptyList(),
+                                hiddenFields = hiddenFields
                             )
                             onNavigateBack()
                         }
