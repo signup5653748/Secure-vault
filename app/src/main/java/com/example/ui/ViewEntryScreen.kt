@@ -1,6 +1,11 @@
 package com.example.ui
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.combinedClickable
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import kotlinx.coroutines.launch
 import androidx.compose.material.icons.filled.Label
 import androidx.compose.material.icons.filled.Attachment
 import androidx.compose.foundation.lazy.LazyRow
@@ -26,7 +31,7 @@ import app.keemobile.kotpass.constants.BasicField
 import app.keemobile.kotpass.models.Entry
 import app.keemobile.kotpass.models.EntryValue
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun ViewEntryScreen(
     viewModel: KeePassViewModel,
@@ -37,11 +42,14 @@ fun ViewEntryScreen(
     val clipboardManager: ClipboardManager = LocalClipboardManager.current
     var passwordVisible by remember { mutableStateOf(false) }
 
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
     Scaffold(
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             var isEditing by remember { mutableStateOf(false) }
             TopAppBar(
-                title = { Text((currentEntry?.get(BasicField.Title)?.content ?: "Entry")) },
+                title = { Text("") },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "Back")
@@ -94,11 +102,6 @@ fun ViewEntryScreen(
                 )
             }
             
-            Spacer(modifier = Modifier.height(16.dp))
-            
-            Text(text = (entry[BasicField.Title]?.content ?: "") ?: "", fontWeight = FontWeight.Bold, fontSize = 24.sp)
-            Text(text = "Personal Credentials", fontSize = 14.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
-
             Spacer(modifier = Modifier.height(32.dp))
 
             Card(
@@ -106,16 +109,9 @@ fun ViewEntryScreen(
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
             ) {
                 Column {
-                    if (!(entry[BasicField.Url]?.content ?: "").isNullOrEmpty()) {
-                        ViewFieldRow(
-                            icon = Icons.Default.Link,
-                            text = (entry[BasicField.Url]?.content ?: ""),
-                            onCopy = { clipboardManager.setText(AnnotatedString((entry[BasicField.Url]?.content ?: ""))) }
-                        )
-                        HorizontalDivider(color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f))
-                    }
 
-                    if (!(entry[BasicField.UserName]?.content ?: "").isNullOrEmpty()) {
+
+                    if (entry.fields.containsKey(BasicField.UserName()) && !(entry[BasicField.UserName]?.content ?: "").isNullOrEmpty()) {
                         ViewFieldRow(
                             icon = Icons.Default.Person,
                             text = (entry[BasicField.UserName]?.content ?: ""),

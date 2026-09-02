@@ -107,6 +107,8 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
     }
 
     
+    fun getMasterPassword(): String? = currentMasterPassword
+
     fun unlockWithSavedPassword(): Boolean {
         val savedPass = com.example.data.CryptoHelper.getPassword(context)
         if (savedPass != null) {
@@ -293,14 +295,13 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
 
     fun createEntry(
         title: String,
-        username: String,
-        pass: String,
-        url: String,
-        notes: String,
+        username: String?,
+        pass: String?,
+        url: String?,
+        notes: String?,
         iconName: String,
         color: String,
         customFields: List<com.example.ui.CustomFieldData>,
-        hiddenFields: List<String> = emptyList(),
         tags: List<String> = emptyList()
     ) {
         val currentDb = _database.value ?: return
@@ -312,13 +313,12 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
             PredefinedIcon.Key
         }
         
-        val fieldsMap = mutableMapOf<String, EntryValue>(
-            BasicField.Title() to EntryValue.Plain(title),
-            BasicField.UserName() to EntryValue.Plain(username),
-            BasicField.Password() to EntryValue.Encrypted(EncryptedValue.fromString(pass)),
-            BasicField.Url() to EntryValue.Plain(url),
-            BasicField.Notes() to EntryValue.Plain(notes)
-        )
+        val fieldsMap = mutableMapOf<String, EntryValue>()
+        fieldsMap[BasicField.Title()] = EntryValue.Plain(title)
+        if (username != null) fieldsMap[BasicField.UserName()] = EntryValue.Plain(username)
+        if (pass != null) fieldsMap[BasicField.Password()] = EntryValue.Encrypted(EncryptedValue.fromString(pass))
+        if (url != null) fieldsMap[BasicField.Url()] = EntryValue.Plain(url)
+        if (notes != null) fieldsMap[BasicField.Notes()] = EntryValue.Plain(notes)
         
         for (field in customFields) {
             if (field.isHidden) {
@@ -333,7 +333,7 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
             icon = icon,
             tags = tags,
             backgroundColor = color, foregroundColor = "#FFFFFF",
-            customData = mapOf("ThemeColor" to CustomDataValue(color)) + customFields.associate { "ShowCopyButton_${it.name}" to CustomDataValue(it.showCopyButton.toString()) } + hiddenFields.associate { it to CustomDataValue("true") },
+            customData = mapOf("ThemeColor" to CustomDataValue(color)) + customFields.associate { "ShowCopyButton_${it.name}" to CustomDataValue(it.showCopyButton.toString()) },
             fields = EntryFields(fieldsMap)
         )
         viewModelScope.launch(Dispatchers.Default) {
@@ -477,15 +477,15 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
         }
     }
     
-    fun addTemplate(title: String, username: String, pass: String, url: String, notes: String, iconName: String, color: String, customFields: List<com.example.ui.CustomFieldData>, hiddenFields: List<String> = emptyList(), tags: List<String> = emptyList()) {
+    fun addTemplate(title: String, username: String?, pass: String?, url: String?, notes: String?, iconName: String, color: String, customFields: List<com.example.ui.CustomFieldData>, tags: List<String> = emptyList()) {
         val icon = try { app.keemobile.kotpass.constants.PredefinedIcon.valueOf(iconName) } catch (e: Exception) { app.keemobile.kotpass.constants.PredefinedIcon.Key }
-        val fieldsMap = mutableMapOf<String, EntryValue>(
-            BasicField.Title() to EntryValue.Plain(title),
-            BasicField.UserName() to EntryValue.Plain(username),
-            BasicField.Password() to EntryValue.Encrypted(EncryptedValue.fromString(pass)),
-            BasicField.Url() to EntryValue.Plain(url),
-            BasicField.Notes() to EntryValue.Plain(notes)
-        )
+        val fieldsMap = mutableMapOf<String, EntryValue>()
+        fieldsMap[BasicField.Title()] = EntryValue.Plain(title)
+        if (username != null) fieldsMap[BasicField.UserName()] = EntryValue.Plain(username)
+        if (pass != null) fieldsMap[BasicField.Password()] = EntryValue.Encrypted(EncryptedValue.fromString(pass))
+        if (url != null) fieldsMap[BasicField.Url()] = EntryValue.Plain(url)
+        if (notes != null) fieldsMap[BasicField.Notes()] = EntryValue.Plain(notes)
+        
         for (field in customFields) {
             if (field.isHidden) {
                 fieldsMap[field.name] = EntryValue.Encrypted(EncryptedValue.fromString(field.value))
@@ -498,7 +498,7 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
             icon = icon,
             tags = tags,
             backgroundColor = color, foregroundColor = "#FFFFFF",
-            customData = mapOf("ThemeColor" to app.keemobile.kotpass.models.CustomDataValue(color)) + customFields.associate { "ShowCopyButton_${it.name}" to app.keemobile.kotpass.models.CustomDataValue(it.showCopyButton.toString()) } + hiddenFields.associate { it to app.keemobile.kotpass.models.CustomDataValue("true") },
+            customData = mapOf("ThemeColor" to app.keemobile.kotpass.models.CustomDataValue(color)) + customFields.associate { "ShowCopyButton_${it.name}" to app.keemobile.kotpass.models.CustomDataValue(it.showCopyButton.toString()) },
             fields = EntryFields(fieldsMap)
         )
         viewModelScope.launch(Dispatchers.Default) {
@@ -696,14 +696,13 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
 
     fun updateEntry(
         title: String,
-        username: String,
-        pass: String,
-        url: String,
-        notes: String,
+        username: String?,
+        pass: String?,
+        url: String?,
+        notes: String?,
         iconName: String,
         color: String,
         customFields: List<com.example.ui.CustomFieldData>,
-        hiddenFields: List<String> = emptyList(),
         tags: List<String> = emptyList()
     ) {
         val currentDb = _database.value ?: return
@@ -717,13 +716,12 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
             app.keemobile.kotpass.constants.PredefinedIcon.Key
         }
 
-        val fieldsMap = mutableMapOf<String, app.keemobile.kotpass.models.EntryValue>(
-            app.keemobile.kotpass.constants.BasicField.Title() to app.keemobile.kotpass.models.EntryValue.Plain(title),
-            app.keemobile.kotpass.constants.BasicField.UserName() to app.keemobile.kotpass.models.EntryValue.Plain(username),
-            app.keemobile.kotpass.constants.BasicField.Password() to app.keemobile.kotpass.models.EntryValue.Encrypted(app.keemobile.kotpass.cryptography.EncryptedValue.fromString(pass)),
-            app.keemobile.kotpass.constants.BasicField.Url() to app.keemobile.kotpass.models.EntryValue.Plain(url),
-            app.keemobile.kotpass.constants.BasicField.Notes() to app.keemobile.kotpass.models.EntryValue.Plain(notes)
-        )
+        val fieldsMap = mutableMapOf<String, app.keemobile.kotpass.models.EntryValue>()
+        fieldsMap[app.keemobile.kotpass.constants.BasicField.Title()] = app.keemobile.kotpass.models.EntryValue.Plain(title)
+        if (username != null) fieldsMap[app.keemobile.kotpass.constants.BasicField.UserName()] = app.keemobile.kotpass.models.EntryValue.Plain(username)
+        if (pass != null) fieldsMap[app.keemobile.kotpass.constants.BasicField.Password()] = app.keemobile.kotpass.models.EntryValue.Encrypted(app.keemobile.kotpass.cryptography.EncryptedValue.fromString(pass))
+        if (url != null) fieldsMap[app.keemobile.kotpass.constants.BasicField.Url()] = app.keemobile.kotpass.models.EntryValue.Plain(url)
+        if (notes != null) fieldsMap[app.keemobile.kotpass.constants.BasicField.Notes()] = app.keemobile.kotpass.models.EntryValue.Plain(notes)
 
         for (field in customFields) {
             if (field.isHidden) {
@@ -743,7 +741,6 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
                 remove("Hide_Password")
                 remove("Hide_Url")
                 remove("Hide_Notes")
-                hiddenFields.forEach { put(it, app.keemobile.kotpass.models.CustomDataValue("true")) }
             },
             fields = EntryFields(fieldsMap)
         )

@@ -44,6 +44,9 @@ import app.keemobile.kotpass.models.Group
 import app.keemobile.kotpass.models.Entry
 import kotlinx.coroutines.launch
 import app.keemobile.kotpass.constants.BasicField
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.text.AnnotatedString
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SecureScreen(
@@ -177,13 +180,17 @@ fun SecureScreen(
                 
                 var showChangePasswordDialog by remember { mutableStateOf(false) }
     var showPasswordGenerator by remember { mutableStateOf(false) }
+    var showDatabaseInfoDialog by remember { mutableStateOf(false) }
                 
                 if (expandedHeader) {
                     NavigationDrawerItem(
                         icon = { Icon(Icons.Default.Info, contentDescription = null) },
                         label = { Text("Database Information") },
                         selected = false,
-                        onClick = { /* Could show info dialog */ }
+                        onClick = { 
+                            showDatabaseInfoDialog = true
+                            expandedHeader = false
+                        }
                     )
                     NavigationDrawerItem(
                         icon = { Icon(Icons.Default.VpnKey, contentDescription = null) },
@@ -287,6 +294,65 @@ fun SecureScreen(
                         dismissButton = {
                             TextButton(onClick = { showChangePasswordDialog = false }) {
                                 Text("Cancel")
+                            }
+                        }
+                    )
+                }
+                
+                if (showDatabaseInfoDialog) {
+                    val dbUriState by viewModel.dbUri.collectAsState()
+                    val context = LocalContext.current
+                    val clipboardManager = LocalClipboardManager.current
+                    var passwordVisible by remember { mutableStateOf(false) }
+
+                    AlertDialog(
+                        onDismissRequest = { showDatabaseInfoDialog = false },
+                        title = { Text("Database Information") },
+                        text = {
+                            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                                Text("Database File:", fontWeight = FontWeight.SemiBold)
+                                Text(dbUriState?.lastPathSegment ?: "Unknown")
+                                Spacer(modifier = Modifier.height(8.dp))
+                                Text("Master Password:", fontWeight = FontWeight.SemiBold)
+                                
+                                val masterPassword = viewModel.getMasterPassword() ?: ""
+                                
+                                if (!passwordVisible) {
+                                    OutlinedButton(
+                                        onClick = {
+                                            com.example.ui.BiometricHelper.showPrompt(
+                                                context = context,
+                                                onSuccess = { passwordVisible = true },
+                                                onError = { }
+                                            )
+                                        },
+                                        modifier = Modifier.fillMaxWidth()
+                                    ) {
+                                        Icon(Icons.Default.Fingerprint, contentDescription = null)
+                                        Spacer(modifier = Modifier.width(8.dp))
+                                        Text("Verify fingerprint to view")
+                                    }
+                                } else {
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Text(masterPassword, modifier = Modifier.weight(1f))
+                                        IconButton(onClick = { passwordVisible = false }) {
+                                            Icon(Icons.Default.VisibilityOff, contentDescription = "Hide Password")
+                                        }
+                                        IconButton(onClick = {
+                                            clipboardManager.setText(AnnotatedString(masterPassword))
+                                        }) {
+                                            Icon(Icons.Default.ContentCopy, contentDescription = "Copy Password")
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        confirmButton = {
+                            TextButton(onClick = { showDatabaseInfoDialog = false }) {
+                                Text("Close")
                             }
                         }
                     )

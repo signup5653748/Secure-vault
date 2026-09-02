@@ -87,10 +87,10 @@ fun AddEntryScreen(
     var tagsString by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry!!.tags.joinToString(", ") else "") }
     var fieldOrder by remember(currentEntry?.uuid) { mutableStateOf(listOf("Username", "Password", "URL", "Notes")) }
 
-    var showUsername by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry!!.customData["Hide_UserName"]?.value != "true" else !isTemplate) }
-    var showPassword by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry!!.customData["Hide_Password"]?.value != "true" else !isTemplate) }
-    var showUrl by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry!!.customData["Hide_Url"]?.value != "true" else !isTemplate) }
-    var showNotes by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry!!.customData["Hide_Notes"]?.value != "true" else !isTemplate) }
+    var showUsername by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry!!.fields.containsKey(app.keemobile.kotpass.constants.BasicField.UserName()) && currentEntry!!.customData["Hide_UserName"]?.value != "true" else !isTemplate) }
+    var showPassword by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry!!.fields.containsKey(app.keemobile.kotpass.constants.BasicField.Password()) && currentEntry!!.customData["Hide_Password"]?.value != "true" else !isTemplate) }
+    var showUrl by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry!!.fields.containsKey(app.keemobile.kotpass.constants.BasicField.Url()) && currentEntry!!.customData["Hide_Url"]?.value != "true" else !isTemplate) }
+    var showNotes by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry!!.fields.containsKey(app.keemobile.kotpass.constants.BasicField.Notes()) && currentEntry!!.customData["Hide_Notes"]?.value != "true" else !isTemplate) }
     
     var customFields by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) {
         val newCustomFields = mutableListOf<CustomFieldData>()
@@ -274,38 +274,20 @@ fun AddEntryScreen(
                     IconButton(onClick = {
                         if (!isSaving) {
                             isSaving = true
-                                                        if (isEdit && isTemplate) {
-                                val hiddenFields = mutableListOf<String>()
-                                if (!showUsername) hiddenFields.add("Hide_UserName")
-                                if (!showPassword) hiddenFields.add("Hide_Password")
-                                if (!showUrl) hiddenFields.add("Hide_Url")
-                                if (!showNotes) hiddenFields.add("Hide_Notes")
-                                
-                                viewModel.updateEntry(title, username, password, url, notes, iconName, color, customFields, hiddenFields, tagsString.split(",").map { it.trim() }.filter { it.isNotEmpty() })
+                                                        val u = if (showUsername) username else null
+                            val p = if (showPassword) password else null
+                            val ur = if (showUrl) url else null
+                            val n = if (showNotes) notes else null
+                            val tagsList = tagsString.split(",").map { it.trim() }.filter { it.isNotEmpty() }
+                            
+                            if (isEdit && isTemplate) {
+                                viewModel.updateEntry(title, u, p, ur, n, iconName, color, customFields, tagsList)
                             } else if (isEdit) {
-                                val hiddenFields = mutableListOf<String>()
-                                if (!showUsername) hiddenFields.add("Hide_UserName")
-                                if (!showPassword) hiddenFields.add("Hide_Password")
-                                if (!showUrl) hiddenFields.add("Hide_Url")
-                                if (!showNotes) hiddenFields.add("Hide_Notes")
-                                
-                                viewModel.updateEntry(title, username, password, url, notes, iconName, color, customFields, hiddenFields, tagsString.split(",").map { it.trim() }.filter { it.isNotEmpty() })
+                                viewModel.updateEntry(title, u, p, ur, n, iconName, color, customFields, tagsList)
                             } else if (isTemplate) {
-                                val hiddenFields = mutableListOf<String>()
-                                if (!showUsername) hiddenFields.add("Hide_UserName")
-                                if (!showPassword) hiddenFields.add("Hide_Password")
-                                if (!showUrl) hiddenFields.add("Hide_Url")
-                                if (!showNotes) hiddenFields.add("Hide_Notes")
-                                
-                                viewModel.addTemplate(title, username, password, url, notes, iconName, color, customFields, hiddenFields, tagsString.split(",").map { it.trim() }.filter { it.isNotEmpty() })
+                                viewModel.addTemplate(title, u, p, ur, n, iconName, color, customFields, tagsList)
                             } else {
-                                val hiddenFields = mutableListOf<String>()
-                                if (!showUsername) hiddenFields.add("Hide_UserName")
-                                if (!showPassword) hiddenFields.add("Hide_Password")
-                                if (!showUrl) hiddenFields.add("Hide_Url")
-                                if (!showNotes) hiddenFields.add("Hide_Notes")
-                                
-                                viewModel.createEntry(title, username, password, url, notes, iconName, color, customFields, hiddenFields, tagsString.split(",").map { it.trim() }.filter { it.isNotEmpty() })
+                                viewModel.createEntry(title, u, p, ur, n, iconName, color, customFields, tagsList)
                             }
                             onNavigateBack()
                         }
