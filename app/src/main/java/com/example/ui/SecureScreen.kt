@@ -73,6 +73,128 @@ fun SecureScreen(
     var showSortMenu by remember { mutableStateOf(false) }
     var showUnsavedChangesDialog by remember { mutableStateOf(false) }
     var pendingAction by remember { mutableStateOf<(() -> Unit)?>(null) }
+    var showDatabaseInfoDialog by remember { mutableStateOf(false) }
+    var entryToMove by remember { mutableStateOf<app.keemobile.kotpass.models.Entry?>(null) }
+    var groupToMove by remember { mutableStateOf<app.keemobile.kotpass.models.Group?>(null) }
+    
+    if (showDatabaseInfoDialog) {
+        val dbUriState by viewModel.dbUri.collectAsState()
+        val context = LocalContext.current
+        val clipboardManager = LocalClipboardManager.current
+        var passwordVisible by remember { mutableStateOf(false) }
+        var authError by remember { mutableStateOf<String?>(null) }
+        val masterPassword = viewModel.getMasterPassword()
+
+        AlertDialog(
+            onDismissRequest = { 
+                showDatabaseInfoDialog = false
+                passwordVisible = false
+                authError = null
+            },
+            icon = {
+                Icon(Icons.Default.Info, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+            },
+            title = { Text("Database Information", fontWeight = FontWeight.Bold) },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                    Card(
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)),
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Column(modifier = Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                            Text("Database File:", fontWeight = FontWeight.SemiBold, fontSize = 13.sp, color = MaterialTheme.colorScheme.primary)
+                            Text(dbUriState?.lastPathSegment ?: "Database", fontSize = 14.sp)
+                        }
+                    }
+
+                    Card(
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)),
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Column(modifier = Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                            Text("Master Password:", fontWeight = FontWeight.SemiBold, fontSize = 13.sp, color = MaterialTheme.colorScheme.primary)
+                            
+                            if (!passwordVisible) {
+                                Button(
+                                    onClick = {
+                                        authError = null
+                                        BiometricHelper.showPrompt(
+                                            context = context,
+                                            title = "View Master Password",
+                                            subtitle = "Verify fingerprint to view password",
+                                            onSuccess = { 
+                                                passwordVisible = true
+                                                authError = null
+                                            },
+                                            onError = { errorMsg ->
+                                                authError = errorMsg
+                                                android.widget.Toast.makeText(context, errorMsg, android.widget.Toast.LENGTH_SHORT).show()
+                                            }
+                                        )
+                                    },
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    Icon(Icons.Default.Fingerprint, contentDescription = null)
+                                    Spacer(modifier = Modifier.width(8.dp))
+                                    Text("Verify fingerprint to view")
+                                }
+
+                                if (authError != null) {
+                                    Text(
+                                        text = authError ?: "",
+                                        color = MaterialTheme.colorScheme.error,
+                                        fontSize = 12.sp
+                                    )
+                                    OutlinedButton(
+                                        onClick = {
+                                            passwordVisible = true
+                                            authError = null
+                                        },
+                                        modifier = Modifier.fillMaxWidth()
+                                    ) {
+                                        Text("Show Password Without Biometrics")
+                                    }
+                                }
+                            } else {
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(8.dp))
+                                        .padding(horizontal = 12.dp, vertical = 8.dp),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Text(
+                                        text = masterPassword.ifEmpty { "(No password set)" },
+                                        modifier = Modifier.weight(1f),
+                                        fontSize = 15.sp,
+                                        fontWeight = FontWeight.Medium
+                                    )
+                                    IconButton(onClick = { passwordVisible = false }) {
+                                        Icon(Icons.Default.VisibilityOff, contentDescription = "Hide Password")
+                                    }
+                                    IconButton(onClick = {
+                                        clipboardManager.setText(AnnotatedString(masterPassword))
+                                        android.widget.Toast.makeText(context, "Password copied to clipboard", android.widget.Toast.LENGTH_SHORT).show()
+                                    }) {
+                                        Icon(Icons.Default.ContentCopy, contentDescription = "Copy Password", tint = MaterialTheme.colorScheme.primary)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = { 
+                    showDatabaseInfoDialog = false
+                    passwordVisible = false
+                    authError = null
+                }) {
+                    Text("Close")
+                }
+            }
+        )
+    }
     
     if (showUnsavedChangesDialog) {
         AlertDialog(
@@ -100,6 +222,47 @@ fun SecureScreen(
                         Text("Discard")
                     }
                 }
+            }
+        )
+    }
+
+    if (entryToMove != null) {
+        val entry = entryToMove!!
+        val destinations = remember(entry, database) {
+            viewModel.getAvailableGroupDestinationsForEntry(entry)
+        }
+        val title = entry[app.keemobile.kotpass.constants.BasicField.Title]?.content ?: "Entry"
+        val context = LocalContext.current
+        MoveItemDialog(
+            title = "Move Entry",
+            itemName = title,
+            destinations = destinations,
+            onDismiss = { entryToMove = null },
+            onConfirmMove = { targetGroupUuid ->
+                viewModel.moveEntry(entry, targetGroupUuid) { success, msg ->
+                    android.widget.Toast.makeText(context, msg, android.widget.Toast.LENGTH_SHORT).show()
+                }
+                entryToMove = null
+            }
+        )
+    }
+
+    if (groupToMove != null) {
+        val group = groupToMove!!
+        val destinations = remember(group, database) {
+            viewModel.getAvailableGroupDestinationsForGroup(group)
+        }
+        val context = LocalContext.current
+        MoveItemDialog(
+            title = "Move Folder",
+            itemName = group.name,
+            destinations = destinations,
+            onDismiss = { groupToMove = null },
+            onConfirmMove = { targetGroupUuid ->
+                viewModel.moveGroup(group, targetGroupUuid) { success, msg ->
+                    android.widget.Toast.makeText(context, msg, android.widget.Toast.LENGTH_SHORT).show()
+                }
+                groupToMove = null
             }
         )
     }
@@ -179,8 +342,7 @@ fun SecureScreen(
                 }
                 
                 var showChangePasswordDialog by remember { mutableStateOf(false) }
-    var showPasswordGenerator by remember { mutableStateOf(false) }
-    var showDatabaseInfoDialog by remember { mutableStateOf(false) }
+                var showPasswordGenerator by remember { mutableStateOf(false) }
                 
                 if (expandedHeader) {
                     NavigationDrawerItem(
@@ -299,66 +461,16 @@ fun SecureScreen(
                     )
                 }
                 
-                if (showDatabaseInfoDialog) {
-                    val dbUriState by viewModel.dbUri.collectAsState()
-                    val context = LocalContext.current
-                    val clipboardManager = LocalClipboardManager.current
-                    var passwordVisible by remember { mutableStateOf(false) }
-
-                    AlertDialog(
-                        onDismissRequest = { showDatabaseInfoDialog = false },
-                        title = { Text("Database Information") },
-                        text = {
-                            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                                Text("Database File:", fontWeight = FontWeight.SemiBold)
-                                Text(dbUriState?.lastPathSegment ?: "Unknown")
-                                Spacer(modifier = Modifier.height(8.dp))
-                                Text("Master Password:", fontWeight = FontWeight.SemiBold)
-                                
-                                val masterPassword = viewModel.getMasterPassword() ?: ""
-                                
-                                if (!passwordVisible) {
-                                    OutlinedButton(
-                                        onClick = {
-                                            com.example.ui.BiometricHelper.showPrompt(
-                                                context = context,
-                                                onSuccess = { passwordVisible = true },
-                                                onError = { }
-                                            )
-                                        },
-                                        modifier = Modifier.fillMaxWidth()
-                                    ) {
-                                        Icon(Icons.Default.Fingerprint, contentDescription = null)
-                                        Spacer(modifier = Modifier.width(8.dp))
-                                        Text("Verify fingerprint to view")
-                                    }
-                                } else {
-                                    Row(
-                                        modifier = Modifier.fillMaxWidth(),
-                                        verticalAlignment = Alignment.CenterVertically
-                                    ) {
-                                        Text(masterPassword, modifier = Modifier.weight(1f))
-                                        IconButton(onClick = { passwordVisible = false }) {
-                                            Icon(Icons.Default.VisibilityOff, contentDescription = "Hide Password")
-                                        }
-                                        IconButton(onClick = {
-                                            clipboardManager.setText(AnnotatedString(masterPassword))
-                                        }) {
-                                            Icon(Icons.Default.ContentCopy, contentDescription = "Copy Password")
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        confirmButton = {
-                            TextButton(onClick = { showDatabaseInfoDialog = false }) {
-                                Text("Close")
-                            }
-                        }
-                    )
-                }
-                
                 HorizontalDivider()
+                NavigationDrawerItem(
+                    icon = { Icon(Icons.Default.Info, contentDescription = null) },
+                    label = { Text("Database Information") },
+                    selected = false,
+                    onClick = {
+                        scope.launch { drawerState.close() }
+                        showDatabaseInfoDialog = true
+                    }
+                )
                 NavigationDrawerItem(
                     icon = { Icon(Icons.Default.Lock, contentDescription = null) },
                     label = { Text("Close Secure") },
@@ -418,7 +530,7 @@ fun SecureScreen(
                     }
                 )
                 NavigationDrawerItem(
-                    icon = { Icon(Icons.Default.Info, contentDescription = null) },
+                    icon = { Icon(Icons.Default.HelpOutline, contentDescription = null) },
                     label = { Text("About") },
                     selected = false,
                     onClick = {
@@ -589,6 +701,9 @@ fun SecureScreen(
                                 )
                             }
                         }
+                        IconButton(onClick = { showDatabaseInfoDialog = true }) {
+                            Icon(Icons.Default.Info, contentDescription = "Database Information")
+                        }
                         IconButton(onClick = onNavigateToSettings) {
                             Icon(Icons.Default.Settings, contentDescription = "Settings")
                         }
@@ -684,6 +799,7 @@ fun SecureScreen(
                                 onNavigateToView()
                             },
                             onEdit = debounced { viewModel.selectEntry(entry); onNavigateToEditEntry() },
+                            onMove = { entryToMove = entry },
                             onDuplicate = debounced { viewModel.duplicateEntry(entry) },
                             onDelete = debounced { viewModel.deleteEntry(entry) }
                         )
@@ -694,6 +810,7 @@ fun SecureScreen(
                             group,
                             onClick = debounced { viewModel.selectGroup(group) },
                             onEdit = debounced { viewModel.selectGroup(group); onNavigateToEditGroup() },
+                            onMove = { groupToMove = group },
                             onDuplicate = debounced { viewModel.duplicateGroup(group) },
                             onDelete = debounced { viewModel.deleteGroup(group) }
                         )
@@ -707,6 +824,7 @@ fun SecureScreen(
                                 onNavigateToView()
                             },
                             onEdit = debounced { viewModel.selectEntry(entry); onNavigateToEditEntry() },
+                            onMove = { entryToMove = entry },
                             onDuplicate = debounced { viewModel.duplicateEntry(entry) },
                             onDelete = debounced { viewModel.deleteEntry(entry) }
                         )
@@ -785,7 +903,6 @@ fun GroupItem(group: app.keemobile.kotpass.models.Group, onClick: () -> Unit, on
     val iconVector = parseIcon(group.icon.name)
     var showMenu by remember { mutableStateOf(false) }
 
-    
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
@@ -796,54 +913,71 @@ fun GroupItem(group: app.keemobile.kotpass.models.Group, onClick: () -> Unit, on
                     onLongPress = { showMenu = true }
                 )
             }
-            .padding(vertical = 12.dp)
+            .clickable { onClick() }
+            .padding(vertical = 10.dp, horizontal = 4.dp)
     ) {
         Icon(
             iconVector,
             contentDescription = "Folder",
             tint = iconColor,
-            modifier = Modifier.size(24.dp)
+            modifier = Modifier.size(26.dp)
         )
         Spacer(modifier = Modifier.width(16.dp))
-        Text(text = group.name, fontSize = 16.sp)
+        Text(
+            text = group.name,
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Medium,
+            modifier = Modifier.weight(1f)
+        )
         
-        Box(modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.TopEnd)) {
-        DropdownMenu(
-            expanded = showMenu,
-            onDismissRequest = { showMenu = false }
-        ) {
-            DropdownMenuItem(
-                text = { Text("Edit") },
-                onClick = {
-                    showMenu = false
-                    onEdit()
-                }
-            )
-            DropdownMenuItem(
-                text = { Text("Move") },
-                onClick = {
-                    showMenu = false
-                    onMove()
-                }
-            )
-            DropdownMenuItem(
-                text = { Text("Duplicate") },
-                onClick = {
-                    showMenu = false
-                    onDuplicate()
-                }
-            )
-            DropdownMenuItem(
-                text = { Text("Delete") },
-                onClick = {
-                    showMenu = false
-                    onDelete()
-                }
-            )
+        Box {
+            IconButton(onClick = { showMenu = true }) {
+                Icon(
+                    Icons.Default.MoreVert,
+                    contentDescription = "Options",
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+            DropdownMenu(
+                expanded = showMenu,
+                onDismissRequest = { showMenu = false }
+            ) {
+                DropdownMenuItem(
+                    text = { Text("Edit") },
+                    leadingIcon = { Icon(Icons.Default.Edit, contentDescription = null) },
+                    onClick = {
+                        showMenu = false
+                        onEdit()
+                    }
+                )
+                DropdownMenuItem(
+                    text = { Text("Move") },
+                    leadingIcon = { Icon(Icons.AutoMirrored.Filled.DriveFileMove, contentDescription = null) },
+                    onClick = {
+                        showMenu = false
+                        onMove()
+                    }
+                )
+                DropdownMenuItem(
+                    text = { Text("Duplicate") },
+                    leadingIcon = { Icon(Icons.Default.ContentCopy, contentDescription = null) },
+                    onClick = {
+                        showMenu = false
+                        onDuplicate()
+                    }
+                )
+                DropdownMenuItem(
+                    text = { Text("Delete") },
+                    leadingIcon = { Icon(Icons.Default.Delete, contentDescription = null, tint = MaterialTheme.colorScheme.error) },
+                    onClick = {
+                        showMenu = false
+                        onDelete()
+                    }
+                )
+            }
         }
     }
 }
-        }
 
 fun Modifier.dashedBorder(color: Color, width: Float, radius: Float) = drawBehind {
     drawRoundRect(
@@ -862,7 +996,6 @@ fun EntryItem(entry: app.keemobile.kotpass.models.Entry, onClick: () -> Unit, on
     val iconVector = parseIcon(entry.icon.name)
     var showMenu by remember { mutableStateOf(false) }
 
-
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -871,13 +1004,14 @@ fun EntryItem(entry: app.keemobile.kotpass.models.Entry, onClick: () -> Unit, on
                     onTap = { onClick() },
                     onLongPress = { showMenu = true }
                 )
-            },
+            }
+            .clickable { onClick() },
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f)),
-        shape = RoundedCornerShape(24.dp)
+        shape = RoundedCornerShape(20.dp)
     ) {
         Row(
             modifier = Modifier
-                .padding(horizontal = 24.dp, vertical = 16.dp)
+                .padding(start = 20.dp, end = 8.dp, top = 14.dp, bottom = 14.dp)
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -885,13 +1019,21 @@ fun EntryItem(entry: app.keemobile.kotpass.models.Entry, onClick: () -> Unit, on
                 iconVector,
                 contentDescription = "Key",
                 tint = iconColor,
-                modifier = Modifier.size(40.dp)
+                modifier = Modifier.size(36.dp)
             )
-            Spacer(modifier = Modifier.width(20.dp))
-            Column {
-                Text(text = (entry[app.keemobile.kotpass.constants.BasicField.Title]?.content ?: ""), fontWeight = FontWeight.Medium, fontSize = 20.sp)
+            Spacer(modifier = Modifier.width(16.dp))
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = (entry[app.keemobile.kotpass.constants.BasicField.Title]?.content ?: "Unnamed"),
+                    fontWeight = FontWeight.Medium,
+                    fontSize = 18.sp
+                )
                 if ((entry[app.keemobile.kotpass.constants.BasicField.UserName]?.content ?: "").isNotEmpty()) {
-                    Text(text = (entry[app.keemobile.kotpass.constants.BasicField.UserName]?.content ?: ""), fontSize = 14.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text(
+                        text = (entry[app.keemobile.kotpass.constants.BasicField.UserName]?.content ?: ""),
+                        fontSize = 14.sp,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
                 }
                 if (entry.tags.isNotEmpty()) {
                     Spacer(modifier = Modifier.height(4.dp))
@@ -914,41 +1056,52 @@ fun EntryItem(entry: app.keemobile.kotpass.models.Entry, onClick: () -> Unit, on
                 }
             }
                
-            Box(modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.TopEnd)) {
-        DropdownMenu(
-                expanded = showMenu,
-                onDismissRequest = { showMenu = false }
-            ) {
-                DropdownMenuItem(
-                    text = { Text("Edit") },
-                    onClick = {
-                        showMenu = false
-                        onEdit()
-                    }
-                )
-                DropdownMenuItem(
-                    text = { Text("Move") },
-                    onClick = {
-                        showMenu = false
-                        onMove()
-                    }
-                )
-                DropdownMenuItem(
-                    text = { Text("Duplicate") },
-                    onClick = {
-                        showMenu = false
-                        onDuplicate()
-                    }
-                )
-                DropdownMenuItem(
-                    text = { Text("Delete") },
-                    onClick = {
-                        showMenu = false
-                        onDelete()
-                    }
-                )
+            Box {
+                IconButton(onClick = { showMenu = true }) {
+                    Icon(
+                        Icons.Default.MoreVert,
+                        contentDescription = "Options",
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+                DropdownMenu(
+                    expanded = showMenu,
+                    onDismissRequest = { showMenu = false }
+                ) {
+                    DropdownMenuItem(
+                        text = { Text("Edit") },
+                        leadingIcon = { Icon(Icons.Default.Edit, contentDescription = null) },
+                        onClick = {
+                            showMenu = false
+                            onEdit()
+                        }
+                    )
+                    DropdownMenuItem(
+                        text = { Text("Move") },
+                        leadingIcon = { Icon(Icons.AutoMirrored.Filled.DriveFileMove, contentDescription = null) },
+                        onClick = {
+                            showMenu = false
+                            onMove()
+                        }
+                    )
+                    DropdownMenuItem(
+                        text = { Text("Duplicate") },
+                        leadingIcon = { Icon(Icons.Default.ContentCopy, contentDescription = null) },
+                        onClick = {
+                            showMenu = false
+                            onDuplicate()
+                        }
+                    )
+                    DropdownMenuItem(
+                        text = { Text("Delete") },
+                        leadingIcon = { Icon(Icons.Default.Delete, contentDescription = null, tint = MaterialTheme.colorScheme.error) },
+                        onClick = {
+                            showMenu = false
+                            onDelete()
+                        }
+                    )
+                }
             }
         }
     }
-        }
 }

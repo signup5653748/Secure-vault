@@ -27,6 +27,7 @@ import app.keemobile.kotpass.cryptography.EncryptedValue
 import app.keemobile.kotpass.constants.BasicField
 import app.keemobile.kotpass.models.Group
 import app.keemobile.kotpass.database.KeePassDatabase
+import com.example.ui.GroupDestination
 
 class KeePassViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -107,7 +108,9 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
     }
 
     
-    fun getMasterPassword(): String? = currentMasterPassword
+    fun getMasterPassword(): String {
+        return currentMasterPassword ?: com.example.data.CryptoHelper.getPassword(context) ?: ""
+    }
 
     fun unlockWithSavedPassword(): Boolean {
         val savedPass = com.example.data.CryptoHelper.getPassword(context)
@@ -667,6 +670,10 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
             is app.keemobile.kotpass.database.KeePassDatabase.Ver3x -> db.copy(credentials = newCreds)
         }
         _database.value = updatedDb
+        currentMasterPassword = newPass
+        if (settings.enableBiometrics.value) {
+            com.example.data.CryptoHelper.savePassword(context, newPass)
+        }
         _hasUnsavedChanges.value = true
     }
 
@@ -687,6 +694,7 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
                 e.printStackTrace()
             }
         }
+        currentMasterPassword = null
         _database.value = null
         _currentGroup.value = null
         _currentEntry.value = null
@@ -760,6 +768,177 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
         _hasUnsavedChanges.value = true
     }
 
+
+    fun getAvailableGroupDestinationsForEntry(entry: Entry): List<GroupDestination> {
+        val db = _database.value ?: return emptyList()
+        val root = db.content.group
+        val parentUuid = findParentGroupUuidForEntry(root, entry.uuid)
+        val result = mutableListOf<GroupDestination>()
+
+        fun traverse(g: Group, path: String, depth: Int) {
+            val currentPath = if (path.isEmpty()) g.name else "$path / ${g.name}"
+            result.add(
+                GroupDestination(
+                    group = g,
+                    path = currentPath,
+                    depth = depth,
+                    isCurrentParent = (g.uuid == parentUuid),
+                    isInvalid = (g.uuid == parentUuid)
+                )
+            )
+            for (sub in g.groups) {
+                traverse(sub, currentPath, depth + 1)
+            }
+        }
+
+        traverse(root, "", 0)
+        return result
+    }
+
+    fun getAvailableGroupDestinationsForGroup(groupToMove: Group): List<GroupDestination> {
+        val db = _database.value ?: return emptyList()
+        val root = db.content.group
+        val parentUuid = findParentGroupUuidForGroup(root, groupToMove.uuid)
+        val result = mutableListOf<GroupDestination>()
+
+        fun isDescendant(parent: Group, targetUuid: UUID): Boolean {
+            for (sub in parent.groups) {
+                if (sub.uuid == targetUuid) return true
+                if (isDescendant(sub, targetUuid)) return true
+            }
+            return false
+        }
+
+        fun traverse(g: Group, path: String, depth: Int) {
+            val currentPath = if (path.isEmpty()) g.name else "$path / ${g.name}"
+            val isSelf = g.uuid == groupToMove.uuid
+            val isChild = isDescendant(groupToMove, g.uuid)
+            val isParent = g.uuid == parentUuid
+            val isInvalid = isSelf || isChild || isParent
+
+            result.add(
+                GroupDestination(
+                    group = g,
+                    path = currentPath,
+                    depth = depth,
+                    isCurrentParent = isParent,
+                    isInvalid = isInvalid
+                )
+            )
+            for (sub in g.groups) {
+                traverse(sub, currentPath, depth + 1)
+            }
+        }
+
+        traverse(root, "", 0)
+        return result
+    }
+
+    fun moveEntry(entry: Entry, targetGroupUuid: UUID, onComplete: ((Boolean, String) -> Unit)? = null) {
+        viewModelScope.launch(Dispatchers.Default) {
+            val currentDb = _database.value ?: run {
+                withContext(Dispatchers.Main) { onComplete?.invoke(false, "Database not available") }
+                return@launch
+            }
+            val root = currentDb.content.group
+            val sourceParentUuid = findParentGroupUuidForEntry(root, entry.uuid) ?: run {
+                withContext(Dispatchers.Main) { onComplete?.invoke(false, "Source folder not found") }
+                return@launch
+            }
+            if (sourceParentUuid == targetGroupUuid) {
+                withContext(Dispatchers.Main) { onComplete?.invoke(true, "Already in this folder") }
+                return@launch
+            }
+            val targetGroup = findGroupById(root, targetGroupUuid) ?: run {
+                withContext(Dispatchers.Main) { onComplete?.invoke(false, "Destination folder not found") }
+                return@launch
+            }
+
+            try {
+                val dbWithoutEntry = currentDb.modifyGroup(sourceParentUuid) {
+                    copy(entries = entries.filter { it.uuid != entry.uuid })
+                }
+                val finalDb = dbWithoutEntry.modifyGroup(targetGroupUuid) {
+                    copy(entries = entries + entry)
+                }
+
+                withContext(Dispatchers.Main) {
+                    _database.value = finalDb
+                    val cg = _currentGroup.value
+                    if (cg != null) {
+                        _currentGroup.value = findGroupById(finalDb.content.group, cg.uuid) ?: finalDb.content.group
+                    }
+                    if (_currentEntry.value?.uuid == entry.uuid) {
+                        _currentEntry.value = entry
+                    }
+                    if (_searchQuery.value.isNotEmpty()) {
+                        setSearchQuery(_searchQuery.value)
+                    }
+                    _hasUnsavedChanges.value = true
+                    onComplete?.invoke(true, "Moved to ${targetGroup.name}")
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                withContext(Dispatchers.Main) { onComplete?.invoke(false, e.localizedMessage ?: "Failed to move entry") }
+            }
+        }
+    }
+
+    fun moveGroup(group: Group, targetGroupUuid: UUID, onComplete: ((Boolean, String) -> Unit)? = null) {
+        viewModelScope.launch(Dispatchers.Default) {
+            val currentDb = _database.value ?: run {
+                withContext(Dispatchers.Main) { onComplete?.invoke(false, "Database not available") }
+                return@launch
+            }
+            val root = currentDb.content.group
+            if (group.uuid == root.uuid) {
+                withContext(Dispatchers.Main) { onComplete?.invoke(false, "Cannot move root folder") }
+                return@launch
+            }
+            if (group.uuid == targetGroupUuid) {
+                withContext(Dispatchers.Main) { onComplete?.invoke(false, "Cannot move folder into itself") }
+                return@launch
+            }
+            if (findGroupById(group, targetGroupUuid) != null) {
+                withContext(Dispatchers.Main) { onComplete?.invoke(false, "Cannot move folder into its own subfolder") }
+                return@launch
+            }
+            val sourceParentUuid = findParentGroupUuidForGroup(root, group.uuid) ?: run {
+                withContext(Dispatchers.Main) { onComplete?.invoke(false, "Source parent folder not found") }
+                return@launch
+            }
+            if (sourceParentUuid == targetGroupUuid) {
+                withContext(Dispatchers.Main) { onComplete?.invoke(true, "Already in this folder") }
+                return@launch
+            }
+            val targetGroup = findGroupById(root, targetGroupUuid) ?: run {
+                withContext(Dispatchers.Main) { onComplete?.invoke(false, "Destination folder not found") }
+                return@launch
+            }
+
+            try {
+                val dbWithoutGroup = currentDb.modifyGroup(sourceParentUuid) {
+                    copy(groups = groups.filter { it.uuid != group.uuid })
+                }
+                val finalDb = dbWithoutGroup.modifyGroup(targetGroupUuid) {
+                    copy(groups = groups + group)
+                }
+
+                withContext(Dispatchers.Main) {
+                    _database.value = finalDb
+                    val cg = _currentGroup.value
+                    if (cg != null) {
+                        _currentGroup.value = findGroupById(finalDb.content.group, cg.uuid) ?: finalDb.content.group
+                    }
+                    _hasUnsavedChanges.value = true
+                    onComplete?.invoke(true, "Moved to ${targetGroup.name}")
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                withContext(Dispatchers.Main) { onComplete?.invoke(false, e.localizedMessage ?: "Failed to move folder") }
+            }
+        }
+    }
 
     private fun findParentGroupUuidForEntry(group: app.keemobile.kotpass.models.Group, entryUuid: java.util.UUID): java.util.UUID? {
         if (group.entries.any { it.uuid == entryUuid }) return group.uuid

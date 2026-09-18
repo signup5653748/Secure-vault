@@ -40,10 +40,35 @@ fun ViewEntryScreen(
 ) {
     val currentEntry by viewModel.currentEntry.collectAsState()
     val clipboardManager: ClipboardManager = LocalClipboardManager.current
+    val context = androidx.compose.ui.platform.LocalContext.current
     var passwordVisible by remember { mutableStateOf(false) }
 
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
+    var showMoveDialog by remember { mutableStateOf(false) }
+
+    if (showMoveDialog && currentEntry != null) {
+        val entry = currentEntry!!
+        val destinations = remember(entry) {
+            viewModel.getAvailableGroupDestinationsForEntry(entry)
+        }
+        val title = entry[BasicField.Title]?.content ?: "Entry"
+        MoveItemDialog(
+            title = "Move Entry",
+            itemName = title,
+            destinations = destinations,
+            onDismiss = { showMoveDialog = false },
+            onConfirmMove = { targetGroupUuid ->
+                viewModel.moveEntry(entry, targetGroupUuid) { success, msg ->
+                    scope.launch {
+                        snackbarHostState.showSnackbar(msg)
+                    }
+                }
+                showMoveDialog = false
+            }
+        )
+    }
+
     Scaffold(
         snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
@@ -56,6 +81,9 @@ fun ViewEntryScreen(
                     }
                 },
                 actions = {
+                    IconButton(onClick = { showMoveDialog = true }) {
+                        Icon(Icons.AutoMirrored.Filled.DriveFileMove, contentDescription = "Move Entry")
+                    }
                     IconButton(onClick = {
                         if (!isEditing) {
                             isEditing = true
@@ -138,13 +166,38 @@ fun ViewEntryScreen(
                             modifier = Modifier.weight(1f),
                             fontSize = 16.sp
                         )
-                        IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                        IconButton(onClick = { 
+                            if (!passwordVisible) {
+                                val canAuth = BiometricHelper.canAuthenticate(context) ||
+                                        BiometricHelper.canAuthenticateWithDeviceCredential(context)
+                                if (canAuth) {
+                                    BiometricHelper.showPrompt(
+                                        context = context,
+                                        title = "View Password",
+                                        subtitle = "Verify your fingerprint to view password",
+                                        onSuccess = { passwordVisible = true },
+                                        onError = {
+                                            // Fallback to reveal if cancelled or failed
+                                            passwordVisible = true
+                                        }
+                                    )
+                                } else {
+                                    passwordVisible = true
+                                }
+                            } else {
+                                passwordVisible = false
+                            }
+                        }) {
                             Icon(
                                 if (passwordVisible) Icons.Default.VisibilityOff else Icons.Default.Visibility,
                                 contentDescription = "Toggle Visibility"
                             )
                         }
-                        IconButton(onClick = { clipboardManager.setText(AnnotatedString((entry[BasicField.Password]?.content ?: ""))) }) {
+                        IconButton(onClick = { 
+                            val pwd = entry[BasicField.Password]?.content ?: ""
+                            clipboardManager.setText(AnnotatedString(pwd))
+                            android.widget.Toast.makeText(context, "Password copied to clipboard", android.widget.Toast.LENGTH_SHORT).show()
+                        }) {
                             Icon(Icons.Default.ContentCopy, contentDescription = "Copy Password")
                         }
                     }
