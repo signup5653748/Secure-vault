@@ -19,3 +19,15 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# Kotpass KeePass Library
+-keep class app.keemobile.kotpass.** { *; }
+-dontwarn app.keemobile.kotpass.**
+
+# Okio & Coroutines
+-dontwarn okio.**
+-keepattributes *Annotation*,InnerClasses,EnclosingMethod,Signature
+
+# AndroidX Biometric & Security Crypto
+-keep class androidx.biometric.** { *; }
+-keep class androidx.security.crypto.** { *; }

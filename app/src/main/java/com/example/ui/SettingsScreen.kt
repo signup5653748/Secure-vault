@@ -6,10 +6,14 @@ import androidx.compose.foundation.verticalScroll
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.DeleteOutline
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -19,7 +23,8 @@ import com.example.viewmodel.KeePassViewModel
 @Composable
 fun SettingsScreen(
     viewModel: KeePassViewModel,
-    onNavigateBack: () -> Unit
+    onNavigateBack: () -> Unit,
+    onResetApp: () -> Unit = {}
 ) {
     val themeColor by viewModel.settings.themeColor.collectAsState()
     val textSizeMultiplier by viewModel.settings.textSizeMultiplier.collectAsState()
@@ -27,6 +32,7 @@ fun SettingsScreen(
     val lockOnBackground by viewModel.settings.lockOnBackground.collectAsState()
     val clipboardAutoClear by viewModel.settings.clipboardAutoClear.collectAsState()
     val enableBiometrics by viewModel.settings.enableBiometrics.collectAsState()
+    var showResetConfirmationDialog by remember { mutableStateOf(false) }
 
 
     val colors = listOf("Blue", "Green", "Purple", "Orange", "Dynamic")
@@ -150,6 +156,55 @@ fun SettingsScreen(
                 Switch(
                     checked = enableBiometrics,
                     onCheckedChange = { viewModel.setEnableBiometrics(it) }
+                )
+            }
+
+            HorizontalDivider()
+            Text("Data & Privacy", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.error)
+
+            Text(
+                text = "Remove the current database association, wipe saved biometric unlock credentials from the Android Keystore, clear cached crash logs, and lock the vault.",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+
+            OutlinedButton(
+                onClick = { showResetConfirmationDialog = true },
+                colors = ButtonDefaults.outlinedButtonColors(contentColor = MaterialTheme.colorScheme.error),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Icon(Icons.Default.DeleteOutline, contentDescription = null)
+                Spacer(modifier = Modifier.width(8.dp))
+                Text("Forget Database & Clear Saved Credentials")
+            }
+
+            if (showResetConfirmationDialog) {
+                AlertDialog(
+                    onDismissRequest = { showResetConfirmationDialog = false },
+                    icon = {
+                        Icon(Icons.Default.DeleteOutline, contentDescription = null, tint = MaterialTheme.colorScheme.error)
+                    },
+                    title = { Text("Forget Database & Clear Data?") },
+                    text = {
+                        Text("This will remove the saved database URI, wipe stored biometric master password credentials, clear crash diagnostics, and lock the app.\n\nNote: Your .kdbx database file on disk will NOT be deleted.")
+                    },
+                    confirmButton = {
+                        Button(
+                            onClick = {
+                                showResetConfirmationDialog = false
+                                viewModel.forgetDatabaseAndClearData()
+                                onResetApp()
+                            },
+                            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
+                        ) {
+                            Text("Clear & Lock")
+                        }
+                    },
+                    dismissButton = {
+                        TextButton(onClick = { showResetConfirmationDialog = false }) {
+                            Text("Cancel")
+                        }
+                    }
                 )
             }
 

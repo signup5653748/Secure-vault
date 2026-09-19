@@ -112,13 +112,15 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
         return currentMasterPassword ?: com.example.data.CryptoHelper.getPassword(context) ?: ""
     }
 
-    fun unlockWithSavedPassword(): Boolean {
-        val savedPass = com.example.data.CryptoHelper.getPassword(context)
-        if (savedPass != null) {
-            unlockDatabase(savedPass)
-            return true
+    fun unlockWithSavedPassword() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val savedPass = com.example.data.CryptoHelper.getPassword(context)
+            if (savedPass != null) {
+                withContext(Dispatchers.Main) {
+                    unlockDatabase(savedPass)
+                }
+            }
         }
-        return false
     }
 
     fun importFile(uri: Uri) {
@@ -158,7 +160,7 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
                         _error.value = "Failed to unlock database. Incorrect password or invalid file."
                     }
                 } catch (e: Exception) {
-                    _error.value = "Error: ${e.message}"
+                    _error.value = "Unable to open database. Please check your master password or file permissions."
                 } finally {
                     _isLoading.value = false
                 }
@@ -198,7 +200,7 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
                         _error.value = "Failed to unlock database after creation."
                     }
                 } catch (e: Exception) {
-                    _error.value = "Error: ${e.message}"
+                    _error.value = "Unable to access the newly created database."
                 }
             }
             onComplete(success, errorMsg)
@@ -250,19 +252,22 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
                 put("ThemeColor", app.keemobile.kotpass.models.CustomDataValue(color))
             }
         )
-        val updatedDb = currentDb.modifyGroup(parentUuid) {
-            copy(groups = groups.filter { it.uuid != group.uuid } + updatedGroup)
+        viewModelScope.launch(Dispatchers.Default) {
+            val updatedDb = currentDb.modifyGroup(parentUuid) {
+                copy(groups = groups.filter { it.uuid != group.uuid } + updatedGroup)
+            }
+            withContext(Dispatchers.Main) {
+                _database.value = updatedDb
+                if (_currentGroup.value?.uuid == parentUuid) {
+                    _currentGroup.value = _currentGroup.value?.copy(groups = _currentGroup.value!!.groups.filter { it.uuid != group.uuid } + updatedGroup)
+                } else if (_currentGroup.value?.uuid == group.uuid) {
+                    _currentGroup.value = updatedGroup
+                } else {
+                    _currentGroup.value = findGroupById(updatedDb.content.group, _currentGroup.value!!.uuid) ?: updatedDb.content.group
+                }
+                _hasUnsavedChanges.value = true
+            }
         }
-        _database.value = updatedDb
-        if (_currentGroup.value?.uuid == parentUuid) {
-            _currentGroup.value = _currentGroup.value?.copy(groups = _currentGroup.value!!.groups.filter { it.uuid != group.uuid } + updatedGroup)
-        } else if (_currentGroup.value?.uuid == group.uuid) {
-            _currentGroup.value = updatedGroup
-        } else {
-            // we might be inside a descendant, we can refresh currentGroup from db
-            _currentGroup.value = findGroupById(updatedDb.content.group, _currentGroup.value!!.uuid) ?: updatedDb.content.group
-        }
-        _hasUnsavedChanges.value = true
     }
 
     fun createGroup(name: String, iconName: String, color: String) {
@@ -282,17 +287,18 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
             customData = mapOf("ThemeColor" to CustomDataValue(color))
         )
 
-        val updatedDb = currentDb.modifyGroup(currentGroup.uuid) {
-            copy(groups = groups + newGroup)
-        }
-        _database.value = updatedDb
-        
-        _hasUnsavedChanges.value = true
-        
-        // Update current group to trigger recompose
-        val newCurrentGroup = if (updatedDb.content.group.uuid == currentGroup.uuid) updatedDb.content.group else updatedDb.getGroup { it.uuid == currentGroup.uuid }?.second
-        if (newCurrentGroup != null) {
-            _currentGroup.value = newCurrentGroup
+        viewModelScope.launch(Dispatchers.Default) {
+            val updatedDb = currentDb.modifyGroup(currentGroup.uuid) {
+                copy(groups = groups + newGroup)
+            }
+            withContext(Dispatchers.Main) {
+                _database.value = updatedDb
+                _hasUnsavedChanges.value = true
+                val newCurrentGroup = if (updatedDb.content.group.uuid == currentGroup.uuid) updatedDb.content.group else updatedDb.getGroup { it.uuid == currentGroup.uuid }?.second
+                if (newCurrentGroup != null) {
+                    _currentGroup.value = newCurrentGroup
+                }
+            }
         }
     }
 
@@ -664,17 +670,21 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
     }
     fun changeMasterPassword(newPass: String) {
         val db = _database.value ?: return
-        val newCreds = app.keemobile.kotpass.database.Credentials.from(app.keemobile.kotpass.cryptography.EncryptedValue.fromString(newPass))
-        val updatedDb = when (db) {
-            is app.keemobile.kotpass.database.KeePassDatabase.Ver4x -> db.copy(credentials = newCreds)
-            is app.keemobile.kotpass.database.KeePassDatabase.Ver3x -> db.copy(credentials = newCreds)
+        viewModelScope.launch(Dispatchers.Default) {
+            val newCreds = app.keemobile.kotpass.database.Credentials.from(app.keemobile.kotpass.cryptography.EncryptedValue.fromString(newPass))
+            val updatedDb = when (db) {
+                is app.keemobile.kotpass.database.KeePassDatabase.Ver4x -> db.copy(credentials = newCreds)
+                is app.keemobile.kotpass.database.KeePassDatabase.Ver3x -> db.copy(credentials = newCreds)
+            }
+            if (settings.enableBiometrics.value) {
+                com.example.data.CryptoHelper.savePassword(context, newPass)
+            }
+            withContext(Dispatchers.Main) {
+                _database.value = updatedDb
+                currentMasterPassword = newPass
+                _hasUnsavedChanges.value = true
+            }
         }
-        _database.value = updatedDb
-        currentMasterPassword = newPass
-        if (settings.enableBiometrics.value) {
-            com.example.data.CryptoHelper.savePassword(context, newPass)
-        }
-        _hasUnsavedChanges.value = true
     }
 
     fun isRootGroup(): Boolean {
@@ -698,6 +708,33 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
         _database.value = null
         _currentGroup.value = null
         _currentEntry.value = null
+    }
+
+    fun forgetDatabaseAndClearData() {
+        try {
+            val clipboard = context.getSystemService(android.content.Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+                clipboard.clearPrimaryClip()
+            } else {
+                clipboard.setPrimaryClip(android.content.ClipData.newPlainText("", ""))
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        com.example.data.CryptoHelper.clearPassword(context)
+        com.example.GlobalExceptionHandler.clearCrashLogs(context)
+        settings.clearAll()
+
+        currentMasterPassword = null
+        _database.value = null
+        _currentGroup.value = null
+        _currentEntry.value = null
+        _dbUri.value = null
+        _error.value = null
+        _searchResults.value = emptyList()
+        _searchQuery.value = ""
+        _hasUnsavedChanges.value = false
     }
 
 

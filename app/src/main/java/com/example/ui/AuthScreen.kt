@@ -33,12 +33,17 @@ fun AuthScreen(viewModel: KeePassViewModel, onNavigateToCreate: () -> Unit) {
     var hasSavedPass by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
-        hasSavedPass = com.example.data.CryptoHelper.getPassword(context) != null
+        val hasPass = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+            com.example.data.CryptoHelper.getPassword(context) != null
+        }
+        hasSavedPass = hasPass
     }
 
     LaunchedEffect(dbUri, enableBiometrics) {
         if (dbUri != null && enableBiometrics && !biometricPrompted) {
-            val hasSaved = com.example.data.CryptoHelper.getPassword(context) != null
+            val hasSaved = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+                com.example.data.CryptoHelper.getPassword(context) != null
+            }
             if (hasSaved) {
                 biometricPrompted = true
                 BiometricHelper.showPrompt(

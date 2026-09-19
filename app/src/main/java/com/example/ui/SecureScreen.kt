@@ -79,18 +79,22 @@ fun SecureScreen(
     
     if (showDatabaseInfoDialog) {
         val dbUriState by viewModel.dbUri.collectAsState()
-        val context = LocalContext.current
-        val clipboardManager = LocalClipboardManager.current
-        var passwordVisible by remember { mutableStateOf(false) }
-        var authError by remember { mutableStateOf<String?>(null) }
-        val masterPassword = viewModel.getMasterPassword()
+        val biometricsEnabled by viewModel.settings.enableBiometrics.collectAsState()
+        
+        val (totalEntries, totalGroups) = remember(database) {
+            var entriesCount = 0
+            var groupsCount = 0
+            fun countIn(g: app.keemobile.kotpass.models.Group) {
+                entriesCount += g.entries.size
+                groupsCount += 1
+                g.groups.forEach { countIn(it) }
+            }
+            database?.content?.group?.let { countIn(it) }
+            Pair(entriesCount, groupsCount)
+        }
 
         AlertDialog(
-            onDismissRequest = { 
-                showDatabaseInfoDialog = false
-                passwordVisible = false
-                authError = null
-            },
+            onDismissRequest = { showDatabaseInfoDialog = false },
             icon = {
                 Icon(Icons.Default.Info, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
             },
@@ -101,95 +105,27 @@ fun SecureScreen(
                         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)),
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        Column(modifier = Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                            Text("Database File:", fontWeight = FontWeight.SemiBold, fontSize = 13.sp, color = MaterialTheme.colorScheme.primary)
-                            Text(dbUriState?.lastPathSegment ?: "Database", fontSize = 14.sp)
-                        }
-                    }
-
-                    Card(
-                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)),
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Column(modifier = Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                            Text("Master Password:", fontWeight = FontWeight.SemiBold, fontSize = 13.sp, color = MaterialTheme.colorScheme.primary)
+                        Column(modifier = Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                            Text("Database Name:", fontWeight = FontWeight.SemiBold, fontSize = 13.sp, color = MaterialTheme.colorScheme.primary)
+                            Text(dbUriState?.lastPathSegment?.substringAfterLast('/') ?: "KeePass Database", fontSize = 14.sp)
                             
-                            if (!passwordVisible) {
-                                Button(
-                                    onClick = {
-                                        authError = null
-                                        BiometricHelper.showPrompt(
-                                            context = context,
-                                            title = "View Master Password",
-                                            subtitle = "Verify fingerprint to view password",
-                                            onSuccess = { 
-                                                passwordVisible = true
-                                                authError = null
-                                            },
-                                            onError = { errorMsg ->
-                                                authError = errorMsg
-                                                android.widget.Toast.makeText(context, errorMsg, android.widget.Toast.LENGTH_SHORT).show()
-                                            }
-                                        )
-                                    },
-                                    modifier = Modifier.fillMaxWidth()
-                                ) {
-                                    Icon(Icons.Default.Fingerprint, contentDescription = null)
-                                    Spacer(modifier = Modifier.width(8.dp))
-                                    Text("Verify fingerprint to view")
-                                }
+                            Spacer(modifier = Modifier.height(4.dp))
+                            Text("Encryption & Format:", fontWeight = FontWeight.SemiBold, fontSize = 13.sp, color = MaterialTheme.colorScheme.primary)
+                            Text("KeePass KDBX (Argon2 KDF + AES-256 / ChaCha20)", fontSize = 13.sp)
 
-                                if (authError != null) {
-                                    Text(
-                                        text = authError ?: "",
-                                        color = MaterialTheme.colorScheme.error,
-                                        fontSize = 12.sp
-                                    )
-                                    OutlinedButton(
-                                        onClick = {
-                                            passwordVisible = true
-                                            authError = null
-                                        },
-                                        modifier = Modifier.fillMaxWidth()
-                                    ) {
-                                        Text("Show Password Without Biometrics")
-                                    }
-                                }
-                            } else {
-                                Row(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(8.dp))
-                                        .padding(horizontal = 12.dp, vertical = 8.dp),
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    Text(
-                                        text = masterPassword.ifEmpty { "(No password set)" },
-                                        modifier = Modifier.weight(1f),
-                                        fontSize = 15.sp,
-                                        fontWeight = FontWeight.Medium
-                                    )
-                                    IconButton(onClick = { passwordVisible = false }) {
-                                        Icon(Icons.Default.VisibilityOff, contentDescription = "Hide Password")
-                                    }
-                                    IconButton(onClick = {
-                                        clipboardManager.setText(AnnotatedString(masterPassword))
-                                        android.widget.Toast.makeText(context, "Password copied to clipboard", android.widget.Toast.LENGTH_SHORT).show()
-                                    }) {
-                                        Icon(Icons.Default.ContentCopy, contentDescription = "Copy Password", tint = MaterialTheme.colorScheme.primary)
-                                    }
-                                }
-                            }
+                            Spacer(modifier = Modifier.height(4.dp))
+                            Text("Vault Contents:", fontWeight = FontWeight.SemiBold, fontSize = 13.sp, color = MaterialTheme.colorScheme.primary)
+                            Text("$totalEntries entries across $totalGroups folder(s)", fontSize = 13.sp)
+
+                            Spacer(modifier = Modifier.height(4.dp))
+                            Text("Biometric Security:", fontWeight = FontWeight.SemiBold, fontSize = 13.sp, color = MaterialTheme.colorScheme.primary)
+                            Text(if (biometricsEnabled) "Enabled (Hardware Keystore Protected)" else "Disabled (Password Only)", fontSize = 13.sp)
                         }
                     }
                 }
             },
             confirmButton = {
-                TextButton(onClick = { 
-                    showDatabaseInfoDialog = false
-                    passwordVisible = false
-                    authError = null
-                }) {
+                TextButton(onClick = { showDatabaseInfoDialog = false }) {
                     Text("Close")
                 }
             }
@@ -547,51 +483,7 @@ fun SecureScreen(
             Scaffold(
                 floatingActionButton = {
                     Column(horizontalAlignment = Alignment.End) {
-                                    if (showChooseTemplateSheet) {
-                val templates = viewModel.getTemplates()
-                ModalBottomSheet(
-                    onDismissRequest = { showChooseTemplateSheet = false }
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp)
-                    ) {
-                        Text("Select a template", fontSize = 20.sp, fontWeight = androidx.compose.ui.text.font.FontWeight.Bold)
-                        Spacer(modifier = Modifier.height(16.dp))
-                        
-                        androidx.compose.foundation.lazy.LazyColumn {
-                            items(templates.size) { index ->
-                                val template = templates[index]
-                                Card(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(vertical = 8.dp)
-                                        .clickable {
-                                            viewModel.selectTemplateForNewEntry(template)
-                                            showChooseTemplateSheet = false
-                                            onNavigateToAddEntry()
-                                        },
-                                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
-                                ) {
-                                    Row(
-                                        modifier = Modifier.padding(16.dp).fillMaxWidth(),
-                                        verticalAlignment = Alignment.CenterVertically
-                                    ) {
-                                        val iconColor = parseColor(template.customData["ThemeColor"]?.value)
-                                        val iconVector = parseIcon(template.icon.name)
-                                        Icon(iconVector, contentDescription = null, tint = iconColor, modifier = Modifier.size(32.dp))
-                                        Spacer(modifier = Modifier.width(16.dp))
-                                        Text(text = template[app.keemobile.kotpass.constants.BasicField.Title]?.content ?: "Unnamed", fontSize = 18.sp)
-                                    }
-                                }
-                            }
-                        }
-                        Spacer(modifier = Modifier.height(32.dp))
-                    }
-                }
-            }
-            if (showFabMenu) {
+                        if (showFabMenu) {
                             ExtendedFloatingActionButton(
                                 text = { Text("Add entry") },
                                 icon = { Icon(Icons.Default.VpnKey, "Add entry") },
@@ -717,16 +609,20 @@ fun SecureScreen(
             val rawGroups = currentGroup!!.groups
             val rawEntries = currentGroup!!.entries
             
-            val groups = when (sortOrder) {
-                "A-Z" -> rawGroups.sortedBy { it.name.lowercase() }
-                "Z-A" -> rawGroups.sortedByDescending { it.name.lowercase() }
-                else -> rawGroups
+            val groups = remember(rawGroups, sortOrder) {
+                when (sortOrder) {
+                    "A-Z" -> rawGroups.sortedBy { it.name.lowercase() }
+                    "Z-A" -> rawGroups.sortedByDescending { it.name.lowercase() }
+                    else -> rawGroups
+                }
             }
             
-            val entries = when (sortOrder) {
-                "A-Z" -> rawEntries.sortedBy { it[app.keemobile.kotpass.constants.BasicField.Title]?.content?.lowercase() ?: "" }
-                "Z-A" -> rawEntries.sortedByDescending { it[app.keemobile.kotpass.constants.BasicField.Title]?.content?.lowercase() ?: "" }
-                else -> rawEntries
+            val entries = remember(rawEntries, sortOrder) {
+                when (sortOrder) {
+                    "A-Z" -> rawEntries.sortedBy { it[app.keemobile.kotpass.constants.BasicField.Title]?.content?.lowercase() ?: "" }
+                    "Z-A" -> rawEntries.sortedByDescending { it[app.keemobile.kotpass.constants.BasicField.Title]?.content?.lowercase() ?: "" }
+                    else -> rawEntries
+                }
             }
             
 
@@ -837,7 +733,7 @@ fun SecureScreen(
                 
 
                         if (showChooseTemplateSheet) {
-                val templates = viewModel.getTemplates()
+                val templates = remember(viewModel, showChooseTemplateSheet) { viewModel.getTemplates() }
                 ModalBottomSheet(
                     onDismissRequest = { showChooseTemplateSheet = false }
                 ) {
@@ -850,8 +746,7 @@ fun SecureScreen(
                         Spacer(modifier = Modifier.height(16.dp))
                         
                         androidx.compose.foundation.lazy.LazyColumn {
-                            items(templates.size) { index ->
-                                val template = templates[index]
+                            items(templates, key = { it.uuid.toString() }) { template ->
                                 Card(
                                     modifier = Modifier
                                         .fillMaxWidth()

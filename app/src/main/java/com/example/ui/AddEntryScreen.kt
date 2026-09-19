@@ -168,7 +168,7 @@ fun AddEntryScreen(
 
     var showTemplateSheet by remember { mutableStateOf(false) }
     val templateSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-    val templates = viewModel.getTemplates()
+    val templates = remember(viewModel, showTemplateSheet) { viewModel.getTemplates() }
     val scope = rememberCoroutineScope()
 
 
@@ -1050,8 +1050,7 @@ fun AddEntryScreen(
                     Spacer(modifier = Modifier.height(16.dp))
                     
                     LazyColumn {
-                        items(templates.size) { index ->
-                            val template = templates[index]
+                        items(templates, key = { it.uuid.toString() }) { template ->
                             Card(
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -1092,7 +1091,7 @@ fun AddEntryScreen(
                                                 }
                                             }
                                         } catch (e: Exception) {
-                                            android.util.Log.e("AddEntryScreen", "Error loading template", e)
+                                            android.util.Log.e("AddEntryScreen", "Failed to apply template")
                                         }
                                     },
                                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))

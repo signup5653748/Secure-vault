@@ -65,4 +65,15 @@ class SettingsRepository(context: Context) {
         prefs.edit().putString("database_uri", uri).apply()
         _databaseUri.value = uri
     }
+
+    fun clearAll() {
+        prefs.edit().clear().apply()
+        _themeColor.value = "Blue"
+        _textSizeMultiplier.value = 1.0f
+        _openFromFileManager.value = true
+        _databaseUri.value = null
+        _lockOnBackground.value = true
+        _clipboardAutoClear.value = true
+        _enableBiometrics.value = false
+    }
 }

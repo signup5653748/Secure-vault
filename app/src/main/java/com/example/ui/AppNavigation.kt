@@ -178,7 +178,12 @@ fun AppNavigation(viewModel: KeePassViewModel) {
         composable("settings") {
             SettingsScreen(
                 viewModel = viewModel,
-                onNavigateBack = { navController.popBackStack() }
+                onNavigateBack = { navController.popBackStack() },
+                onResetApp = {
+                    navController.navigate("auth") {
+                        popUpTo(0) { inclusive = true }
+                    }
+                }
             )
         }
         composable("about") {

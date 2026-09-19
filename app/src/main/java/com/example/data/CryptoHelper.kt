@@ -10,6 +10,7 @@ object CryptoHelper {
 
     private var prefs: android.content.SharedPreferences? = null
 
+    @Synchronized
     private fun getPrefs(context: Context): android.content.SharedPreferences {
         if (prefs == null) {
             val masterKey = MasterKey.Builder(context.applicationContext)

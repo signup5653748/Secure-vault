@@ -14,5 +14,9 @@
 .externalNativeBuild
 .cxx
 local.properties
-.env
-debug.keystore
+.env*
+*.jks
+*.keystore
+*.pepk
+debug.keystore.base64
+google-services.json
