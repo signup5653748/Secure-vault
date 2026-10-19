@@ -1,4 +1,0 @@
-Manifest-Version: 1.0
-Implementation-Title: kotpass
-Implementation-Version: 0.9.0
-
