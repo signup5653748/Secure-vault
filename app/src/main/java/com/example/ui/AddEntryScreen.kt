@@ -25,6 +25,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.platform.ClipboardManager
 import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.platform.testTag
+import com.example.data.OtpParser
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -152,6 +154,8 @@ fun AddEntryScreen(
     var selectedFieldsToDelete by remember { mutableStateOf(setOf<String>()) }
     var showPasswordGenerator by remember { mutableStateOf(false) }
     var showAddFieldDialog by remember { mutableStateOf(false) }
+    var showAddOtpDialog by remember { mutableStateOf(false) }
+    var showAddFieldMenu by remember { mutableStateOf(false) }
     var showIconDialog by remember { mutableStateOf(false) }
     var showColorDialog by remember { mutableStateOf(false) }
     var showAttachmentsDialog by remember { mutableStateOf(false) }
@@ -266,8 +270,36 @@ fun AddEntryScreen(
                             Icon(Icons.Default.AttachFile, contentDescription = "Attachments")
                         }
                     }
-                    IconButton(onClick = { showAddFieldDialog = true }) {
-                        Icon(Icons.Default.Add, contentDescription = "Add Field")
+                    Box {
+                        IconButton(
+                            onClick = { showAddFieldMenu = true },
+                            modifier = Modifier.testTag("add_field_button")
+                        ) {
+                            Icon(Icons.Default.Add, contentDescription = "Add Field")
+                        }
+                        DropdownMenu(
+                            expanded = showAddFieldMenu,
+                            onDismissRequest = { showAddFieldMenu = false }
+                        ) {
+                            DropdownMenuItem(
+                                text = { Text("Add Custom Field") },
+                                leadingIcon = { Icon(Icons.Default.TextFields, contentDescription = null) },
+                                onClick = {
+                                    showAddFieldMenu = false
+                                    showAddFieldDialog = true
+                                },
+                                modifier = Modifier.testTag("menu_add_custom_field")
+                            )
+                            DropdownMenuItem(
+                                text = { Text("Add OTP") },
+                                leadingIcon = { Icon(Icons.Default.Timer, contentDescription = null) },
+                                onClick = {
+                                    showAddFieldMenu = false
+                                    showAddOtpDialog = true
+                                },
+                                modifier = Modifier.testTag("menu_add_otp")
+                            )
+                        }
                     }
     
                     Spacer(modifier = Modifier.weight(1f))
@@ -643,7 +675,16 @@ fun AddEntryScreen(
                                 if (it.id == field.id) it.copy(value = newValue) else it
                             }
                         },
-                        label = { Text(field.name) },
+                        label = { 
+                            if (field.name.equals("otp", ignoreCase = true)) {
+                                Text("One-Time Password (otp)")
+                            } else {
+                                Text(field.name)
+                            }
+                        },
+                        leadingIcon = if (field.name.equals("otp", ignoreCase = true)) {
+                            { Icon(Icons.Default.Timer, contentDescription = "OTP", tint = MaterialTheme.colorScheme.primary) }
+                        } else null,
                         visualTransformation = if (!isVisible && field.isHidden) PasswordVisualTransformation() else VisualTransformation.None,
                         trailingIcon = {
                             Row {
@@ -714,6 +755,19 @@ fun AddEntryScreen(
                         } else if (fieldName.equals("Notes", ignoreCase = true) && !showNotes) {
                             showNotes = true
                             notes = fieldValue
+                        } else if (fieldName.equals("otp", ignoreCase = true) && fieldValue.isNotBlank()) {
+                            val parsed = OtpParser.parse(fieldValue)
+                            val finalVal = if (parsed != null && !fieldValue.trim().startsWith("otpauth://", ignoreCase = true)) {
+                                OtpParser.toOtpAuthUri(parsed)
+                            } else {
+                                fieldValue.trim()
+                            }
+                            customFields = customFields.filter { it.name.lowercase() != "otp" } + CustomFieldData(
+                                name = "otp",
+                                value = finalVal,
+                                isHidden = true,
+                                showCopyButton = false
+                            )
                         } else if (fieldName.isNotBlank()) {
                             customFields = customFields + CustomFieldData(name = fieldName, value = fieldValue, isHidden = isHidden, showCopyButton = showCopyButton)
                         }
@@ -722,6 +776,125 @@ fun AddEntryScreen(
                 },
                 dismissButton = {
                     TextButton(onClick = { showAddFieldDialog = false }) { Text("Cancel") }
+                }
+            )
+        }
+
+        if (showAddOtpDialog) {
+            val existingOtp = customFields.find { it.name.lowercase() == "otp" }?.value ?: ""
+            var otpInput by remember { mutableStateOf(existingOtp) }
+            var otpIssuer by remember { mutableStateOf("") }
+            var errorMessage by remember { mutableStateOf<String?>(null) }
+
+            AlertDialog(
+                onDismissRequest = { showAddOtpDialog = false },
+                icon = {
+                    Icon(
+                        Icons.Default.Timer,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(28.dp)
+                    )
+                },
+                title = { Text("Add One-Time Password") },
+                text = {
+                    Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                        // Entry Method 1: Scan QR (Disabled stub per spec)
+                        OutlinedButton(
+                            onClick = { /* Disabled stub per spec */ },
+                            enabled = false,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .testTag("scan_qr_button")
+                        ) {
+                            Icon(Icons.Default.QrCodeScanner, contentDescription = null)
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text("Scan QR (coming soon)")
+                        }
+
+                        HorizontalDivider(color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f))
+
+                        Text(
+                            text = "Manual Entry (otpauth:// URI or Base32 secret):",
+                            style = MaterialTheme.typography.labelMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+
+                        OutlinedTextField(
+                            value = otpInput,
+                            onValueChange = {
+                                otpInput = it
+                                errorMessage = null
+                                val parsed = OtpParser.parse(it)
+                                if (parsed != null && !parsed.issuer.isNullOrBlank() && otpIssuer.isBlank()) {
+                                    otpIssuer = parsed.issuer
+                                }
+                            },
+                            label = { Text("otpauth:// URI or Base32 Secret") },
+                            placeholder = { Text("e.g. JBSWY3DPEHPK3PXP") },
+                            isError = errorMessage != null,
+                            supportingText = {
+                                if (errorMessage != null) {
+                                    Text(errorMessage!!, color = MaterialTheme.colorScheme.error)
+                                } else {
+                                    Text("Standard RFC 4648 Base32 secret or otpauth:// URI")
+                                }
+                            },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .testTag("otp_input_field")
+                        )
+
+                        if (!otpInput.trim().startsWith("otpauth://", ignoreCase = true)) {
+                            OutlinedTextField(
+                                value = otpIssuer,
+                                onValueChange = { otpIssuer = it },
+                                label = { Text("Issuer / Service (optional)") },
+                                placeholder = { Text("e.g. Google, GitHub") },
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .testTag("otp_issuer_field")
+                            )
+                        }
+                    }
+                },
+                confirmButton = {
+                    Button(
+                        onClick = {
+                            val parsed = OtpParser.parse(otpInput)
+                            if (parsed == null) {
+                                errorMessage = "Invalid Base32 secret or otpauth URI. Must contain only A-Z, 2-7."
+                                return@Button
+                            }
+
+                            val finalValue = if (otpInput.trim().startsWith("otpauth://", ignoreCase = true)) {
+                                otpInput.trim()
+                            } else {
+                                val enriched = parsed.copy(
+                                    issuer = otpIssuer.takeIf { it.isNotBlank() } ?: parsed.issuer,
+                                    account = username.takeIf { it.isNotBlank() }
+                                )
+                                OtpParser.toOtpAuthUri(enriched)
+                            }
+
+                            val updatedFields = customFields.filter { it.name.lowercase() != "otp" } + CustomFieldData(
+                                name = "otp",
+                                value = finalValue,
+                                isHidden = true,
+                                showCopyButton = false
+                            )
+                            customFields = updatedFields
+                            showAddOtpDialog = false
+                        },
+                        modifier = Modifier.testTag("save_otp_button")
+                    ) {
+                        Text("Save OTP")
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = { showAddOtpDialog = false }) {
+                        Text("Cancel")
+                    }
                 }
             )
         }

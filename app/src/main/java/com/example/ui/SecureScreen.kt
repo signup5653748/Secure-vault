@@ -604,13 +604,10 @@ fun SecureScreen(
                 )
             }
         ) { paddingValues ->
-            if (currentGroup == null) return@Scaffold
+            val group = currentGroup ?: return@Scaffold
             
-            val currentGroupEntries by viewModel.currentGroupEntries.collectAsState()
-            val currentSubGroups by viewModel.currentSubGroups.collectAsState()
-            
-            val rawGroups = currentSubGroups
-            val rawEntries = currentGroupEntries
+            val rawGroups = group.groups
+            val rawEntries = group.entries
             
             val groups = remember(rawGroups, sortOrder) {
                 when (sortOrder) {
