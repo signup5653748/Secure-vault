@@ -20,3 +20,4 @@ local.properties
 *.pepk
 debug.keystore.base64
 google-services.json
+.build-outputs/
