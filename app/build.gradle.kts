@@ -10,7 +10,7 @@ repositories {
 }
 
 android {
-  namespace = "com.aistudio.vault"
+  namespace = "com.example"
   compileSdk = 36
 
   defaultConfig {

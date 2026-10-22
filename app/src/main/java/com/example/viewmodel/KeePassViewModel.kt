@@ -41,6 +41,7 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
     private var currentMasterPassword: String? = null
     private var groupByIdMap: Map<UUID, Group> = emptyMap()
     private var parentUuidMap: Map<UUID, UUID> = emptyMap()
+    private var allEntriesCache: List<Entry> = emptyList()
 
     private fun rebuildLookupMaps(db: KeePassDatabase) {
         val groups = mutableMapOf<UUID, Group>()
@@ -60,6 +61,18 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
         traverse(db.content.group)
         groupByIdMap = groups
         parentUuidMap = parents
+    }
+
+    private fun rebuildAllEntriesCache(db: KeePassDatabase) {
+        val list = mutableListOf<Entry>()
+        fun traverse(group: Group) {
+            list.addAll(group.entries)
+            for (subGroup in group.groups) {
+                traverse(subGroup)
+            }
+        }
+        traverse(db.content.group)
+        allEntriesCache = list
     }
     
     fun setEnableBiometrics(enabled: Boolean) {
@@ -103,20 +116,13 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
         } else {
             searchJob = viewModelScope.launch(Dispatchers.Default) {
                 flowOf(query).debounce(300).collectLatest { q ->
-                    val db = _database.value
-                    if (db != null) {
-                        val allEntries = mutableListOf<app.keemobile.kotpass.models.Entry>()
-                        fun traverse(group: app.keemobile.kotpass.models.Group) {
-                            allEntries.addAll(group.entries.filter {
-                                val title = it[app.keemobile.kotpass.constants.BasicField.Title]?.content ?: ""
-                                val user = it[app.keemobile.kotpass.constants.BasicField.UserName]?.content ?: ""
-                                val url = it[app.keemobile.kotpass.constants.BasicField.Url]?.content ?: ""
-                                title.contains(q, ignoreCase = true) || user.contains(q, ignoreCase = true) || url.contains(q, ignoreCase = true)
-                            })
-                            group.groups.forEach { traverse(it) }
+                    if (_database.value != null) {
+                        _searchResults.value = allEntriesCache.filter {
+                            val title = it[BasicField.Title]?.content ?: ""
+                            val user = it[BasicField.UserName]?.content ?: ""
+                            val url = it[BasicField.Url]?.content ?: ""
+                            title.contains(q, ignoreCase = true) || user.contains(q, ignoreCase = true) || url.contains(q, ignoreCase = true)
                         }
-                        traverse(db.content.group)
-                        _searchResults.value = allEntries
                     }
                 }
             }
@@ -162,6 +168,7 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
         _database.value = null
         groupByIdMap = emptyMap()
         parentUuidMap = emptyMap()
+        allEntriesCache = emptyList()
         _currentGroup.value = null
         _currentEntry.value = null
         // Take persistable permission
@@ -186,6 +193,7 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
                     if (db != null) {
                         _database.value = db
                         rebuildLookupMaps(db)
+                        rebuildAllEntriesCache(db)
                         _currentGroup.value = db.content.group
                         _error.value = null
                         currentMasterPassword = password
@@ -227,6 +235,7 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
                     if (db != null) {
                         _database.value = db
                         rebuildLookupMaps(db)
+                        rebuildAllEntriesCache(db)
                         _currentGroup.value = db.content.group
                         _error.value = null
                         currentMasterPassword = password
@@ -296,6 +305,7 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
             withContext(Dispatchers.Main) {
                 _database.value = updatedDb
                 rebuildLookupMaps(updatedDb)
+                rebuildAllEntriesCache(updatedDb)
                 if (_currentGroup.value?.uuid == parentUuid) {
                     _currentGroup.value = _currentGroup.value?.copy(groups = _currentGroup.value!!.groups.filter { it.uuid != group.uuid } + updatedGroup)
                 } else if (_currentGroup.value?.uuid == group.uuid) {
@@ -332,6 +342,7 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
             withContext(Dispatchers.Main) {
                 _database.value = updatedDb
                 rebuildLookupMaps(updatedDb)
+                rebuildAllEntriesCache(updatedDb)
                 _hasUnsavedChanges.value = true
                 val newCurrentGroup = if (updatedDb.content.group.uuid == currentGroup.uuid) updatedDb.content.group else updatedDb.getGroup { it.uuid == currentGroup.uuid }?.second
                 if (newCurrentGroup != null) {
@@ -391,6 +402,7 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
             withContext(Dispatchers.Main) {
                 _database.value = updatedDb
                 rebuildLookupMaps(updatedDb)
+                rebuildAllEntriesCache(updatedDb)
                 val newCurrentGroup = if (updatedDb.content.group.uuid == currentGroup.uuid) updatedDb.content.group else updatedDb.getGroup { it.uuid == currentGroup.uuid }?.second
                 if (newCurrentGroup != null) {
                     _currentGroup.value = newCurrentGroup
@@ -495,6 +507,7 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
                 withContext(Dispatchers.Main) {
                     _database.value = updatedDb
                     rebuildLookupMaps(updatedDb)
+                    rebuildAllEntriesCache(updatedDb)
                     _hasUnsavedChanges.value = true
                 }
             }
@@ -519,6 +532,7 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
             withContext(Dispatchers.Main) {
                 _database.value = updatedDb
                 rebuildLookupMaps(updatedDb)
+                rebuildAllEntriesCache(updatedDb)
                 _hasUnsavedChanges.value = true
             }
         }
@@ -556,6 +570,7 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
             withContext(Dispatchers.Main) {
                 _database.value = updatedDb
                 rebuildLookupMaps(updatedDb)
+                rebuildAllEntriesCache(updatedDb)
                 _hasUnsavedChanges.value = true
             }
         }
@@ -573,6 +588,7 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
             withContext(Dispatchers.Main) {
                 _database.value = updatedDb
                 rebuildLookupMaps(updatedDb)
+                rebuildAllEntriesCache(updatedDb)
                 _hasUnsavedChanges.value = true
             }
         }
@@ -598,6 +614,7 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
                 kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Main) {
                     _database.value = updatedDb
                     rebuildLookupMaps(updatedDb)
+                    rebuildAllEntriesCache(updatedDb)
                     _hasUnsavedChanges.value = true
                     _currentGroup.value = findGroupById(updatedDb.content.group, _currentGroup.value!!.uuid) ?: updatedDb.content.group
                 }
@@ -619,6 +636,7 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
                 kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Main) {
                     _database.value = updatedDb
                     rebuildLookupMaps(updatedDb)
+                    rebuildAllEntriesCache(updatedDb)
                     _hasUnsavedChanges.value = true
                     _currentGroup.value = updatedDb.getGroup { it.uuid == currentGroupUuid }?.second ?: _currentGroup.value
                 }
@@ -637,6 +655,7 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
             withContext(Dispatchers.Main) {
                 _database.value = updatedDb
                 rebuildLookupMaps(updatedDb)
+                rebuildAllEntriesCache(updatedDb)
                 val cg = _currentGroup.value
                 if (cg?.uuid == parentUuid) {
                     _currentGroup.value = cg.copy(entries = cg.entries.filter { it.uuid != entry.uuid })
@@ -659,6 +678,7 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
             withContext(Dispatchers.Main) {
                 _database.value = updatedDb
                 rebuildLookupMaps(updatedDb)
+                rebuildAllEntriesCache(updatedDb)
                 val cg = _currentGroup.value
                 if (cg?.uuid == parentUuid) {
                     _currentGroup.value = cg.copy(groups = cg.groups.filter { it.uuid != group.uuid })
@@ -726,6 +746,7 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
             withContext(Dispatchers.Main) {
                 _database.value = updatedDb
                 rebuildLookupMaps(updatedDb)
+                rebuildAllEntriesCache(updatedDb)
                 currentMasterPassword = newPass
                 _hasUnsavedChanges.value = true
             }
@@ -753,6 +774,7 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
         _database.value = null
         groupByIdMap = emptyMap()
         parentUuidMap = emptyMap()
+        allEntriesCache = emptyList()
         _currentGroup.value = null
         _currentEntry.value = null
     }
@@ -777,6 +799,7 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
         _database.value = null
         groupByIdMap = emptyMap()
         parentUuidMap = emptyMap()
+        allEntriesCache = emptyList()
         _currentGroup.value = null
         _currentEntry.value = null
         _dbUri.value = null
@@ -848,6 +871,7 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
             withContext(Dispatchers.Main) {
                 _database.value = updatedDb
                 rebuildLookupMaps(updatedDb)
+                rebuildAllEntriesCache(updatedDb)
                 if (_currentGroup.value?.uuid == parentUuid) {
                     _currentGroup.value = _currentGroup.value?.copy(entries = _currentGroup.value!!.entries.filter { it.uuid != entry.uuid } + updatedEntry)
                 } else {
@@ -863,18 +887,19 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
     fun getAvailableGroupDestinationsForEntry(entry: Entry): List<GroupDestination> {
         val db = _database.value ?: return emptyList()
         val root = db.content.group
-        val parentUuid = findParentGroupUuidForEntry(root, entry.uuid)
+        val parentUuid = parentUuidMap[entry.uuid]
         val result = mutableListOf<GroupDestination>()
 
         fun traverse(g: Group, path: String, depth: Int) {
             val currentPath = if (path.isEmpty()) g.name else "$path / ${g.name}"
+            val isParent = (g.uuid == parentUuid)
             result.add(
                 GroupDestination(
                     group = g,
                     path = currentPath,
                     depth = depth,
-                    isCurrentParent = (g.uuid == parentUuid),
-                    isInvalid = (g.uuid == parentUuid)
+                    isCurrentParent = isParent,
+                    isInvalid = isParent
                 )
             )
             for (sub in g.groups) {
@@ -889,23 +914,23 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
     fun getAvailableGroupDestinationsForGroup(groupToMove: Group): List<GroupDestination> {
         val db = _database.value ?: return emptyList()
         val root = db.content.group
-        val parentUuid = findParentGroupUuidForGroup(root, groupToMove.uuid)
+        val parentUuid = parentUuidMap[groupToMove.uuid]
         val result = mutableListOf<GroupDestination>()
 
-        fun isDescendant(parent: Group, targetUuid: UUID): Boolean {
-            for (sub in parent.groups) {
-                if (sub.uuid == targetUuid) return true
-                if (isDescendant(sub, targetUuid)) return true
+        val disallowedUuids = HashSet<UUID>()
+        fun collectSubtree(g: Group) {
+            disallowedUuids.add(g.uuid)
+            for (sub in g.groups) {
+                collectSubtree(sub)
             }
-            return false
         }
+        collectSubtree(groupToMove)
 
         fun traverse(g: Group, path: String, depth: Int) {
             val currentPath = if (path.isEmpty()) g.name else "$path / ${g.name}"
-            val isSelf = g.uuid == groupToMove.uuid
-            val isChild = isDescendant(groupToMove, g.uuid)
+            val isDisallowed = g.uuid in disallowedUuids
             val isParent = g.uuid == parentUuid
-            val isInvalid = isSelf || isChild || isParent
+            val isInvalid = isDisallowed || isParent
 
             result.add(
                 GroupDestination(
@@ -956,6 +981,7 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
                 withContext(Dispatchers.Main) {
                     _database.value = finalDb
                     rebuildLookupMaps(finalDb)
+                    rebuildAllEntriesCache(finalDb)
                     val cg = _currentGroup.value
                     if (cg != null) {
                         _currentGroup.value = findGroupById(finalDb.content.group, cg.uuid) ?: finalDb.content.group
@@ -1028,6 +1054,7 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
                 withContext(Dispatchers.Main) {
                     _database.value = finalDb
                     rebuildLookupMaps(finalDb)
+                    rebuildAllEntriesCache(finalDb)
                     val cg = _currentGroup.value
                     if (cg != null) {
                         _currentGroup.value = findGroupById(finalDb.content.group, cg.uuid) ?: finalDb.content.group
