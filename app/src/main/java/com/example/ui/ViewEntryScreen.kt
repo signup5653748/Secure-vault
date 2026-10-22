@@ -211,122 +211,58 @@ fun ViewEntryScreen(
                 }
             }
 
-            // OTP / TOTP Card
-            val otpField = entry.fields["otp"]?.content
-            val otpConfig = remember(otpField) { OtpParser.parse(otpField) }
+            // TOTP Card
+            val otpValue = entry.fields.entries.find { it.key.equals("otp", ignoreCase = true) }?.value?.content
+            if (!otpValue.isNullOrBlank()) {
+                var totpData by remember(otpValue) { mutableStateOf(viewModel.generateTotpCode(otpValue)) }
 
-            if (otpConfig != null) {
-                Spacer(modifier = Modifier.height(16.dp))
-                val otpGenerator = remember(otpConfig) { OtpGenerator(otpConfig) }
-                var otpState by remember(otpGenerator) { mutableStateOf(otpGenerator.getCurrentState()) }
-
-                LaunchedEffect(otpGenerator) {
-                    otpGenerator.tickerFlow().collect { state ->
-                        otpState = state
+                LaunchedEffect(otpValue) {
+                    while (true) {
+                        kotlinx.coroutines.delay(1000)
+                        totpData = viewModel.generateTotpCode(otpValue)
                     }
                 }
 
+                Spacer(modifier = Modifier.height(24.dp))
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
                         .testTag("otp_card"),
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
                 ) {
-                    Column(modifier = Modifier.padding(16.dp)) {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Icon(
-                                Icons.Default.Timer,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.primary,
-                                modifier = Modifier.size(20.dp)
-                            )
-                            Spacer(modifier = Modifier.width(8.dp))
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(Icons.Default.QrCode, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+                        Spacer(modifier = Modifier.width(16.dp))
+                        Column(modifier = Modifier.weight(1f)) {
+                            Text(text = "Authentication Code", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                             Text(
-                                text = "One-Time Password (TOTP)",
-                                fontSize = 12.sp,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                fontWeight = FontWeight.SemiBold
-                            )
-                            if (!otpConfig.issuer.isNullOrBlank()) {
-                                Spacer(modifier = Modifier.weight(1f))
-                                Text(
-                                    text = otpConfig.issuer,
-                                    fontSize = 12.sp,
-                                    color = MaterialTheme.colorScheme.primary,
-                                    fontWeight = FontWeight.Medium
-                                )
-                            }
-                        }
-
-                        Spacer(modifier = Modifier.height(12.dp))
-
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.SpaceBetween
-                        ) {
-                            val ringColor = if (otpState.remainingSeconds <= 5) {
-                                MaterialTheme.colorScheme.error
-                            } else {
-                                MaterialTheme.colorScheme.primary
-                            }
-
-                            Text(
-                                text = otpState.formattedCode,
-                                fontFamily = FontFamily.Monospace,
-                                fontSize = 28.sp,
+                                text = totpData?.first ?: "••••••",
+                                fontSize = 24.sp,
                                 fontWeight = FontWeight.Bold,
-                                letterSpacing = 3.sp,
-                                color = ringColor,
+                                fontFamily = FontFamily.Monospace,
+                                letterSpacing = 4.sp,
+                                color = MaterialTheme.colorScheme.onSurface,
                                 modifier = Modifier.testTag("otp_code_text")
                             )
-
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                Box(
-                                    contentAlignment = Alignment.Center,
-                                    modifier = Modifier.size(40.dp)
-                                ) {
-                                    val trackColor = ringColor.copy(alpha = 0.2f)
-
-                                    Canvas(modifier = Modifier.fillMaxSize().padding(4.dp)) {
-                                        drawCircle(
-                                            color = trackColor,
-                                            style = Stroke(width = 3.dp.toPx())
-                                        )
-                                        drawArc(
-                                            color = ringColor,
-                                            startAngle = -90f,
-                                            sweepAngle = 360f * otpState.progress,
-                                            useCenter = false,
-                                            style = Stroke(
-                                                width = 3.dp.toPx(),
-                                                cap = StrokeCap.Round
-                                            )
-                                        )
-                                    }
-                                    Text(
-                                        text = "${otpState.remainingSeconds}",
-                                        fontSize = 11.sp,
-                                        fontWeight = FontWeight.Bold,
-                                        color = ringColor
-                                    )
+                        }
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(text = "${totpData?.second ?: 30}s", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        }
+                        IconButton(
+                            onClick = { 
+                                totpData?.first?.let { code ->
+                                    clipboardManager.setText(AnnotatedString(code))
+                                    android.widget.Toast.makeText(context, "OTP copied", android.widget.Toast.LENGTH_SHORT).show()
                                 }
-
-                                Spacer(modifier = Modifier.width(8.dp))
-
-                                IconButton(
-                                    onClick = {
-                                        clipboardManager.setText(AnnotatedString(otpState.code))
-                                        android.widget.Toast.makeText(context, "OTP code copied", android.widget.Toast.LENGTH_SHORT).show()
-                                    },
-                                    modifier = Modifier.testTag("copy_otp_button")
-                                ) {
-                                    Icon(Icons.Default.ContentCopy, contentDescription = "Copy OTP Code")
-                                }
-                            }
+                            },
+                            modifier = Modifier.testTag("copy_otp_button")
+                        ) {
+                            Icon(Icons.Default.ContentCopy, contentDescription = "Copy OTP")
                         }
                     }
                 }
@@ -337,7 +273,7 @@ fun ViewEntryScreen(
             // Custom fields
             val basicKeys = setOf(BasicField.Title(), BasicField.UserName(), BasicField.Password(), BasicField.Url(), BasicField.Notes())
             val customFields = entry.fields.entries.filter { 
-                it.key !in basicKeys && it.key != "Notes" && it.key != "Title" && it.key != "UserName" && it.key != "URL" && it.key != "Password" && it.key != "otp" 
+                it.key !in basicKeys && it.key != "Notes" && it.key != "Title" && it.key != "UserName" && it.key != "URL" && it.key != "Password" && !it.key.equals("otp", ignoreCase = true)
             }
             
             if (customFields.isNotEmpty()) {

@@ -18,7 +18,12 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-
+import dev.turingcomplete.kotlinonetimepassword.TimeBasedOneTimePasswordGenerator
+import dev.turingcomplete.kotlinonetimepassword.TimeBasedOneTimePasswordConfig
+import java.util.concurrent.TimeUnit
+import org.apache.commons.codec.binary.Base32
+import com.example.data.OtpParser
+import com.example.data.OtpGenerator
 import app.keemobile.kotpass.database.getGroup
 import app.keemobile.kotpass.models.CustomDataValue
 import app.keemobile.kotpass.constants.PredefinedIcon
@@ -146,7 +151,19 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
-    
+    fun generateTotpCode(otpValue: String?): Pair<String, Int>? {
+        if (otpValue.isNullOrBlank()) return null
+        return try {
+            val config = OtpParser.parse(otpValue) ?: return null
+            val generator = OtpGenerator(config)
+            val code = generator.generateCode()
+            val remaining = generator.calculateRemainingSeconds().toInt()
+            Pair(code, remaining)
+        } catch (_: Exception) {
+            null // Securely swallow to prevent secret leakage in logs
+        }
+    }
+
     fun getMasterPassword(): String {
         return currentMasterPassword ?: com.example.data.CryptoHelper.getPassword(context) ?: ""
     }
