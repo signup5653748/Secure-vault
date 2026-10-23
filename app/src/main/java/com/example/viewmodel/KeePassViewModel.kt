@@ -3,6 +3,7 @@ package com.example.viewmodel
 import android.app.Application
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.data.KeePassHelper
@@ -155,31 +156,25 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
         return try {
             // Accept either an otpauth://totp URI or a raw Base32 secret.
             val value = otpValue.trim()
-            val secret = if (value.startsWith("otpauth://", ignoreCase = true)) {
-                val uri = Uri.parse(value)
-                if (!uri.scheme.equals("otpauth", ignoreCase = true) ||
-                    !uri.host.equals("totp", ignoreCase = true)
-                ) return null
-                uri.getQueryParameter("secret") ?: return null
-            } else {
-                value
-            }.replace(" ", "").replace("-", "").uppercase()
+            val isOtpAuthUri = value.startsWith("otpauth://", ignoreCase = true)
+            val otpUri = if (isOtpAuthUri) Uri.parse(value) else null
+            if (otpUri != null &&
+                (!otpUri.scheme.equals("otpauth", ignoreCase = true) ||
+                    !otpUri.host.equals("totp", ignoreCase = true))
+            ) return null
 
+            val rawSecret = otpUri?.getQueryParameter("secret") ?: if (otpUri == null) value else return null
+            val secret = rawSecret.replace(" ", "").replace("-", "").uppercase()
             if (secret.isEmpty() || !secret.matches(Regex("^[A-Z2-7]+=*$"))) return null
+
             val secretBytes = Base32().decode(secret)
             if (secretBytes.isEmpty()) return null
 
-            val digits = value.takeIf { it.startsWith("otpauth://", ignoreCase = true) }
-                ?.let { Uri.parse(it).getQueryParameter("digits")?.toIntOrNull() }
+            val digits = otpUri?.getQueryParameter("digits")?.toIntOrNull()
                 ?.takeIf { it in 6..8 } ?: 6
-            val periodSeconds = value.takeIf { it.startsWith("otpauth://", ignoreCase = true) }
-                ?.let { Uri.parse(it).getQueryParameter("period")?.toLongOrNull() }
+            val periodSeconds = otpUri?.getQueryParameter("period")?.toLongOrNull()
                 ?.takeIf { it > 0L } ?: 30L
-            val algorithm = when (
-                value.takeIf { it.startsWith("otpauth://", ignoreCase = true) }
-                    ?.let { Uri.parse(it).getQueryParameter("algorithm") }
-                    ?.uppercase()
-            ) {
+            val algorithm = when (otpUri?.getQueryParameter("algorithm")?.uppercase()) {
                 "SHA256" -> HmacAlgorithm.SHA256
                 "SHA512" -> HmacAlgorithm.SHA512
                 else -> HmacAlgorithm.SHA1
@@ -196,7 +191,8 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
             val remaining = (periodSeconds - ((now / 1000L) % periodSeconds)).toInt()
             Pair(code, remaining)
         } catch (_: Exception) {
-            // Never log or expose OTP secrets.
+            // Log only a generic message; never include the OTP value or exception details.
+            android.util.Log.e("KeePassViewModel", "TOTP generation failed")
             null
         }
     }
