@@ -91,8 +91,8 @@ dependencies {
 
   implementation("androidx.biometric:biometric:1.1.0")
   implementation("androidx.security:security-crypto:1.1.0")
-  // Kotpass is published through JitPack, not Maven Central under app.keemobile.
-  implementation("com.github.keemobile:kotpass:0.13.0")
+  // Kotpass 0.13.0 is published on Maven Central under app.keemobile.
+  implementation("app.keemobile:kotpass:0.13.0")
   implementation("dev.turingcomplete:kotlin-onetimepassword:3.0.0")
   implementation("commons-codec:commons-codec:1.21.0")
 
