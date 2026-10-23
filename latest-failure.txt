@@ -1,935 +1,897 @@
 ===== JOB: Detect Project + Signing Configuration (status: success) =====
-﻿2026-10-23T12:51:18.2592239Z Current runner version: '2.338.0'
-2026-10-23T12:51:18.2615432Z ##[group]Runner Image Provisioner
-2026-10-23T12:51:18.2616391Z Hosted Compute Agent
-2026-10-23T12:51:18.2616942Z Version: 20261012.601
-2026-10-23T12:51:18.2617578Z Commit: f3dc54e1fb89da6852db922499a0233137369e1d
-2026-10-23T12:51:18.2618274Z Build Date: 2026-10-12T17:48:21Z
-2026-10-23T12:51:18.2618942Z Worker ID: {bcfe9fe8-5ebf-437e-8a93-b69bbddac61c}
-2026-10-23T12:51:18.2619659Z Region: northcentralus
-2026-10-23T12:51:18.2620213Z Cloud: Azure
-2026-10-23T12:51:18.2620711Z ##[endgroup]
-2026-10-23T12:51:18.2622014Z ##[group]Operating System
-2026-10-23T12:51:18.2622621Z Ubuntu
-2026-10-23T12:51:18.2623137Z 24.04.5
-2026-10-23T12:51:18.2623641Z LTS
-2026-10-23T12:51:18.2624323Z ##[endgroup]
-2026-10-23T12:51:18.2624891Z ##[group]Runner Image
-2026-10-23T12:51:18.2625577Z Image: ubuntu-24.04
-2026-10-23T12:51:18.2626169Z Version: 20261012.334.1
-2026-10-23T12:51:18.2627402Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261012.334/images/ubuntu/Ubuntu2404-Readme.md
-2026-10-23T12:51:18.2628877Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261012.334
-2026-10-23T12:51:18.2629818Z ##[endgroup]
-2026-10-23T12:51:18.2631010Z ##[group]GITHUB_TOKEN Permissions
-2026-10-23T12:51:18.2633089Z Contents: read
-2026-10-23T12:51:18.2633697Z Metadata: read
-2026-10-23T12:51:18.2634428Z Packages: read
-2026-10-23T12:51:18.2635019Z ##[endgroup]
-2026-10-23T12:51:18.2637508Z Secret source: Actions
-2026-10-23T12:51:18.2638529Z Cache mode: write
-2026-10-23T12:51:18.2639263Z Prepare workflow directory
-2026-10-23T12:51:18.2964588Z Prepare all required actions
-2026-10-23T12:51:18.3012349Z Getting action download info
-2026-10-23T12:51:18.5525260Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
-2026-10-23T12:51:18.7242953Z Complete job name: Detect Project + Signing Configuration
-2026-10-23T12:51:18.8081130Z ##[group]Run actions/checkout@v4
-2026-10-23T12:51:18.8082028Z with:
-2026-10-23T12:51:18.8082528Z   lfs: true
-2026-10-23T12:51:18.8083047Z   repository: signup5653748/Secure-vault
-2026-10-23T12:51:18.8087825Z   token: ***
-2026-10-23T12:51:18.8088312Z   ssh-strict: true
-2026-10-23T12:51:18.8088855Z   ssh-user: git
-2026-10-23T12:51:18.8089357Z   persist-credentials: true
-2026-10-23T12:51:18.8089918Z   clean: true
-2026-10-23T12:51:18.8090453Z   sparse-checkout-cone-mode: true
-2026-10-23T12:51:18.8091021Z   fetch-depth: 1
-2026-10-23T12:51:18.8091522Z   fetch-tags: false
-2026-10-23T12:51:18.8092015Z   show-progress: true
-2026-10-23T12:51:18.8092553Z   submodules: false
-2026-10-23T12:51:18.8093082Z   set-safe-directory: true
-2026-10-23T12:51:18.8093635Z   allow-unsafe-pr-checkout: false
-2026-10-23T12:51:18.8094664Z ##[endgroup]
-2026-10-23T12:51:18.9096718Z Syncing repository: signup5653748/Secure-vault
-2026-10-23T12:51:18.9098938Z ##[group]Getting Git version info
-2026-10-23T12:51:18.9099881Z Working directory is '/home/runner/work/Secure-vault/Secure-vault'
-2026-10-23T12:51:18.9101043Z [command]/usr/bin/git version
-2026-10-23T12:51:18.9154104Z git version 2.55.0
-2026-10-23T12:51:18.9185164Z [command]/usr/bin/git lfs version
-2026-10-23T12:51:19.5452483Z git-lfs/3.8.0 (GitHub; linux amd64; go 1.27.0)
-2026-10-23T12:51:19.5466335Z ##[endgroup]
-2026-10-23T12:51:19.5480451Z Temporarily overriding HOME='/home/runner/work/_temp/fc47c5cd-fcc1-4214-9a15-d9a6cf05bef6' before making global git config changes
-2026-10-23T12:51:19.5482381Z Adding repository directory to the temporary git global config as a safe directory
-2026-10-23T12:51:19.5485732Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Secure-vault/Secure-vault
-2026-10-23T12:51:19.5533003Z Deleting the contents of '/home/runner/work/Secure-vault/Secure-vault'
-2026-10-23T12:51:19.5538263Z ##[group]Initializing the repository
-2026-10-23T12:51:19.5541999Z [command]/usr/bin/git init /home/runner/work/Secure-vault/Secure-vault
-2026-10-23T12:51:19.5642241Z hint: Using 'master' as the name for the initial branch. This default branch name
-2026-10-23T12:51:19.5644662Z hint: will change to "main" in Git 3.0. To configure the initial branch name
-2026-10-23T12:51:19.5646373Z hint: to use in all of your new repositories, which will suppress this warning,
-2026-10-23T12:51:19.5647719Z hint: call:
-2026-10-23T12:51:19.5648472Z hint:
-2026-10-23T12:51:19.5649514Z hint: 	git config --global init.defaultBranch <name>
-2026-10-23T12:51:19.5650729Z hint:
-2026-10-23T12:51:19.5651816Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
-2026-10-23T12:51:19.5654467Z hint: 'development'. The just-created branch can be renamed via this command:
-2026-10-23T12:51:19.5655617Z hint:
-2026-10-23T12:51:19.5656219Z hint: 	git branch -m <name>
-2026-10-23T12:51:19.5657075Z hint:
-2026-10-23T12:51:19.5657944Z hint: Disable this message with "git config set advice.defaultBranchName false"
-2026-10-23T12:51:19.5659353Z Initialized empty Git repository in /home/runner/work/Secure-vault/Secure-vault/.git/
-2026-10-23T12:51:19.5662190Z [command]/usr/bin/git remote add origin https://github.com/signup5653748/Secure-vault
-2026-10-23T12:51:19.5704333Z ##[endgroup]
-2026-10-23T12:51:19.5705367Z ##[group]Disabling automatic garbage collection
-2026-10-23T12:51:19.5708595Z [command]/usr/bin/git config --local gc.auto 0
-2026-10-23T12:51:19.5739078Z ##[endgroup]
-2026-10-23T12:51:19.5740121Z ##[group]Setting up auth
-2026-10-23T12:51:19.5745500Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
-2026-10-23T12:51:19.5774141Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
-2026-10-23T12:51:19.5991124Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
-2026-10-23T12:51:19.6024529Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
-2026-10-23T12:51:19.6207355Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
-2026-10-23T12:51:19.6237721Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
-2026-10-23T12:51:19.6416207Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
-2026-10-23T12:51:19.6455998Z ##[endgroup]
-2026-10-23T12:51:19.6460583Z [command]/usr/bin/git lfs install --local
-2026-10-23T12:51:19.6905698Z Updated Git hooks.
-2026-10-23T12:51:19.6906476Z Git LFS initialized.
-2026-10-23T12:51:19.6914688Z ##[group]Fetching the repository
-2026-10-23T12:51:19.6924531Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +44c784279cd6d304851c052159a9de98656ef22f:refs/remotes/origin/main
-2026-10-23T12:51:20.0297533Z From https://github.com/signup5653748/Secure-vault
-2026-10-23T12:51:20.0300837Z  * [new ref]         44c784279cd6d304851c052159a9de98656ef22f -> origin/main
-2026-10-23T12:51:20.0307697Z ##[endgroup]
-2026-10-23T12:51:20.0310327Z ##[group]Determining the checkout info
-2026-10-23T12:51:20.0313253Z ##[endgroup]
-2026-10-23T12:51:20.0316343Z ##[group]Fetching LFS objects
-2026-10-23T12:51:20.0318900Z [command]/usr/bin/git lfs fetch origin refs/remotes/origin/main
-2026-10-23T12:51:20.0622672Z Fetching reference refs/remotes/origin/main
-2026-10-23T12:51:20.0930409Z ##[endgroup]
-2026-10-23T12:51:20.0934127Z [command]/usr/bin/git sparse-checkout disable
-2026-10-23T12:51:20.0987916Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
-2026-10-23T12:51:20.1019069Z ##[group]Checking out the ref
-2026-10-23T12:51:20.1021612Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
-2026-10-23T12:51:20.1111434Z Switched to a new branch 'main'
-2026-10-23T12:51:20.1118123Z branch 'main' set up to track 'origin/main'.
-2026-10-23T12:51:20.1392049Z ##[endgroup]
-2026-10-23T12:51:20.1425969Z [command]/usr/bin/git log -1 --format=%H
-2026-10-23T12:51:20.1447709Z 44c784279cd6d304851c052159a9de98656ef22f
-2026-10-23T12:51:20.1710191Z ##[group]Run set +e
-2026-10-23T12:51:20.1711717Z [36;1mset +e[0m
-2026-10-23T12:51:20.1713012Z [36;1mecho "===== Scanning project structure ====="[0m
-2026-10-23T12:51:20.1714737Z [36;1m[0m
-2026-10-23T12:51:20.1716732Z [36;1mGRADLEW_PATH=$(find . -maxdepth 6 -name "gradlew" -not -path "*/node_modules/*" 2>/dev/null | head -1)[0m
-2026-10-23T12:51:20.1719559Z [36;1mGRADLE_DIR=$( [ -n "$GRADLEW_PATH" ] && dirname "$GRADLEW_PATH" || echo "." )[0m
-2026-10-23T12:51:20.1721685Z [36;1mecho "Gradle project directory: $GRADLE_DIR"[0m
-2026-10-23T12:51:20.1723221Z [36;1m[0m
-2026-10-23T12:51:20.1724820Z [36;1mWRAPPER_JAR="$GRADLE_DIR/gradle/wrapper/gradle-wrapper.jar"[0m
-2026-10-23T12:51:20.1726636Z [36;1mWRAPPER_VALID="true"[0m
-2026-10-23T12:51:20.1727951Z [36;1mif [ -f "$WRAPPER_JAR" ]; then[0m
-2026-10-23T12:51:20.1729825Z [36;1m  unzip -tq "$WRAPPER_JAR" > /dev/null 2>&1 || WRAPPER_VALID="false"[0m
-2026-10-23T12:51:20.1731776Z [36;1melse[0m
-2026-10-23T12:51:20.1733057Z [36;1m  WRAPPER_VALID="false"[0m
-2026-10-23T12:51:20.1734527Z [36;1mfi[0m
-2026-10-23T12:51:20.1735811Z [36;1mecho "Wrapper jar valid: $WRAPPER_VALID"[0m
-2026-10-23T12:51:20.1737331Z [36;1m[0m
-2026-10-23T12:51:20.1739391Z [36;1mAPP_BUILD_FILE=$(grep -lRE "applicationId" --include="build.gradle*" "$GRADLE_DIR" 2>/dev/null | head -1)[0m
-2026-10-23T12:51:20.1741956Z [36;1mif [ -n "$APP_BUILD_FILE" ]; then[0m
-2026-10-23T12:51:20.1743720Z [36;1m  MODULE_DIR=$(dirname "${APP_BUILD_FILE#$GRADLE_DIR/}")[0m
-2026-10-23T12:51:20.1745921Z [36;1m  MODULE_PATH=$(echo "$MODULE_DIR" | sed 's|^\./||; s|/|:|g')[0m
-2026-10-23T12:51:20.1747712Z [36;1m  APP_MODULE=":$MODULE_PATH"[0m
-2026-10-23T12:51:20.1749285Z [36;1m  GRADLE_TASK="${APP_MODULE}:assembleRelease"[0m
-2026-10-23T12:51:20.1750940Z [36;1melse[0m
-2026-10-23T12:51:20.1751971Z [36;1m  APP_MODULE=""[0m
-2026-10-23T12:51:20.1753257Z [36;1m  GRADLE_TASK="assembleRelease"[0m
-2026-10-23T12:51:20.1755006Z [36;1mfi[0m
-2026-10-23T12:51:20.1756315Z [36;1mecho "Found build file: ${APP_BUILD_FILE:-none}"[0m
-2026-10-23T12:51:20.1758301Z [36;1mecho "App module: ${APP_MODULE:-none, using root fallback}"[0m
-2026-10-23T12:51:20.1760010Z [36;1m[0m
-2026-10-23T12:51:20.1761046Z [36;1mCOMPILE_SDK=""[0m
-2026-10-23T12:51:20.1762275Z [36;1mif [ -n "$APP_BUILD_FILE" ]; then[0m
-2026-10-23T12:51:20.1764821Z [36;1m  COMPILE_SDK=$(grep -oE 'compileSdk(Version)?[= ]+["'"'"']?[0-9]+' "$APP_BUILD_FILE" 2>/dev/null | grep -oE '[0-9]+' | head -1)[0m
-2026-10-23T12:51:20.1767214Z [36;1mfi[0m
-2026-10-23T12:51:20.1768300Z [36;1mif [ -z "$COMPILE_SDK" ]; then[0m
-2026-10-23T12:51:20.1771123Z [36;1m  COMPILE_SDK=$(grep -rhoE 'compileSdk(Version)?[= ]+["'"'"']?[0-9]+' --include="build.gradle*" "$GRADLE_DIR" 2>/dev/null | grep -oE '[0-9]+' | sort -n | tail -1)[0m
-2026-10-23T12:51:20.1774071Z [36;1mfi[0m
-2026-10-23T12:51:20.1775203Z [36;1m[ -z "$COMPILE_SDK" ] && COMPILE_SDK="36"[0m
-2026-10-23T12:51:20.1776774Z [36;1mecho "compileSdk: ${COMPILE_SDK:-not found}"[0m
-2026-10-23T12:51:20.1778194Z [36;1m[0m
-2026-10-23T12:51:20.1779187Z [36;1mGRADLE_VERSION=""[0m
-2026-10-23T12:51:20.1781151Z [36;1mif [ "$WRAPPER_VALID" = "true" ] && [ -f "$GRADLE_DIR/gradle/wrapper/gradle-wrapper.properties" ]; then[0m
-2026-10-23T12:51:20.1785025Z [36;1m  GRADLE_VERSION=$(grep -oE 'gradle-[0-9]+\.[0-9]+(\.[0-9]+)?' "$GRADLE_DIR/gradle/wrapper/gradle-wrapper.properties" 2>/dev/null | grep -oE '[0-9]+\.[0-9]+(\.[0-9]+)?' | head -1)[0m
-2026-10-23T12:51:20.1788054Z [36;1mfi[0m
-2026-10-23T12:51:20.1789516Z [36;1mecho "Pinned Gradle version: ${GRADLE_VERSION:-none, will use latest}"[0m
-2026-10-23T12:51:20.1791275Z [36;1m[0m
-2026-10-23T12:51:20.1792302Z [36;1mSIGNING_SRC="$APP_BUILD_FILE"[0m
-2026-10-23T12:51:20.1795479Z [36;1m[ -z "$SIGNING_SRC" ] && SIGNING_SRC=$(find "$GRADLE_DIR" -maxdepth 4 -name "build.gradle*" 2>/dev/null | head -1)[0m
-2026-10-23T12:51:20.1798270Z [36;1m[0m
-2026-10-23T12:51:20.1800495Z [36;1mKEYSTORE_FILENAME=$(grep -oE 'storeFile[^"'"'"']*["'"'"']([A-Za-z0-9_./-]+\.(jks|keystore))["'"'"']' "$SIGNING_SRC" 2>/dev/null \[0m
-2026-10-23T12:51:20.1803139Z [36;1m  | grep -oE '[A-Za-z0-9_./-]+\.(jks|keystore)' | head -1)[0m
-2026-10-23T12:51:20.1805858Z [36;1m[ -z "$KEYSTORE_FILENAME" ] && KEYSTORE_FILENAME="my-upload-key.jks"[0m
-2026-10-23T12:51:20.1807894Z [36;1mecho "Detected keystore filename: $KEYSTORE_FILENAME"[0m
-2026-10-23T12:51:20.1809440Z [36;1m[0m
-2026-10-23T12:51:20.1810553Z [36;1mUSES_KEYSTORE_PATH_ENV="false"[0m
-2026-10-23T12:51:20.1812977Z [36;1mgrep -qE 'storeFile.*System\.getenv\(["'"'"']KEYSTORE_PATH["'"'"']\)' "$SIGNING_SRC" 2>/dev/null && USES_KEYSTORE_PATH_ENV="true"[0m
-2026-10-23T12:51:20.1815973Z [36;1mecho "Uses KEYSTORE_PATH env var: $USES_KEYSTORE_PATH_ENV"[0m
-2026-10-23T12:51:20.1817553Z [36;1m[0m
-2026-10-23T12:51:20.1819310Z [36;1mALL_VARS=$(grep -oE 'System\.getenv\(["'"'"'][A-Z_]+["'"'"']\)' "$SIGNING_SRC" 2>/dev/null | grep -oE '[A-Z_]+')[0m
-2026-10-23T12:51:20.1821965Z [36;1mSTORE_PASSWORD_VAR=$(echo "$ALL_VARS" | grep -iE 'store.*pass' | head -1)[0m
-2026-10-23T12:51:20.1824710Z [36;1mKEY_PASSWORD_VAR=$(echo "$ALL_VARS" | grep -iE 'key.*pass' | grep -viE 'store' | head -1)[0m
-2026-10-23T12:51:20.1827090Z [36;1mKEY_ALIAS_VAR=$(echo "$ALL_VARS" | grep -iE 'alias' | head -1)[0m
-2026-10-23T12:51:20.1828710Z [36;1m[0m
-2026-10-23T12:51:20.1830105Z [36;1m[ -z "$STORE_PASSWORD_VAR" ] && STORE_PASSWORD_VAR="STORE_PASSWORD"[0m
-2026-10-23T12:51:20.1832169Z [36;1m[ -z "$KEY_PASSWORD_VAR" ] && KEY_PASSWORD_VAR="KEY_PASSWORD"[0m
-2026-10-23T12:51:20.1833760Z [36;1m[0m
-2026-10-23T12:51:20.1835354Z [36;1mecho "Store password env var: $STORE_PASSWORD_VAR"[0m
-2026-10-23T12:51:20.1837107Z [36;1mecho "Key password env var: $KEY_PASSWORD_VAR"[0m
-2026-10-23T12:51:20.1839242Z [36;1mecho "Key alias env var: ${KEY_ALIAS_VAR:-none, likely hardcoded in build.gradle}"[0m
-2026-10-23T12:51:20.1841375Z [36;1mecho "===== Detection complete ====="[0m
-2026-10-23T12:51:20.1842757Z [36;1m[0m
-2026-10-23T12:51:20.1843733Z [36;1m{[0m
-2026-10-23T12:51:20.1844908Z [36;1m  echo "gradle_dir=$GRADLE_DIR"[0m
-2026-10-23T12:51:20.1846264Z [36;1m  echo "app_module=$APP_MODULE"[0m
-2026-10-23T12:51:20.1847700Z [36;1m  echo "gradle_task=$GRADLE_TASK"[0m
-2026-10-23T12:51:20.1849120Z [36;1m  echo "compile_sdk=$COMPILE_SDK"[0m
-2026-10-23T12:51:20.1850489Z [36;1m  echo "jdk_version=21"[0m
-2026-10-23T12:51:20.1851880Z [36;1m  echo "gradle_version=$GRADLE_VERSION"[0m
-2026-10-23T12:51:20.1853385Z [36;1m  echo "wrapper_valid=$WRAPPER_VALID"[0m
-2026-10-23T12:51:20.1855174Z [36;1m  echo "keystore_filename=$KEYSTORE_FILENAME"[0m
-2026-10-23T12:51:20.1856995Z [36;1m  echo "uses_keystore_path_env=$USES_KEYSTORE_PATH_ENV"[0m
-2026-10-23T12:51:20.1858837Z [36;1m  echo "store_password_var=$STORE_PASSWORD_VAR"[0m
-2026-10-23T12:51:20.1860483Z [36;1m  echo "key_alias_var=$KEY_ALIAS_VAR"[0m
-2026-10-23T12:51:20.1862091Z [36;1m  echo "key_password_var=$KEY_PASSWORD_VAR"[0m
-2026-10-23T12:51:20.1863740Z [36;1m  echo "signing_src=$SIGNING_SRC"[0m
-2026-10-23T12:51:20.1865269Z [36;1m} >> "$GITHUB_OUTPUT"[0m
-2026-10-23T12:51:20.2049718Z shell: /usr/bin/bash -e {0}
-2026-10-23T12:51:20.2050921Z ##[endgroup]
-2026-10-23T12:51:20.2151019Z ===== Scanning project structure =====
-2026-10-23T12:51:20.2184350Z Gradle project directory: .
-2026-10-23T12:51:20.2186118Z Wrapper jar valid: false
-2026-10-23T12:51:20.2234158Z Found build file: ./app/build.gradle.kts
-2026-10-23T12:51:20.2236007Z App module: :app
-2026-10-23T12:51:20.2252643Z compileSdk: 36
-2026-10-23T12:51:20.2254235Z Pinned Gradle version: none, will use latest
-2026-10-23T12:51:20.2271884Z Detected keystore filename: my-upload-key.jks
-2026-10-23T12:51:20.2283015Z Uses KEYSTORE_PATH env var: false
-2026-10-23T12:51:20.2351943Z Store password env var: STORE_PASSWORD
-2026-10-23T12:51:20.2354167Z Key password env var: KEY_PASSWORD
-2026-10-23T12:51:20.2356774Z Key alias env var: KEY_ALIAS
-2026-10-23T12:51:20.2358690Z ===== Detection complete =====
-2026-10-23T12:51:20.2495511Z ##[group]Run {
-2026-10-23T12:51:20.2496568Z [36;1m{[0m
-2026-10-23T12:51:20.2497725Z [36;1m  echo "### 🔍 Detected Configuration"[0m
-2026-10-23T12:51:20.2499141Z [36;1m  echo "| Setting | Value |"[0m
-2026-10-23T12:51:20.2500446Z [36;1m  echo "|---|---|"[0m
-2026-10-23T12:51:20.2501639Z [36;1m  echo "| Gradle dir | \`.\` |"[0m
-2026-10-23T12:51:20.2502971Z [36;1m  echo "| App module | \`:app\` |"[0m
-2026-10-23T12:51:20.2504575Z [36;1m  echo "| compileSdk | \`36\` |"[0m
-2026-10-23T12:51:20.2505954Z [36;1m  echo "| Wrapper valid | \`false\` |"[0m
-2026-10-23T12:51:20.2507707Z [36;1m  echo "| Keystore filename expected | \`my-upload-key.jks\` |"[0m
-2026-10-23T12:51:20.2509658Z [36;1m  echo "| Store password env var | \`STORE_PASSWORD\` |"[0m
-2026-10-23T12:51:20.2511396Z [36;1m  echo "| Key alias env var | \`KEY_ALIAS\` |"[0m
-2026-10-23T12:51:20.2513097Z [36;1m  echo "| Key password env var | \`KEY_PASSWORD\` |"[0m
-2026-10-23T12:51:20.2515073Z [36;1m} >> "$GITHUB_STEP_SUMMARY"[0m
-2026-10-23T12:51:20.2558244Z shell: /usr/bin/bash -e {0}
-2026-10-23T12:51:20.2559521Z ##[endgroup]
-2026-10-23T12:51:20.2898595Z Post job cleanup.
-2026-10-23T12:51:20.3748946Z [command]/usr/bin/git version
-2026-10-23T12:51:20.3793288Z git version 2.55.0
-2026-10-23T12:51:20.3833097Z Temporarily overriding HOME='/home/runner/work/_temp/ca7c63b4-7704-437c-8eb4-2ef68705bec9' before making global git config changes
-2026-10-23T12:51:20.3836443Z Adding repository directory to the temporary git global config as a safe directory
-2026-10-23T12:51:20.3840489Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Secure-vault/Secure-vault
-2026-10-23T12:51:20.3879905Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
-2026-10-23T12:51:20.3912211Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
-2026-10-23T12:51:20.4115869Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
-2026-10-23T12:51:20.4139613Z http.https://github.com/.extraheader
-2026-10-23T12:51:20.4151176Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
-2026-10-23T12:51:20.4185164Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
-2026-10-23T12:51:20.4397615Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
-2026-10-23T12:51:20.4434323Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
-2026-10-23T12:51:20.4815228Z Evaluate and set job outputs
-2026-10-23T12:51:20.4829963Z Set output 'gradle_dir'
-2026-10-23T12:51:20.4833126Z Set output 'app_module'
-2026-10-23T12:51:20.4835102Z Set output 'gradle_task'
-2026-10-23T12:51:20.4836540Z Set output 'compile_sdk'
-2026-10-23T12:51:20.4837983Z Set output 'jdk_version'
-2026-10-23T12:51:20.4839410Z Set output 'wrapper_valid'
-2026-10-23T12:51:20.4840890Z Set output 'keystore_filename'
-2026-10-23T12:51:20.4842373Z Set output 'uses_keystore_path_env'
-2026-10-23T12:51:20.4844068Z Set output 'store_password_var'
-2026-10-23T12:51:20.4845556Z Set output 'key_alias_var'
-2026-10-23T12:51:20.4847024Z Set output 'key_password_var'
-2026-10-23T12:51:20.4848494Z Set output 'signing_src'
-2026-10-23T12:51:20.4850342Z Cleaning up orphan processes
-2026-10-23T12:51:20.5340659Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+﻿2026-10-23T12:59:50.3468535Z Current runner version: '2.338.0'
+2026-10-23T12:59:50.3493228Z ##[group]Runner Image Provisioner
+2026-10-23T12:59:50.3494531Z Hosted Compute Agent
+2026-10-23T12:59:50.3495184Z Version: 20261012.601
+2026-10-23T12:59:50.3495935Z Commit: f3dc54e1fb89da6852db922499a0233137369e1d
+2026-10-23T12:59:50.3496771Z Build Date: 2026-10-12T17:48:21Z
+2026-10-23T12:59:50.3497501Z Worker ID: {38fc574c-0dc8-4658-8aa1-bd9cce2613cd}
+2026-10-23T12:59:50.3498244Z Region: centralus
+2026-10-23T12:59:50.3498797Z Cloud: Azure
+2026-10-23T12:59:50.3499379Z ##[endgroup]
+2026-10-23T12:59:50.3500890Z ##[group]Operating System
+2026-10-23T12:59:50.3501525Z Ubuntu
+2026-10-23T12:59:50.3502159Z 24.04.5
+2026-10-23T12:59:50.3502672Z LTS
+2026-10-23T12:59:50.3503229Z ##[endgroup]
+2026-10-23T12:59:50.3503839Z ##[group]Runner Image
+2026-10-23T12:59:50.3504790Z Image: ubuntu-24.04
+2026-10-23T12:59:50.3505471Z Version: 20261012.334.1
+2026-10-23T12:59:50.3506726Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261012.334/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-23T12:59:50.3508420Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261012.334
+2026-10-23T12:59:50.3509386Z ##[endgroup]
+2026-10-23T12:59:50.3510663Z ##[group]GITHUB_TOKEN Permissions
+2026-10-23T12:59:50.3512532Z Contents: read
+2026-10-23T12:59:50.3513298Z Metadata: read
+2026-10-23T12:59:50.3513871Z Packages: read
+2026-10-23T12:59:50.3514815Z ##[endgroup]
+2026-10-23T12:59:50.3516876Z Secret source: Actions
+2026-10-23T12:59:50.3518324Z Cache mode: write
+2026-10-23T12:59:50.3519092Z Prepare workflow directory
+2026-10-23T12:59:50.3915250Z Prepare all required actions
+2026-10-23T12:59:50.3962303Z Getting action download info
+2026-10-23T12:59:50.6730222Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-10-23T12:59:50.8577360Z Complete job name: Detect Project + Signing Configuration
+2026-10-23T12:59:50.9540612Z ##[group]Run actions/checkout@v4
+2026-10-23T12:59:50.9541664Z with:
+2026-10-23T12:59:50.9542502Z   lfs: true
+2026-10-23T12:59:50.9543319Z   repository: signup5653748/Secure-vault
+2026-10-23T12:59:50.9547377Z   token: ***
+2026-10-23T12:59:50.9547837Z   ssh-strict: true
+2026-10-23T12:59:50.9548338Z   ssh-user: git
+2026-10-23T12:59:50.9548850Z   persist-credentials: true
+2026-10-23T12:59:50.9549386Z   clean: true
+2026-10-23T12:59:50.9549858Z   sparse-checkout-cone-mode: true
+2026-10-23T12:59:50.9550403Z   fetch-depth: 1
+2026-10-23T12:59:50.9550846Z   fetch-tags: false
+2026-10-23T12:59:50.9551308Z   show-progress: true
+2026-10-23T12:59:50.9551794Z   submodules: false
+2026-10-23T12:59:50.9552257Z   set-safe-directory: true
+2026-10-23T12:59:50.9552791Z   allow-unsafe-pr-checkout: false
+2026-10-23T12:59:50.9553662Z ##[endgroup]
+2026-10-23T12:59:51.0585767Z Syncing repository: signup5653748/Secure-vault
+2026-10-23T12:59:51.0588825Z ##[group]Getting Git version info
+2026-10-23T12:59:51.0590369Z Working directory is '/home/runner/work/Secure-vault/Secure-vault'
+2026-10-23T12:59:51.0592336Z [command]/usr/bin/git version
+2026-10-23T12:59:51.0660174Z git version 2.55.0
+2026-10-23T12:59:51.0710427Z [command]/usr/bin/git lfs version
+2026-10-23T12:59:51.5492100Z git-lfs/3.8.0 (GitHub; linux amd64; go 1.27.0)
+2026-10-23T12:59:51.5507958Z ##[endgroup]
+2026-10-23T12:59:51.5526127Z Temporarily overriding HOME='/home/runner/work/_temp/09384fc4-2907-4564-81f5-1bb95d91653c' before making global git config changes
+2026-10-23T12:59:51.5528893Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-23T12:59:51.5533055Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Secure-vault/Secure-vault
+2026-10-23T12:59:51.5583929Z Deleting the contents of '/home/runner/work/Secure-vault/Secure-vault'
+2026-10-23T12:59:51.5589283Z ##[group]Initializing the repository
+2026-10-23T12:59:51.5593523Z [command]/usr/bin/git init /home/runner/work/Secure-vault/Secure-vault
+2026-10-23T12:59:51.5682910Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-23T12:59:51.5685550Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-23T12:59:51.5687399Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-23T12:59:51.5689093Z hint: call:
+2026-10-23T12:59:51.5690017Z hint:
+2026-10-23T12:59:51.5691151Z hint: 	git config --global init.defaultBranch <name>
+2026-10-23T12:59:51.5692564Z hint:
+2026-10-23T12:59:51.5693881Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-23T12:59:51.5696114Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-23T12:59:51.5697773Z hint:
+2026-10-23T12:59:51.5698799Z hint: 	git branch -m <name>
+2026-10-23T12:59:51.5699841Z hint:
+2026-10-23T12:59:51.5701160Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-23T12:59:51.5703295Z Initialized empty Git repository in /home/runner/work/Secure-vault/Secure-vault/.git/
+2026-10-23T12:59:51.5706909Z [command]/usr/bin/git remote add origin https://github.com/signup5653748/Secure-vault
+2026-10-23T12:59:51.5750999Z ##[endgroup]
+2026-10-23T12:59:51.5752514Z ##[group]Disabling automatic garbage collection
+2026-10-23T12:59:51.5755156Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-23T12:59:51.5787729Z ##[endgroup]
+2026-10-23T12:59:51.5789440Z ##[group]Setting up auth
+2026-10-23T12:59:51.5796094Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-23T12:59:51.5831805Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-23T12:59:51.6088121Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-23T12:59:51.6125022Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-23T12:59:51.6349939Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-23T12:59:51.6383292Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-23T12:59:51.6614012Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-23T12:59:51.6656763Z ##[endgroup]
+2026-10-23T12:59:51.6660771Z [command]/usr/bin/git lfs install --local
+2026-10-23T12:59:51.7050790Z Updated Git hooks.
+2026-10-23T12:59:51.7051623Z Git LFS initialized.
+2026-10-23T12:59:51.7097103Z ##[group]Fetching the repository
+2026-10-23T12:59:51.7107323Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +44c784279cd6d304851c052159a9de98656ef22f:refs/remotes/origin/main
+2026-10-23T12:59:52.1029941Z From https://github.com/signup5653748/Secure-vault
+2026-10-23T12:59:52.1032758Z  * [new ref]         44c784279cd6d304851c052159a9de98656ef22f -> origin/main
+2026-10-23T12:59:52.1039045Z ##[endgroup]
+2026-10-23T12:59:52.1041069Z ##[group]Determining the checkout info
+2026-10-23T12:59:52.1043210Z ##[endgroup]
+2026-10-23T12:59:52.1045300Z ##[group]Fetching LFS objects
+2026-10-23T12:59:52.1049075Z [command]/usr/bin/git lfs fetch origin refs/remotes/origin/main
+2026-10-23T12:59:52.1368616Z Fetching reference refs/remotes/origin/main
+2026-10-23T12:59:52.1671962Z ##[endgroup]
+2026-10-23T12:59:52.1675945Z [command]/usr/bin/git sparse-checkout disable
+2026-10-23T12:59:52.1728707Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-23T12:59:52.1760797Z ##[group]Checking out the ref
+2026-10-23T12:59:52.1764432Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-10-23T12:59:52.1878016Z Switched to a new branch 'main'
+2026-10-23T12:59:52.1883914Z branch 'main' set up to track 'origin/main'.
+2026-10-23T12:59:52.2169376Z ##[endgroup]
+2026-10-23T12:59:52.2210199Z [command]/usr/bin/git log -1 --format=%H
+2026-10-23T12:59:52.2237587Z 44c784279cd6d304851c052159a9de98656ef22f
+2026-10-23T12:59:52.2498848Z ##[group]Run set +e
+2026-10-23T12:59:52.2500060Z [36;1mset +e[0m
+2026-10-23T12:59:52.2501248Z [36;1mecho "===== Scanning project structure ====="[0m
+2026-10-23T12:59:52.2502700Z [36;1m[0m
+2026-10-23T12:59:52.2504849Z [36;1mGRADLEW_PATH=$(find . -maxdepth 6 -name "gradlew" -not -path "*/node_modules/*" 2>/dev/null | head -1)[0m
+2026-10-23T12:59:52.2507696Z [36;1mGRADLE_DIR=$( [ -n "$GRADLEW_PATH" ] && dirname "$GRADLEW_PATH" || echo "." )[0m
+2026-10-23T12:59:52.2509758Z [36;1mecho "Gradle project directory: $GRADLE_DIR"[0m
+2026-10-23T12:59:52.2511213Z [36;1m[0m
+2026-10-23T12:59:52.2512559Z [36;1mWRAPPER_JAR="$GRADLE_DIR/gradle/wrapper/gradle-wrapper.jar"[0m
+2026-10-23T12:59:52.2514413Z [36;1mWRAPPER_VALID="true"[0m
+2026-10-23T12:59:52.2515625Z [36;1mif [ -f "$WRAPPER_JAR" ]; then[0m
+2026-10-23T12:59:52.2517340Z [36;1m  unzip -tq "$WRAPPER_JAR" > /dev/null 2>&1 || WRAPPER_VALID="false"[0m
+2026-10-23T12:59:52.2519075Z [36;1melse[0m
+2026-10-23T12:59:52.2520104Z [36;1m  WRAPPER_VALID="false"[0m
+2026-10-23T12:59:52.2521283Z [36;1mfi[0m
+2026-10-23T12:59:52.2522384Z [36;1mecho "Wrapper jar valid: $WRAPPER_VALID"[0m
+2026-10-23T12:59:52.2523783Z [36;1m[0m
+2026-10-23T12:59:52.2525873Z [36;1mAPP_BUILD_FILE=$(grep -lRE "applicationId" --include="build.gradle*" "$GRADLE_DIR" 2>/dev/null | head -1)[0m
+2026-10-23T12:59:52.2528319Z [36;1mif [ -n "$APP_BUILD_FILE" ]; then[0m
+2026-10-23T12:59:52.2529963Z [36;1m  MODULE_DIR=$(dirname "${APP_BUILD_FILE#$GRADLE_DIR/}")[0m
+2026-10-23T12:59:52.2531909Z [36;1m  MODULE_PATH=$(echo "$MODULE_DIR" | sed 's|^\./||; s|/|:|g')[0m
+2026-10-23T12:59:52.2533581Z [36;1m  APP_MODULE=":$MODULE_PATH"[0m
+2026-10-23T12:59:52.2535136Z [36;1m  GRADLE_TASK="${APP_MODULE}:assembleRelease"[0m
+2026-10-23T12:59:52.2536537Z [36;1melse[0m
+2026-10-23T12:59:52.2537443Z [36;1m  APP_MODULE=""[0m
+2026-10-23T12:59:52.2538574Z [36;1m  GRADLE_TASK="assembleRelease"[0m
+2026-10-23T12:59:52.2539786Z [36;1mfi[0m
+2026-10-23T12:59:52.2540908Z [36;1mecho "Found build file: ${APP_BUILD_FILE:-none}"[0m
+2026-10-23T12:59:52.2542730Z [36;1mecho "App module: ${APP_MODULE:-none, using root fallback}"[0m
+2026-10-23T12:59:52.2544418Z [36;1m[0m
+2026-10-23T12:59:52.2545284Z [36;1mCOMPILE_SDK=""[0m
+2026-10-23T12:59:52.2546394Z [36;1mif [ -n "$APP_BUILD_FILE" ]; then[0m
+2026-10-23T12:59:52.2548774Z [36;1m  COMPILE_SDK=$(grep -oE 'compileSdk(Version)?[= ]+["'"'"']?[0-9]+' "$APP_BUILD_FILE" 2>/dev/null | grep -oE '[0-9]+' | head -1)[0m
+2026-10-23T12:59:52.2551101Z [36;1mfi[0m
+2026-10-23T12:59:52.2552027Z [36;1mif [ -z "$COMPILE_SDK" ]; then[0m
+2026-10-23T12:59:52.2554913Z [36;1m  COMPILE_SDK=$(grep -rhoE 'compileSdk(Version)?[= ]+["'"'"']?[0-9]+' --include="build.gradle*" "$GRADLE_DIR" 2>/dev/null | grep -oE '[0-9]+' | sort -n | tail -1)[0m
+2026-10-23T12:59:52.2557626Z [36;1mfi[0m
+2026-10-23T12:59:52.2558624Z [36;1m[ -z "$COMPILE_SDK" ] && COMPILE_SDK="36"[0m
+2026-10-23T12:59:52.2560081Z [36;1mecho "compileSdk: ${COMPILE_SDK:-not found}"[0m
+2026-10-23T12:59:52.2561397Z [36;1m[0m
+2026-10-23T12:59:52.2562255Z [36;1mGRADLE_VERSION=""[0m
+2026-10-23T12:59:52.2564333Z [36;1mif [ "$WRAPPER_VALID" = "true" ] && [ -f "$GRADLE_DIR/gradle/wrapper/gradle-wrapper.properties" ]; then[0m
+2026-10-23T12:59:52.2568380Z [36;1m  GRADLE_VERSION=$(grep -oE 'gradle-[0-9]+\.[0-9]+(\.[0-9]+)?' "$GRADLE_DIR/gradle/wrapper/gradle-wrapper.properties" 2>/dev/null | grep -oE '[0-9]+\.[0-9]+(\.[0-9]+)?' | head -1)[0m
+2026-10-23T12:59:52.2571523Z [36;1mfi[0m
+2026-10-23T12:59:52.2572932Z [36;1mecho "Pinned Gradle version: ${GRADLE_VERSION:-none, will use latest}"[0m
+2026-10-23T12:59:52.2575108Z [36;1m[0m
+2026-10-23T12:59:52.2576233Z [36;1mSIGNING_SRC="$APP_BUILD_FILE"[0m
+2026-10-23T12:59:52.2578566Z [36;1m[ -z "$SIGNING_SRC" ] && SIGNING_SRC=$(find "$GRADLE_DIR" -maxdepth 4 -name "build.gradle*" 2>/dev/null | head -1)[0m
+2026-10-23T12:59:52.2581001Z [36;1m[0m
+2026-10-23T12:59:52.2583110Z [36;1mKEYSTORE_FILENAME=$(grep -oE 'storeFile[^"'"'"']*["'"'"']([A-Za-z0-9_./-]+\.(jks|keystore))["'"'"']' "$SIGNING_SRC" 2>/dev/null \[0m
+2026-10-23T12:59:52.2585899Z [36;1m  | grep -oE '[A-Za-z0-9_./-]+\.(jks|keystore)' | head -1)[0m
+2026-10-23T12:59:52.2587874Z [36;1m[ -z "$KEYSTORE_FILENAME" ] && KEYSTORE_FILENAME="my-upload-key.jks"[0m
+2026-10-23T12:59:52.2589860Z [36;1mecho "Detected keystore filename: $KEYSTORE_FILENAME"[0m
+2026-10-23T12:59:52.2591348Z [36;1m[0m
+2026-10-23T12:59:52.2592246Z [36;1mUSES_KEYSTORE_PATH_ENV="false"[0m
+2026-10-23T12:59:52.2594869Z [36;1mgrep -qE 'storeFile.*System\.getenv\(["'"'"']KEYSTORE_PATH["'"'"']\)' "$SIGNING_SRC" 2>/dev/null && USES_KEYSTORE_PATH_ENV="true"[0m
+2026-10-23T12:59:52.2597645Z [36;1mecho "Uses KEYSTORE_PATH env var: $USES_KEYSTORE_PATH_ENV"[0m
+2026-10-23T12:59:52.2599185Z [36;1m[0m
+2026-10-23T12:59:52.2600891Z [36;1mALL_VARS=$(grep -oE 'System\.getenv\(["'"'"'][A-Z_]+["'"'"']\)' "$SIGNING_SRC" 2>/dev/null | grep -oE '[A-Z_]+')[0m
+2026-10-23T12:59:52.2603508Z [36;1mSTORE_PASSWORD_VAR=$(echo "$ALL_VARS" | grep -iE 'store.*pass' | head -1)[0m
+2026-10-23T12:59:52.2606095Z [36;1mKEY_PASSWORD_VAR=$(echo "$ALL_VARS" | grep -iE 'key.*pass' | grep -viE 'store' | head -1)[0m
+2026-10-23T12:59:52.2608398Z [36;1mKEY_ALIAS_VAR=$(echo "$ALL_VARS" | grep -iE 'alias' | head -1)[0m
+2026-10-23T12:59:52.2609942Z [36;1m[0m
+2026-10-23T12:59:52.2611225Z [36;1m[ -z "$STORE_PASSWORD_VAR" ] && STORE_PASSWORD_VAR="STORE_PASSWORD"[0m
+2026-10-23T12:59:52.2613172Z [36;1m[ -z "$KEY_PASSWORD_VAR" ] && KEY_PASSWORD_VAR="KEY_PASSWORD"[0m
+2026-10-23T12:59:52.2614803Z [36;1m[0m
+2026-10-23T12:59:52.2615916Z [36;1mecho "Store password env var: $STORE_PASSWORD_VAR"[0m
+2026-10-23T12:59:52.2617556Z [36;1mecho "Key password env var: $KEY_PASSWORD_VAR"[0m
+2026-10-23T12:59:52.2619565Z [36;1mecho "Key alias env var: ${KEY_ALIAS_VAR:-none, likely hardcoded in build.gradle}"[0m
+2026-10-23T12:59:52.2621533Z [36;1mecho "===== Detection complete ====="[0m
+2026-10-23T12:59:52.2622786Z [36;1m[0m
+2026-10-23T12:59:52.2623586Z [36;1m{[0m
+2026-10-23T12:59:52.2624609Z [36;1m  echo "gradle_dir=$GRADLE_DIR"[0m
+2026-10-23T12:59:52.2625882Z [36;1m  echo "app_module=$APP_MODULE"[0m
+2026-10-23T12:59:52.2627153Z [36;1m  echo "gradle_task=$GRADLE_TASK"[0m
+2026-10-23T12:59:52.2628446Z [36;1m  echo "compile_sdk=$COMPILE_SDK"[0m
+2026-10-23T12:59:52.2629695Z [36;1m  echo "jdk_version=21"[0m
+2026-10-23T12:59:52.2630921Z [36;1m  echo "gradle_version=$GRADLE_VERSION"[0m
+2026-10-23T12:59:52.2632318Z [36;1m  echo "wrapper_valid=$WRAPPER_VALID"[0m
+2026-10-23T12:59:52.2633787Z [36;1m  echo "keystore_filename=$KEYSTORE_FILENAME"[0m
+2026-10-23T12:59:52.2635570Z [36;1m  echo "uses_keystore_path_env=$USES_KEYSTORE_PATH_ENV"[0m
+2026-10-23T12:59:52.2637231Z [36;1m  echo "store_password_var=$STORE_PASSWORD_VAR"[0m
+2026-10-23T12:59:52.2638697Z [36;1m  echo "key_alias_var=$KEY_ALIAS_VAR"[0m
+2026-10-23T12:59:52.2640127Z [36;1m  echo "key_password_var=$KEY_PASSWORD_VAR"[0m
+2026-10-23T12:59:52.2641531Z [36;1m  echo "signing_src=$SIGNING_SRC"[0m
+2026-10-23T12:59:52.2642767Z [36;1m} >> "$GITHUB_OUTPUT"[0m
+2026-10-23T12:59:52.2891242Z shell: /usr/bin/bash -e {0}
+2026-10-23T12:59:52.2892354Z ##[endgroup]
+2026-10-23T12:59:52.3002694Z ===== Scanning project structure =====
+2026-10-23T12:59:52.3045878Z Gradle project directory: .
+2026-10-23T12:59:52.3110130Z Wrapper jar valid: false
+2026-10-23T12:59:52.3111955Z Found build file: ./app/build.gradle.kts
+2026-10-23T12:59:52.3113963Z App module: :app
+2026-10-23T12:59:52.3133633Z compileSdk: 36
+2026-10-23T12:59:52.3135106Z Pinned Gradle version: none, will use latest
+2026-10-23T12:59:52.3156791Z Detected keystore filename: my-upload-key.jks
+2026-10-23T12:59:52.3171599Z Uses KEYSTORE_PATH env var: false
+2026-10-23T12:59:52.3251251Z Store password env var: STORE_PASSWORD
+2026-10-23T12:59:52.3252594Z Key password env var: KEY_PASSWORD
+2026-10-23T12:59:52.3253867Z Key alias env var: KEY_ALIAS
+2026-10-23T12:59:52.3256268Z ===== Detection complete =====
+2026-10-23T12:59:52.3386214Z ##[group]Run {
+2026-10-23T12:59:52.3387147Z [36;1m{[0m
+2026-10-23T12:59:52.3388114Z [36;1m  echo "### 🔍 Detected Configuration"[0m
+2026-10-23T12:59:52.3389452Z [36;1m  echo "| Setting | Value |"[0m
+2026-10-23T12:59:52.3390600Z [36;1m  echo "|---|---|"[0m
+2026-10-23T12:59:52.3391670Z [36;1m  echo "| Gradle dir | \`.\` |"[0m
+2026-10-23T12:59:52.3392913Z [36;1m  echo "| App module | \`:app\` |"[0m
+2026-10-23T12:59:52.3394512Z [36;1m  echo "| compileSdk | \`36\` |"[0m
+2026-10-23T12:59:52.3395813Z [36;1m  echo "| Wrapper valid | \`false\` |"[0m
+2026-10-23T12:59:52.3397471Z [36;1m  echo "| Keystore filename expected | \`my-upload-key.jks\` |"[0m
+2026-10-23T12:59:52.3399336Z [36;1m  echo "| Store password env var | \`STORE_PASSWORD\` |"[0m
+2026-10-23T12:59:52.3400965Z [36;1m  echo "| Key alias env var | \`KEY_ALIAS\` |"[0m
+2026-10-23T12:59:52.3402560Z [36;1m  echo "| Key password env var | \`KEY_PASSWORD\` |"[0m
+2026-10-23T12:59:52.3404308Z [36;1m} >> "$GITHUB_STEP_SUMMARY"[0m
+2026-10-23T12:59:52.3465246Z shell: /usr/bin/bash -e {0}
+2026-10-23T12:59:52.3466282Z ##[endgroup]
+2026-10-23T12:59:52.3888262Z Post job cleanup.
+2026-10-23T12:59:52.4786926Z [command]/usr/bin/git version
+2026-10-23T12:59:52.4831767Z git version 2.55.0
+2026-10-23T12:59:52.4876634Z Temporarily overriding HOME='/home/runner/work/_temp/8e85dfec-26b5-4379-815e-a5d1c383f087' before making global git config changes
+2026-10-23T12:59:52.4880044Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-23T12:59:52.4883796Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Secure-vault/Secure-vault
+2026-10-23T12:59:52.4923732Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-23T12:59:52.4959455Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-23T12:59:52.5267583Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-23T12:59:52.5305819Z http.https://github.com/.extraheader
+2026-10-23T12:59:52.5320451Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-23T12:59:52.5380726Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-23T12:59:52.5666538Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-23T12:59:52.5706250Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-23T12:59:52.6103987Z Evaluate and set job outputs
+2026-10-23T12:59:52.6117052Z Set output 'gradle_dir'
+2026-10-23T12:59:52.6119788Z Set output 'app_module'
+2026-10-23T12:59:52.6121434Z Set output 'gradle_task'
+2026-10-23T12:59:52.6122720Z Set output 'compile_sdk'
+2026-10-23T12:59:52.6123994Z Set output 'jdk_version'
+2026-10-23T12:59:52.6125633Z Set output 'wrapper_valid'
+2026-10-23T12:59:52.6126964Z Set output 'keystore_filename'
+2026-10-23T12:59:52.6128571Z Set output 'uses_keystore_path_env'
+2026-10-23T12:59:52.6130009Z Set output 'store_password_var'
+2026-10-23T12:59:52.6131343Z Set output 'key_alias_var'
+2026-10-23T12:59:52.6132657Z Set output 'key_password_var'
+2026-10-23T12:59:52.6134012Z Set output 'signing_src'
+2026-10-23T12:59:52.6136053Z Cleaning up orphan processes
+2026-10-23T12:59:52.6665902Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
 
 
 ===== JOB: Build Signed Release APK (status: failure) =====
-﻿2026-10-23T12:51:26.1345337Z Current runner version: '2.338.0'
-2026-10-23T12:51:26.1372507Z ##[group]Runner Image Provisioner
-2026-10-23T12:51:26.1373475Z Hosted Compute Agent
-2026-10-23T12:51:26.1374278Z Version: 20261012.601
-2026-10-23T12:51:26.1375000Z Commit: f3dc54e1fb89da6852db922499a0233137369e1d
-2026-10-23T12:51:26.1375821Z Build Date: 2026-10-12T17:48:21Z
-2026-10-23T12:51:26.1376667Z Worker ID: {63708101-cdf1-44cf-92d0-b933da66698d}
-2026-10-23T12:51:26.1377474Z Region: westus2
-2026-10-23T12:51:26.1378084Z Cloud: Azure
-2026-10-23T12:51:26.1378690Z ##[endgroup]
-2026-10-23T12:51:26.1380458Z ##[group]Operating System
-2026-10-23T12:51:26.1381296Z Ubuntu
-2026-10-23T12:51:26.1381913Z 24.04.5
-2026-10-23T12:51:26.1382561Z LTS
-2026-10-23T12:51:26.1383132Z ##[endgroup]
-2026-10-23T12:51:26.1383818Z ##[group]Runner Image
-2026-10-23T12:51:26.1384489Z Image: ubuntu-24.04
-2026-10-23T12:51:26.1385152Z Version: 20261012.334.1
-2026-10-23T12:51:26.1386541Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261012.334/images/ubuntu/Ubuntu2404-Readme.md
-2026-10-23T12:51:26.1388197Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261012.334
-2026-10-23T12:51:26.1389280Z ##[endgroup]
-2026-10-23T12:51:26.1390836Z ##[group]GITHUB_TOKEN Permissions
-2026-10-23T12:51:26.1392822Z Contents: write
-2026-10-23T12:51:26.1393487Z Metadata: read
-2026-10-23T12:51:26.1394296Z ##[endgroup]
-2026-10-23T12:51:26.1396906Z Secret source: Actions
-2026-10-23T12:51:26.1398089Z Cache mode: write
-2026-10-23T12:51:26.1398920Z Prepare workflow directory
-2026-10-23T12:51:26.1734991Z Prepare all required actions
-2026-10-23T12:51:26.1783994Z Getting action download info
-2026-10-23T12:51:26.6152709Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
-2026-10-23T12:51:26.7401884Z Download action repository 'actions/setup-java@v4' (SHA:cf277c60eb25467037889841efdb72551f06f6c3)
-2026-10-23T12:51:27.0964751Z Download action repository 'gradle/actions@v4' (SHA:ed408507eac070d1f99cc633dbcf757c94c7933a)
-2026-10-23T12:51:27.9408824Z Download action repository 'softprops/action-gh-release@v2' (SHA:3bb12739c298aeb8a4eeaf626c5b8d85266b0e65)
-2026-10-23T12:51:28.3151331Z Complete job name: Build Signed Release APK
-2026-10-23T12:51:28.4411108Z ##[group]Run actions/checkout@v4
-2026-10-23T12:51:28.4412634Z with:
-2026-10-23T12:51:28.4413515Z   lfs: true
-2026-10-23T12:51:28.4414472Z   repository: signup5653748/Secure-vault
-2026-10-23T12:51:28.4423132Z   token: ***
-2026-10-23T12:51:28.4424071Z   ssh-strict: true
-2026-10-23T12:51:28.4425004Z   ssh-user: git
-2026-10-23T12:51:28.4425962Z   persist-credentials: true
-2026-10-23T12:51:28.4427002Z   clean: true
-2026-10-23T12:51:28.4427990Z   sparse-checkout-cone-mode: true
-2026-10-23T12:51:28.4429105Z   fetch-depth: 1
-2026-10-23T12:51:28.4430201Z   fetch-tags: false
-2026-10-23T12:51:28.4431187Z   show-progress: true
-2026-10-23T12:51:28.4432185Z   submodules: false
-2026-10-23T12:51:28.4433162Z   set-safe-directory: true
-2026-10-23T12:51:28.4435406Z   allow-unsafe-pr-checkout: false
-2026-10-23T12:51:28.4437303Z ##[endgroup]
-2026-10-23T12:51:28.5517820Z Syncing repository: signup5653748/Secure-vault
-2026-10-23T12:51:28.5522092Z ##[group]Getting Git version info
-2026-10-23T12:51:28.5523904Z Working directory is '/home/runner/work/Secure-vault/Secure-vault'
-2026-10-23T12:51:28.5526542Z [command]/usr/bin/git version
-2026-10-23T12:51:28.5614090Z git version 2.55.0
-2026-10-23T12:51:28.5663981Z [command]/usr/bin/git lfs version
-2026-10-23T12:51:29.5999272Z git-lfs/3.8.0 (GitHub; linux amd64; go 1.27.0)
-2026-10-23T12:51:29.6013986Z ##[endgroup]
-2026-10-23T12:51:29.6030860Z Temporarily overriding HOME='/home/runner/work/_temp/e4c66499-6560-4cb6-aaa1-d5e2fdd97c2a' before making global git config changes
-2026-10-23T12:51:29.6031967Z Adding repository directory to the temporary git global config as a safe directory
-2026-10-23T12:51:29.6036934Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Secure-vault/Secure-vault
-2026-10-23T12:51:29.6092167Z Deleting the contents of '/home/runner/work/Secure-vault/Secure-vault'
-2026-10-23T12:51:29.6096133Z ##[group]Initializing the repository
-2026-10-23T12:51:29.6101308Z [command]/usr/bin/git init /home/runner/work/Secure-vault/Secure-vault
-2026-10-23T12:51:29.6223451Z hint: Using 'master' as the name for the initial branch. This default branch name
-2026-10-23T12:51:29.6224736Z hint: will change to "main" in Git 3.0. To configure the initial branch name
-2026-10-23T12:51:29.6225583Z hint: to use in all of your new repositories, which will suppress this warning,
-2026-10-23T12:51:29.6226503Z hint: call:
-2026-10-23T12:51:29.6226938Z hint:
-2026-10-23T12:51:29.6227422Z hint: 	git config --global init.defaultBranch <name>
-2026-10-23T12:51:29.6228084Z hint:
-2026-10-23T12:51:29.6228843Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
-2026-10-23T12:51:29.6230214Z hint: 'development'. The just-created branch can be renamed via this command:
-2026-10-23T12:51:29.6231159Z hint:
-2026-10-23T12:51:29.6231691Z hint: 	git branch -m <name>
-2026-10-23T12:51:29.6232285Z hint:
-2026-10-23T12:51:29.6233059Z hint: Disable this message with "git config set advice.defaultBranchName false"
-2026-10-23T12:51:29.6234350Z Initialized empty Git repository in /home/runner/work/Secure-vault/Secure-vault/.git/
-2026-10-23T12:51:29.6240886Z [command]/usr/bin/git remote add origin https://github.com/signup5653748/Secure-vault
-2026-10-23T12:51:29.6301106Z ##[endgroup]
-2026-10-23T12:51:29.6302081Z ##[group]Disabling automatic garbage collection
-2026-10-23T12:51:29.6306113Z [command]/usr/bin/git config --local gc.auto 0
-2026-10-23T12:51:29.6340848Z ##[endgroup]
-2026-10-23T12:51:29.6341573Z ##[group]Setting up auth
-2026-10-23T12:51:29.6349775Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
-2026-10-23T12:51:29.6386273Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
-2026-10-23T12:51:29.6662927Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
-2026-10-23T12:51:29.6701011Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
-2026-10-23T12:51:29.6933314Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
-2026-10-23T12:51:29.6968431Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
-2026-10-23T12:51:29.7204262Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
-2026-10-23T12:51:29.7247598Z ##[endgroup]
-2026-10-23T12:51:29.7252582Z [command]/usr/bin/git lfs install --local
-2026-10-23T12:51:29.8067245Z Updated Git hooks.
-2026-10-23T12:51:29.8073374Z Git LFS initialized.
-2026-10-23T12:51:29.8081149Z ##[group]Fetching the repository
-2026-10-23T12:51:29.8093380Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +44c784279cd6d304851c052159a9de98656ef22f:refs/remotes/origin/main
-2026-10-23T12:51:30.1261787Z From https://github.com/signup5653748/Secure-vault
-2026-10-23T12:51:30.1263028Z  * [new ref]         44c784279cd6d304851c052159a9de98656ef22f -> origin/main
-2026-10-23T12:51:30.1273770Z ##[endgroup]
-2026-10-23T12:51:30.1274627Z ##[group]Determining the checkout info
-2026-10-23T12:51:30.1275528Z ##[endgroup]
-2026-10-23T12:51:30.1276269Z ##[group]Fetching LFS objects
-2026-10-23T12:51:30.1302653Z [command]/usr/bin/git lfs fetch origin refs/remotes/origin/main
-2026-10-23T12:51:30.1589543Z Fetching reference refs/remotes/origin/main
-2026-10-23T12:51:30.2733226Z ##[endgroup]
-2026-10-23T12:51:30.2738261Z [command]/usr/bin/git sparse-checkout disable
-2026-10-23T12:51:30.2797164Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
-2026-10-23T12:51:30.2829638Z ##[group]Checking out the ref
-2026-10-23T12:51:30.2834344Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
-2026-10-23T12:51:30.2955278Z Switched to a new branch 'main'
-2026-10-23T12:51:30.2962223Z branch 'main' set up to track 'origin/main'.
-2026-10-23T12:51:30.3281913Z ##[endgroup]
-2026-10-23T12:51:30.3326593Z [command]/usr/bin/git log -1 --format=%H
-2026-10-23T12:51:30.3355677Z 44c784279cd6d304851c052159a9de98656ef22f
-2026-10-23T12:51:30.3674690Z ##[group]Run echo "aW1wb3J0IG9zLCByZSwgc3lzCgpwYXRoID0gb3MuZW52aXJvbi5nZXQoIlNJR05JTkdfU1JDIiwgIiIpCmlmIG5vdCBwYXRoIG9yIG5vdCBvcy5wYXRoLmlzZmlsZShwYXRoKToKICAgIHByaW50KCI6Ondhcm5pbmc6Ok5vIHNpZ25pbmcgc291cmNlIGZpbGUgZGV0ZWN0ZWQgLSBza2lwcGluZyBzaWduaW5nIGNvbmZpZyBlbmZvcmNlbWVudC4iKQogICAgc3lzLmV4aXQoMCkKCnN0b3JlX3Bhc3NfdmFyID0gb3MuZW52aXJvbi5nZXQoIlNUT1JFX1BBU1NfVkFSIikgb3IgIlNUT1JFX1BBU1NXT1JEIgprZXlfcGFzc192YXIgPSBvcy5lbnZpcm9uLmdldCgiS0VZX1BBU1NfVkFSIikgb3IgIktFWV9QQVNTV09SRCIKCndpdGggb3BlbihwYXRoLCAiciIpIGFzIGY6CiAgICBjb250ZW50ID0gZi5yZWFkKCkKCmNhbm9uaWNhbCA9ICcnJyAgc2lnbmluZ0NvbmZpZ3MgewogICAgY3JlYXRlKCJyZWxlYXNlIikgewogICAgICB2YWwga2V5c3RvcmVQYXRoID0gU3lzdGVtLmdldGVudigiS0VZU1RPUkVfUEFUSCIpID86ICIke3Jvb3REaXJ9L215LXVwbG9hZC1rZXkuamtzIgogICAgICBzdG9yZUZpbGUgPSBmaWxlKGtleXN0b3JlUGF0aCkKICAgICAgc3RvcmVQYXNzd29yZCA9IFN5c3RlbS5nZXRlbnYoIicnJyArIHN0b3JlX3Bhc3NfdmFyICsgJycnIikKICAgICAgdmFsIGlzUmVsZWFzZUJ1aWxkID0gZ3JhZGxlLnN0YXJ0UGFyYW1ldGVyLnRhc2tOYW1lcy5hbnkgeyBpdC5jb250YWlucygiUmVsZWFzZSIsIGlnbm9yZUNhc2UgPSB0cnVlKSB9CiAgICAgIHZhbCBhbGlhcyA9IFN5c3RlbS5nZXRlbnYoIktFWV9BTElBUyIpCiAgICAgIGlmIChpc1JlbGVhc2VCdWlsZCAmJiBhbGlhcy5pc051bGxPckVtcHR5KCkpIHsKICAgICAgICB0aHJvdyBHcmFkbGVFeGNlcHRpb24oIktFWV9BTElBUyBlbnZpcm9ubWVudCB2YXJpYWJsZSBpcyBub3Qgc2V0IikKICAgICAgfQogICAgICBrZXlBbGlhcyA9IGFsaWFzID86ICIiCiAgICAgIGtleVBhc3N3b3JkID0gU3lzdGVtLmdldGVudigiJycnICsga2V5X3Bhc3NfdmFyICsgJycnIikKICAgIH0KICAgIGNyZWF0ZSgiZGVidWdDb25maWciKSB7CiAgICAgIHN0b3JlRmlsZSA9IGZpbGUoIiR7cm9vdERpcn0vZGVidWcua2V5c3RvcmUiKQogICAgICBzdG9yZVBhc3N3b3JkID0gImFuZHJvaWQiCiAgICAgIGtleUFsaWFzID0gImFuZHJvaWRkZWJ1Z2tleSIKICAgICAga2V5UGFzc3dvcmQgPSAiYW5kcm9pZCIKICAgIH0KICB9CicnJwoKaWR4ID0gY29udGVudC5maW5kKCJzaWduaW5nQ29uZmlncyIpCmlmIGlkeCA9PSAtMToKICAgIG0gPSByZS5zZWFyY2gociJhbmRyb2lkXHMqXHsiLCBjb250ZW50KQogICAgaWYgbm90IG06CiAgICAgICAgcHJpbnQoIjo6ZXJyb3I6Ok5vIGFuZHJvaWQge30gYmxvY2sgZm91bmQgLSBjYW5ub3QgaW5zZXJ0IHNpZ25pbmdDb25maWdzLiIpCiAgICAgICAgc3lzLmV4aXQoMSkKICAgIGluc2VydF9hdCA9IG0uZW5kKCkKICAgIG5ld19jb250ZW50ID0gY29udGVudFs6aW5zZXJ0X2F0XSArICJcbiIgKyBjYW5vbmljYWwgKyBjb250ZW50W2luc2VydF9hdDpdCiAgICBwcmludCgiTm8gZXhpc3Rpbmcgc2lnbmluZ0NvbmZpZ3MgYmxvY2sgZm91bmQgLSBpbnNlcnRlZCBjYW5vbmljYWwgYmxvY2suIikKZWxzZToKICAgIGJyYWNlX3N0YXJ0ID0gY29udGVudC5maW5kKCJ7IiwgaWR4KQogICAgZGVwdGggPSAwCiAgICBpID0gYnJhY2Vfc3RhcnQKICAgIHdoaWxlIGkgPCBsZW4oY29udGVudCk6CiAgICAgICAgaWYgY29udGVudFtpXSA9PSAieyI6CiAgICAgICAgICAgIGRlcHRoICs9IDEKICAgICAgICBlbGlmIGNvbnRlbnRbaV0gPT0gIn0iOgogICAgICAgICAgICBkZXB0aCAtPSAxCiAgICAgICAgICAgIGlmIGRlcHRoID09IDA6CiAgICAgICAgICAgICAgICBicmVhawogICAgICAgIGkgKz0gMQogICAgYmxvY2tfZW5kID0gaSArIDEKICAgIGxpbmVfc3RhcnQgPSBjb250ZW50LnJmaW5kKCJcbiIsIDAsIGlkeCkgKyAxCiAgICB0YWlsID0gY29udGVudFtibG9ja19lbmQ6XQogICAgaWYgdGFpbC5zdGFydHN3aXRoKCJcbiIpOgogICAgICAgIHRhaWwgPSB0YWlsWzE6XQogICAgbmV3X2NvbnRlbnQgPSBjb250ZW50WzpsaW5lX3N0YXJ0XSArIGNhbm9uaWNhbCArIHRhaWwKICAgIHByaW50KCJFeGlzdGluZyBzaWduaW5nQ29uZmlncyBibG9jayByZXBsYWNlZCB3aXRoIGNhbm9uaWNhbCB2ZXJzaW9uLiIpCgp3aXRoIG9wZW4ocGF0aCwgInciKSBhcyBmOgogICAgZi53cml0ZShuZXdfY29udGVudCkK" | base64 -d | python3
-2026-10-23T12:51:30.3846251Z [36;1mecho "aW1wb3J0IG9zLCByZSwgc3lzCgpwYXRoID0gb3MuZW52aXJvbi5nZXQoIlNJR05JTkdfU1JDIiwgIiIpCmlmIG5vdCBwYXRoIG9yIG5vdCBvcy5wYXRoLmlzZmlsZShwYXRoKToKICAgIHByaW50KCI6Ondhcm5pbmc6Ok5vIHNpZ25pbmcgc291cmNlIGZpbGUgZGV0ZWN0ZWQgLSBza2lwcGluZyBzaWduaW5nIGNvbmZpZyBlbmZvcmNlbWVudC4iKQogICAgc3lzLmV4aXQoMCkKCnN0b3JlX3Bhc3NfdmFyID0gb3MuZW52aXJvbi5nZXQoIlNUT1JFX1BBU1NfVkFSIikgb3IgIlNUT1JFX1BBU1NXT1JEIgprZXlfcGFzc192YXIgPSBvcy5lbnZpcm9uLmdldCgiS0VZX1BBU1NfVkFSIikgb3IgIktFWV9QQVNTV09SRCIKCndpdGggb3BlbihwYXRoLCAiciIpIGFzIGY6CiAgICBjb250ZW50ID0gZi5yZWFkKCkKCmNhbm9uaWNhbCA9ICcnJyAgc2lnbmluZ0NvbmZpZ3MgewogICAgY3JlYXRlKCJyZWxlYXNlIikgewogICAgICB2YWwga2V5c3RvcmVQYXRoID0gU3lzdGVtLmdldGVudigiS0VZU1RPUkVfUEFUSCIpID86ICIke3Jvb3REaXJ9L215LXVwbG9hZC1rZXkuamtzIgogICAgICBzdG9yZUZpbGUgPSBmaWxlKGtleXN0b3JlUGF0aCkKICAgICAgc3RvcmVQYXNzd29yZCA9IFN5c3RlbS5nZXRlbnYoIicnJyArIHN0b3JlX3Bhc3NfdmFyICsgJycnIikKICAgICAgdmFsIGlzUmVsZWFzZUJ1aWxkID0gZ3JhZGxlLnN0YXJ0UGFyYW1ldGVyLnRhc2tOYW1lcy5hbnkgeyBpdC5jb250YWlucygiUmVsZWFzZSIsIGlnbm9yZUNhc2UgPSB0cnVlKSB9CiAgICAgIHZhbCBhbGlhcyA9IFN5c3RlbS5nZXRlbnYoIktFWV9BTElBUyIpCiAgICAgIGlmIChpc1JlbGVhc2VCdWlsZCAmJiBhbGlhcy5pc051bGxPckVtcHR5KCkpIHsKICAgICAgICB0aHJvdyBHcmFkbGVFeGNlcHRpb24oIktFWV9BTElBUyBlbnZpcm9ubWVudCB2YXJpYWJsZSBpcyBub3Qgc2V0IikKICAgICAgfQogICAgICBrZXlBbGlhcyA9IGFsaWFzID86ICIiCiAgICAgIGtleVBhc3N3b3JkID0gU3lzdGVtLmdldGVudigiJycnICsga2V5X3Bhc3NfdmFyICsgJycnIikKICAgIH0KICAgIGNyZWF0ZSgiZGVidWdDb25maWciKSB7CiAgICAgIHN0b3JlRmlsZSA9IGZpbGUoIiR7cm9vdERpcn0vZGVidWcua2V5c3RvcmUiKQogICAgICBzdG9yZVBhc3N3b3JkID0gImFuZHJvaWQiCiAgICAgIGtleUFsaWFzID0gImFuZHJvaWRkZWJ1Z2tleSIKICAgICAga2V5UGFzc3dvcmQgPSAiYW5kcm9pZCIKICAgIH0KICB9CicnJwoKaWR4ID0gY29udGVudC5maW5kKCJzaWduaW5nQ29uZmlncyIpCmlmIGlkeCA9PSAtMToKICAgIG0gPSByZS5zZWFyY2gociJhbmRyb2lkXHMqXHsiLCBjb250ZW50KQogICAgaWYgbm90IG06CiAgICAgICAgcHJpbnQoIjo6ZXJyb3I6Ok5vIGFuZHJvaWQge30gYmxvY2sgZm91bmQgLSBjYW5ub3QgaW5zZXJ0IHNpZ25pbmdDb25maWdzLiIpCiAgICAgICAgc3lzLmV4aXQoMSkKICAgIGluc2VydF9hdCA9IG0uZW5kKCkKICAgIG5ld19jb250ZW50ID0gY29udGVudFs6aW5zZXJ0X2F0XSArICJcbiIgKyBjYW5vbmljYWwgKyBjb250ZW50W2luc2VydF9hdDpdCiAgICBwcmludCgiTm8gZXhpc3Rpbmcgc2lnbmluZ0NvbmZpZ3MgYmxvY2sgZm91bmQgLSBpbnNlcnRlZCBjYW5vbmljYWwgYmxvY2suIikKZWxzZToKICAgIGJyYWNlX3N0YXJ0ID0gY29udGVudC5maW5kKCJ7IiwgaWR4KQogICAgZGVwdGggPSAwCiAgICBpID0gYnJhY2Vfc3RhcnQKICAgIHdoaWxlIGkgPCBsZW4oY29udGVudCk6CiAgICAgICAgaWYgY29udGVudFtpXSA9PSAieyI6CiAgICAgICAgICAgIGRlcHRoICs9IDEKICAgICAgICBlbGlmIGNvbnRlbnRbaV0gPT0gIn0iOgogICAgICAgICAgICBkZXB0aCAtPSAxCiAgICAgICAgICAgIGlmIGRlcHRoID09IDA6CiAgICAgICAgICAgICAgICBicmVhawogICAgICAgIGkgKz0gMQogICAgYmxvY2tfZW5kID0gaSArIDEKICAgIGxpbmVfc3RhcnQgPSBjb250ZW50LnJmaW5kKCJcbiIsIDAsIGlkeCkgKyAxCiAgICB0YWlsID0gY29udGVudFtibG9ja19lbmQ6XQogICAgaWYgdGFpbC5zdGFydHN3aXRoKCJcbiIpOgogICAgICAgIHRhaWwgPSB0YWlsWzE6XQogICAgbmV3X2NvbnRlbnQgPSBjb250ZW50WzpsaW5lX3N0YXJ0XSArIGNhbm9uaWNhbCArIHRhaWwKICAgIHByaW50KCJFeGlzdGluZyBzaWduaW5nQ29uZmlncyBibG9jayByZXBsYWNlZCB3aXRoIGNhbm9uaWNhbCB2ZXJzaW9uLiIpCgp3aXRoIG9wZW4ocGF0aCwgInciKSBhcyBmOgogICAgZi53cml0ZShuZXdfY29udGVudCkK" | base64 -d | python3[0m
-2026-10-23T12:51:30.4243113Z shell: /usr/bin/bash -e {0}
-2026-10-23T12:51:30.4243572Z env:
-2026-10-23T12:51:30.4243915Z   SIGNING_SRC: ./app/build.gradle.kts
-2026-10-23T12:51:30.4244388Z   STORE_PASS_VAR: STORE_PASSWORD
-2026-10-23T12:51:30.4244781Z   KEY_PASS_VAR: KEY_PASSWORD
-2026-10-23T12:51:30.4245141Z ##[endgroup]
-2026-10-23T12:51:30.4540816Z Existing signingConfigs block replaced with canonical version.
-2026-10-23T12:51:30.4712648Z ##[group]Run actions/setup-java@v4
-2026-10-23T12:51:30.4713031Z with:
-2026-10-23T12:51:30.4713316Z   java-version: 21
-2026-10-23T12:51:30.4713629Z   distribution: temurin
-2026-10-23T12:51:30.4714065Z   java-package: jdk
-2026-10-23T12:51:30.4714361Z   check-latest: false
-2026-10-23T12:51:30.4714654Z   server-id: github
-2026-10-23T12:51:30.4714948Z   server-username: GITHUB_ACTOR
-2026-10-23T12:51:30.4715291Z   server-password: GITHUB_TOKEN
-2026-10-23T12:51:30.4715623Z   overwrite-settings: true
-2026-10-23T12:51:30.4715936Z   job-status: success
-2026-10-23T12:51:30.4718322Z   token: ***
-2026-10-23T12:51:30.4718609Z ##[endgroup]
-2026-10-23T12:51:30.6466061Z ##[warning]setup-java v4 is deprecated and will no longer receive updates. Please migrate to actions/setup-java@v5.
-2026-10-23T12:51:30.6475595Z ##[group]Installed distributions
-2026-10-23T12:51:30.6586133Z Resolved Java 21.0.12+1 from tool-cache
-2026-10-23T12:51:30.6586843Z Setting Java 21.0.12+1 as the default
-2026-10-23T12:51:30.6598039Z (node:2606) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-2026-10-23T12:51:30.6599310Z (Use `node --trace-deprecation ...` to show where the warning was created)
-2026-10-23T12:51:30.6602471Z Creating toolchains.xml for JDK version 21 from temurin
-2026-10-23T12:51:30.6680574Z Writing to /home/runner/.m2/toolchains.xml
-2026-10-23T12:51:30.6681434Z 
-2026-10-23T12:51:30.6681685Z Java configuration:
-2026-10-23T12:51:30.6682221Z   Distribution: temurin
-2026-10-23T12:51:30.6682741Z   Version: 21.0.12+1
-2026-10-23T12:51:30.6683440Z   Path: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.12-1/x64
-2026-10-23T12:51:30.6684016Z 
-2026-10-23T12:51:30.6684682Z ##[endgroup]
-2026-10-23T12:51:30.6703124Z Creating settings.xml with server-id: github
-2026-10-23T12:51:30.6738910Z Writing to /home/runner/.m2/settings.xml
-2026-10-23T12:51:30.7145899Z ##[group]Run gradle/actions/setup-gradle@v4
-2026-10-23T12:51:30.7146294Z with:
-2026-10-23T12:51:30.7146559Z   validate-wrappers: false
-2026-10-23T12:51:30.7146858Z   cache-disabled: false
-2026-10-23T12:51:30.7147144Z   cache-read-only: false
-2026-10-23T12:51:30.7147442Z   cache-write-only: false
-2026-10-23T12:51:30.7147748Z   cache-overwrite-existing: false
-2026-10-23T12:51:30.7148063Z   cache-cleanup: on-success
-2026-10-23T12:51:30.7148404Z   gradle-home-cache-includes: caches
+﻿2026-10-23T12:59:57.8169853Z Current runner version: '2.338.0'
+2026-10-23T12:59:57.8196312Z ##[group]Runner Image Provisioner
+2026-10-23T12:59:57.8197231Z Hosted Compute Agent
+2026-10-23T12:59:57.8197919Z Version: 20261012.601
+2026-10-23T12:59:57.8198577Z Commit: f3dc54e1fb89da6852db922499a0233137369e1d
+2026-10-23T12:59:57.8199374Z Build Date: 2026-10-12T17:48:21Z
+2026-10-23T12:59:57.8200075Z Worker ID: {0af3ed69-e55d-4959-8446-f948af0997aa}
+2026-10-23T12:59:57.8201065Z Region: centralus
+2026-10-23T12:59:57.8201737Z Cloud: Azure
+2026-10-23T12:59:57.8202275Z ##[endgroup]
+2026-10-23T12:59:57.8203709Z ##[group]Operating System
+2026-10-23T12:59:57.8204359Z Ubuntu
+2026-10-23T12:59:57.8204919Z 24.04.5
+2026-10-23T12:59:57.8205519Z LTS
+2026-10-23T12:59:57.8206056Z ##[endgroup]
+2026-10-23T12:59:57.8206645Z ##[group]Runner Image
+2026-10-23T12:59:57.8207311Z Image: ubuntu-24.04
+2026-10-23T12:59:57.8207964Z Version: 20261012.334.1
+2026-10-23T12:59:57.8209437Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261012.334/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-23T12:59:57.8211168Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261012.334
+2026-10-23T12:59:57.8212142Z ##[endgroup]
+2026-10-23T12:59:57.8213337Z ##[group]GITHUB_TOKEN Permissions
+2026-10-23T12:59:57.8215490Z Contents: write
+2026-10-23T12:59:57.8216135Z Metadata: read
+2026-10-23T12:59:57.8216708Z ##[endgroup]
+2026-10-23T12:59:57.8219282Z Secret source: Actions
+2026-10-23T12:59:57.8220299Z Cache mode: write
+2026-10-23T12:59:57.8221227Z Prepare workflow directory
+2026-10-23T12:59:57.8571471Z Prepare all required actions
+2026-10-23T12:59:57.8623933Z Getting action download info
+2026-10-23T12:59:58.1828080Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-10-23T12:59:58.3005559Z Download action repository 'actions/setup-java@v4' (SHA:cf277c60eb25467037889841efdb72551f06f6c3)
+2026-10-23T12:59:59.0789295Z Download action repository 'gradle/actions@v4' (SHA:ed408507eac070d1f99cc633dbcf757c94c7933a)
+2026-10-23T13:00:00.7136721Z Download action repository 'softprops/action-gh-release@v2' (SHA:3bb12739c298aeb8a4eeaf626c5b8d85266b0e65)
+2026-10-23T13:00:01.4583281Z Complete job name: Build Signed Release APK
+2026-10-23T13:00:01.5420342Z ##[group]Run actions/checkout@v4
+2026-10-23T13:00:01.5421356Z with:
+2026-10-23T13:00:01.5421744Z   lfs: true
+2026-10-23T13:00:01.5422093Z   repository: signup5653748/Secure-vault
+2026-10-23T13:00:01.5425029Z   token: ***
+2026-10-23T13:00:01.5425425Z   ssh-strict: true
+2026-10-23T13:00:01.5425784Z   ssh-user: git
+2026-10-23T13:00:01.5426128Z   persist-credentials: true
+2026-10-23T13:00:01.5426507Z   clean: true
+2026-10-23T13:00:01.5426884Z   sparse-checkout-cone-mode: true
+2026-10-23T13:00:01.5427302Z   fetch-depth: 1
+2026-10-23T13:00:01.5427650Z   fetch-tags: false
+2026-10-23T13:00:01.5428042Z   show-progress: true
+2026-10-23T13:00:01.5428367Z   submodules: false
+2026-10-23T13:00:01.5428677Z   set-safe-directory: true
+2026-10-23T13:00:01.5429164Z   allow-unsafe-pr-checkout: false
+2026-10-23T13:00:01.5429990Z ##[endgroup]
+2026-10-23T13:00:01.6551013Z Syncing repository: signup5653748/Secure-vault
+2026-10-23T13:00:01.6553712Z ##[group]Getting Git version info
+2026-10-23T13:00:01.6554767Z Working directory is '/home/runner/work/Secure-vault/Secure-vault'
+2026-10-23T13:00:01.6556183Z [command]/usr/bin/git version
+2026-10-23T13:00:01.6642979Z git version 2.55.0
+2026-10-23T13:00:01.6680557Z [command]/usr/bin/git lfs version
+2026-10-23T13:00:01.7284192Z git-lfs/3.8.0 (GitHub; linux amd64; go 1.27.0)
+2026-10-23T13:00:01.7300243Z ##[endgroup]
+2026-10-23T13:00:01.7320408Z Temporarily overriding HOME='/home/runner/work/_temp/fb8b3072-e703-45b0-9cce-dbc9ed51a624' before making global git config changes
+2026-10-23T13:00:01.7322223Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-23T13:00:01.7327430Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Secure-vault/Secure-vault
+2026-10-23T13:00:01.7389039Z Deleting the contents of '/home/runner/work/Secure-vault/Secure-vault'
+2026-10-23T13:00:01.7393866Z ##[group]Initializing the repository
+2026-10-23T13:00:01.7399226Z [command]/usr/bin/git init /home/runner/work/Secure-vault/Secure-vault
+2026-10-23T13:00:01.7502126Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-23T13:00:01.7503573Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-23T13:00:01.7505289Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-23T13:00:01.7506273Z hint: call:
+2026-10-23T13:00:01.7507922Z hint:
+2026-10-23T13:00:01.7508786Z hint: 	git config --global init.defaultBranch <name>
+2026-10-23T13:00:01.7509718Z hint:
+2026-10-23T13:00:01.7510378Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-23T13:00:01.7511473Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-23T13:00:01.7512275Z hint:
+2026-10-23T13:00:01.7512797Z hint: 	git branch -m <name>
+2026-10-23T13:00:01.7513336Z hint:
+2026-10-23T13:00:01.7513956Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-23T13:00:01.7515109Z Initialized empty Git repository in /home/runner/work/Secure-vault/Secure-vault/.git/
+2026-10-23T13:00:01.7518237Z [command]/usr/bin/git remote add origin https://github.com/signup5653748/Secure-vault
+2026-10-23T13:00:01.7583178Z ##[endgroup]
+2026-10-23T13:00:01.7583911Z ##[group]Disabling automatic garbage collection
+2026-10-23T13:00:01.7587978Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-23T13:00:01.7625781Z ##[endgroup]
+2026-10-23T13:00:01.7626791Z ##[group]Setting up auth
+2026-10-23T13:00:01.7634681Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-23T13:00:01.7671277Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-23T13:00:01.7935513Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-23T13:00:01.7970997Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-23T13:00:01.8192894Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-23T13:00:01.8231332Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-23T13:00:01.8454393Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-23T13:00:01.8506992Z ##[endgroup]
+2026-10-23T13:00:01.8512580Z [command]/usr/bin/git lfs install --local
+2026-10-23T13:00:01.8949952Z Updated Git hooks.
+2026-10-23T13:00:01.8951267Z Git LFS initialized.
+2026-10-23T13:00:01.8966732Z ##[group]Fetching the repository
+2026-10-23T13:00:01.8986682Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +44c784279cd6d304851c052159a9de98656ef22f:refs/remotes/origin/main
+2026-10-23T13:00:02.3580307Z From https://github.com/signup5653748/Secure-vault
+2026-10-23T13:00:02.3581331Z  * [new ref]         44c784279cd6d304851c052159a9de98656ef22f -> origin/main
+2026-10-23T13:00:02.3586148Z ##[endgroup]
+2026-10-23T13:00:02.3586975Z ##[group]Determining the checkout info
+2026-10-23T13:00:02.3591594Z ##[endgroup]
+2026-10-23T13:00:02.3592556Z ##[group]Fetching LFS objects
+2026-10-23T13:00:02.3598381Z [command]/usr/bin/git lfs fetch origin refs/remotes/origin/main
+2026-10-23T13:00:02.3845526Z Fetching reference refs/remotes/origin/main
+2026-10-23T13:00:02.3982460Z ##[endgroup]
+2026-10-23T13:00:02.3986164Z [command]/usr/bin/git sparse-checkout disable
+2026-10-23T13:00:02.4040389Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-23T13:00:02.4072921Z ##[group]Checking out the ref
+2026-10-23T13:00:02.4077576Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-10-23T13:00:02.4177909Z Switched to a new branch 'main'
+2026-10-23T13:00:02.4183187Z branch 'main' set up to track 'origin/main'.
+2026-10-23T13:00:02.4423841Z ##[endgroup]
+2026-10-23T13:00:02.4462599Z [command]/usr/bin/git log -1 --format=%H
+2026-10-23T13:00:02.4485778Z 44c784279cd6d304851c052159a9de98656ef22f
+2026-10-23T13:00:02.4785861Z ##[group]Run echo "aW1wb3J0IG9zLCByZSwgc3lzCgpwYXRoID0gb3MuZW52aXJvbi5nZXQoIlNJR05JTkdfU1JDIiwgIiIpCmlmIG5vdCBwYXRoIG9yIG5vdCBvcy5wYXRoLmlzZmlsZShwYXRoKToKICAgIHByaW50KCI6Ondhcm5pbmc6Ok5vIHNpZ25pbmcgc291cmNlIGZpbGUgZGV0ZWN0ZWQgLSBza2lwcGluZyBzaWduaW5nIGNvbmZpZyBlbmZvcmNlbWVudC4iKQogICAgc3lzLmV4aXQoMCkKCnN0b3JlX3Bhc3NfdmFyID0gb3MuZW52aXJvbi5nZXQoIlNUT1JFX1BBU1NfVkFSIikgb3IgIlNUT1JFX1BBU1NXT1JEIgprZXlfcGFzc192YXIgPSBvcy5lbnZpcm9uLmdldCgiS0VZX1BBU1NfVkFSIikgb3IgIktFWV9QQVNTV09SRCIKCndpdGggb3BlbihwYXRoLCAiciIpIGFzIGY6CiAgICBjb250ZW50ID0gZi5yZWFkKCkKCmNhbm9uaWNhbCA9ICcnJyAgc2lnbmluZ0NvbmZpZ3MgewogICAgY3JlYXRlKCJyZWxlYXNlIikgewogICAgICB2YWwga2V5c3RvcmVQYXRoID0gU3lzdGVtLmdldGVudigiS0VZU1RPUkVfUEFUSCIpID86ICIke3Jvb3REaXJ9L215LXVwbG9hZC1rZXkuamtzIgogICAgICBzdG9yZUZpbGUgPSBmaWxlKGtleXN0b3JlUGF0aCkKICAgICAgc3RvcmVQYXNzd29yZCA9IFN5c3RlbS5nZXRlbnYoIicnJyArIHN0b3JlX3Bhc3NfdmFyICsgJycnIikKICAgICAgdmFsIGlzUmVsZWFzZUJ1aWxkID0gZ3JhZGxlLnN0YXJ0UGFyYW1ldGVyLnRhc2tOYW1lcy5hbnkgeyBpdC5jb250YWlucygiUmVsZWFzZSIsIGlnbm9yZUNhc2UgPSB0cnVlKSB9CiAgICAgIHZhbCBhbGlhcyA9IFN5c3RlbS5nZXRlbnYoIktFWV9BTElBUyIpCiAgICAgIGlmIChpc1JlbGVhc2VCdWlsZCAmJiBhbGlhcy5pc051bGxPckVtcHR5KCkpIHsKICAgICAgICB0aHJvdyBHcmFkbGVFeGNlcHRpb24oIktFWV9BTElBUyBlbnZpcm9ubWVudCB2YXJpYWJsZSBpcyBub3Qgc2V0IikKICAgICAgfQogICAgICBrZXlBbGlhcyA9IGFsaWFzID86ICIiCiAgICAgIGtleVBhc3N3b3JkID0gU3lzdGVtLmdldGVudigiJycnICsga2V5X3Bhc3NfdmFyICsgJycnIikKICAgIH0KICAgIGNyZWF0ZSgiZGVidWdDb25maWciKSB7CiAgICAgIHN0b3JlRmlsZSA9IGZpbGUoIiR7cm9vdERpcn0vZGVidWcua2V5c3RvcmUiKQogICAgICBzdG9yZVBhc3N3b3JkID0gImFuZHJvaWQiCiAgICAgIGtleUFsaWFzID0gImFuZHJvaWRkZWJ1Z2tleSIKICAgICAga2V5UGFzc3dvcmQgPSAiYW5kcm9pZCIKICAgIH0KICB9CicnJwoKaWR4ID0gY29udGVudC5maW5kKCJzaWduaW5nQ29uZmlncyIpCmlmIGlkeCA9PSAtMToKICAgIG0gPSByZS5zZWFyY2gociJhbmRyb2lkXHMqXHsiLCBjb250ZW50KQogICAgaWYgbm90IG06CiAgICAgICAgcHJpbnQoIjo6ZXJyb3I6Ok5vIGFuZHJvaWQge30gYmxvY2sgZm91bmQgLSBjYW5ub3QgaW5zZXJ0IHNpZ25pbmdDb25maWdzLiIpCiAgICAgICAgc3lzLmV4aXQoMSkKICAgIGluc2VydF9hdCA9IG0uZW5kKCkKICAgIG5ld19jb250ZW50ID0gY29udGVudFs6aW5zZXJ0X2F0XSArICJcbiIgKyBjYW5vbmljYWwgKyBjb250ZW50W2luc2VydF9hdDpdCiAgICBwcmludCgiTm8gZXhpc3Rpbmcgc2lnbmluZ0NvbmZpZ3MgYmxvY2sgZm91bmQgLSBpbnNlcnRlZCBjYW5vbmljYWwgYmxvY2suIikKZWxzZToKICAgIGJyYWNlX3N0YXJ0ID0gY29udGVudC5maW5kKCJ7IiwgaWR4KQogICAgZGVwdGggPSAwCiAgICBpID0gYnJhY2Vfc3RhcnQKICAgIHdoaWxlIGkgPCBsZW4oY29udGVudCk6CiAgICAgICAgaWYgY29udGVudFtpXSA9PSAieyI6CiAgICAgICAgICAgIGRlcHRoICs9IDEKICAgICAgICBlbGlmIGNvbnRlbnRbaV0gPT0gIn0iOgogICAgICAgICAgICBkZXB0aCAtPSAxCiAgICAgICAgICAgIGlmIGRlcHRoID09IDA6CiAgICAgICAgICAgICAgICBicmVhawogICAgICAgIGkgKz0gMQogICAgYmxvY2tfZW5kID0gaSArIDEKICAgIGxpbmVfc3RhcnQgPSBjb250ZW50LnJmaW5kKCJcbiIsIDAsIGlkeCkgKyAxCiAgICB0YWlsID0gY29udGVudFtibG9ja19lbmQ6XQogICAgaWYgdGFpbC5zdGFydHN3aXRoKCJcbiIpOgogICAgICAgIHRhaWwgPSB0YWlsWzE6XQogICAgbmV3X2NvbnRlbnQgPSBjb250ZW50WzpsaW5lX3N0YXJ0XSArIGNhbm9uaWNhbCArIHRhaWwKICAgIHByaW50KCJFeGlzdGluZyBzaWduaW5nQ29uZmlncyBibG9jayByZXBsYWNlZCB3aXRoIGNhbm9uaWNhbCB2ZXJzaW9uLiIpCgp3aXRoIG9wZW4ocGF0aCwgInciKSBhcyBmOgogICAgZi53cml0ZShuZXdfY29udGVudCkK" | base64 -d | python3
+2026-10-23T13:00:02.4956090Z [36;1mecho "aW1wb3J0IG9zLCByZSwgc3lzCgpwYXRoID0gb3MuZW52aXJvbi5nZXQoIlNJR05JTkdfU1JDIiwgIiIpCmlmIG5vdCBwYXRoIG9yIG5vdCBvcy5wYXRoLmlzZmlsZShwYXRoKToKICAgIHByaW50KCI6Ondhcm5pbmc6Ok5vIHNpZ25pbmcgc291cmNlIGZpbGUgZGV0ZWN0ZWQgLSBza2lwcGluZyBzaWduaW5nIGNvbmZpZyBlbmZvcmNlbWVudC4iKQogICAgc3lzLmV4aXQoMCkKCnN0b3JlX3Bhc3NfdmFyID0gb3MuZW52aXJvbi5nZXQoIlNUT1JFX1BBU1NfVkFSIikgb3IgIlNUT1JFX1BBU1NXT1JEIgprZXlfcGFzc192YXIgPSBvcy5lbnZpcm9uLmdldCgiS0VZX1BBU1NfVkFSIikgb3IgIktFWV9QQVNTV09SRCIKCndpdGggb3BlbihwYXRoLCAiciIpIGFzIGY6CiAgICBjb250ZW50ID0gZi5yZWFkKCkKCmNhbm9uaWNhbCA9ICcnJyAgc2lnbmluZ0NvbmZpZ3MgewogICAgY3JlYXRlKCJyZWxlYXNlIikgewogICAgICB2YWwga2V5c3RvcmVQYXRoID0gU3lzdGVtLmdldGVudigiS0VZU1RPUkVfUEFUSCIpID86ICIke3Jvb3REaXJ9L215LXVwbG9hZC1rZXkuamtzIgogICAgICBzdG9yZUZpbGUgPSBmaWxlKGtleXN0b3JlUGF0aCkKICAgICAgc3RvcmVQYXNzd29yZCA9IFN5c3RlbS5nZXRlbnYoIicnJyArIHN0b3JlX3Bhc3NfdmFyICsgJycnIikKICAgICAgdmFsIGlzUmVsZWFzZUJ1aWxkID0gZ3JhZGxlLnN0YXJ0UGFyYW1ldGVyLnRhc2tOYW1lcy5hbnkgeyBpdC5jb250YWlucygiUmVsZWFzZSIsIGlnbm9yZUNhc2UgPSB0cnVlKSB9CiAgICAgIHZhbCBhbGlhcyA9IFN5c3RlbS5nZXRlbnYoIktFWV9BTElBUyIpCiAgICAgIGlmIChpc1JlbGVhc2VCdWlsZCAmJiBhbGlhcy5pc051bGxPckVtcHR5KCkpIHsKICAgICAgICB0aHJvdyBHcmFkbGVFeGNlcHRpb24oIktFWV9BTElBUyBlbnZpcm9ubWVudCB2YXJpYWJsZSBpcyBub3Qgc2V0IikKICAgICAgfQogICAgICBrZXlBbGlhcyA9IGFsaWFzID86ICIiCiAgICAgIGtleVBhc3N3b3JkID0gU3lzdGVtLmdldGVudigiJycnICsga2V5X3Bhc3NfdmFyICsgJycnIikKICAgIH0KICAgIGNyZWF0ZSgiZGVidWdDb25maWciKSB7CiAgICAgIHN0b3JlRmlsZSA9IGZpbGUoIiR7cm9vdERpcn0vZGVidWcua2V5c3RvcmUiKQogICAgICBzdG9yZVBhc3N3b3JkID0gImFuZHJvaWQiCiAgICAgIGtleUFsaWFzID0gImFuZHJvaWRkZWJ1Z2tleSIKICAgICAga2V5UGFzc3dvcmQgPSAiYW5kcm9pZCIKICAgIH0KICB9CicnJwoKaWR4ID0gY29udGVudC5maW5kKCJzaWduaW5nQ29uZmlncyIpCmlmIGlkeCA9PSAtMToKICAgIG0gPSByZS5zZWFyY2gociJhbmRyb2lkXHMqXHsiLCBjb250ZW50KQogICAgaWYgbm90IG06CiAgICAgICAgcHJpbnQoIjo6ZXJyb3I6Ok5vIGFuZHJvaWQge30gYmxvY2sgZm91bmQgLSBjYW5ub3QgaW5zZXJ0IHNpZ25pbmdDb25maWdzLiIpCiAgICAgICAgc3lzLmV4aXQoMSkKICAgIGluc2VydF9hdCA9IG0uZW5kKCkKICAgIG5ld19jb250ZW50ID0gY29udGVudFs6aW5zZXJ0X2F0XSArICJcbiIgKyBjYW5vbmljYWwgKyBjb250ZW50W2luc2VydF9hdDpdCiAgICBwcmludCgiTm8gZXhpc3Rpbmcgc2lnbmluZ0NvbmZpZ3MgYmxvY2sgZm91bmQgLSBpbnNlcnRlZCBjYW5vbmljYWwgYmxvY2suIikKZWxzZToKICAgIGJyYWNlX3N0YXJ0ID0gY29udGVudC5maW5kKCJ7IiwgaWR4KQogICAgZGVwdGggPSAwCiAgICBpID0gYnJhY2Vfc3RhcnQKICAgIHdoaWxlIGkgPCBsZW4oY29udGVudCk6CiAgICAgICAgaWYgY29udGVudFtpXSA9PSAieyI6CiAgICAgICAgICAgIGRlcHRoICs9IDEKICAgICAgICBlbGlmIGNvbnRlbnRbaV0gPT0gIn0iOgogICAgICAgICAgICBkZXB0aCAtPSAxCiAgICAgICAgICAgIGlmIGRlcHRoID09IDA6CiAgICAgICAgICAgICAgICBicmVhawogICAgICAgIGkgKz0gMQogICAgYmxvY2tfZW5kID0gaSArIDEKICAgIGxpbmVfc3RhcnQgPSBjb250ZW50LnJmaW5kKCJcbiIsIDAsIGlkeCkgKyAxCiAgICB0YWlsID0gY29udGVudFtibG9ja19lbmQ6XQogICAgaWYgdGFpbC5zdGFydHN3aXRoKCJcbiIpOgogICAgICAgIHRhaWwgPSB0YWlsWzE6XQogICAgbmV3X2NvbnRlbnQgPSBjb250ZW50WzpsaW5lX3N0YXJ0XSArIGNhbm9uaWNhbCArIHRhaWwKICAgIHByaW50KCJFeGlzdGluZyBzaWduaW5nQ29uZmlncyBibG9jayByZXBsYWNlZCB3aXRoIGNhbm9uaWNhbCB2ZXJzaW9uLiIpCgp3aXRoIG9wZW4ocGF0aCwgInciKSBhcyBmOgogICAgZi53cml0ZShuZXdfY29udGVudCkK" | base64 -d | python3[0m
+2026-10-23T13:00:02.5223692Z shell: /usr/bin/bash -e {0}
+2026-10-23T13:00:02.5224093Z env:
+2026-10-23T13:00:02.5224561Z   SIGNING_SRC: ./app/build.gradle.kts
+2026-10-23T13:00:02.5224934Z   STORE_PASS_VAR: STORE_PASSWORD
+2026-10-23T13:00:02.5225354Z   KEY_PASS_VAR: KEY_PASSWORD
+2026-10-23T13:00:02.5225675Z ##[endgroup]
+2026-10-23T13:00:02.5490553Z Existing signingConfigs block replaced with canonical version.
+2026-10-23T13:00:02.5658393Z ##[group]Run actions/setup-java@v4
+2026-10-23T13:00:02.5658901Z with:
+2026-10-23T13:00:02.5659457Z   java-version: 21
+2026-10-23T13:00:02.5659908Z   distribution: temurin
+2026-10-23T13:00:02.5660348Z   java-package: jdk
+2026-10-23T13:00:02.5660877Z   check-latest: false
+2026-10-23T13:00:02.5661262Z   server-id: github
+2026-10-23T13:00:02.5661623Z   server-username: GITHUB_ACTOR
+2026-10-23T13:00:02.5661967Z   server-password: GITHUB_TOKEN
+2026-10-23T13:00:02.5662434Z   overwrite-settings: true
+2026-10-23T13:00:02.5662806Z   job-status: success
+2026-10-23T13:00:02.5666007Z   token: ***
+2026-10-23T13:00:02.5666328Z ##[endgroup]
+2026-10-23T13:00:02.7314490Z ##[warning]setup-java v4 is deprecated and will no longer receive updates. Please migrate to actions/setup-java@v5.
+2026-10-23T13:00:02.7322033Z ##[group]Installed distributions
+2026-10-23T13:00:02.7357582Z Resolved Java 21.0.12+1 from tool-cache
+2026-10-23T13:00:02.7358256Z Setting Java 21.0.12+1 as the default
+2026-10-23T13:00:02.7366580Z (node:2394) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-23T13:00:02.7367660Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-23T13:00:02.7369674Z Creating toolchains.xml for JDK version 21 from temurin
+2026-10-23T13:00:02.7438349Z Writing to /home/runner/.m2/toolchains.xml
+2026-10-23T13:00:02.7438860Z 
+2026-10-23T13:00:02.7439071Z Java configuration:
+2026-10-23T13:00:02.7439660Z   Distribution: temurin
+2026-10-23T13:00:02.7440056Z   Version: 21.0.12+1
+2026-10-23T13:00:02.7440731Z   Path: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.12-1/x64
+2026-10-23T13:00:02.7441277Z 
+2026-10-23T13:00:02.7442093Z ##[endgroup]
+2026-10-23T13:00:02.7463953Z Creating settings.xml with server-id: github
+2026-10-23T13:00:02.7500025Z Writing to /home/runner/.m2/settings.xml
+2026-10-23T13:00:02.7875382Z ##[group]Run gradle/actions/setup-gradle@v4
+2026-10-23T13:00:02.7876010Z with:
+2026-10-23T13:00:02.7876649Z   validate-wrappers: false
+2026-10-23T13:00:02.7877143Z   cache-disabled: false
+2026-10-23T13:00:02.7877597Z   cache-read-only: false
+2026-10-23T13:00:02.7878395Z   cache-write-only: false
+2026-10-23T13:00:02.7879075Z   cache-overwrite-existing: false
+2026-10-23T13:00:02.7879928Z   cache-cleanup: on-success
+2026-10-23T13:00:02.7880706Z   gradle-home-cache-includes: caches
 notifications
 
-2026-10-23T12:51:30.7148778Z   add-job-summary: always
-2026-10-23T12:51:30.7149089Z   add-job-summary-as-pr-comment: never
-2026-10-23T12:51:30.7149433Z   dependency-graph: disabled
-2026-10-23T12:51:30.7149807Z   dependency-graph-report-dir: dependency-graph-reports
-2026-10-23T12:51:30.7150555Z   dependency-graph-continue-on-failure: true
-2026-10-23T12:51:30.7150922Z   build-scan-publish: false
-2026-10-23T12:51:30.7151228Z   allow-snapshot-wrappers: false
-2026-10-23T12:51:30.7151593Z   gradle-home-cache-strict-match: false
-2026-10-23T12:51:30.7151926Z   workflow-job-context: null
-2026-10-23T12:51:30.7154345Z   github-token: ***
-2026-10-23T12:51:30.7154609Z env:
-2026-10-23T12:51:30.7154963Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.12-1/x64
-2026-10-23T12:51:30.7155512Z   JAVA_HOME_21_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.12-1/x64
-2026-10-23T12:51:30.7155946Z ##[endgroup]
-2026-10-23T12:51:32.0313933Z Merged default JDK locations into /home/runner/.m2/toolchains.xml
-2026-10-23T12:51:32.0315419Z Preparing cache for cleanup.
-2026-10-23T12:51:32.0318890Z ##[group]Restore Gradle state from cache
-2026-10-23T12:51:32.2676897Z Cache hit for restore-key: gradle-home-v1|Linux-X64|build[d6cc1c9b8f19a196f38d86334c228bbf]-84f617dfdef8e2d2f46c82427f3dd070e25d5a3a
-2026-10-23T12:51:33.5443542Z Received 0 of 3662480 (0.0%), 0.0 MBs/sec
-2026-10-23T12:51:33.7036729Z Received 3662480 of 3662480 (100.0%), 3.0 MBs/sec
-2026-10-23T12:51:33.7038086Z Cache Size: ~3 MB (3662480 B)
-2026-10-23T12:51:33.7072907Z [command]/usr/bin/tar -xf /home/runner/work/_temp/9c7f2ba9-8efe-4edb-9a65-167258b42c1c/cache.tzst -P -C /home/runner/work/Secure-vault/Secure-vault --use-compress-program unzstd
-2026-10-23T12:51:33.8316285Z Cache restored successfully
-2026-10-23T12:51:33.8322242Z Restored cache entry with key gradle-home-v1|Linux-X64|build[d6cc1c9b8f19a196f38d86334c228bbf]-44c784279cd6d304851c052159a9de98656ef22f to /home/runner/.gradle/caches,/home/runner/.gradle/notifications,/home/runner/.gradle/.setup-gradle in 1800ms
-2026-10-23T12:51:34.0733127Z Cache hit for: gradle-wrapper-zips-v1-c614003d12ab0c472d72f6756dbe25ae
-2026-10-23T12:51:34.0740834Z Cache hit for: gradle-groovy-dsl-v1-308ccabd83c1defb0394f10869580f99
-2026-10-23T12:51:34.0789291Z Cache hit for: gradle-transforms-v1-fdeaeeabe90d187c8233768525f76529
-2026-10-23T12:51:34.0796373Z Cache hit for: gradle-dependencies-v1-0f5b21f315a7a22eeff6aef7200c7477
-2026-10-23T12:51:34.0803511Z Cache hit for: gradle-kotlin-dsl-v1-e8fad7b771fac473dc92b34825d3bef8
-2026-10-23T12:51:34.0867928Z Cache hit for: gradle-instrumented-jars-v1-50502a9496c3b1d6051fe912ae44df2f
-2026-10-23T12:51:34.7552238Z Received 99675 of 99675 (100.0%), 0.2 MBs/sec
-2026-10-23T12:51:34.7553067Z Cache Size: ~0 MB (99675 B)
-2026-10-23T12:51:34.7592171Z [command]/usr/bin/tar -xf /home/runner/work/_temp/0b4645d0-a58a-45f2-92ee-42ca74310b57/cache.tzst -P -C /home/runner/work/Secure-vault/Secure-vault --use-compress-program unzstd
-2026-10-23T12:51:34.7772373Z Cache restored successfully
-2026-10-23T12:51:34.7774681Z Restored cache entry with key gradle-groovy-dsl-v1-308ccabd83c1defb0394f10869580f99 to /home/runner/.gradle/caches/*/groovy-dsl/*/ in 942ms
-2026-10-23T12:51:34.8626255Z Received 64543 of 64543 (100.0%), 0.1 MBs/sec
-2026-10-23T12:51:34.8626992Z Cache Size: ~0 MB (64543 B)
-2026-10-23T12:51:34.8650334Z [command]/usr/bin/tar -xf /home/runner/work/_temp/c676caa4-f3b9-4e6c-a463-1dd9751f82db/cache.tzst -P -C /home/runner/work/Secure-vault/Secure-vault --use-compress-program unzstd
-2026-10-23T12:51:34.8752448Z Cache restored successfully
-2026-10-23T12:51:34.8754465Z Restored cache entry with key gradle-instrumented-jars-v1-50502a9496c3b1d6051fe912ae44df2f to /home/runner/.gradle/caches/jars-*/*/ in 1042ms
-2026-10-23T12:51:34.8904570Z Received 75215 of 75215 (100.0%), 0.1 MBs/sec
-2026-10-23T12:51:34.8905248Z Cache Size: ~0 MB (75215 B)
-2026-10-23T12:51:34.8937718Z [command]/usr/bin/tar -xf /home/runner/work/_temp/8e48b945-8e77-4af3-a32c-e7e77cb99317/cache.tzst -P -C /home/runner/work/Secure-vault/Secure-vault --use-compress-program unzstd
-2026-10-23T12:51:34.9067106Z Cache restored successfully
-2026-10-23T12:51:34.9069836Z Restored cache entry with key gradle-kotlin-dsl-v1-e8fad7b771fac473dc92b34825d3bef8 to /home/runner/.gradle/caches/*/kotlin-dsl/accessors/*/,/home/runner/.gradle/caches/*/kotlin-dsl/scripts/*/ in 1073ms
-2026-10-23T12:51:35.3533826Z Received 4194304 of 150862009 (2.8%), 4.0 MBs/sec
-2026-10-23T12:51:35.3751152Z Received 0 of 349983036 (0.0%), 0.0 MBs/sec
-2026-10-23T12:51:35.3877860Z Received 4194304 of 178838945 (2.3%), 4.0 MBs/sec
-2026-10-23T12:51:36.3550074Z Received 117440512 of 150862009 (77.8%), 56.0 MBs/sec
-2026-10-23T12:51:36.3757348Z Received 83886080 of 349983036 (24.0%), 40.0 MBs/sec
-2026-10-23T12:51:36.3903159Z Received 92274688 of 178838945 (51.6%), 43.9 MBs/sec
-2026-10-23T12:51:36.9941278Z Received 150862009 of 150862009 (100.0%), 54.6 MBs/sec
-2026-10-23T12:51:36.9963854Z Cache Size: ~144 MB (150862009 B)
-2026-10-23T12:51:37.0004803Z [command]/usr/bin/tar -xf /home/runner/work/_temp/d0ac1215-5910-4941-8e9a-4f1f3e7bc9c5/cache.tzst -P -C /home/runner/work/Secure-vault/Secure-vault --use-compress-program unzstd
-2026-10-23T12:51:37.3162274Z Cache restored successfully
-2026-10-23T12:51:37.3309805Z Restored cache entry with key gradle-wrapper-zips-v1-c614003d12ab0c472d72f6756dbe25ae to /home/runner/.gradle/wrapper/dists/gradle-9.8.1-bin/a2l6ltp3k1vth6lwipzm5p2jp in 3498ms
-2026-10-23T12:51:37.3801381Z Received 184549376 of 349983036 (52.7%), 58.6 MBs/sec
-2026-10-23T12:51:37.3913234Z Received 146800640 of 178838945 (82.1%), 46.6 MBs/sec
-2026-10-23T12:51:37.8048657Z Received 178838945 of 178838945 (100.0%), 49.9 MBs/sec
-2026-10-23T12:51:37.8051851Z Cache Size: ~171 MB (178838945 B)
-2026-10-23T12:51:37.8318495Z [command]/usr/bin/tar -xf /home/runner/work/_temp/51f89f14-d70a-4f09-a681-3be6a7580a23/cache.tzst -P -C /home/runner/work/Secure-vault/Secure-vault --use-compress-program unzstd
-2026-10-23T12:51:38.3821272Z Received 293601280 of 349983036 (83.9%), 69.9 MBs/sec
-2026-10-23T12:51:38.8022508Z Received 349983036 of 349983036 (100.0%), 75.4 MBs/sec
-2026-10-23T12:51:38.8024764Z Cache Size: ~334 MB (349983036 B)
-2026-10-23T12:51:38.8202926Z [command]/usr/bin/tar -xf /home/runner/work/_temp/6b1d3da6-7a64-4482-8064-fbdb1c3d5253/cache.tzst -P -C /home/runner/work/Secure-vault/Secure-vault --use-compress-program unzstd
-2026-10-23T12:51:39.4614481Z Cache restored successfully
-2026-10-23T12:51:39.5121511Z Restored cache entry with key gradle-transforms-v1-fdeaeeabe90d187c8233768525f76529 to /home/runner/.gradle/caches/transforms-4/*/,/home/runner/.gradle/caches/*/transforms/*/ in 5676ms
-2026-10-23T12:51:39.5430197Z Cache restored successfully
-2026-10-23T12:51:39.5578928Z Restored cache entry with key gradle-dependencies-v1-0f5b21f315a7a22eeff6aef7200c7477 to /home/runner/.gradle/caches/modules-*/files-*/*/*/*/* in 5724ms
-2026-10-23T12:51:39.5783043Z ##[endgroup]
-2026-10-23T12:51:39.5978739Z ##[group]Run if [ "false" = "false" ]; then
-2026-10-23T12:51:39.5979191Z [36;1mif [ "false" = "false" ]; then[0m
-2026-10-23T12:51:39.5979537Z [36;1m  rm -rf gradle/wrapper[0m
-2026-10-23T12:51:39.5979853Z [36;1m  if [ -n "" ]; then[0m
-2026-10-23T12:51:39.5980465Z [36;1m    gradle wrapper --gradle-version ""[0m
-2026-10-23T12:51:39.5980825Z [36;1m  else[0m
-2026-10-23T12:51:39.5981075Z [36;1m    gradle wrapper[0m
-2026-10-23T12:51:39.5981351Z [36;1m  fi[0m
-2026-10-23T12:51:39.5981576Z [36;1mfi[0m
-2026-10-23T12:51:39.5981820Z [36;1mchmod +x gradlew[0m
-2026-10-23T12:51:39.6044575Z shell: /usr/bin/bash -e {0}
-2026-10-23T12:51:39.6044878Z env:
-2026-10-23T12:51:39.6045236Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.12-1/x64
-2026-10-23T12:51:39.6045805Z   JAVA_HOME_21_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.12-1/x64
-2026-10-23T12:51:39.6046312Z   GRADLE_ACTION_ID: gradle/actions/setup-gradle
-2026-10-23T12:51:39.6046702Z   GRADLE_USER_HOME: /home/runner/.gradle
-2026-10-23T12:51:39.6047040Z   GRADLE_BUILD_ACTION_SETUP_COMPLETED: true
-2026-10-23T12:51:39.6047381Z   GRADLE_BUILD_ACTION_CACHE_RESTORED: true
-2026-10-23T12:51:39.6047875Z   DEVELOCITY_INJECTION_INIT_SCRIPT_NAME: gradle-actions.inject-develocity.init.gradle
-2026-10-23T12:51:39.6048398Z   DEVELOCITY_INJECTION_CUSTOM_VALUE: gradle-actions
-2026-10-23T12:51:39.6048762Z   GITHUB_DEPENDENCY_GRAPH_ENABLED: false
-2026-10-23T12:51:39.6049069Z ##[endgroup]
-2026-10-23T12:51:50.6629750Z To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.8.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
-2026-10-23T12:51:59.8623825Z Daemon will be stopped at the end of the build 
-2026-10-23T12:52:37.9630318Z > Task :wrapper
-2026-10-23T12:52:38.1656170Z gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__run_2-1792759925901.json
-2026-10-23T12:52:38.1680529Z 
-2026-10-23T12:52:38.1711674Z [Incubating] Problems report is available at: file:///home/runner/work/Secure-vault/Secure-vault/build/reports/problems/problems-report.html
-2026-10-23T12:52:38.1728876Z 
-2026-10-23T12:52:38.1741058Z Deprecated Gradle features were used in this build, making it incompatible with Gradle 10.
-2026-10-23T12:52:38.1747462Z 
-2026-10-23T12:52:38.1769123Z You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
-2026-10-23T12:52:38.1770580Z 
-2026-10-23T12:52:38.1771714Z For more on this, please refer to https://docs.gradle.org/9.8.1/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
-2026-10-23T12:52:38.1773389Z 
-2026-10-23T12:52:38.1814346Z BUILD SUCCESSFUL in 58s
-2026-10-23T12:52:38.1832955Z 1 actionable task: 1 executed
-2026-10-23T12:52:38.5454997Z ##[group]Run yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses > /dev/null || true
-2026-10-23T12:52:38.5455817Z [36;1myes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses > /dev/null || true[0m
-2026-10-23T12:52:38.5456590Z [36;1m$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platforms;android-36" "build-tools;35.0.0" || true[0m
-2026-10-23T12:52:38.5518712Z shell: /usr/bin/bash -e {0}
-2026-10-23T12:52:38.5519020Z env:
-2026-10-23T12:52:38.5519379Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.12-1/x64
-2026-10-23T12:52:38.5520196Z   JAVA_HOME_21_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.12-1/x64
-2026-10-23T12:52:38.5520699Z   GRADLE_ACTION_ID: gradle/actions/setup-gradle
-2026-10-23T12:52:38.5521059Z   GRADLE_USER_HOME: /home/runner/.gradle
-2026-10-23T12:52:38.5521393Z   GRADLE_BUILD_ACTION_SETUP_COMPLETED: true
-2026-10-23T12:52:38.5521731Z   GRADLE_BUILD_ACTION_CACHE_RESTORED: true
-2026-10-23T12:52:38.5522256Z   DEVELOCITY_INJECTION_INIT_SCRIPT_NAME: gradle-actions.inject-develocity.init.gradle
-2026-10-23T12:52:38.5522966Z   DEVELOCITY_INJECTION_CUSTOM_VALUE: gradle-actions
-2026-10-23T12:52:38.5523328Z   GITHUB_DEPENDENCY_GRAPH_ENABLED: false
-2026-10-23T12:52:38.5523649Z ##[endgroup]
-2026-10-23T12:52:49.1990250Z yes: standard output: Broken pipe
-2026-10-23T12:52:49.9171841Z Loading package information...                                                  
-2026-10-23T12:52:50.0033301Z Loading local repository...                                                     
-2026-10-23T12:52:50.0035551Z [                                       ] 3% Loading local repository...        
-2026-10-23T12:52:50.0069703Z [                                       ] 3% Fetch remote repository...         
-2026-10-23T12:52:50.4394673Z [=                                      ] 3% Fetch remote repository...         
-2026-10-23T12:52:50.5176158Z [=                                      ] 4% Fetch remote repository...         
-2026-10-23T12:52:50.5532298Z [=                                      ] 5% Fetch remote repository...         
-2026-10-23T12:52:50.6261683Z [==                                     ] 5% Fetch remote repository...         
-2026-10-23T12:52:50.7159053Z [==                                     ] 6% Fetch remote repository...         
-2026-10-23T12:52:50.8041653Z [==                                     ] 7% Fetch remote repository...         
-2026-10-23T12:52:50.8058198Z [==                                     ] 7% Computing updates...               
-2026-10-23T12:52:50.8191156Z [===                                    ] 8% Computing updates...               
-2026-10-23T12:52:50.8255328Z [===                                    ] 10% Computing updates...              
-2026-10-23T12:52:50.8256259Z [=======================================] 100% Computing updates...             
-2026-10-23T12:52:50.8256822Z 
-2026-10-23T12:52:50.8559200Z ##[group]Run if [ -z "***" ]; then
-2026-10-23T12:52:50.8580288Z [36;1mif [ -z "***" ]; then[0m
-2026-10-23T12:52:50.8580736Z [36;1m  echo "::error::KEYSTORE_BASE64 secret is not set."[0m
-2026-10-23T12:52:50.8581138Z [36;1m  exit 1[0m
-2026-10-23T12:52:50.8581379Z [36;1mfi[0m
-2026-10-23T12:52:50.8598143Z [36;1mecho "***" | base64 -d > "my-upload-key.jks"[0m
-2026-10-23T12:52:50.8598667Z [36;1mecho "Keystore written as my-upload-key.jks (runner-local only)"[0m
-2026-10-23T12:52:50.8599093Z [36;1m[0m
-2026-10-23T12:52:50.8599450Z [36;1mDETECTED_ALIAS=$(keytool -list -keystore "my-upload-key.jks" \[0m
-2026-10-23T12:52:50.8600068Z [36;1m  -storepass "***" 2>/dev/null \[0m
-2026-10-23T12:52:50.8600479Z [36;1m  | grep "PrivateKeyEntry" | head -1 | cut -d, -f1)[0m
-2026-10-23T12:52:50.8600843Z [36;1m[0m
-2026-10-23T12:52:50.8601094Z [36;1mif [ -z "$DETECTED_ALIAS" ]; then[0m
-2026-10-23T12:52:50.8601674Z [36;1m  echo "::error::Could not read any alias from the keystore. Check that KEYSTORE_PASSWORD is correct."[0m
-2026-10-23T12:52:50.8602191Z [36;1m  exit 1[0m
-2026-10-23T12:52:50.8602434Z [36;1mfi[0m
-2026-10-23T12:52:50.8602734Z [36;1mecho "Auto-detected key alias: $DETECTED_ALIAS"[0m
-2026-10-23T12:52:50.8603193Z [36;1mecho "DETECTED_KEY_ALIAS=$DETECTED_ALIAS" >> "$GITHUB_ENV"[0m
-2026-10-23T12:52:50.8665500Z shell: /usr/bin/bash -e {0}
-2026-10-23T12:52:50.8665803Z env:
-2026-10-23T12:52:50.8666184Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.12-1/x64
-2026-10-23T12:52:50.8666757Z   JAVA_HOME_21_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.12-1/x64
-2026-10-23T12:52:50.8667240Z   GRADLE_ACTION_ID: gradle/actions/setup-gradle
-2026-10-23T12:52:50.8667592Z   GRADLE_USER_HOME: /home/runner/.gradle
-2026-10-23T12:52:50.8667920Z   GRADLE_BUILD_ACTION_SETUP_COMPLETED: true
-2026-10-23T12:52:50.8668265Z   GRADLE_BUILD_ACTION_CACHE_RESTORED: true
-2026-10-23T12:52:50.8668761Z   DEVELOCITY_INJECTION_INIT_SCRIPT_NAME: gradle-actions.inject-develocity.init.gradle
-2026-10-23T12:52:50.8669289Z   DEVELOCITY_INJECTION_CUSTOM_VALUE: gradle-actions
-2026-10-23T12:52:50.8669667Z   GITHUB_DEPENDENCY_GRAPH_ENABLED: false
-2026-10-23T12:52:50.8670450Z ##[endgroup]
-2026-10-23T12:52:50.8770492Z Keystore written as my-upload-key.jks (runner-local only)
-2026-10-23T12:52:51.1534405Z Auto-detected key alias: release-key
-2026-10-23T12:52:51.1571435Z ##[group]Run export "STORE_PASSWORD"="***"
-2026-10-23T12:52:51.1572026Z [36;1mexport "STORE_PASSWORD"="***"[0m
-2026-10-23T12:52:51.1572453Z [36;1mexport "KEY_PASSWORD"="***"[0m
-2026-10-23T12:52:51.1572855Z [36;1mexport STORE_PASSWORD="***"[0m
-2026-10-23T12:52:51.1573290Z [36;1mexport KEY_PASSWORD="***"[0m
-2026-10-23T12:52:51.1573765Z [36;1m# Always export as KEY_ALIAS - the "Enforce Canonical Signing Config"[0m
-2026-10-23T12:52:51.1574356Z [36;1m# step guarantees the build file reads exactly this name, regardless[0m
-2026-10-23T12:52:51.1574917Z [36;1m# of what detection saw in the file BEFORE that step ran.[0m
-2026-10-23T12:52:51.1575386Z [36;1mexport KEY_ALIAS="$DETECTED_KEY_ALIAS"[0m
-2026-10-23T12:52:51.1575835Z [36;1mexport KEYSTORE_PATH="$(pwd)/my-upload-key.jks"[0m
-2026-10-23T12:52:51.1576354Z [36;1mcp "my-upload-key.jks" my-upload-key.jks 2>/dev/null || true[0m
-2026-10-23T12:52:51.1576923Z [36;1m# --no-daemon forces a fresh JVM for this build, avoiding daemon[0m
-2026-10-23T12:52:51.1577482Z [36;1m# reuse across the earlier "gradle wrapper" invocation - reused[0m
-2026-10-23T12:52:51.1577973Z [36;1m# daemons are a known cause of KSP crashing with[0m
-2026-10-23T12:52:51.1578468Z [36;1m# "ApplicationManager.getApplication() is null" (corrupted[0m
-2026-10-23T12:52:51.1579037Z [36;1m# IntelliJ-platform static state carried over between invocations).[0m
-2026-10-23T12:52:51.1579611Z [36;1m./gradlew :app:assembleRelease --no-daemon --stacktrace --info[0m
-2026-10-23T12:52:51.1641849Z shell: /usr/bin/bash -e {0}
-2026-10-23T12:52:51.1642183Z env:
-2026-10-23T12:52:51.1642569Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.12-1/x64
-2026-10-23T12:52:51.1643174Z   JAVA_HOME_21_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.12-1/x64
-2026-10-23T12:52:51.1643682Z   GRADLE_ACTION_ID: gradle/actions/setup-gradle
-2026-10-23T12:52:51.1644093Z   GRADLE_USER_HOME: /home/runner/.gradle
-2026-10-23T12:52:51.1644469Z   GRADLE_BUILD_ACTION_SETUP_COMPLETED: true
-2026-10-23T12:52:51.1644848Z   GRADLE_BUILD_ACTION_CACHE_RESTORED: true
-2026-10-23T12:52:51.1645378Z   DEVELOCITY_INJECTION_INIT_SCRIPT_NAME: gradle-actions.inject-develocity.init.gradle
-2026-10-23T12:52:51.1645949Z   DEVELOCITY_INJECTION_CUSTOM_VALUE: gradle-actions
-2026-10-23T12:52:51.1646343Z   GITHUB_DEPENDENCY_GRAPH_ENABLED: false
-2026-10-23T12:52:51.1646700Z   DETECTED_KEY_ALIAS: release-key
-2026-10-23T12:52:51.1647023Z ##[endgroup]
-2026-10-23T12:52:51.6447352Z Initialized native services in: /home/runner/.gradle/native
-2026-10-23T12:52:51.6481892Z Initialized jansi services in: /home/runner/.gradle/native
-2026-10-23T12:52:51.7773599Z The current JVM process isn't compatible with build requirement. The maximum heap size is insufficient.
-2026-10-23T12:52:51.7800405Z 
-2026-10-23T12:52:51.8785184Z To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.8.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
-2026-10-23T12:52:51.8839493Z Starting process 'Gradle build daemon'. Working directory: /home/runner/.gradle/daemon/9.8.1 Command: /usr/lib/jvm/temurin-21-jdk-amd64/bin/java --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.invoke=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.prefs/java.util.prefs=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED --add-opens=java.base/java.nio.charset=ALL-UNNAMED --add-opens=java.base/java.net=ALL-UNNAMED --add-opens=java.base/java.util.concurrent=ALL-UNNAMED --add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED --add-opens=java.xml/javax.xml.namespace=ALL-UNNAMED --add-opens=java.base/java.time=ALL-UNNAMED -Xmx2g -Dfile.encoding=UTF-8 -Duser.country -Duser.language=en -Duser.variant -cp /home/runner/.gradle/wrapper/dists/gradle-9.8.1-bin/a2l6ltp3k1vth6lwipzm5p2jp/gradle-9.8.1/lib/gradle-daemon-main-9.8.1.jar -javaagent:/home/runner/.gradle/wrapper/dists/gradle-9.8.1-bin/a2l6ltp3k1vth6lwipzm5p2jp/gradle-9.8.1/lib/agents/gradle-instrumentation-agent-9.8.1.jar org.gradle.launcher.daemon.bootstrap.GradleDaemon 9.8.1
-2026-10-23T12:52:51.8870216Z Successfully started process 'Gradle build daemon'
-2026-10-23T12:52:52.8771515Z An attempt to start the daemon took 0.945 secs.
-2026-10-23T12:52:52.8791440Z The client will now receive all logging from the daemon (pid: 3031). The daemon log file: /home/runner/.gradle/daemon/9.8.1/daemon-3031.out.log
-2026-10-23T12:52:52.8792480Z Daemon will be stopped at the end of the build 
-2026-10-23T12:52:53.2771195Z Using 4 worker leases.
-2026-10-23T12:52:53.3780288Z Operational build model parameters: {cachingModelBuilding=false, configurationCache=false, configurationCacheDisabledReason=null, configurationCacheParallelLoad=false, configurationCacheParallelStore=false, configureOnDemand=false, invalidateCoupledProjects=false, isolatedProjects=false, isolatedProjectsDiagnostics=false, isolatedProjectsDangerouslyIgnoreProblems=false, modelAsProjectDependency=false, modelBuilding=false, parallelModelBuilding=false, parallelProjectConfiguration=false, parallelProjectExecution=true, vintage=true}
-2026-10-23T12:52:53.5771672Z Received JVM installation metadata from '/usr/lib/jvm/temurin-21-jdk-amd64': {JAVA_HOME=/usr/lib/jvm/temurin-21-jdk-amd64, JAVA_VERSION=21.0.12.1, JAVA_VENDOR=Eclipse Adoptium, RUNTIME_NAME=OpenJDK Runtime Environment, RUNTIME_VERSION=21.0.12.1+1-LTS, VM_NAME=OpenJDK 64-Bit Server VM, VM_VERSION=21.0.12.1+1-LTS, VM_VENDOR=Eclipse Adoptium, OS_ARCH=amd64}
-2026-10-23T12:52:53.8770948Z Watching the file system is configured to be enabled if available
-2026-10-23T12:52:53.9785080Z Now considering [/home/runner/work/Secure-vault/Secure-vault] as hierarchies to watch
-2026-10-23T12:52:53.9810730Z File system watching is active
-2026-10-23T12:52:55.1772001Z Starting Build
-2026-10-23T12:52:55.7771808Z Resolved plugin [id: 'org.gradle.toolchains.foojay-resolver-convention', version: '1.0.0']
-2026-10-23T12:52:56.1791694Z Settings evaluated using settings file '/home/runner/work/Secure-vault/Secure-vault/settings.gradle.kts'.
-2026-10-23T12:52:56.6801811Z Projects loaded. Root project using build file '/home/runner/work/Secure-vault/Secure-vault/build.gradle.kts'.
-2026-10-23T12:52:56.7773232Z Included projects: [root project 'secure', project ':app']
-2026-10-23T12:52:57.8810698Z 
-2026-10-23T12:52:57.8839309Z > Configure project :
-2026-10-23T12:52:57.8840649Z Evaluating root project 'secure' using build file '/home/runner/work/Secure-vault/Secure-vault/build.gradle.kts'.
-2026-10-23T12:52:57.8870843Z Resolved plugin [id: 'com.android.application', version: '9.1.1', apply: false]
-2026-10-23T12:52:57.8901000Z Resolved plugin [id: 'org.jetbrains.kotlin.plugin.compose', version: '2.2.10', apply: false]
-2026-10-23T12:52:59.8775934Z 
-2026-10-23T12:52:59.8794139Z > Configure project :app
-2026-10-23T12:52:59.8796577Z Evaluating project ':app' using build file '/home/runner/work/Secure-vault/Secure-vault/app/build.gradle.kts'.
-2026-10-23T12:52:59.8806531Z Resolved plugin [id: 'com.android.application', version: '9.1.1']
-2026-10-23T12:52:59.8807697Z Resolved plugin [id: 'org.jetbrains.kotlin.plugin.compose', version: '2.2.10']
-2026-10-23T12:52:59.8808701Z Build 1f7c2917-db14-41b3-b5f7-5b2fdba3f85d is started
-2026-10-23T12:52:59.8809534Z Using default execution profile
-2026-10-23T12:53:00.2770290Z Detected Android Gradle Plugin compose compiler configuration
-2026-10-23T12:53:00.3773773Z Detected Android Gradle Plugin compose compiler configuration
-2026-10-23T12:53:00.4771037Z Detected Android Gradle Plugin compose compiler configuration
-2026-10-23T12:53:00.4791264Z Detected Android Gradle Plugin compose compiler configuration
-2026-10-23T12:53:00.6770747Z All projects evaluated.
-2026-10-23T12:53:00.6771531Z Task path ':app:assembleRelease' matched project ':app'
-2026-10-23T12:53:00.6772847Z Task name matched 'assembleRelease'
-2026-10-23T12:53:00.7783806Z Selected primary task 'assembleRelease' from project :app
-2026-10-23T12:53:01.9794708Z Tasks to be executed: [task ':app:preBuild', task ':app:preReleaseBuild', task ':app:mergeReleaseJniLibFolders', task ':app:mergeReleaseNativeLibs', task ':app:stripReleaseDebugSymbols', task ':app:extractReleaseNativeSymbolTables', task ':app:mergeReleaseNativeDebugMetadata', task ':app:checkReleaseDuplicateClasses', task ':app:generateReleaseBuildConfig', task ':app:generateReleaseResources', task ':app:packageReleaseResources', task ':app:processReleaseNavigationResources', task ':app:parseReleaseLocalResources', task ':app:generateReleaseRFile', task ':app:compileReleaseKotlin', task ':app:javaPreCompileRelease', task ':app:compileReleaseJavaWithJavac', task ':app:mergeReleaseArtProfile', task ':app:checkReleaseAarMetadata', task ':app:mapReleaseSourceSetPaths', task ':app:compileReleaseNavigationResources', task ':app:mergeReleaseResources', task ':app:createReleaseCompatibleScreenManifests', task ':app:extractDeepLinksRelease', task ':app:processReleaseMainManifest', task ':app:processReleaseManifest', task ':app:processReleaseManifestForPackage', task ':app:processReleaseResources', task ':app:expandReleaseArtProfileWildcards', task ':app:extractProguardFiles', task ':app:mergeReleaseGeneratedProguardFiles', task ':app:processReleaseJavaRes', task ':app:mergeReleaseJavaResource', task ':app:mergeReleaseStartupProfile', task ':app:minifyReleaseWithR8', task ':app:compileReleaseArtProfile', task ':app:generateReleaseAssets', task ':app:mergeReleaseAssets', task ':app:compressReleaseAssets', task ':app:extractReleaseVersionControlInfo', task ':app:generateReleaseLintVitalReportModel', task ':app:lintVitalAnalyzeRelease', task ':app:lintVitalReportRelease', task ':app:lintVitalRelease', task ':app:convertShrunkResourcesToBinaryRelease', task ':app:optimizeReleaseResources', task ':app:collectReleaseDependencies', task ':app:sdkReleaseDependencyData', task ':app:validateSigningRelease', task ':app:writeReleaseAppMetadata', task ':app:writeReleaseSigningConfigVersions', task ':app:packageRelease', task ':app:createReleaseApkListingFileRedirect', task ':app:assembleRelease']
-2026-10-23T12:53:01.9846820Z Tasks that were excluded: []
-2026-10-23T12:53:01.9847631Z Resolve mutations for :app:preBuild (Thread[#59,Execution worker,5,main]) started.
-2026-10-23T12:53:01.9848613Z :app:preBuild (Thread[#59,Execution worker,5,main]) started.
-2026-10-23T12:53:02.0770068Z 
-2026-10-23T12:53:02.0781687Z > Task :app:preBuild UP-TO-DATE
-2026-10-23T12:53:02.0782516Z Skipping task ':app:preBuild' as it has no actions.
-2026-10-23T12:53:02.0783400Z Resolve mutations for :app:preReleaseBuild (Thread[#59,Execution worker,5,main]) started.
-2026-10-23T12:53:02.0784074Z :app:preReleaseBuild (Thread[#59,Execution worker,5,main]) started.
-2026-10-23T12:53:02.0784408Z 
-2026-10-23T12:53:02.0784559Z > Task :app:preReleaseBuild UP-TO-DATE
-2026-10-23T12:53:02.0785017Z Skipping task ':app:preReleaseBuild' as it has no actions.
-2026-10-23T12:53:02.0785646Z Resolve mutations for :app:mergeReleaseJniLibFolders (Thread[#59,Execution worker,5,main]) started.
-2026-10-23T12:53:02.0786375Z :app:mergeReleaseJniLibFolders (Thread[#60,Execution worker Thread 2,5,main]) started.
-2026-10-23T12:53:02.2780728Z 
-2026-10-23T12:53:02.2781569Z > Task :app:mergeReleaseJniLibFolders
-2026-10-23T12:53:02.2782471Z Caching disabled for task ':app:mergeReleaseJniLibFolders' because:
-2026-10-23T12:53:02.2840718Z   Build cache is disabled
-2026-10-23T12:53:02.2841287Z   Simple merging task
-2026-10-23T12:53:02.2841974Z Task ':app:mergeReleaseJniLibFolders' is not up-to-date because:
-2026-10-23T12:53:02.2842729Z   No history is available.
-2026-10-23T12:53:02.2843593Z The input changes require a full rebuild for incremental task ':app:mergeReleaseJniLibFolders'.
-2026-10-23T12:53:02.2844964Z Resolve mutations for :app:mergeReleaseNativeLibs (Thread[#60,Execution worker Thread 2,5,main]) started.
-2026-10-23T12:53:02.2846697Z :app:mergeReleaseNativeLibs (Thread[#60,Execution worker Thread 2,5,main]) started.
-2026-10-23T12:53:03.4780690Z 
-2026-10-23T12:53:03.4782008Z > Task :app:mergeReleaseNativeLibs FAILED
-2026-10-23T12:53:03.4783320Z Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/commons-codec/commons-codec/1.21.0/commons-codec-1.21.0.pom]
-2026-10-23T12:53:03.4785321Z Downloading https://dl.google.com/dl/android/maven2/androidx/biometric/biometric/1.1.0/biometric-1.1.0.pom to /home/runner/.gradle/.tmp/gradle_download16297019677921001143bin
-2026-10-23T12:53:03.4787647Z Downloading https://dl.google.com/dl/android/maven2/androidx/security/security-crypto/1.1.0/security-crypto-1.1.0.pom to /home/runner/.gradle/.tmp/gradle_download1519484388073810824bin
-2026-10-23T12:53:03.4790114Z Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/dev/turingcomplete/kotlin-onetimepassword/3.0.0/kotlin-onetimepassword-3.0.0.pom]
-2026-10-23T12:53:03.4791972Z Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/com/github/keemobile/kotpass/0.13.0/kotpass-0.13.0.pom]
-2026-10-23T12:53:03.4793916Z Downloading https://repo.maven.apache.org/maven2/commons-codec/commons-codec/1.21.0/commons-codec-1.21.0.pom to /home/runner/.gradle/.tmp/gradle_download12196151643541591598bin
-2026-10-23T12:53:03.4796399Z Downloading https://repo.maven.apache.org/maven2/dev/turingcomplete/kotlin-onetimepassword/3.0.0/kotlin-onetimepassword-3.0.0.pom to /home/runner/.gradle/.tmp/gradle_download8017579491181538056bin
-2026-10-23T12:53:03.4798953Z Downloading https://dl.google.com/dl/android/maven2/androidx/security/security-crypto/1.1.0/security-crypto-1.1.0.module to /home/runner/.gradle/.tmp/gradle_download11692172035170504755bin
-2026-10-23T12:53:03.4801504Z Downloading https://dl.google.com/dl/android/maven2/androidx/biometric/biometric/1.1.0/biometric-1.1.0.module to /home/runner/.gradle/.tmp/gradle_download1560352248132540595bin
-2026-10-23T12:53:03.4804008Z Downloading https://repo.maven.apache.org/maven2/dev/turingcomplete/kotlin-onetimepassword/3.0.0/kotlin-onetimepassword-3.0.0.module to /home/runner/.gradle/.tmp/gradle_download7604561524894114470bin
-2026-10-23T12:53:03.4806192Z Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/apache/commons/commons-parent/96/commons-parent-96.pom]
-2026-10-23T12:53:03.4807844Z Resource missing. [HTTP GET: https://repo.maven.apache.org/maven2/com/github/keemobile/kotpass/0.13.0/kotpass-0.13.0.pom]
-2026-10-23T12:53:03.4809814Z Downloading https://repo.maven.apache.org/maven2/org/apache/commons/commons-parent/96/commons-parent-96.pom to /home/runner/.gradle/.tmp/gradle_download16492955738151833083bin
-2026-10-23T12:53:03.4842008Z Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/apache/apache/37/apache-37.pom]
-2026-10-23T12:53:03.4843725Z Downloading https://repo.maven.apache.org/maven2/org/apache/apache/37/apache-37.pom to /home/runner/.gradle/.tmp/gradle_download10423904959752354820bin
-2026-10-23T12:53:03.4845431Z Resource missing. [HTTP GET: https://jitpack.io/com/github/keemobile/kotpass/0.13.0/kotpass-0.13.0.pom]
-2026-10-23T12:53:03.4846872Z Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/junit/junit-bom/5.14.2/junit-bom-5.14.2.pom]
-2026-10-23T12:53:03.4848674Z Downloading https://repo.maven.apache.org/maven2/org/junit/junit-bom/5.14.2/junit-bom-5.14.2.pom to /home/runner/.gradle/.tmp/gradle_download5617345353942088625bin
-2026-10-23T12:53:03.4851034Z Downloading https://repo.maven.apache.org/maven2/org/junit/junit-bom/5.14.2/junit-bom-5.14.2.module to /home/runner/.gradle/.tmp/gradle_download11338498482294834095bin
-2026-10-23T12:53:03.4853224Z Downloading https://dl.google.com/dl/android/maven2/androidx/appcompat/appcompat/1.2.0/appcompat-1.2.0.pom to /home/runner/.gradle/.tmp/gradle_download309534629193609903bin
-2026-10-23T12:53:03.4855530Z Downloading https://dl.google.com/dl/android/maven2/androidx/appcompat/appcompat/1.2.0/appcompat-1.2.0.module to /home/runner/.gradle/.tmp/gradle_download12018922446892635770bin
-2026-10-23T12:53:03.4858010Z Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/jetbrains/kotlin/kotlin-stdlib/2.3.20/kotlin-stdlib-2.3.20.pom]
-2026-10-23T12:53:03.4860244Z Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-stdlib/2.3.20/kotlin-stdlib-2.3.20.pom to /home/runner/.gradle/.tmp/gradle_download10532839256104781913bin
-2026-10-23T12:53:03.4862578Z Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-stdlib/2.3.20/kotlin-stdlib-2.3.20.module to /home/runner/.gradle/.tmp/gradle_download3051703010720943381bin
-2026-10-23T12:53:03.4864990Z Downloading https://dl.google.com/dl/android/maven2/androidx/appcompat/appcompat-resources/1.2.0/appcompat-resources-1.2.0.pom to /home/runner/.gradle/.tmp/gradle_download6850918233904187541bin
-2026-10-23T12:53:03.4867508Z Downloading https://dl.google.com/dl/android/maven2/androidx/appcompat/appcompat-resources/1.2.0/appcompat-resources-1.2.0.module to /home/runner/.gradle/.tmp/gradle_download13418982249202227669bin
-2026-10-23T12:53:03.4869776Z Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/jetbrains/kotlin/kotlin-stdlib-common/2.3.20/kotlin-stdlib-common-2.3.20.pom]
-2026-10-23T12:53:03.4892812Z Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-stdlib-common/2.3.20/kotlin-stdlib-common-2.3.20.pom to /home/runner/.gradle/.tmp/gradle_download12386060652154198792bin
-2026-10-23T12:53:03.4895483Z Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-stdlib-common/2.3.20/kotlin-stdlib-common-2.3.20.module to /home/runner/.gradle/.tmp/gradle_download7487643546232476785bin
-2026-10-23T12:53:03.5774934Z gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__run_5-1792759974808.json
-2026-10-23T12:53:03.5810981Z Build 1f7c2917-db14-41b3-b5f7-5b2fdba3f85d is closed
-2026-10-23T12:53:03.5840499Z 
-2026-10-23T12:53:03.5840518Z 
-2026-10-23T12:53:03.5909578Z FAILURE: Build failed with an exception.
-2026-10-23T12:53:03.5911287Z [Incubating] Problems report is available at: file:///home/runner/work/Secure-vault/Secure-vault/build/reports/problems/problems-report.html
-2026-10-23T12:53:03.5940601Z 
-2026-10-23T12:53:03.5940613Z 
-2026-10-23T12:53:03.5941233Z Deprecated Gradle features were used in this build, making it incompatible with Gradle 10.
-2026-10-23T12:53:03.5941982Z 
-2026-10-23T12:53:03.5942836Z You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
-2026-10-23T12:53:03.5953162Z * What went wrong:
-2026-10-23T12:53:03.5971763Z 
-2026-10-23T12:53:03.5972577Z Execution failed for task ':app:mergeReleaseNativeLibs' (registered by plugin 'com.android.internal.application').
-2026-10-23T12:53:03.5980636Z > Could not resolve all files for configuration ':app:releaseRuntimeClasspath'.
-2026-10-23T12:53:03.5982237Z For more on this, please refer to https://docs.gradle.org/9.8.1/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
-2026-10-23T12:53:03.5983680Z 2 actionable tasks: 2 executed
-2026-10-23T12:53:03.6000188Z    > Could not resolve all dependencies for configuration ':app:releaseRuntimeClasspath'.
-2026-10-23T12:53:03.6001372Z       > Could not find com.github.keemobile:kotpass:0.13.0.
-2026-10-23T12:53:03.6002077Z         Searched in the following locations:
-2026-10-23T12:53:03.6002914Z           - https://dl.google.com/dl/android/maven2/com/github/keemobile/kotpass/0.13.0/kotpass-0.13.0.pom
-2026-10-23T12:53:03.6003678Z           - https://repo.maven.apache.org/maven2/com/github/keemobile/kotpass/0.13.0/kotpass-0.13.0.pom
-2026-10-23T12:53:03.6004321Z           - https://jitpack.io/com/github/keemobile/kotpass/0.13.0/kotpass-0.13.0.pom
-2026-10-23T12:53:03.6004761Z         Required by:
-2026-10-23T12:53:03.6005025Z             project ':app'
-2026-10-23T12:53:03.6005199Z 
-2026-10-23T12:53:03.6005294Z * Try:
-2026-10-23T12:53:03.6005793Z > The project declares repositories, effectively ignoring the repositories you have declared in the settings.
-2026-10-23T12:53:03.6007081Z    To determine how project repositories are declared, configure your build to fail on project repositories.
-2026-10-23T12:53:03.6008092Z    For more information, please refer to https://docs.gradle.org/9.8.1/userguide/declaring_repositories.html#sub:fail_build_on_project_repositories in the Gradle documentation.
-2026-10-23T12:53:03.6008897Z > Run with --debug option to get more log output.
-2026-10-23T12:53:03.6009373Z > Run with --scan to get full insights from a Build Scan (powered by Develocity).
-2026-10-23T12:53:03.6009836Z > Get more help at https://help.gradle.org.
-2026-10-23T12:53:03.6010377Z 
-2026-10-23T12:53:03.6010486Z * Exception is:
-2026-10-23T12:53:03.6011193Z org.gradle.api.tasks.TaskExecutionException: Execution failed for task ':app:mergeReleaseNativeLibs' (registered by plugin 'com.android.internal.application').
-2026-10-23T12:53:03.6012326Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor.executeCatchingFailures(DefaultTaskNodeExecutor.java:231)
-2026-10-23T12:53:03.6013440Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor.executeWithFallbackOperationId(DefaultTaskNodeExecutor.java:197)
-2026-10-23T12:53:03.6014502Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor.executeWithLifecycle(DefaultTaskNodeExecutor.java:171)
-2026-10-23T12:53:03.6015458Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor.access$000(DefaultTaskNodeExecutor.java:67)
-2026-10-23T12:53:03.6016590Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor$1.run(DefaultTaskNodeExecutor.java:136)
-2026-10-23T12:53:03.6040285Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner$1.execute(DefaultBuildOperationRunner.java:30)
-2026-10-23T12:53:03.6041300Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner$1.execute(DefaultBuildOperationRunner.java:27)
-2026-10-23T12:53:03.6042270Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:67)
-2026-10-23T12:53:03.6043192Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:60)
-2026-10-23T12:53:03.6044083Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:167)
-2026-10-23T12:53:03.6044964Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:60)
-2026-10-23T12:53:03.6045824Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner.run(DefaultBuildOperationRunner.java:48)
-2026-10-23T12:53:03.6046693Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor.execute(DefaultTaskNodeExecutor.java:133)
-2026-10-23T12:53:03.6047438Z 	at org.gradle.execution.plan.LocalTaskNode.execute(LocalTaskNode.java:229)
-2026-10-23T12:53:03.6048154Z 	at org.gradle.execution.DefaultBuildWorkExecutor.lambda$executePlan$0(DefaultBuildWorkExecutor.java:153)
-2026-10-23T12:53:03.6049009Z 	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.lambda$execute$0(DefaultPlanExecutor.java:476)
-2026-10-23T12:53:03.6049842Z 	at org.gradle.internal.operations.CurrentBuildOperationRef.with(CurrentBuildOperationRef.java:85)
-2026-10-23T12:53:03.6050781Z 	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.execute(DefaultPlanExecutor.java:475)
-2026-10-23T12:53:03.6051560Z 	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.run(DefaultPlanExecutor.java:392)
-2026-10-23T12:53:03.6052357Z 	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:65)
-2026-10-23T12:53:03.6053157Z 	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
-2026-10-23T12:53:03.6054137Z Caused by: org.gradle.api.internal.artifacts.ivyservice.TypedResolveException: Could not resolve all files for configuration ':app:releaseRuntimeClasspath'.
-2026-10-23T12:53:03.6056235Z 	at org.gradle.api.internal.artifacts.ResolveExceptionMapper.mapFailure(ResolveExceptionMapper.java:74)
-2026-10-23T12:53:03.6057831Z 	at org.gradle.api.internal.artifacts.ResolveExceptionMapper.mapFailures(ResolveExceptionMapper.java:66)
-2026-10-23T12:53:03.6058867Z 	at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration$DefaultResolutionHost.consolidateFailures(DefaultConfiguration.java:1815)
-2026-10-23T12:53:03.6076678Z 	at org.gradle.api.internal.artifacts.configurations.ResolutionHost.rethrowFailuresAndReportProblems(ResolutionHost.java:75)
-2026-10-23T12:53:03.6079146Z 	at org.gradle.api.internal.artifacts.configurations.ResolutionBackedFileCollection.maybeThrowResolutionFailures(ResolutionBackedFileCollection.java:86)
-2026-10-23T12:53:03.6081608Z 	at org.gradle.api.internal.artifacts.configurations.ResolutionBackedFileCollection.visitContents(ResolutionBackedFileCollection.java:76)
-2026-10-23T12:53:03.6083340Z 	at org.gradle.api.internal.file.AbstractFileCollection.getFiles(AbstractFileCollection.java:123)
-2026-10-23T12:53:03.6084800Z 	at org.gradle.api.internal.file.AbstractFileCollection.iterator(AbstractFileCollection.java:164)
-2026-10-23T12:53:03.6086155Z 	at org.gradle.api.internal.file.FilteredFileCollection.iterator(FilteredFileCollection.java:80)
-2026-10-23T12:53:03.6087282Z 	at com.google.common.collect.ImmutableSet.copyOf(ImmutableSet.java:224)
-2026-10-23T12:53:03.6088663Z 	at org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection$2.visitCollection(DefaultConfigurableFileCollection.java:427)
-2026-10-23T12:53:03.6089678Z 	at org.gradle.api.internal.file.AbstractFileCollection.visitContents(AbstractFileCollection.java:363)
-2026-10-23T12:53:03.6091255Z 	at org.gradle.api.internal.file.AbstractFileCollection.visitStructure(AbstractFileCollection.java:358)
-2026-10-23T12:53:03.6093141Z 	at org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection.lambda$calculateFinalizedValue$0(DefaultConfigurableFileCollection.java:424)
-2026-10-23T12:53:03.6095045Z 	at org.gradle.api.internal.file.collections.UnpackingVisitor.add(UnpackingVisitor.java:66)
-2026-10-23T12:53:03.6096201Z 	at org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection$UnresolvedItemsCollector.visitContents(DefaultConfigurableFileCollection.java:636)
-2026-10-23T12:53:03.6097522Z 	at org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection.calculateFinalizedValue(DefaultConfigurableFileCollection.java:424)
-2026-10-23T12:53:03.6098722Z 	at org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection.finalizeNow(DefaultConfigurableFileCollection.java:126)
-2026-10-23T12:53:03.6099873Z 	at org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection.lambda$visitChildren$0(DefaultConfigurableFileCollection.java:448)
-2026-10-23T12:53:03.6101205Z 	at org.gradle.api.internal.provider.ValueState.finalizeOnReadIfNeeded(ValueState.java:142)
-2026-10-23T12:53:03.6102362Z 	at org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection.visitChildren(DefaultConfigurableFileCollection.java:448)
-2026-10-23T12:53:03.6103481Z 	at org.gradle.api.internal.file.CompositeFileCollection.visitContents(CompositeFileCollection.java:112)
-2026-10-23T12:53:03.6104327Z 	at org.gradle.api.internal.file.AbstractFileCollection.visitStructure(AbstractFileCollection.java:358)
-2026-10-23T12:53:03.6105186Z 	at org.gradle.api.internal.file.CompositeFileCollection.lambda$visitContents$0(CompositeFileCollection.java:112)
-2026-10-23T12:53:03.6105994Z 	at org.gradle.api.internal.file.collections.UnpackingVisitor.add(UnpackingVisitor.java:66)
-2026-10-23T12:53:03.6106706Z 	at org.gradle.api.internal.file.collections.UnpackingVisitor.add(UnpackingVisitor.java:91)
-2026-10-23T12:53:03.6107608Z 	at org.gradle.api.internal.file.DefaultFileCollectionFactory$ResolvingFileCollection.visitChildren(DefaultFileCollectionFactory.java:311)
-2026-10-23T12:53:03.6108581Z 	at org.gradle.api.internal.file.CompositeFileCollection.visitContents(CompositeFileCollection.java:112)
-2026-10-23T12:53:03.6109410Z 	at org.gradle.api.internal.file.AbstractFileCollection.visitStructure(AbstractFileCollection.java:358)
-2026-10-23T12:53:03.6111239Z 	at org.gradle.api.internal.file.CompositeFileCollection.lambda$visitContents$0(CompositeFileCollection.java:112)
-2026-10-23T12:53:03.6112898Z 	at org.gradle.api.internal.tasks.PropertyFileCollection.visitChildren(PropertyFileCollection.java:48)
-2026-10-23T12:53:03.6114503Z 	at org.gradle.api.internal.file.CompositeFileCollection.visitContents(CompositeFileCollection.java:112)
-2026-10-23T12:53:03.6115997Z 	at org.gradle.api.internal.file.AbstractFileCollection.visitStructure(AbstractFileCollection.java:358)
-2026-10-23T12:53:03.6117503Z 	at org.gradle.internal.fingerprint.impl.DefaultFileCollectionSnapshotter.snapshot(DefaultFileCollectionSnapshotter.java:48)
-2026-10-23T12:53:03.6119352Z 	at org.gradle.internal.execution.impl.DefaultInputFingerprinter$InputCollectingVisitor.visitInputFileProperty(DefaultInputFingerprinter.java:151)
-2026-10-23T12:53:03.6121665Z 	at org.gradle.internal.execution.steps.SkipEmptyMutableWorkStep$2.visitInputFileProperty(SkipEmptyMutableWorkStep.java:190)
-2026-10-23T12:53:03.6123272Z 	at org.gradle.api.internal.tasks.execution.TaskExecution.visitMutableInputs(TaskExecution.java:354)
-2026-10-23T12:53:03.6125016Z 	at org.gradle.internal.execution.steps.SkipEmptyMutableWorkStep.lambda$fingerprintPrimaryInputs$0(SkipEmptyMutableWorkStep.java:186)
-2026-10-23T12:53:03.6126974Z 	at org.gradle.internal.execution.impl.DefaultInputFingerprinter.fingerprintInputProperties(DefaultInputFingerprinter.java:77)
-2026-10-23T12:53:03.6128932Z 	at org.gradle.internal.execution.steps.SkipEmptyMutableWorkStep.fingerprintPrimaryInputs(SkipEmptyMutableWorkStep.java:181)
-2026-10-23T12:53:03.6131003Z 	at org.gradle.internal.execution.steps.SkipEmptyMutableWorkStep.executeMutable(SkipEmptyMutableWorkStep.java:81)
-2026-10-23T12:53:03.6132220Z 	at org.gradle.internal.execution.steps.SkipEmptyMutableWorkStep.executeMutable(SkipEmptyMutableWorkStep.java:53)
-2026-10-23T12:53:03.6133012Z 	at org.gradle.internal.execution.steps.MutableStep.execute(MutableStep.java:26)
-2026-10-23T12:53:03.6133918Z 	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsStartedStep.execute(MarkSnapshottingInputsStartedStep.java:38)
-2026-10-23T12:53:03.6135017Z 	at org.gradle.internal.execution.steps.LoadPreviousExecutionStateStep.executeMutable(LoadPreviousExecutionStateStep.java:36)
-2026-10-23T12:53:03.6136066Z 	at org.gradle.internal.execution.steps.LoadPreviousExecutionStateStep.executeMutable(LoadPreviousExecutionStateStep.java:23)
-2026-10-23T12:53:03.6136905Z 	at org.gradle.internal.execution.steps.MutableStep.execute(MutableStep.java:26)
-2026-10-23T12:53:03.6137671Z 	at org.gradle.internal.execution.steps.HandleStaleOutputsStep.executeMutable(HandleStaleOutputsStep.java:77)
-2026-10-23T12:53:03.6138582Z 	at org.gradle.internal.execution.steps.HandleStaleOutputsStep.executeMutable(HandleStaleOutputsStep.java:43)
-2026-10-23T12:53:03.6139341Z 	at org.gradle.internal.execution.steps.MutableStep.execute(MutableStep.java:26)
-2026-10-23T12:53:03.6140586Z 	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.lambda$executeMutable$0(AssignMutableWorkspaceStep.java:34)
-2026-10-23T12:53:03.6142216Z 	at org.gradle.api.internal.tasks.execution.TaskExecution$4.withWorkspace(TaskExecution.java:314)
-2026-10-23T12:53:03.6143227Z 	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.executeMutable(AssignMutableWorkspaceStep.java:30)
-2026-10-23T12:53:03.6144198Z 	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.executeMutable(AssignMutableWorkspaceStep.java:21)
-2026-10-23T12:53:03.6145001Z 	at org.gradle.internal.execution.steps.MutableStep.execute(MutableStep.java:26)
-2026-10-23T12:53:03.6145708Z 	at org.gradle.internal.execution.steps.ChoosePipelineStep.execute(ChoosePipelineStep.java:40)
-2026-10-23T12:53:03.6146458Z 	at org.gradle.internal.execution.steps.ChoosePipelineStep.execute(ChoosePipelineStep.java:23)
-2026-10-23T12:53:03.6149417Z 	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.lambda$execute$2(ExecuteWorkBuildOperationFiringStep.java:67)
-2026-10-23T12:53:03.6151433Z 	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.execute(ExecuteWorkBuildOperationFiringStep.java:67)
-2026-10-23T12:53:03.6152803Z 	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.execute(ExecuteWorkBuildOperationFiringStep.java:39)
-2026-10-23T12:53:03.6153863Z 	at org.gradle.internal.execution.steps.IdentityCacheStep.execute(IdentityCacheStep.java:46)
-2026-10-23T12:53:03.6154780Z 	at org.gradle.internal.execution.steps.IdentityCacheStep.execute(IdentityCacheStep.java:34)
-2026-10-23T12:53:03.6155576Z 	at org.gradle.internal.execution.steps.IdentifyStep.execute(IdentifyStep.java:56)
-2026-10-23T12:53:03.6178016Z 	at org.gradle.internal.execution.steps.IdentifyStep.execute(IdentifyStep.java:38)
-2026-10-23T12:53:03.6179302Z 	at org.gradle.internal.execution.impl.DefaultExecutionEngine$1.execute(DefaultExecutionEngine.java:68)
-2026-10-23T12:53:03.6181172Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor.doExecute(DefaultTaskNodeExecutor.java:364)
-2026-10-23T12:53:03.6182991Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor.executeTrackingTaskIdentity(DefaultTaskNodeExecutor.java:332)
-2026-10-23T12:53:03.6184942Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor.executeFinalizingProperties(DefaultTaskNodeExecutor.java:318)
-2026-10-23T12:53:03.6187104Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor.executeSkippingWithNoActions(DefaultTaskNodeExecutor.java:289)
-2026-10-23T12:53:03.6189180Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor.executeSkippingOnlyIf(DefaultTaskNodeExecutor.java:272)
-2026-10-23T12:53:03.6190668Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor.executeCatchingFailures(DefaultTaskNodeExecutor.java:228)
-2026-10-23T12:53:03.6191370Z 	... 20 more
-2026-10-23T12:53:03.6192101Z Caused by: org.gradle.api.internal.artifacts.ivyservice.TypedResolveException: Could not resolve all dependencies for configuration ':app:releaseRuntimeClasspath'.
-2026-10-23T12:53:03.6193275Z 	at org.gradle.api.internal.artifacts.ResolveExceptionMapper.mapRepositoryOverrideFailure(ResolveExceptionMapper.java:109)
-2026-10-23T12:53:03.6193945Z 	... 91 more
-2026-10-23T12:53:03.6194498Z Caused by: org.gradle.internal.resolve.ModuleVersionNotFoundException: Could not find com.github.keemobile:kotpass:0.13.0.
-2026-10-23T12:53:03.6195155Z Searched in the following locations:
-2026-10-23T12:53:03.6195703Z   - https://dl.google.com/dl/android/maven2/com/github/keemobile/kotpass/0.13.0/kotpass-0.13.0.pom
-2026-10-23T12:53:03.6196442Z   - https://repo.maven.apache.org/maven2/com/github/keemobile/kotpass/0.13.0/kotpass-0.13.0.pom
-2026-10-23T12:53:03.6197082Z   - https://jitpack.io/com/github/keemobile/kotpass/0.13.0/kotpass-0.13.0.pom
-2026-10-23T12:53:03.6197511Z Required by:
-2026-10-23T12:53:03.6197748Z     project ':app'
-2026-10-23T12:53:03.6197906Z 
-2026-10-23T12:53:03.6197915Z 
-2026-10-23T12:53:03.6198022Z BUILD FAILED in 12s
-2026-10-23T12:53:03.8208452Z ##[error]Process completed with exit code 1.
-2026-10-23T12:53:03.8245806Z ##[group]Run rm -f "my-upload-key.jks"
-2026-10-23T12:53:03.8246235Z [36;1mrm -f "my-upload-key.jks"[0m
-2026-10-23T12:53:03.8308357Z shell: /usr/bin/bash -e {0}
-2026-10-23T12:53:03.8308666Z env:
-2026-10-23T12:53:03.8309027Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.12-1/x64
-2026-10-23T12:53:03.8309590Z   JAVA_HOME_21_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.12-1/x64
-2026-10-23T12:53:03.8310327Z   GRADLE_ACTION_ID: gradle/actions/setup-gradle
-2026-10-23T12:53:03.8310692Z   GRADLE_USER_HOME: /home/runner/.gradle
-2026-10-23T12:53:03.8311022Z   GRADLE_BUILD_ACTION_SETUP_COMPLETED: true
-2026-10-23T12:53:03.8311370Z   GRADLE_BUILD_ACTION_CACHE_RESTORED: true
-2026-10-23T12:53:03.8311852Z   DEVELOCITY_INJECTION_INIT_SCRIPT_NAME: gradle-actions.inject-develocity.init.gradle
-2026-10-23T12:53:03.8312375Z   DEVELOCITY_INJECTION_CUSTOM_VALUE: gradle-actions
-2026-10-23T12:53:03.8312937Z   GITHUB_DEPENDENCY_GRAPH_ENABLED: false
-2026-10-23T12:53:03.8313300Z   DETECTED_KEY_ALIAS: release-key
-2026-10-23T12:53:03.8313598Z ##[endgroup]
-2026-10-23T12:53:03.8616637Z Post job cleanup.
-2026-10-23T12:53:04.1051103Z In post-action step
-2026-10-23T12:53:04.1065715Z ##[group]Stopping Gradle daemons
-2026-10-23T12:53:04.1066628Z Stopping Gradle daemons for /usr/share/gradle-9.8.1
-2026-10-23T12:53:04.1079114Z Stopping Gradle daemons for /home/runner/.gradle/wrapper/dists/gradle-9.8.1-bin/a2l6ltp3k1vth6lwipzm5p2jp/gradle-9.8.1
-2026-10-23T12:53:04.1086479Z [command]/usr/share/gradle-9.8.1/bin/gradle --stop
-2026-10-23T12:53:04.1141069Z [command]/home/runner/.gradle/wrapper/dists/gradle-9.8.1-bin/a2l6ltp3k1vth6lwipzm5p2jp/gradle-9.8.1/bin/gradle --stop
-2026-10-23T12:53:05.0579803Z No Gradle daemons are running.
-2026-10-23T12:53:05.1451196Z No Gradle daemons are running.
-2026-10-23T12:53:05.1535170Z ##[endgroup]
-2026-10-23T12:53:05.1536975Z Not performing cache-cleanup due to build failure
-2026-10-23T12:53:05.1537920Z ##[group]Caching Gradle state
-2026-10-23T12:53:05.6801427Z [command]/usr/bin/tar --posix -cf cache.tzst --exclude cache.tzst -P -C /home/runner/work/Secure-vault/Secure-vault --files-from manifest.txt --use-compress-program zstdmt
-2026-10-23T12:53:06.1411311Z [command]/usr/bin/tar --posix -cf cache.tzst --exclude cache.tzst -P -C /home/runner/work/Secure-vault/Secure-vault --files-from manifest.txt --use-compress-program zstdmt
-2026-10-23T12:53:07.4985160Z Sent 88661 of 88661 (100.0%), 0.1 MBs/sec
-2026-10-23T12:53:07.7879100Z Saved cache entry with key gradle-kotlin-dsl-v1-5733edc5c4b0db6e9d077582e6bf8b93 from /home/runner/.gradle/caches/*/kotlin-dsl/accessors/*/,/home/runner/.gradle/caches/*/kotlin-dsl/scripts/*/ in 2156ms
-2026-10-23T12:53:08.7210666Z Sent 0 of 350007788 (0.0%), 0.0 MBs/sec
-2026-10-23T12:53:09.7215220Z Sent 14463468 of 350007788 (4.1%), 6.9 MBs/sec
-2026-10-23T12:53:10.2667172Z Sent 350007788 of 350007788 (100.0%), 131.1 MBs/sec
-2026-10-23T12:53:10.5573759Z Saved cache entry with key gradle-dependencies-v1-2d634b2b8c97cd8e5119d49b89363520 from /home/runner/.gradle/caches/modules-*/files-*/*/*/*/* in 4956ms
-2026-10-23T12:53:10.7547210Z [command]/usr/bin/tar --posix -cf cache.tzst --exclude cache.tzst -P -C /home/runner/work/Secure-vault/Secure-vault --files-from manifest.txt --use-compress-program zstdmt
-2026-10-23T12:53:11.9150199Z Sent 3661988 of 3661988 (100.0%), 4.4 MBs/sec
-2026-10-23T12:53:12.1765550Z Saved cache entry with key gradle-home-v1|Linux-X64|build[d6cc1c9b8f19a196f38d86334c228bbf]-44c784279cd6d304851c052159a9de98656ef22f from /home/runner/.gradle/caches,/home/runner/.gradle/notifications,/home/runner/.gradle/.setup-gradle in 1438ms
-2026-10-23T12:53:12.1767948Z ##[endgroup]
-2026-10-23T12:53:12.1774058Z Generating Job Summary
-2026-10-23T12:53:12.1789085Z Completed post-action step
-2026-10-23T12:53:12.2044953Z Post job cleanup.
-2026-10-23T12:53:12.3543665Z (node:3242) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-2026-10-23T12:53:12.3545171Z (Use `node --trace-deprecation ...` to show where the warning was created)
-2026-10-23T12:53:12.3827195Z Post job cleanup.
-2026-10-23T12:53:12.4829945Z [command]/usr/bin/git version
-2026-10-23T12:53:12.4877372Z git version 2.55.0
-2026-10-23T12:53:12.4921944Z Temporarily overriding HOME='/home/runner/work/_temp/550e363c-06c8-4c08-855e-54d0a3165d96' before making global git config changes
-2026-10-23T12:53:12.4925182Z Adding repository directory to the temporary git global config as a safe directory
-2026-10-23T12:53:12.4927827Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Secure-vault/Secure-vault
-2026-10-23T12:53:12.4974880Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
-2026-10-23T12:53:12.5038211Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
-2026-10-23T12:53:12.5332022Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
-2026-10-23T12:53:12.5365278Z http.https://github.com/.extraheader
-2026-10-23T12:53:12.5387179Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
-2026-10-23T12:53:12.5443285Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
-2026-10-23T12:53:12.5781906Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
-2026-10-23T12:53:12.5821227Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
-2026-10-23T12:53:12.6346443Z Cleaning up orphan processes
-2026-10-23T12:53:12.6723774Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-java@v4, gradle/actions/setup-gradle@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-10-23T13:00:02.7881356Z   add-job-summary: always
+2026-10-23T13:00:02.7881882Z   add-job-summary-as-pr-comment: never
+2026-10-23T13:00:02.7882392Z   dependency-graph: disabled
+2026-10-23T13:00:02.7882919Z   dependency-graph-report-dir: dependency-graph-reports
+2026-10-23T13:00:02.7883549Z   dependency-graph-continue-on-failure: true
+2026-10-23T13:00:02.7884099Z   build-scan-publish: false
+2026-10-23T13:00:02.7884718Z   allow-snapshot-wrappers: false
+2026-10-23T13:00:02.7885376Z   gradle-home-cache-strict-match: false
+2026-10-23T13:00:02.7886250Z   workflow-job-context: null
+2026-10-23T13:00:02.7890835Z   github-token: ***
+2026-10-23T13:00:02.7891402Z env:
+2026-10-23T13:00:02.7892055Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.12-1/x64
+2026-10-23T13:00:02.7892962Z   JAVA_HOME_21_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.12-1/x64
+2026-10-23T13:00:02.7893965Z ##[endgroup]
+2026-10-23T13:00:03.2291408Z Merged default JDK locations into /home/runner/.m2/toolchains.xml
+2026-10-23T13:00:03.2294382Z Preparing cache for cleanup.
+2026-10-23T13:00:03.2298935Z ##[group]Restore Gradle state from cache
+2026-10-23T13:00:03.3738230Z Cache hit for: gradle-home-v1|Linux-X64|build[d6cc1c9b8f19a196f38d86334c228bbf]-44c784279cd6d304851c052159a9de98656ef22f
+2026-10-23T13:00:04.0858861Z Received 3661988 of 3661988 (100.0%), 6.5 MBs/sec
+2026-10-23T13:00:04.0859764Z Cache Size: ~3 MB (3661988 B)
+2026-10-23T13:00:04.0898762Z [command]/usr/bin/tar -xf /home/runner/work/_temp/727eafe2-f610-4c63-b91e-f5b7de9ea7e6/cache.tzst -P -C /home/runner/work/Secure-vault/Secure-vault --use-compress-program unzstd
+2026-10-23T13:00:04.1591303Z Cache restored successfully
+2026-10-23T13:00:04.1597422Z Restored cache entry with key gradle-home-v1|Linux-X64|build[d6cc1c9b8f19a196f38d86334c228bbf]-44c784279cd6d304851c052159a9de98656ef22f to /home/runner/.gradle/caches,/home/runner/.gradle/notifications,/home/runner/.gradle/.setup-gradle in 929ms
+2026-10-23T13:00:04.3143011Z Cache hit for: gradle-dependencies-v1-2d634b2b8c97cd8e5119d49b89363520
+2026-10-23T13:00:04.3171928Z Cache hit for: gradle-wrapper-zips-v1-c614003d12ab0c472d72f6756dbe25ae
+2026-10-23T13:00:04.3258384Z Cache hit for: gradle-instrumented-jars-v1-50502a9496c3b1d6051fe912ae44df2f
+2026-10-23T13:00:04.3263497Z Cache hit for: gradle-kotlin-dsl-v1-5733edc5c4b0db6e9d077582e6bf8b93
+2026-10-23T13:00:04.3363130Z Cache hit for: gradle-groovy-dsl-v1-308ccabd83c1defb0394f10869580f99
+2026-10-23T13:00:04.3405741Z Cache hit for: gradle-transforms-v1-fdeaeeabe90d187c8233768525f76529
+2026-10-23T13:00:04.4258548Z Received 99675 of 99675 (100.0%), 1.8 MBs/sec
+2026-10-23T13:00:04.4259550Z Cache Size: ~0 MB (99675 B)
+2026-10-23T13:00:04.4332626Z [command]/usr/bin/tar -xf /home/runner/work/_temp/54f62b28-b738-4708-a3cb-de797a159510/cache.tzst -P -C /home/runner/work/Secure-vault/Secure-vault --use-compress-program unzstd
+2026-10-23T13:00:04.4646331Z Cache restored successfully
+2026-10-23T13:00:04.4813793Z Restored cache entry with key gradle-groovy-dsl-v1-308ccabd83c1defb0394f10869580f99 to /home/runner/.gradle/caches/*/groovy-dsl/*/ in 320ms
+2026-10-23T13:00:04.7025194Z Received 88661 of 88661 (100.0%), 0.4 MBs/sec
+2026-10-23T13:00:04.7026348Z Cache Size: ~0 MB (88661 B)
+2026-10-23T13:00:04.7045275Z [command]/usr/bin/tar -xf /home/runner/work/_temp/535d644d-356e-48e3-9fdb-58abe11844c1/cache.tzst -P -C /home/runner/work/Secure-vault/Secure-vault --use-compress-program unzstd
+2026-10-23T13:00:04.7174619Z Cache restored successfully
+2026-10-23T13:00:04.7176579Z Restored cache entry with key gradle-kotlin-dsl-v1-5733edc5c4b0db6e9d077582e6bf8b93 to /home/runner/.gradle/caches/*/kotlin-dsl/accessors/*/,/home/runner/.gradle/caches/*/kotlin-dsl/scripts/*/ in 556ms
+2026-10-23T13:00:04.7729379Z Received 64543 of 64543 (100.0%), 0.2 MBs/sec
+2026-10-23T13:00:04.7730037Z Cache Size: ~0 MB (64543 B)
+2026-10-23T13:00:04.7772076Z [command]/usr/bin/tar -xf /home/runner/work/_temp/c8af8ee9-5d4e-4422-a04d-9dc97711d3e1/cache.tzst -P -C /home/runner/work/Secure-vault/Secure-vault --use-compress-program unzstd
+2026-10-23T13:00:04.7850273Z Cache restored successfully
+2026-10-23T13:00:04.7855585Z Restored cache entry with key gradle-instrumented-jars-v1-50502a9496c3b1d6051fe912ae44df2f to /home/runner/.gradle/caches/jars-*/*/ in 625ms
+2026-10-23T13:00:05.3523598Z Received 50331648 of 150862009 (33.4%), 48.0 MBs/sec
+2026-10-23T13:00:05.4499763Z Received 54525952 of 350007788 (15.6%), 52.0 MBs/sec
+2026-10-23T13:00:05.5136501Z Received 41943040 of 178838945 (23.5%), 39.7 MBs/sec
+2026-10-23T13:00:06.3584019Z Received 125829120 of 150862009 (83.4%), 59.7 MBs/sec
+2026-10-23T13:00:06.4512935Z Received 226492416 of 350007788 (64.7%), 107.9 MBs/sec
+2026-10-23T13:00:06.5141286Z Received 170450337 of 178838945 (95.3%), 81.0 MBs/sec
+2026-10-23T13:00:06.8800285Z Received 178838945 of 178838945 (100.0%), 71.8 MBs/sec
+2026-10-23T13:00:06.8803883Z Cache Size: ~171 MB (178838945 B)
+2026-10-23T13:00:06.9368111Z [command]/usr/bin/tar -xf /home/runner/work/_temp/b8043872-ef9d-4ae2-9128-49d0757f11fe/cache.tzst -P -C /home/runner/work/Secure-vault/Secure-vault --use-compress-program unzstd
+2026-10-23T13:00:07.2943509Z Received 350007788 of 350007788 (100.0%), 117.3 MBs/sec
+2026-10-23T13:00:07.2944564Z Cache Size: ~334 MB (350007788 B)
+2026-10-23T13:00:07.3062386Z [command]/usr/bin/tar -xf /home/runner/work/_temp/b0a7a910-0055-42f5-aa4d-1d9539cb8ea1/cache.tzst -P -C /home/runner/work/Secure-vault/Secure-vault --use-compress-program unzstd
+2026-10-23T13:00:07.3594399Z Received 130023424 of 150862009 (86.2%), 41.2 MBs/sec
+2026-10-23T13:00:08.3605061Z Received 134217728 of 150862009 (89.0%), 31.9 MBs/sec
+2026-10-23T13:00:09.1007230Z Cache restored successfully
+2026-10-23T13:00:09.1237776Z Restored cache entry with key gradle-dependencies-v1-2d634b2b8c97cd8e5119d49b89363520 to /home/runner/.gradle/caches/modules-*/files-*/*/*/*/* in 4963ms
+2026-10-23T13:00:09.1459359Z Received 150862009 of 150862009 (100.0%), 30.0 MBs/sec
+2026-10-23T13:00:09.1460391Z Cache Size: ~144 MB (150862009 B)
+2026-10-23T13:00:09.1494422Z [command]/usr/bin/tar -xf /home/runner/work/_temp/90d2ba7c-f0d3-43a6-95e9-96289c804841/cache.tzst -P -C /home/runner/work/Secure-vault/Secure-vault --use-compress-program unzstd
+2026-10-23T13:00:09.5162705Z Cache restored successfully
+2026-10-23T13:00:09.5459602Z Restored cache entry with key gradle-wrapper-zips-v1-c614003d12ab0c472d72f6756dbe25ae to /home/runner/.gradle/wrapper/dists/gradle-9.8.1-bin/a2l6ltp3k1vth6lwipzm5p2jp in 5385ms
+2026-10-23T13:00:09.5631591Z Cache restored successfully
+2026-10-23T13:00:09.5807585Z Restored cache entry with key gradle-transforms-v1-fdeaeeabe90d187c8233768525f76529 to /home/runner/.gradle/caches/transforms-4/*/,/home/runner/.gradle/caches/*/transforms/*/ in 5419ms
+2026-10-23T13:00:09.6589910Z ##[endgroup]
+2026-10-23T13:00:09.6957998Z ##[group]Run if [ "false" = "false" ]; then
+2026-10-23T13:00:09.6958694Z [36;1mif [ "false" = "false" ]; then[0m
+2026-10-23T13:00:09.6959225Z [36;1m  rm -rf gradle/wrapper[0m
+2026-10-23T13:00:09.6960036Z [36;1m  if [ -n "" ]; then[0m
+2026-10-23T13:00:09.6960968Z [36;1m    gradle wrapper --gradle-version ""[0m
+2026-10-23T13:00:09.6962626Z [36;1m  else[0m
+2026-10-23T13:00:09.6963022Z [36;1m    gradle wrapper[0m
+2026-10-23T13:00:09.6964407Z [36;1m  fi[0m
+2026-10-23T13:00:09.6965174Z [36;1mfi[0m
+2026-10-23T13:00:09.6965584Z [36;1mchmod +x gradlew[0m
+2026-10-23T13:00:09.7031941Z shell: /usr/bin/bash -e {0}
+2026-10-23T13:00:09.7032553Z env:
+2026-10-23T13:00:09.7033056Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.12-1/x64
+2026-10-23T13:00:09.7033796Z   JAVA_HOME_21_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.12-1/x64
+2026-10-23T13:00:09.7034388Z   GRADLE_ACTION_ID: gradle/actions/setup-gradle
+2026-10-23T13:00:09.7035020Z   GRADLE_USER_HOME: /home/runner/.gradle
+2026-10-23T13:00:09.7035501Z   GRADLE_BUILD_ACTION_SETUP_COMPLETED: true
+2026-10-23T13:00:09.7036008Z   GRADLE_BUILD_ACTION_CACHE_RESTORED: true
+2026-10-23T13:00:09.7036668Z   DEVELOCITY_INJECTION_INIT_SCRIPT_NAME: gradle-actions.inject-develocity.init.gradle
+2026-10-23T13:00:09.7037301Z   DEVELOCITY_INJECTION_CUSTOM_VALUE: gradle-actions
+2026-10-23T13:00:09.7037831Z   GITHUB_DEPENDENCY_GRAPH_ENABLED: false
+2026-10-23T13:00:09.7038300Z ##[endgroup]
+2026-10-23T13:00:17.0708761Z To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.8.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+2026-10-23T13:00:21.5671606Z Daemon will be stopped at the end of the build 
+2026-10-23T13:00:36.9679494Z > Task :wrapper
+2026-10-23T13:00:37.0705195Z gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__run_2-1792760426444.json
+2026-10-23T13:00:37.0711139Z 
+2026-10-23T13:00:37.0712494Z [Incubating] Problems report is available at: file:///home/runner/work/Secure-vault/Secure-vault/build/reports/problems/problems-report.html
+2026-10-23T13:00:37.0713134Z 
+2026-10-23T13:00:37.0713533Z Deprecated Gradle features were used in this build, making it incompatible with Gradle 10.
+2026-10-23T13:00:37.0714028Z 
+2026-10-23T13:00:37.0714521Z You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+2026-10-23T13:00:37.0715087Z 
+2026-10-23T13:00:37.0715644Z For more on this, please refer to https://docs.gradle.org/9.8.1/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+2026-10-23T13:00:37.0716309Z 
+2026-10-23T13:00:37.0716492Z BUILD SUCCESSFUL in 26s
+2026-10-23T13:00:37.0716922Z 1 actionable task: 1 executed
+2026-10-23T13:00:37.2634447Z ##[group]Run yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses > /dev/null || true
+2026-10-23T13:00:37.2635384Z [36;1myes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses > /dev/null || true[0m
+2026-10-23T13:00:37.2636256Z [36;1m$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platforms;android-36" "build-tools;35.0.0" || true[0m
+2026-10-23T13:00:37.2679295Z shell: /usr/bin/bash -e {0}
+2026-10-23T13:00:37.2679883Z env:
+2026-10-23T13:00:37.2680428Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.12-1/x64
+2026-10-23T13:00:37.2681463Z   JAVA_HOME_21_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.12-1/x64
+2026-10-23T13:00:37.2682084Z   GRADLE_ACTION_ID: gradle/actions/setup-gradle
+2026-10-23T13:00:37.2682636Z   GRADLE_USER_HOME: /home/runner/.gradle
+2026-10-23T13:00:37.2683112Z   GRADLE_BUILD_ACTION_SETUP_COMPLETED: true
+2026-10-23T13:00:37.2683578Z   GRADLE_BUILD_ACTION_CACHE_RESTORED: true
+2026-10-23T13:00:37.2684366Z   DEVELOCITY_INJECTION_INIT_SCRIPT_NAME: gradle-actions.inject-develocity.init.gradle
+2026-10-23T13:00:37.2685073Z   DEVELOCITY_INJECTION_CUSTOM_VALUE: gradle-actions
+2026-10-23T13:00:37.2686430Z   GITHUB_DEPENDENCY_GRAPH_ENABLED: false
+2026-10-23T13:00:37.2686937Z ##[endgroup]
+2026-10-23T13:00:40.6635729Z yes: standard output: Broken pipe
+2026-10-23T13:00:41.3407736Z Loading package information...                                                  
+2026-10-23T13:00:41.4172463Z Loading local repository...                                                     
+2026-10-23T13:00:41.4175178Z [                                       ] 3% Loading local repository...        
+2026-10-23T13:00:41.4216786Z [                                       ] 3% Fetch remote repository...         
+2026-10-23T13:00:41.6475381Z [=                                      ] 3% Fetch remote repository...         
+2026-10-23T13:00:41.7360722Z [=                                      ] 4% Fetch remote repository...         
+2026-10-23T13:00:41.7579491Z [=                                      ] 5% Fetch remote repository...         
+2026-10-23T13:00:41.8216667Z [==                                     ] 5% Fetch remote repository...         
+2026-10-23T13:00:41.8676160Z [==                                     ] 6% Fetch remote repository...         
+2026-10-23T13:00:41.9102482Z [==                                     ] 7% Fetch remote repository...         
+2026-10-23T13:00:41.9104152Z [==                                     ] 7% Computing updates...               
+2026-10-23T13:00:41.9203824Z [===                                    ] 8% Computing updates...               
+2026-10-23T13:00:41.9269849Z [===                                    ] 10% Computing updates...              
+2026-10-23T13:00:41.9271122Z [=======================================] 100% Computing updates...             
+2026-10-23T13:00:41.9271837Z 
+2026-10-23T13:00:41.9838981Z ##[group]Run if [ -z "***" ]; then
+2026-10-23T13:00:41.9855860Z [36;1mif [ -z "***" ]; then[0m
+2026-10-23T13:00:41.9856474Z [36;1m  echo "::error::KEYSTORE_BASE64 secret is not set."[0m
+2026-10-23T13:00:41.9857083Z [36;1m  exit 1[0m
+2026-10-23T13:00:41.9857598Z [36;1mfi[0m
+2026-10-23T13:00:41.9873814Z [36;1mecho "***" | base64 -d > "my-upload-key.jks"[0m
+2026-10-23T13:00:41.9874494Z [36;1mecho "Keystore written as my-upload-key.jks (runner-local only)"[0m
+2026-10-23T13:00:41.9875100Z [36;1m[0m
+2026-10-23T13:00:41.9876024Z [36;1mDETECTED_ALIAS=$(keytool -list -keystore "my-upload-key.jks" \[0m
+2026-10-23T13:00:41.9876664Z [36;1m  -storepass "***" 2>/dev/null \[0m
+2026-10-23T13:00:41.9877398Z [36;1m  | grep "PrivateKeyEntry" | head -1 | cut -d, -f1)[0m
+2026-10-23T13:00:41.9878035Z [36;1m[0m
+2026-10-23T13:00:41.9878511Z [36;1mif [ -z "$DETECTED_ALIAS" ]; then[0m
+2026-10-23T13:00:41.9879405Z [36;1m  echo "::error::Could not read any alias from the keystore. Check that KEYSTORE_PASSWORD is correct."[0m
+2026-10-23T13:00:41.9880147Z [36;1m  exit 1[0m
+2026-10-23T13:00:41.9880740Z [36;1mfi[0m
+2026-10-23T13:00:41.9881223Z [36;1mecho "Auto-detected key alias: $DETECTED_ALIAS"[0m
+2026-10-23T13:00:41.9881932Z [36;1mecho "DETECTED_KEY_ALIAS=$DETECTED_ALIAS" >> "$GITHUB_ENV"[0m
+2026-10-23T13:00:41.9924608Z shell: /usr/bin/bash -e {0}
+2026-10-23T13:00:41.9925176Z env:
+2026-10-23T13:00:41.9925709Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.12-1/x64
+2026-10-23T13:00:41.9926398Z   JAVA_HOME_21_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.12-1/x64
+2026-10-23T13:00:41.9927009Z   GRADLE_ACTION_ID: gradle/actions/setup-gradle
+2026-10-23T13:00:41.9927502Z   GRADLE_USER_HOME: /home/runner/.gradle
+2026-10-23T13:00:41.9927988Z   GRADLE_BUILD_ACTION_SETUP_COMPLETED: true
+2026-10-23T13:00:41.9928473Z   GRADLE_BUILD_ACTION_CACHE_RESTORED: true
+2026-10-23T13:00:41.9929112Z   DEVELOCITY_INJECTION_INIT_SCRIPT_NAME: gradle-actions.inject-develocity.init.gradle
+2026-10-23T13:00:41.9929806Z   DEVELOCITY_INJECTION_CUSTOM_VALUE: gradle-actions
+2026-10-23T13:00:41.9930271Z   GITHUB_DEPENDENCY_GRAPH_ENABLED: false
+2026-10-23T13:00:41.9930835Z ##[endgroup]
+2026-10-23T13:00:42.0015335Z Keystore written as my-upload-key.jks (runner-local only)
+2026-10-23T13:00:42.3821155Z Auto-detected key alias: release-key
+2026-10-23T13:00:42.3880989Z ##[group]Run export "STORE_PASSWORD"="***"
+2026-10-23T13:00:42.3881928Z [36;1mexport "STORE_PASSWORD"="***"[0m
+2026-10-23T13:00:42.3882704Z [36;1mexport "KEY_PASSWORD"="***"[0m
+2026-10-23T13:00:42.3883959Z [36;1mexport STORE_PASSWORD="***"[0m
+2026-10-23T13:00:42.3884779Z [36;1mexport KEY_PASSWORD="***"[0m
+2026-10-23T13:00:42.3885601Z [36;1m# Always export as KEY_ALIAS - the "Enforce Canonical Signing Config"[0m
+2026-10-23T13:00:42.3886673Z [36;1m# step guarantees the build file reads exactly this name, regardless[0m
+2026-10-23T13:00:42.3887652Z [36;1m# of what detection saw in the file BEFORE that step ran.[0m
+2026-10-23T13:00:42.3888479Z [36;1mexport KEY_ALIAS="$DETECTED_KEY_ALIAS"[0m
+2026-10-23T13:00:42.3889287Z [36;1mexport KEYSTORE_PATH="$(pwd)/my-upload-key.jks"[0m
+2026-10-23T13:00:42.3890215Z [36;1mcp "my-upload-key.jks" my-upload-key.jks 2>/dev/null || true[0m
+2026-10-23T13:00:42.3891721Z [36;1m# --no-daemon forces a fresh JVM for this build, avoiding daemon[0m
+2026-10-23T13:00:42.3892612Z [36;1m# reuse across the earlier "gradle wrapper" invocation - reused[0m
+2026-10-23T13:00:42.3893578Z [36;1m# daemons are a known cause of KSP crashing with[0m
+2026-10-23T13:00:42.3894508Z [36;1m# "ApplicationManager.getApplication() is null" (corrupted[0m
+2026-10-23T13:00:42.3895427Z [36;1m# IntelliJ-platform static state carried over between invocations).[0m
+2026-10-23T13:00:42.3896330Z [36;1m./gradlew :app:assembleRelease --no-daemon --stacktrace --info[0m
+2026-10-23T13:00:42.3955249Z shell: /usr/bin/bash -e {0}
+2026-10-23T13:00:42.3955891Z env:
+2026-10-23T13:00:42.3956647Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.12-1/x64
+2026-10-23T13:00:42.3957637Z   JAVA_HOME_21_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.12-1/x64
+2026-10-23T13:00:42.3958609Z   GRADLE_ACTION_ID: gradle/actions/setup-gradle
+2026-10-23T13:00:42.3959351Z   GRADLE_USER_HOME: /home/runner/.gradle
+2026-10-23T13:00:42.3960077Z   GRADLE_BUILD_ACTION_SETUP_COMPLETED: true
+2026-10-23T13:00:42.3961074Z   GRADLE_BUILD_ACTION_CACHE_RESTORED: true
+2026-10-23T13:00:42.3962085Z   DEVELOCITY_INJECTION_INIT_SCRIPT_NAME: gradle-actions.inject-develocity.init.gradle
+2026-10-23T13:00:42.3963038Z   DEVELOCITY_INJECTION_CUSTOM_VALUE: gradle-actions
+2026-10-23T13:00:42.3963751Z   GITHUB_DEPENDENCY_GRAPH_ENABLED: false
+2026-10-23T13:00:42.3964393Z   DETECTED_KEY_ALIAS: release-key
+2026-10-23T13:00:42.3965099Z ##[endgroup]
+2026-10-23T13:00:42.8162424Z Initialized native services in: /home/runner/.gradle/native
+2026-10-23T13:00:42.8176283Z Initialized jansi services in: /home/runner/.gradle/native
+2026-10-23T13:00:42.9432439Z The current JVM process isn't compatible with build requirement. The maximum heap size is insufficient.
+2026-10-23T13:00:42.9433188Z 
+2026-10-23T13:00:43.0453311Z To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.8.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+2026-10-23T13:00:43.0468495Z Starting process 'Gradle build daemon'. Working directory: /home/runner/.gradle/daemon/9.8.1 Command: /usr/lib/jvm/temurin-21-jdk-amd64/bin/java --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.invoke=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.prefs/java.util.prefs=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED --add-opens=java.base/java.nio.charset=ALL-UNNAMED --add-opens=java.base/java.net=ALL-UNNAMED --add-opens=java.base/java.util.concurrent=ALL-UNNAMED --add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED --add-opens=java.xml/javax.xml.namespace=ALL-UNNAMED --add-opens=java.base/java.time=ALL-UNNAMED -Xmx2g -Dfile.encoding=UTF-8 -Duser.country -Duser.language=en -Duser.variant -cp /home/runner/.gradle/wrapper/dists/gradle-9.8.1-bin/a2l6ltp3k1vth6lwipzm5p2jp/gradle-9.8.1/lib/gradle-daemon-main-9.8.1.jar -javaagent:/home/runner/.gradle/wrapper/dists/gradle-9.8.1-bin/a2l6ltp3k1vth6lwipzm5p2jp/gradle-9.8.1/lib/agents/gradle-instrumentation-agent-9.8.1.jar org.gradle.launcher.daemon.bootstrap.GradleDaemon 9.8.1
+2026-10-23T13:00:43.0475400Z Successfully started process 'Gradle build daemon'
+2026-10-23T13:00:43.9411226Z An attempt to start the daemon took 0.845 secs.
+2026-10-23T13:00:43.9422408Z The client will now receive all logging from the daemon (pid: 2808). The daemon log file: /home/runner/.gradle/daemon/9.8.1/daemon-2808.out.log
+2026-10-23T13:00:43.9423420Z Daemon will be stopped at the end of the build 
+2026-10-23T13:00:44.3414249Z Using 4 worker leases.
+2026-10-23T13:00:44.3424743Z Operational build model parameters: {cachingModelBuilding=false, configurationCache=false, configurationCacheDisabledReason=null, configurationCacheParallelLoad=false, configurationCacheParallelStore=false, configureOnDemand=false, invalidateCoupledProjects=false, isolatedProjects=false, isolatedProjectsDiagnostics=false, isolatedProjectsDangerouslyIgnoreProblems=false, modelAsProjectDependency=false, modelBuilding=false, parallelModelBuilding=false, parallelProjectConfiguration=false, parallelProjectExecution=true, vintage=true}
+2026-10-23T13:00:44.6421511Z Received JVM installation metadata from '/usr/lib/jvm/temurin-21-jdk-amd64': {JAVA_HOME=/usr/lib/jvm/temurin-21-jdk-amd64, JAVA_VERSION=21.0.12.1, JAVA_VENDOR=Eclipse Adoptium, RUNTIME_NAME=OpenJDK Runtime Environment, RUNTIME_VERSION=21.0.12.1+1-LTS, VM_NAME=OpenJDK 64-Bit Server VM, VM_VERSION=21.0.12.1+1-LTS, VM_VENDOR=Eclipse Adoptium, OS_ARCH=amd64}
+2026-10-23T13:00:44.9413950Z Watching the file system is configured to be enabled if available
+2026-10-23T13:00:44.9414695Z Now considering [/home/runner/work/Secure-vault/Secure-vault] as hierarchies to watch
+2026-10-23T13:00:44.9415489Z File system watching is active
+2026-10-23T13:00:46.2412448Z Starting Build
+2026-10-23T13:00:46.8422140Z Resolved plugin [id: 'org.gradle.toolchains.foojay-resolver-convention', version: '1.0.0']
+2026-10-23T13:00:47.2411468Z Settings evaluated using settings file '/home/runner/work/Secure-vault/Secure-vault/settings.gradle.kts'.
+2026-10-23T13:00:47.7453120Z Projects loaded. Root project using build file '/home/runner/work/Secure-vault/Secure-vault/build.gradle.kts'.
+2026-10-23T13:00:47.7455035Z Included projects: [root project 'secure', project ':app']
+2026-10-23T13:00:48.9429760Z 
+2026-10-23T13:00:48.9453104Z > Configure project :
+2026-10-23T13:00:48.9454344Z Evaluating root project 'secure' using build file '/home/runner/work/Secure-vault/Secure-vault/build.gradle.kts'.
+2026-10-23T13:00:48.9456042Z Resolved plugin [id: 'com.android.application', version: '9.1.1', apply: false]
+2026-10-23T13:00:48.9457251Z Resolved plugin [id: 'org.jetbrains.kotlin.plugin.compose', version: '2.2.10', apply: false]
+2026-10-23T13:00:50.8416684Z 
+2026-10-23T13:00:50.8417860Z > Configure project :app
+2026-10-23T13:00:50.8419551Z Evaluating project ':app' using build file '/home/runner/work/Secure-vault/Secure-vault/app/build.gradle.kts'.
+2026-10-23T13:00:50.8421141Z Resolved plugin [id: 'com.android.application', version: '9.1.1']
+2026-10-23T13:00:50.8422397Z Resolved plugin [id: 'org.jetbrains.kotlin.plugin.compose', version: '2.2.10']
+2026-10-23T13:00:50.8423539Z Build 38b255ab-7a27-438c-8283-0c98602e5ae7 is started
+2026-10-23T13:00:50.8424427Z Using default execution profile
+2026-10-23T13:00:51.3436018Z Detected Android Gradle Plugin compose compiler configuration
+2026-10-23T13:00:51.4415417Z Detected Android Gradle Plugin compose compiler configuration
+2026-10-23T13:00:51.4416955Z Detected Android Gradle Plugin compose compiler configuration
+2026-10-23T13:00:51.5411178Z Detected Android Gradle Plugin compose compiler configuration
+2026-10-23T13:00:51.7411486Z All projects evaluated.
+2026-10-23T13:00:51.8421811Z Task path ':app:assembleRelease' matched project ':app'
+2026-10-23T13:00:51.8422762Z Task name matched 'assembleRelease'
+2026-10-23T13:00:51.8424169Z Selected primary task 'assembleRelease' from project :app
+2026-10-23T13:00:53.0443664Z Tasks to be executed: [task ':app:preBuild', task ':app:preReleaseBuild', task ':app:mergeReleaseJniLibFolders', task ':app:mergeReleaseNativeLibs', task ':app:stripReleaseDebugSymbols', task ':app:extractReleaseNativeSymbolTables', task ':app:mergeReleaseNativeDebugMetadata', task ':app:checkReleaseDuplicateClasses', task ':app:generateReleaseBuildConfig', task ':app:generateReleaseResources', task ':app:packageReleaseResources', task ':app:processReleaseNavigationResources', task ':app:parseReleaseLocalResources', task ':app:generateReleaseRFile', task ':app:compileReleaseKotlin', task ':app:javaPreCompileRelease', task ':app:compileReleaseJavaWithJavac', task ':app:mergeReleaseArtProfile', task ':app:checkReleaseAarMetadata', task ':app:mapReleaseSourceSetPaths', task ':app:compileReleaseNavigationResources', task ':app:mergeReleaseResources', task ':app:createReleaseCompatibleScreenManifests', task ':app:extractDeepLinksRelease', task ':app:processReleaseMainManifest', task ':app:processReleaseManifest', task ':app:processReleaseManifestForPackage', task ':app:processReleaseResources', task ':app:expandReleaseArtProfileWildcards', task ':app:extractProguardFiles', task ':app:mergeReleaseGeneratedProguardFiles', task ':app:processReleaseJavaRes', task ':app:mergeReleaseJavaResource', task ':app:mergeReleaseStartupProfile', task ':app:minifyReleaseWithR8', task ':app:compileReleaseArtProfile', task ':app:generateReleaseAssets', task ':app:mergeReleaseAssets', task ':app:compressReleaseAssets', task ':app:extractReleaseVersionControlInfo', task ':app:generateReleaseLintVitalReportModel', task ':app:lintVitalAnalyzeRelease', task ':app:lintVitalReportRelease', task ':app:lintVitalRelease', task ':app:convertShrunkResourcesToBinaryRelease', task ':app:optimizeReleaseResources', task ':app:collectReleaseDependencies', task ':app:sdkReleaseDependencyData', task ':app:validateSigningRelease', task ':app:writeReleaseAppMetadata', task ':app:writeReleaseSigningConfigVersions', task ':app:packageRelease', task ':app:createReleaseApkListingFileRedirect', task ':app:assembleRelease']
+2026-10-23T13:00:53.0456537Z Tasks that were excluded: []
+2026-10-23T13:00:53.0457493Z Resolve mutations for :app:preBuild (Thread[#59,Execution worker,5,main]) started.
+2026-10-23T13:00:53.0458618Z :app:preBuild (Thread[#59,Execution worker,5,main]) started.
+2026-10-23T13:00:53.0459178Z 
+2026-10-23T13:00:53.0459513Z > Task :app:preBuild UP-TO-DATE
+2026-10-23T13:00:53.0460339Z Skipping task ':app:preBuild' as it has no actions.
+2026-10-23T13:00:53.0461398Z Resolve mutations for :app:preReleaseBuild (Thread[#59,Execution worker,5,main]) started.
+2026-10-23T13:00:53.0462440Z :app:preReleaseBuild (Thread[#59,Execution worker,5,main]) started.
+2026-10-23T13:00:53.0462958Z 
+2026-10-23T13:00:53.0463233Z > Task :app:preReleaseBuild UP-TO-DATE
+2026-10-23T13:00:53.0463998Z Skipping task ':app:preReleaseBuild' as it has no actions.
+2026-10-23T13:00:53.0465071Z Resolve mutations for :app:mergeReleaseJniLibFolders (Thread[#59,Execution worker,5,main]) started.
+2026-10-23T13:00:53.1411333Z :app:mergeReleaseJniLibFolders (Thread[#59,Execution worker,5,main]) started.
+2026-10-23T13:00:53.2421383Z 
+2026-10-23T13:00:53.2434893Z > Task :app:mergeReleaseJniLibFolders
+2026-10-23T13:00:53.2436259Z Caching disabled for task ':app:mergeReleaseJniLibFolders' because:
+2026-10-23T13:00:53.2437344Z   Build cache is disabled
+2026-10-23T13:00:53.2438029Z   Simple merging task
+2026-10-23T13:00:53.2438848Z Task ':app:mergeReleaseJniLibFolders' is not up-to-date because:
+2026-10-23T13:00:53.2439776Z   No history is available.
+2026-10-23T13:00:53.2440979Z The input changes require a full rebuild for incremental task ':app:mergeReleaseJniLibFolders'.
+2026-10-23T13:00:53.2442399Z Resolve mutations for :app:mergeReleaseNativeLibs (Thread[#59,Execution worker,5,main]) started.
+2026-10-23T13:00:53.2443741Z :app:mergeReleaseNativeLibs (Thread[#59,Execution worker,5,main]) started.
+2026-10-23T13:00:54.6421579Z 
+2026-10-23T13:00:54.6423623Z > Task :app:mergeReleaseNativeLibs FAILED
+2026-10-23T13:00:54.6438120Z Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/com/github/keemobile/kotpass/0.13.0/kotpass-0.13.0.pom]
+2026-10-23T13:00:54.6443992Z Resource missing. [HTTP GET: https://repo.maven.apache.org/maven2/com/github/keemobile/kotpass/0.13.0/kotpass-0.13.0.pom]
+2026-10-23T13:00:54.6445697Z Resource missing. [HTTP GET: https://jitpack.io/com/github/keemobile/kotpass/0.13.0/kotpass-0.13.0.pom]
+2026-10-23T13:00:54.6447257Z gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__run_5-1792760445836.json
+2026-10-23T13:00:54.6448435Z Build 38b255ab-7a27-438c-8283-0c98602e5ae7 is closed
+2026-10-23T13:00:54.6471191Z 
+2026-10-23T13:00:54.6511274Z [Incubating] Problems report is available at: file:///home/runner/work/Secure-vault/Secure-vault/build/reports/problems/problems-report.html
+2026-10-23T13:00:54.7427081Z 
+2026-10-23T13:00:54.7428235Z FAILURE: Build failed with an exception.
+2026-10-23T13:00:54.7429240Z 
+2026-10-23T13:00:54.7429702Z * What went wrong:
+2026-10-23T13:00:54.7436105Z Execution failed for task ':app:mergeReleaseNativeLibs' (registered by plugin 'com.android.internal.application').
+2026-10-23T13:00:54.7437625Z > Could not resolve all files for configuration ':app:releaseRuntimeClasspath'.
+2026-10-23T13:00:54.7439061Z    > Could not resolve all dependencies for configuration ':app:releaseRuntimeClasspath'.
+2026-10-23T13:00:54.7440293Z       > Could not find com.github.keemobile:kotpass:0.13.0.
+2026-10-23T13:00:54.7441474Z         Searched in the following locations:
+2026-10-23T13:00:54.7442677Z           - https://dl.google.com/dl/android/maven2/com/github/keemobile/kotpass/0.13.0/kotpass-0.13.0.pom
+2026-10-23T13:00:54.7444296Z           - https://repo.maven.apache.org/maven2/com/github/keemobile/kotpass/0.13.0/kotpass-0.13.0.pom
+2026-10-23T13:00:54.7445608Z           - https://jitpack.io/com/github/keemobile/kotpass/0.13.0/kotpass-0.13.0.pom
+2026-10-23T13:00:54.7446700Z         Required by:
+2026-10-23T13:00:54.7447459Z             project ':app'
+2026-10-23T13:00:54.7447950Z 
+2026-10-23T13:00:54.7448287Z * Try:
+2026-10-23T13:00:54.7449322Z > The project declares repositories, effectively ignoring the repositories you have declared in the settings.
+2026-10-23T13:00:54.7451113Z    To determine how project repositories are declared, configure your build to fail on project repositories.
+2026-10-23T13:00:54.7453150Z    For more information, please refer to https://docs.gradle.org/9.8.1/userguide/declaring_repositories.html#sub:fail_build_on_project_repositories in the Gradle documentation.
+2026-10-23T13:00:54.7454694Z > Run with --debug option to get more log output.
+2026-10-23T13:00:54.7455818Z > Run with --scan to get full insights from a Build Scan (powered by Develocity).
+2026-10-23T13:00:54.7456838Z > Get more help at https://help.gradle.org.
+2026-10-23T13:00:54.7457408Z 
+2026-10-23T13:00:54.7457773Z * Exception is:
+2026-10-23T13:00:54.7459162Z org.gradle.api.tasks.TaskExecutionException: Execution failed for task ':app:mergeReleaseNativeLibs' (registered by plugin 'com.android.internal.application').
+2026-10-23T13:00:54.7461499Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor.executeCatchingFailures(DefaultTaskNodeExecutor.java:231)
+2026-10-23T13:00:54.7463500Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor.executeWithFallbackOperationId(DefaultTaskNodeExecutor.java:197)
+2026-10-23T13:00:54.7465685Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor.executeWithLifecycle(DefaultTaskNodeExecutor.java:171)
+2026-10-23T13:00:54.7467532Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor.access$000(DefaultTaskNodeExecutor.java:67)
+2026-10-23T13:00:54.7469428Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor$1.run(DefaultTaskNodeExecutor.java:136)
+2026-10-23T13:00:54.7471477Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner$1.execute(DefaultBuildOperationRunner.java:30)
+2026-10-23T13:00:54.7473943Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner$1.execute(DefaultBuildOperationRunner.java:27)
+2026-10-23T13:00:54.7475775Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:67)
+2026-10-23T13:00:54.7477919Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:60)
+2026-10-23T13:00:54.7479684Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:167)
+2026-10-23T13:00:54.7481419Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:60)
+2026-10-23T13:00:54.7483043Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner.run(DefaultBuildOperationRunner.java:48)
+2026-10-23T13:00:54.7484683Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor.execute(DefaultTaskNodeExecutor.java:133)
+2026-10-23T13:00:54.7486287Z 	at org.gradle.execution.plan.LocalTaskNode.execute(LocalTaskNode.java:229)
+2026-10-23T13:00:54.7487704Z 	at org.gradle.execution.DefaultBuildWorkExecutor.lambda$executePlan$0(DefaultBuildWorkExecutor.java:153)
+2026-10-23T13:00:54.7489288Z 	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.lambda$execute$0(DefaultPlanExecutor.java:476)
+2026-10-23T13:00:54.7491181Z 	at org.gradle.internal.operations.CurrentBuildOperationRef.with(CurrentBuildOperationRef.java:85)
+2026-10-23T13:00:54.7492731Z 	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.execute(DefaultPlanExecutor.java:475)
+2026-10-23T13:00:54.7494226Z 	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.run(DefaultPlanExecutor.java:392)
+2026-10-23T13:00:54.7495867Z 	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:65)
+2026-10-23T13:00:54.7497430Z 	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+2026-10-23T13:00:54.7499227Z Caused by: org.gradle.api.internal.artifacts.ivyservice.TypedResolveException: Could not resolve all files for configuration ':app:releaseRuntimeClasspath'.
+2026-10-23T13:00:54.7501306Z 	at org.gradle.api.internal.artifacts.ResolveExceptionMapper.mapFailure(ResolveExceptionMapper.java:74)
+2026-10-23T13:00:54.7502909Z 	at org.gradle.api.internal.artifacts.ResolveExceptionMapper.mapFailures(ResolveExceptionMapper.java:66)
+2026-10-23T13:00:54.7504759Z 	at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration$DefaultResolutionHost.consolidateFailures(DefaultConfiguration.java:1815)
+2026-10-23T13:00:54.7506848Z 	at org.gradle.api.internal.artifacts.configurations.ResolutionHost.rethrowFailuresAndReportProblems(ResolutionHost.java:75)
+2026-10-23T13:00:54.7511194Z 	at org.gradle.api.internal.artifacts.configurations.ResolutionBackedFileCollection.maybeThrowResolutionFailures(ResolutionBackedFileCollection.java:86)
+2026-10-23T13:00:54.7513614Z 	at org.gradle.api.internal.artifacts.configurations.ResolutionBackedFileCollection.visitContents(ResolutionBackedFileCollection.java:76)
+2026-10-23T13:00:54.7515632Z 	at org.gradle.api.internal.file.AbstractFileCollection.getFiles(AbstractFileCollection.java:123)
+2026-10-23T13:00:54.7517208Z 	at org.gradle.api.internal.file.AbstractFileCollection.iterator(AbstractFileCollection.java:164)
+2026-10-23T13:00:54.7518755Z 	at org.gradle.api.internal.file.FilteredFileCollection.iterator(FilteredFileCollection.java:80)
+2026-10-23T13:00:54.7520197Z 	at com.google.common.collect.ImmutableSet.copyOf(ImmutableSet.java:224)
+2026-10-23T13:00:54.7521871Z 	at org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection$2.visitCollection(DefaultConfigurableFileCollection.java:427)
+2026-10-23T13:00:54.7523588Z 	at org.gradle.api.internal.file.AbstractFileCollection.visitContents(AbstractFileCollection.java:363)
+2026-10-23T13:00:54.7525057Z 	at org.gradle.api.internal.file.AbstractFileCollection.visitStructure(AbstractFileCollection.java:358)
+2026-10-23T13:00:54.7527107Z 	at org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection.lambda$calculateFinalizedValue$0(DefaultConfigurableFileCollection.java:424)
+2026-10-23T13:00:54.7529090Z 	at org.gradle.api.internal.file.collections.UnpackingVisitor.add(UnpackingVisitor.java:66)
+2026-10-23T13:00:54.7531245Z 	at org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection$UnresolvedItemsCollector.visitContents(DefaultConfigurableFileCollection.java:636)
+2026-10-23T13:00:54.7533525Z 	at org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection.calculateFinalizedValue(DefaultConfigurableFileCollection.java:424)
+2026-10-23T13:00:54.7535667Z 	at org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection.finalizeNow(DefaultConfigurableFileCollection.java:126)
+2026-10-23T13:00:54.7537876Z 	at org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection.lambda$visitChildren$0(DefaultConfigurableFileCollection.java:448)
+2026-10-23T13:00:54.7539802Z 	at org.gradle.api.internal.provider.ValueState.finalizeOnReadIfNeeded(ValueState.java:142)
+2026-10-23T13:00:54.7541823Z 	at org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection.visitChildren(DefaultConfigurableFileCollection.java:448)
+2026-10-23T13:00:54.7543700Z 	at org.gradle.api.internal.file.CompositeFileCollection.visitContents(CompositeFileCollection.java:112)
+2026-10-23T13:00:54.7545342Z 	at org.gradle.api.internal.file.AbstractFileCollection.visitStructure(AbstractFileCollection.java:358)
+2026-10-23T13:00:54.7546977Z 	at org.gradle.api.internal.file.CompositeFileCollection.lambda$visitContents$0(CompositeFileCollection.java:112)
+2026-10-23T13:00:54.7548523Z 	at org.gradle.api.internal.file.collections.UnpackingVisitor.add(UnpackingVisitor.java:66)
+2026-10-23T13:00:54.7550028Z 	at org.gradle.api.internal.file.collections.UnpackingVisitor.add(UnpackingVisitor.java:91)
+2026-10-23T13:00:54.7551846Z 	at org.gradle.api.internal.file.DefaultFileCollectionFactory$ResolvingFileCollection.visitChildren(DefaultFileCollectionFactory.java:311)
+2026-10-23T13:00:54.7553793Z 	at org.gradle.api.internal.file.CompositeFileCollection.visitContents(CompositeFileCollection.java:112)
+2026-10-23T13:00:54.7555425Z 	at org.gradle.api.internal.file.AbstractFileCollection.visitStructure(AbstractFileCollection.java:358)
+2026-10-23T13:00:54.7557203Z 	at org.gradle.api.internal.file.CompositeFileCollection.lambda$visitContents$0(CompositeFileCollection.java:112)
+2026-10-23T13:00:54.7558991Z 	at org.gradle.api.internal.tasks.PropertyFileCollection.visitChildren(PropertyFileCollection.java:48)
+2026-10-23T13:00:54.7560725Z 	at org.gradle.api.internal.file.CompositeFileCollection.visitContents(CompositeFileCollection.java:112)
+2026-10-23T13:00:54.7562418Z 	at org.gradle.api.internal.file.AbstractFileCollection.visitStructure(AbstractFileCollection.java:358)
+2026-10-23T13:00:54.7564312Z 	at org.gradle.internal.fingerprint.impl.DefaultFileCollectionSnapshotter.snapshot(DefaultFileCollectionSnapshotter.java:48)
+2026-10-23T13:00:54.7566266Z 	at org.gradle.internal.execution.impl.DefaultInputFingerprinter$InputCollectingVisitor.visitInputFileProperty(DefaultInputFingerprinter.java:151)
+2026-10-23T13:00:54.7568080Z 	at org.gradle.internal.execution.steps.SkipEmptyMutableWorkStep$2.visitInputFileProperty(SkipEmptyMutableWorkStep.java:190)
+2026-10-23T13:00:54.7569696Z 	at org.gradle.api.internal.tasks.execution.TaskExecution.visitMutableInputs(TaskExecution.java:354)
+2026-10-23T13:00:54.7571818Z 	at org.gradle.internal.execution.steps.SkipEmptyMutableWorkStep.lambda$fingerprintPrimaryInputs$0(SkipEmptyMutableWorkStep.java:186)
+2026-10-23T13:00:54.7573740Z 	at org.gradle.internal.execution.impl.DefaultInputFingerprinter.fingerprintInputProperties(DefaultInputFingerprinter.java:77)
+2026-10-23T13:00:54.7575983Z 	at org.gradle.internal.execution.steps.SkipEmptyMutableWorkStep.fingerprintPrimaryInputs(SkipEmptyMutableWorkStep.java:181)
+2026-10-23T13:00:54.7603960Z 	at org.gradle.internal.execution.steps.SkipEmptyMutableWorkStep.executeMutable(SkipEmptyMutableWorkStep.java:81)
+2026-10-23T13:00:54.7605361Z 
+2026-10-23T13:00:54.7632392Z 	at org.gradle.internal.execution.steps.SkipEmptyMutableWorkStep.executeMutable(SkipEmptyMutableWorkStep.java:53)
+2026-10-23T13:00:54.7633861Z Deprecated Gradle features were used in this build, making it incompatible with Gradle 10.
+2026-10-23T13:00:54.7662174Z 	at org.gradle.internal.execution.steps.MutableStep.execute(MutableStep.java:26)
+2026-10-23T13:00:54.7662917Z 
+2026-10-23T13:00:54.7664123Z 	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsStartedStep.execute(MarkSnapshottingInputsStartedStep.java:38)
+2026-10-23T13:00:54.7666112Z 	at org.gradle.internal.execution.steps.LoadPreviousExecutionStateStep.executeMutable(LoadPreviousExecutionStateStep.java:36)
+2026-10-23T13:00:54.7668243Z 	at org.gradle.internal.execution.steps.LoadPreviousExecutionStateStep.executeMutable(LoadPreviousExecutionStateStep.java:23)
+2026-10-23T13:00:54.7669904Z 	at org.gradle.internal.execution.steps.MutableStep.execute(MutableStep.java:26)
+2026-10-23T13:00:54.7671610Z 	at org.gradle.internal.execution.steps.HandleStaleOutputsStep.executeMutable(HandleStaleOutputsStep.java:77)
+2026-10-23T13:00:54.7673356Z 	at org.gradle.internal.execution.steps.HandleStaleOutputsStep.executeMutable(HandleStaleOutputsStep.java:43)
+2026-10-23T13:00:54.7674835Z 	at org.gradle.internal.execution.steps.MutableStep.execute(MutableStep.java:26)
+2026-10-23T13:00:54.7676416Z 	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.lambda$executeMutable$0(AssignMutableWorkspaceStep.java:34)
+2026-10-23T13:00:54.7678269Z 	at org.gradle.api.internal.tasks.execution.TaskExecution$4.withWorkspace(TaskExecution.java:314)
+2026-10-23T13:00:54.7680069Z 	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.executeMutable(AssignMutableWorkspaceStep.java:30)
+2026-10-23T13:00:54.7682417Z 	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.executeMutable(AssignMutableWorkspaceStep.java:21)
+2026-10-23T13:00:54.7684202Z 	at org.gradle.internal.execution.steps.MutableStep.execute(MutableStep.java:26)
+2026-10-23T13:00:54.7685717Z 	at org.gradle.internal.execution.steps.ChoosePipelineStep.execute(ChoosePipelineStep.java:40)
+2026-10-23T13:00:54.7687312Z 	at org.gradle.internal.execution.steps.ChoosePipelineStep.execute(ChoosePipelineStep.java:23)
+2026-10-23T13:00:54.7689179Z 	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.lambda$execute$2(ExecuteWorkBuildOperationFiringStep.java:67)
+2026-10-23T13:00:54.7691539Z 	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.execute(ExecuteWorkBuildOperationFiringStep.java:67)
+2026-10-23T13:00:54.7693474Z You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+2026-10-23T13:00:54.7695432Z 	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.execute(ExecuteWorkBuildOperationFiringStep.java:39)
+2026-10-23T13:00:54.7697313Z 	at org.gradle.internal.execution.steps.IdentityCacheStep.execute(IdentityCacheStep.java:46)
+2026-10-23T13:00:54.7698877Z 	at org.gradle.internal.execution.steps.IdentityCacheStep.execute(IdentityCacheStep.java:34)
+2026-10-23T13:00:54.7700278Z 	at org.gradle.internal.execution.steps.IdentifyStep.execute(IdentifyStep.java:56)
+2026-10-23T13:00:54.7701810Z 	at org.gradle.internal.execution.steps.IdentifyStep.execute(IdentifyStep.java:38)
+2026-10-23T13:00:54.7703324Z 	at org.gradle.internal.execution.impl.DefaultExecutionEngine$1.execute(DefaultExecutionEngine.java:68)
+2026-10-23T13:00:54.7705065Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor.doExecute(DefaultTaskNodeExecutor.java:364)
+2026-10-23T13:00:54.7706907Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor.executeTrackingTaskIdentity(DefaultTaskNodeExecutor.java:332)
+2026-10-23T13:00:54.7709107Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor.executeFinalizingProperties(DefaultTaskNodeExecutor.java:318)
+2026-10-23T13:00:54.7711758Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor.executeSkippingWithNoActions(DefaultTaskNodeExecutor.java:289)
+2026-10-23T13:00:54.7714125Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor.executeSkippingOnlyIf(DefaultTaskNodeExecutor.java:272)
+2026-10-23T13:00:54.7716335Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor.executeCatchingFailures(DefaultTaskNodeExecutor.java:228)
+2026-10-23T13:00:54.7717896Z 	... 20 more
+2026-10-23T13:00:54.7719436Z Caused by: org.gradle.api.internal.artifacts.ivyservice.TypedResolveException: Could not resolve all dependencies for configuration ':app:releaseRuntimeClasspath'.
+2026-10-23T13:00:54.7720802Z 
+2026-10-23T13:00:54.7721692Z For more on this, please refer to https://docs.gradle.org/9.8.1/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+2026-10-23T13:00:54.7722999Z 2 actionable tasks: 2 executed
+2026-10-23T13:00:54.7724387Z 	at org.gradle.api.internal.artifacts.ResolveExceptionMapper.mapRepositoryOverrideFailure(ResolveExceptionMapper.java:109)
+2026-10-23T13:00:54.7725876Z 	... 91 more
+2026-10-23T13:00:54.7727050Z Caused by: org.gradle.internal.resolve.ModuleVersionNotFoundException: Could not find com.github.keemobile:kotpass:0.13.0.
+2026-10-23T13:00:54.7728509Z Searched in the following locations:
+2026-10-23T13:00:54.7729671Z   - https://dl.google.com/dl/android/maven2/com/github/keemobile/kotpass/0.13.0/kotpass-0.13.0.pom
+2026-10-23T13:00:54.7731294Z   - https://repo.maven.apache.org/maven2/com/github/keemobile/kotpass/0.13.0/kotpass-0.13.0.pom
+2026-10-23T13:00:54.7732687Z   - https://jitpack.io/com/github/keemobile/kotpass/0.13.0/kotpass-0.13.0.pom
+2026-10-23T13:00:54.7733734Z Required by:
+2026-10-23T13:00:54.7734449Z     project ':app'
+2026-10-23T13:00:54.7734907Z 
+2026-10-23T13:00:54.7735040Z 
+2026-10-23T13:00:54.7735475Z BUILD FAILED in 12s
+2026-10-23T13:00:54.9152042Z ##[error]Process completed with exit code 1.
+2026-10-23T13:00:54.9199438Z ##[group]Run rm -f "my-upload-key.jks"
+2026-10-23T13:00:54.9199984Z [36;1mrm -f "my-upload-key.jks"[0m
+2026-10-23T13:00:54.9241679Z shell: /usr/bin/bash -e {0}
+2026-10-23T13:00:54.9242184Z env:
+2026-10-23T13:00:54.9242724Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.12-1/x64
+2026-10-23T13:00:54.9243387Z   JAVA_HOME_21_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.12-1/x64
+2026-10-23T13:00:54.9244019Z   GRADLE_ACTION_ID: gradle/actions/setup-gradle
+2026-10-23T13:00:54.9244545Z   GRADLE_USER_HOME: /home/runner/.gradle
+2026-10-23T13:00:54.9244999Z   GRADLE_BUILD_ACTION_SETUP_COMPLETED: true
+2026-10-23T13:00:54.9245486Z   GRADLE_BUILD_ACTION_CACHE_RESTORED: true
+2026-10-23T13:00:54.9246115Z   DEVELOCITY_INJECTION_INIT_SCRIPT_NAME: gradle-actions.inject-develocity.init.gradle
+2026-10-23T13:00:54.9246851Z   DEVELOCITY_INJECTION_CUSTOM_VALUE: gradle-actions
+2026-10-23T13:00:54.9247336Z   GITHUB_DEPENDENCY_GRAPH_ENABLED: false
+2026-10-23T13:00:54.9247936Z   DETECTED_KEY_ALIAS: release-key
+2026-10-23T13:00:54.9248381Z ##[endgroup]
+2026-10-23T13:00:54.9578824Z Post job cleanup.
+2026-10-23T13:00:55.2162021Z In post-action step
+2026-10-23T13:00:55.2175800Z ##[group]Stopping Gradle daemons
+2026-10-23T13:00:55.2176907Z Stopping Gradle daemons for /usr/share/gradle-9.8.1
+2026-10-23T13:00:55.2186741Z Stopping Gradle daemons for /home/runner/.gradle/wrapper/dists/gradle-9.8.1-bin/a2l6ltp3k1vth6lwipzm5p2jp/gradle-9.8.1
+2026-10-23T13:00:55.2193690Z [command]/usr/share/gradle-9.8.1/bin/gradle --stop
+2026-10-23T13:00:55.2244758Z [command]/home/runner/.gradle/wrapper/dists/gradle-9.8.1-bin/a2l6ltp3k1vth6lwipzm5p2jp/gradle-9.8.1/bin/gradle --stop
+2026-10-23T13:00:56.2072543Z No Gradle daemons are running.
+2026-10-23T13:00:56.2890010Z No Gradle daemons are running.
+2026-10-23T13:00:56.3062811Z ##[endgroup]
+2026-10-23T13:00:56.3064105Z Not performing cache-cleanup due to build failure
+2026-10-23T13:00:56.3065145Z ##[group]Caching Gradle state
+2026-10-23T13:00:56.3072868Z Cache hit occurred on the cache key gradle-home-v1|Linux-X64|build[d6cc1c9b8f19a196f38d86334c228bbf]-44c784279cd6d304851c052159a9de98656ef22f, not saving cache.
+2026-10-23T13:00:56.3074262Z ##[endgroup]
+2026-10-23T13:00:56.3079603Z Generating Job Summary
+2026-10-23T13:00:56.3094128Z Completed post-action step
+2026-10-23T13:00:56.3294992Z Post job cleanup.
+2026-10-23T13:00:56.4888578Z (node:2963) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-23T13:00:56.4889341Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-23T13:00:56.5114695Z Post job cleanup.
+2026-10-23T13:00:56.6048374Z [command]/usr/bin/git version
+2026-10-23T13:00:56.6092795Z git version 2.55.0
+2026-10-23T13:00:56.6131424Z Temporarily overriding HOME='/home/runner/work/_temp/31d8ae45-5700-48b2-aab2-26c943f24bb5' before making global git config changes
+2026-10-23T13:00:56.6132975Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-23T13:00:56.6137732Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Secure-vault/Secure-vault
+2026-10-23T13:00:56.6185023Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-23T13:00:56.6222857Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-23T13:00:56.6441452Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-23T13:00:56.6467358Z http.https://github.com/.extraheader
+2026-10-23T13:00:56.6478058Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-23T13:00:56.6512642Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-23T13:00:56.6737181Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-23T13:00:56.6815791Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-23T13:00:56.7206793Z Cleaning up orphan processes
+2026-10-23T13:00:56.7560078Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-java@v4, gradle/actions/setup-gradle@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
 
 
 ===== JOB: Publish Failure Log (status: None) =====
