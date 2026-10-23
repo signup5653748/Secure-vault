@@ -3,6 +3,7 @@ package com.example.viewmodel
 import android.app.Application
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.data.KeePassHelper
@@ -18,12 +19,11 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import dev.turingcomplete.kotlinonetimepassword.HmacAlgorithm
 import dev.turingcomplete.kotlinonetimepassword.TimeBasedOneTimePasswordGenerator
 import dev.turingcomplete.kotlinonetimepassword.TimeBasedOneTimePasswordConfig
 import java.util.concurrent.TimeUnit
 import org.apache.commons.codec.binary.Base32
-import com.example.data.OtpParser
-import com.example.data.OtpGenerator
 import app.keemobile.kotpass.database.getGroup
 import app.keemobile.kotpass.models.CustomDataValue
 import app.keemobile.kotpass.constants.PredefinedIcon
@@ -154,13 +154,46 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
     fun generateTotpCode(otpValue: String?): Pair<String, Int>? {
         if (otpValue.isNullOrBlank()) return null
         return try {
-            val config = OtpParser.parse(otpValue) ?: return null
-            val generator = OtpGenerator(config)
-            val code = generator.generateCode()
-            val remaining = generator.calculateRemainingSeconds().toInt()
+            // Accept either an otpauth://totp URI or a raw Base32 secret.
+            val value = otpValue.trim()
+            val isOtpAuthUri = value.startsWith("otpauth://", ignoreCase = true)
+            val otpUri = if (isOtpAuthUri) Uri.parse(value) else null
+            if (otpUri != null &&
+                (!otpUri.scheme.equals("otpauth", ignoreCase = true) ||
+                    !otpUri.host.equals("totp", ignoreCase = true))
+            ) return null
+
+            val rawSecret = otpUri?.getQueryParameter("secret") ?: if (otpUri == null) value else return null
+            val secret = rawSecret.replace(" ", "").replace("-", "").uppercase()
+            if (secret.isEmpty() || !secret.matches(Regex("^[A-Z2-7]+=*$"))) return null
+
+            val secretBytes = Base32().decode(secret)
+            if (secretBytes.isEmpty()) return null
+
+            val digits = otpUri?.getQueryParameter("digits")?.toIntOrNull()
+                ?.takeIf { it in 6..8 } ?: 6
+            val periodSeconds = otpUri?.getQueryParameter("period")?.toLongOrNull()
+                ?.takeIf { it > 0L } ?: 30L
+            val algorithm = when (otpUri?.getQueryParameter("algorithm")?.uppercase()) {
+                "SHA256" -> HmacAlgorithm.SHA256
+                "SHA512" -> HmacAlgorithm.SHA512
+                else -> HmacAlgorithm.SHA1
+            }
+            val config = TimeBasedOneTimePasswordConfig(
+                timeStep = periodSeconds,
+                timeStepUnit = TimeUnit.SECONDS,
+                codeDigits = digits,
+                hmacAlgorithm = algorithm
+            )
+            val generator = TimeBasedOneTimePasswordGenerator(secretBytes, config)
+            val now = System.currentTimeMillis()
+            val code = generator.generate(now)
+            val remaining = (periodSeconds - ((now / 1000L) % periodSeconds)).toInt()
             Pair(code, remaining)
         } catch (_: Exception) {
-            null // Securely swallow to prevent secret leakage in logs
+            // Log only a generic message; never include the OTP value or exception details.
+            android.util.Log.e("KeePassViewModel", "TOTP generation failed")
+            null
         }
     }
 
