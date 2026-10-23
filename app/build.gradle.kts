@@ -54,19 +54,19 @@ android {
       signingConfig = signingConfigs.getByName("release")
     }
   }
-  
+
   compileOptions {
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
   }
-  
+
   buildFeatures {
     compose = true
     buildConfig = true
   }
 
-  testOptions { 
-    unitTests { isIncludeAndroidResources = true } 
+  testOptions {
+    unitTests { isIncludeAndroidResources = true }
   }
 
   packaging {
@@ -88,14 +88,14 @@ dependencies {
   implementation(libs.androidx.compose.ui.graphics)
   implementation(libs.androidx.compose.ui.tooling.preview)
   implementation(libs.androidx.core.ktx)
-  
-  // UPDATED & ADDED DEPENDENCIES
+
   implementation("androidx.biometric:biometric:1.1.0")
   implementation("androidx.security:security-crypto:1.1.0")
-  implementation("app.keemobile:kotpass:0.13.0")
+  // Kotpass is published through JitPack, not Maven Central under app.keemobile.
+  implementation("com.github.keemobile:kotpass:0.13.0")
   implementation("dev.turingcomplete:kotlin-onetimepassword:3.0.0")
   implementation("commons-codec:commons-codec:1.21.0")
-  
+
   implementation(libs.androidx.lifecycle.runtime.compose)
   implementation(libs.androidx.lifecycle.runtime.ktx)
   implementation(libs.androidx.lifecycle.viewmodel.compose)
