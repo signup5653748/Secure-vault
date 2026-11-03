@@ -221,15 +221,28 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
         allEntriesCache = emptyList()
         _currentGroup.value = null
         _currentEntry.value = null
-        // Take persistable permission
-        try {
-            val takeFlags: Int = Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-            context.contentResolver.takePersistableUriPermission(uri, takeFlags)
-        } catch (e: Throwable) {
-            e.printStackTrace()
+        // Attempt to take a persistable permission so the file can be re-opened
+        // from the "recent databases" list on a later launch. ACTION_VIEW grants
+        // are not persistable by default, so this can fail — only persist the URI
+        // if we actually hold a durable grant (or the URI is a plain file:// path,
+        // which needs no permission). Otherwise the next launch would restore a
+        // stale, unopenable URI.
+        val persistable = if (uri.scheme == "file") {
+            true
+        } else {
+            try {
+                val takeFlags: Int = Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                context.contentResolver.takePersistableUriPermission(uri, takeFlags)
+                true
+            } catch (e: Throwable) {
+                e.printStackTrace()
+                false
+            }
         }
         _dbUri.value = uri
-        settings.setDatabaseUri(uri.toString())
+        if (persistable) {
+            settings.setDatabaseUri(uri.toString())
+        }
         _error.value = null
     }
 
