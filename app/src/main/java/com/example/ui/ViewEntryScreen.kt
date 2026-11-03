@@ -35,6 +35,11 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import com.example.data.OtpParser
+import com.example.data.OtpGenerator
+import com.example.data.OtpState
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
@@ -211,13 +216,24 @@ fun ViewEntryScreen(
 
             // TOTP Card
             val otpValue = entry.fields.entries.find { it.key.equals("otp", ignoreCase = true) }?.value?.content
-            if (!otpValue.isNullOrBlank()) {
-                var totpData by remember(otpValue) { mutableStateOf(viewModel.generateTotpCode(otpValue)) }
+            val otpConfig = remember(otpValue) { OtpParser.parse(otpValue) }
+            if (otpConfig != null) {
+                var otpState by remember(otpValue) {
+                    mutableStateOf(
+                        OtpState(
+                            code = "------",
+                            remainingSeconds = otpConfig.period,
+                            progress = 1f,
+                            period = otpConfig.period
+                        )
+                    )
+                }
 
+                // Clock-injected generator: emits every 1s, but recomputes the
+                // HMAC code only when the time-step boundary is crossed.
                 LaunchedEffect(otpValue) {
-                    while (true) {
-                        kotlinx.coroutines.delay(1000)
-                        totpData = viewModel.generateTotpCode(otpValue)
+                    OtpGenerator(otpConfig).tickerFlow().collect { state ->
+                        otpState = state
                     }
                 }
 
@@ -239,7 +255,7 @@ fun ViewEntryScreen(
                         Column(modifier = Modifier.weight(1f)) {
                             Text(text = "Authentication Code", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                             Text(
-                                text = totpData?.first ?: "••••••",
+                                text = otpState.code,
                                 fontSize = 24.sp,
                                 fontWeight = FontWeight.Bold,
                                 fontFamily = FontFamily.Monospace,
@@ -248,15 +264,37 @@ fun ViewEntryScreen(
                                 modifier = Modifier.testTag("otp_code_text")
                             )
                         }
-                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text(text = "${totpData?.second ?: 30}s", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Box(contentAlignment = Alignment.Center) {
+                            Canvas(modifier = Modifier.size(44.dp)) {
+                                val strokeWidth = 4.dp.toPx()
+                                val radius = (size.minDimension / 2f) - strokeWidth
+                                val center = Offset(size.width / 2f, size.height / 2f)
+                                drawCircle(
+                                    color = MaterialTheme.colorScheme.primary.copy(alpha = 0.2f),
+                                    radius = radius,
+                                    center = center,
+                                    style = Stroke(width = strokeWidth)
+                                )
+                                drawArc(
+                                    color = MaterialTheme.colorScheme.primary,
+                                    startAngle = -90f,
+                                    sweepAngle = 360f * otpState.progress,
+                                    useCenter = false,
+                                    topLeft = Offset(center.x - radius, center.y - radius),
+                                    size = Size(radius * 2, radius * 2),
+                                    style = Stroke(width = strokeWidth, cap = StrokeCap.Round)
+                                )
+                            }
+                            Text(
+                                text = "${otpState.remainingSeconds}s",
+                                fontSize = 11.sp,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
                         }
                         IconButton(
-                            onClick = { 
-                                totpData?.first?.let { code ->
-                                    clipboardManager.setText(AnnotatedString(code))
-                                    android.widget.Toast.makeText(context, "OTP copied", android.widget.Toast.LENGTH_SHORT).show()
-                                }
+                            onClick = {
+                                clipboardManager.setText(AnnotatedString(otpState.code))
+                                android.widget.Toast.makeText(context, "OTP copied", android.widget.Toast.LENGTH_SHORT).show()
                             },
                             modifier = Modifier.testTag("copy_otp_button")
                         ) {

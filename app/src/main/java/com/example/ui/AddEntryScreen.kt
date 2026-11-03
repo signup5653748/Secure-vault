@@ -27,6 +27,9 @@ import androidx.compose.ui.platform.ClipboardManager
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.testTag
 import com.example.data.OtpParser
+import com.example.data.OtpConfig
+import dev.turingcomplete.kotlinonetimepassword.HmacAlgorithm
+import androidx.compose.ui.text.TextAlign
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -66,6 +69,8 @@ import kotlinx.coroutines.launch
 import com.example.viewmodel.KeePassViewModel
 
 data class CustomFieldData(val id: String = java.util.UUID.randomUUID().toString(), val name: String, val value: String, val isHidden: Boolean, val showCopyButton: Boolean)
+
+private enum class OtpInputMode { URI, SECRET }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -782,9 +787,28 @@ fun AddEntryScreen(
 
         if (showAddOtpDialog) {
             val existingOtp = customFields.find { it.name.lowercase() == "otp" }?.value ?: ""
-            var otpInput by remember { mutableStateOf(existingOtp) }
+            val existingIsUri = existingOtp.trim().startsWith("otpauth://", ignoreCase = true)
+            var otpMode by remember { mutableStateOf(if (existingIsUri) OtpInputMode.URI else OtpInputMode.SECRET) }
+            var otpUri by remember { mutableStateOf(if (existingIsUri) existingOtp else "") }
+            var otpSecret by remember { mutableStateOf(if (existingIsUri) "" else existingOtp) }
             var otpIssuer by remember { mutableStateOf("") }
+            var otpDigits by remember { mutableStateOf("") }
+            var otpPeriod by remember { mutableStateOf("") }
+            var otpAlgorithm by remember { mutableStateOf("") }
+            var showAlgorithmMenu by remember { mutableStateOf(false) }
             var errorMessage by remember { mutableStateOf<String?>(null) }
+
+            // Pre-fill the optional fields from an existing otpauth:// URI
+            LaunchedEffect(existingOtp) {
+                if (existingIsUri) {
+                    OtpParser.parse(existingOtp)?.let { cfg ->
+                        otpIssuer = cfg.issuer ?: ""
+                        otpDigits = if (cfg.digits != 6) cfg.digits.toString() else ""
+                        otpPeriod = if (cfg.period != 30L) cfg.period.toString() else ""
+                        otpAlgorithm = if (cfg.algorithm != HmacAlgorithm.SHA1) cfg.algorithm.name else ""
+                    }
+                }
+            }
 
             AlertDialog(
                 onDismissRequest = { showAddOtpDialog = false },
@@ -799,82 +823,171 @@ fun AddEntryScreen(
                 title = { Text("Add One-Time Password") },
                 text = {
                     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                        // Entry Method 1: Scan QR (Disabled stub per spec)
-                        OutlinedButton(
-                            onClick = { /* Disabled stub per spec */ },
-                            enabled = false,
+                        // Input mode toggle: paste a full otpauth:// URI, or enter a Base32 secret
+                        Row(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .testTag("scan_qr_button")
+                                .background(
+                                    MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
+                                    RoundedCornerShape(8.dp)
+                                )
+                                .testTag("otp_mode_toggle"),
+                            horizontalArrangement = Arrangement.spacedBy(4.dp),
+                            padding = PaddingValues(4.dp)
                         ) {
-                            Icon(Icons.Default.QrCodeScanner, contentDescription = null)
-                            Spacer(modifier = Modifier.width(8.dp))
-                            Text("Scan QR (coming soon)")
+                            listOf(
+                                OtpInputMode.URI to "otpauth URI",
+                                OtpInputMode.SECRET to "Base32 Secret"
+                            ).forEach { (mode, label) ->
+                                Surface(
+                                    onClick = { otpMode = mode; errorMessage = null },
+                                    modifier = Modifier.weight(1f),
+                                    shape = RoundedCornerShape(6.dp),
+                                    color = if (otpMode == mode) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface
+                                ) {
+                                    Text(
+                                        text = label,
+                                        modifier = Modifier
+                                            .padding(vertical = 8.dp)
+                                            .fillMaxWidth(),
+                                        textAlign = TextAlign.Center,
+                                        style = MaterialTheme.typography.labelMedium,
+                                        color = if (otpMode == mode) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface
+                                    )
+                                }
+                            }
                         }
 
-                        HorizontalDivider(color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f))
+                        if (otpMode == OtpInputMode.URI) {
+                            OutlinedTextField(
+                                value = otpUri,
+                                onValueChange = { otpUri = it; errorMessage = null },
+                                label = { Text("otpauth:// URI") },
+                                placeholder = { Text("otpauth://totp/Issuer:user?secret=...") },
+                                isError = errorMessage != null,
+                                supportingText = {
+                                    if (errorMessage != null) {
+                                        Text(errorMessage!!, color = MaterialTheme.colorScheme.error)
+                                    } else {
+                                        Text("Issuer, digits, period and algorithm are read from the URI")
+                                    }
+                                },
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .testTag("otp_input_field")
+                            )
+                        } else {
+                            OutlinedTextField(
+                                value = otpSecret,
+                                onValueChange = { otpSecret = it; errorMessage = null },
+                                label = { Text("Base32 Secret") },
+                                placeholder = { Text("e.g. JBSWY3DPEHPK3PXP") },
+                                isError = errorMessage != null,
+                                supportingText = {
+                                    if (errorMessage != null) {
+                                        Text(errorMessage!!, color = MaterialTheme.colorScheme.error)
+                                    } else {
+                                        Text("A–Z and 2–7 only (spaces and dashes ignored)")
+                                    }
+                                },
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .testTag("otp_input_field")
+                            )
 
-                        Text(
-                            text = "Manual Entry (otpauth:// URI or Base32 secret):",
-                            style = MaterialTheme.typography.labelMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-
-                        OutlinedTextField(
-                            value = otpInput,
-                            onValueChange = {
-                                otpInput = it
-                                errorMessage = null
-                                val parsed = OtpParser.parse(it)
-                                if (parsed != null && !parsed.issuer.isNullOrBlank() && otpIssuer.isBlank()) {
-                                    otpIssuer = parsed.issuer
-                                }
-                            },
-                            label = { Text("otpauth:// URI or Base32 Secret") },
-                            placeholder = { Text("e.g. JBSWY3DPEHPK3PXP") },
-                            isError = errorMessage != null,
-                            supportingText = {
-                                if (errorMessage != null) {
-                                    Text(errorMessage!!, color = MaterialTheme.colorScheme.error)
-                                } else {
-                                    Text("Standard RFC 4648 Base32 secret or otpauth:// URI")
-                                }
-                            },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .testTag("otp_input_field")
-                        )
-
-                        if (!otpInput.trim().startsWith("otpauth://", ignoreCase = true)) {
                             OutlinedTextField(
                                 value = otpIssuer,
                                 onValueChange = { otpIssuer = it },
-                                label = { Text("Issuer / Service (optional)") },
+                                label = { Text("Issuer / Label (optional)") },
                                 placeholder = { Text("e.g. Google, GitHub") },
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .testTag("otp_issuer_field")
                             )
+
+                            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                                OutlinedTextField(
+                                    value = otpDigits,
+                                    onValueChange = { otpDigits = it.filter { c -> c.isDigit() }.take(2) },
+                                    label = { Text("Digits") },
+                                    placeholder = { Text("6") },
+                                    singleLine = true,
+                                    modifier = Modifier.weight(1f)
+                                )
+                                OutlinedTextField(
+                                    value = otpPeriod,
+                                    onValueChange = { otpPeriod = it.filter { c -> c.isDigit() }.take(3) },
+                                    label = { Text("Period (s)") },
+                                    placeholder = { Text("30") },
+                                    singleLine = true,
+                                    modifier = Modifier.weight(1f)
+                                )
+                            }
+
+                            Box {
+                                OutlinedTextField(
+                                    value = if (otpAlgorithm.isBlank()) "SHA1 (default)" else otpAlgorithm,
+                                    onValueChange = { },
+                                    readOnly = true,
+                                    label = { Text("Algorithm") },
+                                    trailingIcon = { Icon(Icons.Default.ArrowDropDown, contentDescription = null) },
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .clickable { showAlgorithmMenu = true }
+                                )
+                                DropdownMenu(
+                                    expanded = showAlgorithmMenu,
+                                    onDismissRequest = { showAlgorithmMenu = false }
+                                ) {
+                                    listOf("SHA1", "SHA256", "SHA512").forEach { algo ->
+                                        DropdownMenuItem(
+                                            text = { Text(if (algo == "SHA1") "SHA1 (default)" else algo) },
+                                            onClick = {
+                                                otpAlgorithm = if (algo == "SHA1") "" else algo
+                                                showAlgorithmMenu = false
+                                            }
+                                        )
+                                    }
+                                }
+                            }
                         }
                     }
                 },
                 confirmButton = {
                     Button(
                         onClick = {
-                            val parsed = OtpParser.parse(otpInput)
-                            if (parsed == null) {
-                                errorMessage = "Invalid Base32 secret or otpauth URI. Must contain only A-Z, 2-7."
-                                return@Button
-                            }
-
-                            val finalValue = if (otpInput.trim().startsWith("otpauth://", ignoreCase = true)) {
-                                otpInput.trim()
-                            } else {
-                                val enriched = parsed.copy(
-                                    issuer = otpIssuer.takeIf { it.isNotBlank() } ?: parsed.issuer,
-                                    account = username.takeIf { it.isNotBlank() }
-                                )
-                                OtpParser.toOtpAuthUri(enriched)
+                            val finalValue: String = when (otpMode) {
+                                OtpInputMode.URI -> {
+                                    val parsed = OtpParser.parse(otpUri)
+                                    if (parsed == null) {
+                                        errorMessage = "Invalid otpauth:// URI. It must be a TOTP URI with a valid Base32 secret."
+                                        return@Button
+                                    }
+                                    otpUri.trim()
+                                }
+                                OtpInputMode.SECRET -> {
+                                    val clean = OtpParser.cleanSecret(otpSecret)
+                                    if (!OtpParser.isValidBase32(clean)) {
+                                        errorMessage = "Invalid Base32 secret. Use only A–Z and 2–7 (no 0, 1, 8, 9, I, O)."
+                                        return@Button
+                                    }
+                                    val digits = otpDigits.toIntOrNull()?.coerceIn(6, 8) ?: 6
+                                    val period = otpPeriod.toLongOrNull()?.coerceIn(1L, 300L) ?: 30L
+                                    val algorithm = when (otpAlgorithm.uppercase()) {
+                                        "SHA256" -> HmacAlgorithm.SHA256
+                                        "SHA512" -> HmacAlgorithm.SHA512
+                                        else -> HmacAlgorithm.SHA1
+                                    }
+                                    val config = OtpConfig(
+                                        secret = clean,
+                                        issuer = otpIssuer.takeIf { it.isNotBlank() },
+                                        account = username.takeIf { it.isNotBlank() },
+                                        digits = digits,
+                                        period = period,
+                                        algorithm = algorithm
+                                    )
+                                    OtpParser.toOtpAuthUri(config)
+                                }
                             }
 
                             val updatedFields = customFields.filter { it.name.lowercase() != "otp" } + CustomFieldData(
