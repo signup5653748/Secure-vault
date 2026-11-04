@@ -21,3 +21,9 @@ local.properties
 debug.keystore.base64
 google-services.json
 .build-outputs/
+.aistudio/
+.platform/
+app/module.toml
+metadata.json
+.base/
+.polydev/
