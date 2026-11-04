@@ -1,4 +1,3 @@
-<<<<<<< LOCAL (Your changes)
 *.iml
 .gradle
 .kotlin
@@ -26,36 +25,3 @@ google-services.json
 .platform/
 app/module.toml
 metadata.json
-
-=======
-*.iml
-.gradle
-.kotlin
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
-local.properties
-.env*
-*.jks
-*.keystore
-*.pepk
-debug.keystore.base64
-google-services.json
-.build-outputs/
-.aistudio/
-.platform/
-app/module.toml
-metadata.json
-.base/
-.polydev/
-
->>>>>>> REMOTE (Changes from GitHub)
