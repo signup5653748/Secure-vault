@@ -11,7 +11,7 @@ repositories {
 
 android {
   namespace = "com.aistudio.vault"
-  compileSdk = 34
+  compileSdk = 36
 
   defaultConfig {
     applicationId = "com.aistudio.vault"
