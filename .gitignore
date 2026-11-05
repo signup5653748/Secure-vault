@@ -25,5 +25,3 @@ google-services.json
 .platform/
 app/module.toml
 metadata.json
-.base/
-.polydev/
