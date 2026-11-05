@@ -25,3 +25,7 @@ google-services.json
 .platform/
 app/module.toml
 metadata.json
+gradle-wrapper/
+tmp/
+gradle-wrapper/
+tmp/
