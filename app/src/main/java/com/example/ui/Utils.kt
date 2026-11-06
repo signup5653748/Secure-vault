@@ -86,13 +86,13 @@ fun parseIcon(iconName: String): ImageVector {
         "passport" -> Icons.Default.Badge
         "license" -> Icons.Default.DriveFileRenameOutline
         "certificate" -> Icons.Default.LocalLibrary
-        "ticket" -> Icons.Default.ConfirmReservation
+        "ticket" -> Icons.Default.LocalOffer
         "membership" -> Icons.Default.Group
         "group" -> Icons.Default.Group
-        "insurance" -> Icons.Default.LocalInsurance
+        "insurance" -> Icons.Default.Security
         "medical" -> Icons.Default.LocalHospital
         "hospital" -> Icons.Default.LocalHospital
-        "emergency" -> Icons.Default.ReportEmergency
+        "emergency" -> Icons.Default.Warning
         "crypto" -> Icons.Default.AccountBalance
         "bitcoin" -> Icons.Default.AccountBalanceWallet
         "ethereum" -> Icons.Default.AccountBalance
