@@ -146,20 +146,20 @@ fun parseIcon(iconName: String): ImageVector {
         "check" -> Icons.Default.CheckCircle
         "clear" -> Icons.Default.Clear
         "print" -> Icons.Default.Print
-        "scan" -> Icons.Default.Scan
+        "scan" -> Icons.Default.QrCode
         "qr" -> Icons.Default.QrCode
-        "barcode" -> Icons.Default.Barcode
+        "barcode" -> Icons.Default.QrCode
         "camera" -> Icons.Default.Camera
         "image" -> Icons.Default.Image
         "photo" -> Icons.Default.Image
-        "video" -> Icons.Default.Video
+        "video" -> Icons.Default.Camera
         "music" -> Icons.Default.MusicNote
         "audio" -> Icons.Default.MusicNote
         "mic" -> Icons.Default.Mic
         "volume" -> Icons.Default.VolumeUp
         "mute" -> Icons.Default.VolumeOff
         "wifi" -> Icons.Default.Wifi
-        "signal" -> Icons.Default.SignalWifi
+        "signal" -> Icons.Default.Wifi
         "battery" -> Icons.Default.BatteryFull
         "power" -> Icons.Default.Power
         "lock" -> Icons.Default.Lock

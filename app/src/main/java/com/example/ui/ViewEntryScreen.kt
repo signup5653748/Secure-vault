@@ -265,18 +265,19 @@ fun ViewEntryScreen(
                             )
                         }
                         Box(contentAlignment = Alignment.Center) {
+                            val otpProgressColor = MaterialTheme.colorScheme.primary
                             Canvas(modifier = Modifier.size(44.dp)) {
                                 val strokeWidth = 4.dp.toPx()
                                 val radius = (size.minDimension / 2f) - strokeWidth
                                 val center = Offset(size.width / 2f, size.height / 2f)
                                 drawCircle(
-                                    color = MaterialTheme.colorScheme.primary.copy(alpha = 0.2f),
+                                    color = otpProgressColor.copy(alpha = 0.2f),
                                     radius = radius,
                                     center = center,
                                     style = Stroke(width = strokeWidth)
                                 )
                                 drawArc(
-                                    color = MaterialTheme.colorScheme.primary,
+                                    color = otpProgressColor,
                                     startAngle = -90f,
                                     sweepAngle = 360f * otpState.progress,
                                     useCenter = false,
