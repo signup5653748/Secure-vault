@@ -42,7 +42,7 @@ jobs:
             sys.exit(1)
 
         base = "https://api.github.com/repos/" + repo
-        headers = {"Authorization": "Bearer " + token, "Accept": "application/vnd.github+json"}
+        headers = {"Authorization": f"Bearer {token}", "Accept": "application/vnd.github+json"}
 
         class NoRedirect(urllib.request.HTTPRedirectHandler):
             def redirect_request(self, req, fp, code, msg, hdrs, newurl):
@@ -59,6 +59,7 @@ jobs:
                 if e.code in (301, 302, 303, 307, 308):
                     location = e.headers.get("Location")
                     if location:
+                        # CRITICAL: Do NOT forward Authorization header to the redirect URL
                         with urllib.request.urlopen(location) as r2:
                             return r2.read()
                 raise
@@ -105,42 +106,30 @@ jobs:
             clean_log = re.sub(r'\x1b\[[0-9;]*m', '', log_bytes.decode("utf-8", errors="replace"))
             lines = clean_log.split('\n')
 
-            # --- BRUTE-FORCE, GUARANTEED EXTRACTION ---
-            # Find the main failure line
-            fail_idx = next((i for i, line in enumerate(lines) if "FAILURE: Build failed" in line or "Execution failed for task" in line), -1)
-            
-            if fail_idx == -1:
-                # Fallback: last 100 lines of the whole log
-                start_idx = max(0, len(lines) - 100)
-                end_idx = len(lines)
-            else:
-                # Grab 500 lines BEFORE the failure, and 50 lines AFTER it.
-                # This guarantees we catch the 'e: ' compiler errors that precede the summary.
-                start_idx = max(0, fail_idx - 500)
-                end_idx = min(len(lines), fail_idx + 50)
-            
             filtered_lines = []
-            for i in range(start_idx, end_idx):
-                line = lines[i]
+            for line in lines:
                 stripped = line.strip()
-                
                 # Split off the GitHub Actions timestamp to check the pure log message
                 log_msg = stripped.split("Z ", 1)[-1] if "Z " in stripped else stripped
                 
-                # 1. AGGRESSIVELY DROP pure stack trace lines
-                if log_msg.startswith("at ") or re.search(r'^\.\.\.\s+\d+\s+more', log_msg):
-                    continue
+                # STRICT FILTERING: ONLY keep lines with actual error signals
+                is_error_line = (
+                    "e: file://" in log_msg or
+                    "e: " in log_msg or
+                    "w: " in log_msg or
+                    "FAILURE" in log_msg or
+                    "Unresolved reference" in log_msg or
+                    "error:" in log_msg.lower() or
+                    "BUILD FAILED" in log_msg or
+                    "* What went wrong:" in log_msg or
+                    "* Try:" in log_msg or
+                    ("> Task " in log_msg and "FAILED" in log_msg)
+                )
                 
-                # 2. DROP known Gradle noise (be specific to avoid dropping real errors)
-                if "Caching disabled for task" in log_msg or \
-                   "is not up-to-date because" in log_msg or \
-                   "Resolve mutations for" in log_msg:
-                    continue
-                
-                # 3. KEEP everything else in this window
-                filtered_lines.append(line)
+                if is_error_line:
+                    filtered_lines.append(line)
 
-            # 4. Remove duplicates while preserving order
+            # Remove duplicates while preserving order
             seen = set()
             final_filtered = []
             for line in filtered_lines:
@@ -150,10 +139,13 @@ jobs:
                     final_filtered.append(line)
             filtered_lines = final_filtered
 
+            if not filtered_lines:
+                filtered_lines = ["::warning:: No specific error keywords found in the log. The build may have failed for an uncaptured reason."]
+
             final_content = f"=== FAILURE LOG FOR RUN: {target_run_id} ===\n"
             final_content += f"=== FAILED JOB: {job.get('name')} ===\n"
             final_content += f"=== DATE: {os.popen('date -u').read().strip()} ===\n"
-            final_content += f"=== CORE ERROR BLOCK (500 lines of context, ALL stack traces removed) ===\n\n"
+            final_content += f"=== CORE ERROR BLOCK (Strict filtering applied, ALL noise removed) ===\n\n"
             final_content += "\n".join(filtered_lines).strip() + "\n"
 
             # --- STRICT OVERWRITE LOGIC ---
