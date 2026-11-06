@@ -1,0 +1,76 @@
+===== FAILED JOB: Build Signed Release APK =====
+
+--- FAILED STEP: ﻿2026-11-06T12:41:36.9596901Z Current runner version: '2.338.2' ---
+2026-11-06T12:42:16.4505803Z 
+2026-11-06T12:42:16.4890903Z ##[group]Run if [ -z "***" ]; then
+2026-11-06T12:42:16.4926249Z [36;1mif [ -z "***" ]; then[0m
+2026-11-06T12:42:16.4927170Z [36;1m  echo "::error::KEYSTORE_BASE64 secret is not set."[0m
+2026-11-06T12:42:16.4927830Z [36;1m  exit 1[0m
+2026-11-06T12:42:16.4928540Z [36;1mfi[0m
+2026-11-06T12:42:16.4952647Z [36;1mecho "***" | base64 -d > "my-upload-key.jks"[0m
+2026-11-06T12:42:16.4954370Z [36;1m  | grep "PrivateKeyEntry" | head -1 | cut -d, -f1)[0m
+2026-11-06T12:42:16.4954726Z [36;1m[0m
+2026-11-06T12:42:16.4954981Z [36;1mif [ -z "$DETECTED_ALIAS" ]; then[0m
+2026-11-06T12:42:16.4955518Z [36;1m  echo "::error::Could not read any alias from the keystore. Check that KEYSTORE_PASSWORD is correct."[0m
+2026-11-06T12:42:16.4956042Z [36;1m  exit 1[0m
+2026-11-06T12:42:16.4956330Z [36;1mfi[0m
+2026-11-06T12:42:16.4956663Z [36;1mecho "DETECTED_KEY_ALIAS=$DETECTED_ALIAS" >> "$GITHUB_ENV"[0m
+2026-11-06T12:42:32.8499360Z file or directory '/home/runner/work/Secure-vault/Secure-vault/app/src/release/kotlin', not found
+2026-11-06T12:42:32.8530062Z file or directory '/home/runner/work/Secure-vault/Secure-vault/app/src/release/java', not found
+2026-11-06T12:42:32.8531458Z file or directory '/home/runner/work/Secure-vault/Secure-vault/app/src/release/java', not found
+2026-11-06T12:42:32.8574522Z Kotlin source files: /home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/MyApplication.kt, /home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/viewmodel/KeePassViewModel.kt, /home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/MoveItemDialog.kt, /home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt, /home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AboutScreen.kt, /home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddGroupScreen.kt, /home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/BiometricHelper.kt, /home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddNoteScreen.kt, /home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ColorfulLoadingIndicator.kt, /home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AuthScreen.kt, /home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/TemplatesScreen.kt, /home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/SettingsScreen.kt, /home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/theme/Color.kt, /home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/theme/Type.kt, /home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/theme/Theme.kt, /home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AppNavigation.kt, /home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/CreateDatabaseScreen.kt, /home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/SecureScreen.kt, /home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt, /home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt, /home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/MainActivity.kt, /home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/GlobalExceptionHandler.kt, /home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/data/KeePassHelper.kt, /home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/data/OtpHelper.kt, /home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/data/SettingsRepository.kt, /home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/data/CryptoHelper.kt
+2026-11-06T12:42:32.8618608Z Java source files: /home/runner/work/Secure-vault/Secure-vault/app/build/generated/source/buildConfig/release/com/aistudio/vault/BuildConfig.java
+2026-11-06T12:42:32.8646503Z Script source files: 
+2026-11-06T12:42:32.8668913Z Script file extensions: 
+2026-11-06T12:42:46.3879037Z > Task :app:compileReleaseKotlin
+2026-11-06T12:42:46.3880075Z Finished executing kotlin compiler using IN_PROCESS strategy
+2026-11-06T12:42:46.4827186Z 
+2026-11-06T12:42:46.4827946Z > Task :app:compileReleaseKotlin FAILED
+2026-11-06T12:42:46.4828959Z AAPT2 aapt2-9.1.1-14792394-linux Daemon #0: shutdown
+2026-11-06T12:42:46.4830060Z gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__run_5-1793968940744.json
+2026-11-06T12:42:46.4831196Z Build 890efa5c-5e5d-4fbe-ac6d-c3910c664ff7 is closed
+2026-11-06T12:42:46.5864518Z You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+2026-11-06T12:42:46.5865664Z 
+2026-11-06T12:42:46.5866787Z For more on this, please refer to https://docs.gradle.org/9.8.2/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+2026-11-06T12:42:46.5871461Z FAILURE: Build failed with an exception.
+2026-11-06T12:42:46.5871888Z 
+2026-11-06T12:42:46.5872097Z * What went wrong:
+2026-11-06T12:42:46.5873037Z Execution failed for task ':app:compileReleaseKotlin' (registered by plugin 'com.android.internal.application').
+2026-11-06T12:42:46.5874936Z > A failure occurred while executing org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction
+2026-11-06T12:42:46.5876294Z    > Compilation error. See log for more details
+2026-11-06T12:42:46.5876729Z 
+2026-11-06T12:42:46.5876906Z * Try:
+2026-11-06T12:42:46.5877402Z > Run with --debug option to get more log output.
+2026-11-06T12:42:46.5878245Z > Run with --scan to get full insights from a Build Scan (powered by Develocity).
+2026-11-06T12:42:46.5879439Z > Get more help at https://help.gradle.org.
+2026-11-06T12:42:46.5879882Z 
+2026-11-06T12:42:46.5880076Z * Exception is:
+2026-11-06T12:42:46.5881327Z org.gradle.api.tasks.TaskExecutionException: Execution failed for task ':app:compileReleaseKotlin' (registered by plugin 'com.android.internal.application').
+2026-11-06T12:42:46.5883334Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor.lambda$doExecute$1(DefaultTaskNodeExecutor.java:367)
+2026-11-06T12:42:46.5884720Z 	at org.gradle.internal.Try$Failure.ifSuccessfulOrElse(Try.java:288)
+2026-11-06T12:42:46.5886001Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor.doExecute(DefaultTaskNodeExecutor.java:365)
+2026-11-06T12:42:46.5929006Z 	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.run(DefaultPlanExecutor.java:392)
+2026-11-06T12:42:46.5930331Z 	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:65)
+2026-11-06T12:42:46.5931701Z 	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+2026-11-06T12:42:46.5933868Z Caused by: org.gradle.workers.internal.DefaultWorkerExecutor$WorkExecutionException: A failure occurred while executing org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction
+2026-11-06T12:42:46.5936329Z 	at org.gradle.workers.internal.DefaultWorkerExecutor$WorkItemExecution.waitForCompletion(DefaultWorkerExecutor.java:273)
+2026-11-06T12:42:46.5938168Z 	at org.gradle.internal.work.DefaultAsyncWorkTracker.lambda$waitForItemsAndGatherFailures$2(DefaultAsyncWorkTracker.java:132)
+2026-11-06T12:42:46.5939711Z 	at org.gradle.internal.Factories$1.create(Factories.java:30)
+2026-11-06T12:42:46.6134706Z 	at org.gradle.internal.execution.impl.DefaultExecutionEngine$1.execute(DefaultExecutionEngine.java:68)
+2026-11-06T12:42:46.6136280Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor.doExecute(DefaultTaskNodeExecutor.java:364)
+2026-11-06T12:42:46.6137379Z 	... 25 more
+2026-11-06T12:42:46.6138548Z Caused by: org.jetbrains.kotlin.gradle.tasks.CompilationErrorException: Compilation error. See log for more details
+2026-11-06T12:42:46.6140170Z 	at org.jetbrains.kotlin.gradle.tasks.TasksUtilsKt.throwExceptionIfCompilationFailed(tasksUtils.kt:21)
+2026-11-06T12:42:46.6141711Z 	at org.jetbrains.kotlin.compilerRunner.GradleKotlinCompilerWork.run(GradleKotlinCompilerWork.kt:119)
+2026-11-06T12:42:46.6143587Z 	at org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction.execute(GradleCompilerRunnerWithWorkers.kt:74)
+2026-11-06T12:42:46.6145369Z 	at org.gradle.workers.internal.DefaultWorkerServer.execute(DefaultWorkerServer.java:68)
+2026-11-06T12:42:46.6192988Z 
+2026-11-06T12:42:46.6193176Z BUILD FAILED in 29s
+2026-11-06T12:42:46.6193691Z 34 actionable tasks: 34 executed
+2026-11-06T12:42:46.9071476Z ##[error]Process completed with exit code 1.
+2026-11-06T12:42:46.9110536Z ##[group]Run rm -f "my-upload-key.jks"
+2026-11-06T12:42:46.9110968Z [36;1mrm -f "my-upload-key.jks"[0m
+2026-11-06T12:42:46.9131106Z shell: /usr/bin/bash -e {0}
+
+============================================================
+
