@@ -105,68 +105,70 @@ jobs:
             clean_log = re.sub(r'\x1b\[[0-9;]*m', '', log_bytes.decode("utf-8", errors="replace"))
             lines = clean_log.split('\n')
 
-            # --- SMART EXTRACTION: Guarantee NO missing file/line details ---
+            # --- ULTRA-STRICT EXTRACTION ---
             fail_idx = next((i for i, line in enumerate(lines) if "FAILURE: Build failed" in line or "Execution failed for task" in line), -1)
             
             if fail_idx == -1:
-                start_idx = max(0, len(lines) - 200)
+                # Fallback: last 100 lines
+                start_idx = max(0, len(lines) - 100)
                 end_idx = len(lines)
+                filtered_lines = lines[start_idx:end_idx]
             else:
-                # 1. Extract the failing task name (e.g., ":app:compileReleaseKotlin")
+                # 1. Identify the failing task
                 task_match = re.search(r"Execution failed for task '([^']+)'", lines[fail_idx])
-                task_name = task_match.group(1) if task_match else None
+                task_name = task_match.group(1) if task_match else ""
                 
-                start_idx = fail_idx
-                # 2. Search backwards up to 2000 lines to find the EXACT start of this task's output
-                search_limit = max(0, fail_idx - 2000)
+                # 2. Find where this task started
+                task_start_idx = fail_idx
+                if task_name:
+                    for i in range(fail_idx, max(0, fail_idx - 2000), -1):
+                        if f"> Task {task_name}" in lines[i]:
+                            task_start_idx = i
+                            break
                 
-                for i in range(fail_idx, search_limit, -1):
-                    line_stripped = lines[i].strip()
-                    if task_name and f"> Task {task_name}" in line_stripped:
-                        start_idx = i
-                        break
-                    elif line_stripped.startswith("> Task ") and "FAILED" in line_stripped:
-                        start_idx = i
-                        break
-                        
-                # Fallback: if still not found, go back 500 lines
-                if start_idx == fail_idx:
-                    start_idx = max(0, fail_idx - 500)
-
-                # 3. Find the end: the "BUILD FAILED in Xs" line
-                end_idx = next((i for i in range(fail_idx, min(len(lines), fail_idx + 200)) if "BUILD FAILED in" in lines[i]), len(lines))
-
-            raw_extracted = lines[start_idx:end_idx]
-            
-            # 4. SMART FILTER: Keep file/line errors, DELETE stack trace boilerplate
-            filtered_lines = []
-            for line in raw_extracted:
-                stripped = line.strip()
+                filtered_lines = []
+                is_kotlin_task = "Kotlin" in task_name or "kapt" in task_name or "compile" in task_name.lower()
                 
-                # SKIP pure stack trace lines
-                if re.match(r'^\s+at\s+', line) or re.match(r'^\.\.\.\s+\d+\s+more', stripped) or stripped in ("... 25 more", "... 2 more"):
-                    continue
+                # 3. Ruthless filtering based on task type
+                for i in range(task_start_idx, min(len(lines), fail_idx + 150)):
+                    line = lines[i]
+                    stripped = line.strip()
+                    
+                    if is_kotlin_task:
+                        # For Kotlin, ONLY keep actual compiler errors/warnings and the failure summary
+                        if stripped.startswith("e: ") or stripped.startswith("w: "):
+                            filtered_lines.append(line)
+                        elif stripped.startswith("FAILURE:") or stripped.startswith("* What went wrong:") or \
+                             stripped.startswith("* Try:") or stripped.startswith("BUILD FAILED") or \
+                             (stripped.startswith("> Task ") and "FAILED" in stripped):
+                            filtered_lines.append(line)
+                        elif stripped.startswith("Caused by:") and "Compilation error" in stripped:
+                            filtered_lines.append(line)
+                    else:
+                        # For non-Kotlin tasks (e.g., Manifest merge), keep task headers and errors, but drop stack traces
+                        if stripped.startswith("> Task ") or stripped.startswith("FAILURE:") or \
+                           stripped.startswith("* What went wrong:") or stripped.startswith("* Try:") or \
+                           stripped.startswith("BUILD FAILED") or stripped.startswith("e: ") or stripped.startswith("w: "):
+                            filtered_lines.append(line)
+                        elif not re.match(r'^\s+at\s+', line) and not re.match(r'^\.\.\.\s+\d+\s+more', stripped):
+                            # Keep other meaningful lines, drop pure stack trace boilerplate
+                            filtered_lines.append(line)
                 
-                # KEEP important lines (Task headers, Kotlin errors/warnings, Gradle summaries)
-                if stripped.startswith("> Task ") or \
-                   stripped.startswith("e: ") or \
-                   stripped.startswith("w: ") or \
-                   stripped.startswith("FAILURE:") or \
-                   stripped.startswith("*") or \
-                   stripped.startswith("Caused by:") or \
-                   stripped.startswith("BUILD FAILED") or \
-                   "Compilation error" in stripped or \
-                   "CompilationErrorException" in stripped or \
-                   "TaskExecutionException" in stripped:
-                    filtered_lines.append(line)
-                elif stripped: # Keep any other meaningful non-empty line
-                    filtered_lines.append(line)
+                # 4. Remove duplicates while preserving order
+                seen = set()
+                final_filtered = []
+                for line in filtered_lines:
+                    clean = re.sub(r'\x1b\[[0-9;]*m', '', line).strip()
+                    if clean and clean not in seen:
+                        seen.add(clean)
+                        final_filtered.append(line)
+                filtered_lines = final_filtered
 
             # Build the final, ultra-clean output
             final_content = f"=== FAILURE LOG FOR RUN: {target_run_id} ===\n"
             final_content += f"=== FAILED JOB: {job.get('name')} ===\n"
             final_content += f"=== DATE: {os.popen('date -u').read().strip()} ===\n"
-            final_content += f"=== CORE ERROR BLOCK (Stack trace removed, ALL file/line errors kept) ===\n\n"
+            final_content += f"=== CORE ERROR BLOCK (All noise, manifests, and stack traces removed) ===\n\n"
             final_content += "\n".join(filtered_lines).strip() + "\n"
 
             # --- STRICT OVERWRITE LOGIC ---
@@ -200,7 +202,7 @@ jobs:
                 "branch": log_branch
             }
             if existing_sha:
-                payload["sha"] = existing_sha # Forces GitHub to REPLACE, not create new
+                payload["sha"] = existing_sha
 
             result = api_json(base + "/contents/" + log_path, data=payload, method="PUT")
             print("::notice:: SUCCESS! Old log deleted, new clean failure block saved.")
