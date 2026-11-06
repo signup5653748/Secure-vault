@@ -27,5 +27,5 @@ app/module.toml
 metadata.json
 gradle-wrapper/
 tmp/
-gradle-wrapper/
-tmp/
+.base/
+.polydev/
