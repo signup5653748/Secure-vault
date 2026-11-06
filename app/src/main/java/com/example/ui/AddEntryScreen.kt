@@ -102,12 +102,12 @@ fun AddEntryScreen(
     var customFields by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) {
         val newCustomFields = mutableListOf<CustomFieldData>()
         val basicFields = listOf(app.keemobile.kotpass.constants.BasicField.Title(), app.keemobile.kotpass.constants.BasicField.UserName(), app.keemobile.kotpass.constants.BasicField.Password(), app.keemobile.kotpass.constants.BasicField.Url(), app.keemobile.kotpass.constants.BasicField.Notes())
-        for ((key, value) in currentEntry!!.fields) {
+        for ((key, value) in currentEntry.fields) {
             if (key !in basicFields && key != "Notes" && key != "Title" && key != "UserName" && key != "URL" && key != "Password") {
                 val fieldName = key
                 val isHidden = value is app.keemobile.kotpass.models.EntryValue.Encrypted
                 val fieldValue = value.content
-                val showCopy = currentEntry!!.customData["ShowCopyButton_$fieldName"]?.value == "true"
+                val showCopy = currentEntry.customData["ShowCopyButton_$fieldName"]?.value == "true"
                 newCustomFields.add(CustomFieldData(
                     name = fieldName,
                     value = fieldValue,
