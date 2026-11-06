@@ -15,7 +15,7 @@ jobs:
       actions: read
 
     steps:
-    - name: Fetch Failed Step Logs and Publish to ci-logs Branch
+    - name: Fetch & Simplify Failed Step Logs
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         GITHUB_RUN_ID: ${{ github.event.workflow_run.id }}
@@ -62,23 +62,22 @@ jobs:
                 return json.load(r)
 
         jobs_data = api_json(base + "/actions/runs/" + run_id + "/jobs")
-
         failed_jobs = [j for j in jobs_data.get("jobs", []) if j.get("conclusion") == "failure"]
         if not failed_jobs:
             failed_jobs = [j for j in jobs_data.get("jobs", []) if j.get("conclusion") != "success"]
 
         combined = []
         for job in failed_jobs:
-            job_name = job["name"]
-            combined.append(f"===== FAILED JOB: {job_name} =====\n")
+            combined.append(f"===== FAILED JOB: {job['name']} =====\n")
             
             try:
                 log_bytes = api_get(base + "/actions/jobs/" + str(job["id"]) + "/logs")
                 log_text = log_bytes.decode("utf-8", errors="replace")
                 
+                # Split log into individual steps
                 parts = re.split(r'(?m)^##\[group\]', log_text)
-                
                 failed_steps_output = []
+                
                 for part in parts:
                     if not part.strip():
                         continue
@@ -87,30 +86,69 @@ jobs:
                     step_name = lines[0].strip()
                     step_log = lines[1] if len(lines) > 1 else ""
                     
-                    is_failed_step = (
-                        "##[error]" in step_log or 
-                        "FAILURE:" in step_log or 
-                        "Execution failed for task" in step_log or
-                        "Process completed with exit code" in step_log
-                    )
+                    # Skip steps that don't contain obvious failure markers
+                    if not any(marker in step_log for marker in ["##[error]", "FAILED", "Exception", "FAILURE:", "Caused by:"]):
+                        continue
                     
-                    if is_failed_step:
-                        step_log = step_log.split("##[endgroup]")[0]
-                        failed_steps_output.append(f"\n--- FAILED STEP: {step_name} ---\n{step_log}\n")
+                    step_lines = step_log.split('\n')
+                    error_indices = []
+                    
+                    for i, line in enumerate(step_lines):
+                        # Strip ANSI color codes for clean matching
+                        clean_line = re.sub(r'\x1b\[[0-9;]*m', '', line)
+                        
+                        # Identify critical error lines
+                        is_critical = (
+                            "##[error]" in clean_line or
+                            "FAILURE:" in clean_line or
+                            "Execution failed for task" in clean_line or
+                            "Caused by:" in clean_line or
+                            "Exception" in clean_line or
+                            "error:" in clean_line.lower() or
+                            ("> Task" in clean_line and "FAILED" in clean_line) or
+                            "* What went wrong:" in clean_line or
+                            "* Try:" in clean_line
+                        )
+                        
+                        if is_critical:
+                            error_indices.append(i)
+                
+                    if error_indices:
+                        # Extract only 2 lines of context before and after the error
+                        context_lines = []
+                        for i in error_indices:
+                            start = max(0, i - 2)
+                            end = min(len(step_lines), i + 3)
+                            context_lines.extend(step_lines[start:end])
+                        
+                        # Deduplicate while preserving order
+                        seen = set()
+                        cleaned_lines = []
+                        for line in context_lines:
+                            clean = re.sub(r'\x1b\[[0-9;]*m', '', line).strip()
+                            if clean and clean not in seen:
+                                seen.add(clean)
+                                cleaned_lines.append(line)
+                        
+                        failed_steps_output.append(f"\n--- FAILED STEP: {step_name} ---\n" + "\n".join(cleaned_lines) + "\n")
+                    else:
+                        # Fallback: just the last 30 lines of the step
+                        failed_steps_output.append(f"\n--- FAILED STEP: {step_name} (Last 30 lines) ---\n" + "\n".join(step_lines[-30:]) + "\n")
                 
                 if failed_steps_output:
                     combined.append("".join(failed_steps_output))
                 else:
-                    combined.append("\n--- LAST 100 LINES OF JOB LOG ---\n")
-                    combined.append("\n".join(log_text.splitlines()[-100:]))
+                    combined.append("\n--- NO SPECIFIC ERROR FOUND, LAST 50 LINES OF JOB ---\n")
+                    combined.append("\n".join(log_text.splitlines()[-50:]))
                     
             except Exception as e:
                 combined.append(f"[Could not fetch log: {str(e)}]\n")
             
-            combined.append("\n\n")
+            combined.append("\n" + "="*50 + "\n\n")
 
         full_log = "".join(combined)
 
+        # --- GitHub API Branch/File Logic (Unchanged) ---
         branch_exists = True
         try:
             api_json(base + "/git/refs/heads/" + log_branch)
@@ -143,7 +181,7 @@ jobs:
             payload["sha"] = existing_sha
 
         result = api_json(base + "/contents/" + log_path, data=payload, method="PUT")
-        print("Published failure log: " + result["content"]["html_url"])
+        print("Published simplified failure log: " + result["content"]["html_url"])
         print("Raw URL: https://raw.githubusercontent.com/" + repo + "/" + log_branch + "/" + log_path)
         EOF
         
