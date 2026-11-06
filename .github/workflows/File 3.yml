@@ -105,20 +105,17 @@ jobs:
             clean_log = re.sub(r'\x1b\[[0-9;]*m', '', log_bytes.decode("utf-8", errors="replace"))
             lines = clean_log.split('\n')
 
-            # --- ULTRA-STRICT EXTRACTION ---
+            # --- ULTRA-STRICT, TIMESTAMP-IMMUNE EXTRACTION ---
             fail_idx = next((i for i, line in enumerate(lines) if "FAILURE: Build failed" in line or "Execution failed for task" in line), -1)
             
             if fail_idx == -1:
-                # Fallback: last 100 lines
                 start_idx = max(0, len(lines) - 100)
                 end_idx = len(lines)
                 filtered_lines = lines[start_idx:end_idx]
             else:
-                # 1. Identify the failing task
                 task_match = re.search(r"Execution failed for task '([^']+)'", lines[fail_idx])
                 task_name = task_match.group(1) if task_match else ""
                 
-                # 2. Find where this task started
                 task_start_idx = fail_idx
                 if task_name:
                     for i in range(fail_idx, max(0, fail_idx - 2000), -1):
@@ -129,29 +126,37 @@ jobs:
                 filtered_lines = []
                 is_kotlin_task = "Kotlin" in task_name or "kapt" in task_name or "compile" in task_name.lower()
                 
-                # 3. Ruthless filtering based on task type
                 for i in range(task_start_idx, min(len(lines), fail_idx + 150)):
                     line = lines[i]
                     stripped = line.strip()
                     
+                    # Split off the GitHub Actions timestamp (e.g., "2026-11-06T...Z ") to get the pure log message
+                    log_msg = stripped.split("Z ", 1)[-1] if "Z " in stripped else stripped
+                    
+                    # 1. AGGRESSIVELY DROP STACK TRACES (immune to timestamp prefix)
+                    if "at org.gradle" in log_msg or "at org.jetbrains" in log_msg or "at java.base" in log_msg or "at com.android" in log_msg:
+                        continue
+                    if re.search(r'\.\.\.\s+\d+\s+more', log_msg):
+                        continue
+                        
                     if is_kotlin_task:
-                        # For Kotlin, ONLY keep actual compiler errors/warnings and the failure summary
-                        if stripped.startswith("e: ") or stripped.startswith("w: "):
+                        # 2. For Kotlin, ONLY keep actual compiler errors/warnings and the failure summary
+                        if "e: " in log_msg or "w: " in log_msg:
                             filtered_lines.append(line)
-                        elif stripped.startswith("FAILURE:") or stripped.startswith("* What went wrong:") or \
-                             stripped.startswith("* Try:") or stripped.startswith("BUILD FAILED") or \
-                             (stripped.startswith("> Task ") and "FAILED" in stripped):
+                        elif "FAILURE:" in log_msg or "* What went wrong:" in log_msg or \
+                             "* Try:" in log_msg or "BUILD FAILED" in log_msg or \
+                             ("> Task " in log_msg and "FAILED" in log_msg):
                             filtered_lines.append(line)
-                        elif stripped.startswith("Caused by:") and "Compilation error" in stripped:
+                        elif "Caused by:" in log_msg and "Compilation error" in log_msg:
                             filtered_lines.append(line)
                     else:
-                        # For non-Kotlin tasks (e.g., Manifest merge), keep task headers and errors, but drop stack traces
-                        if stripped.startswith("> Task ") or stripped.startswith("FAILURE:") or \
-                           stripped.startswith("* What went wrong:") or stripped.startswith("* Try:") or \
-                           stripped.startswith("BUILD FAILED") or stripped.startswith("e: ") or stripped.startswith("w: "):
+                        # 3. For non-Kotlin tasks, keep task headers and errors
+                        if "> Task " in log_msg or "FAILURE:" in log_msg or \
+                           "* What went wrong:" in log_msg or "* Try:" in log_msg or \
+                           "BUILD FAILED" in log_msg or "e: " in log_msg or "w: " in log_msg or \
+                           "* Exception is:" in log_msg:
                             filtered_lines.append(line)
-                        elif not re.match(r'^\s+at\s+', line) and not re.match(r'^\.\.\.\s+\d+\s+more', stripped):
-                            # Keep other meaningful lines, drop pure stack trace boilerplate
+                        elif log_msg and not log_msg.lstrip().startswith("at "):
                             filtered_lines.append(line)
                 
                 # 4. Remove duplicates while preserving order
@@ -164,11 +169,10 @@ jobs:
                         final_filtered.append(line)
                 filtered_lines = final_filtered
 
-            # Build the final, ultra-clean output
             final_content = f"=== FAILURE LOG FOR RUN: {target_run_id} ===\n"
             final_content += f"=== FAILED JOB: {job.get('name')} ===\n"
             final_content += f"=== DATE: {os.popen('date -u').read().strip()} ===\n"
-            final_content += f"=== CORE ERROR BLOCK (All noise, manifests, and stack traces removed) ===\n\n"
+            final_content += f"=== CORE ERROR BLOCK (Timestamps handled, ALL stack traces removed) ===\n\n"
             final_content += "\n".join(filtered_lines).strip() + "\n"
 
             # --- STRICT OVERWRITE LOGIC ---
