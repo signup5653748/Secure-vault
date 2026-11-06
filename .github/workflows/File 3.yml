@@ -112,11 +112,10 @@ jobs:
                 # Split off the GitHub Actions timestamp to check the pure log message
                 log_msg = stripped.split("Z ", 1)[-1] if "Z " in stripped else stripped
                 
-                # ULTRA-STRICT FILTERING: ONLY keep lines with actual compiler/gradle error signals
+                # ULTRA-STRICT FILTERING: Use .startswith() for 'e: ' and 'w: ' to prevent matching "Date: " or "Cache: "
                 is_error_line = (
-                    "e: file://" in log_msg or
-                    "e: " in log_msg or
-                    "w: " in log_msg or
+                    log_msg.startswith("e: ") or
+                    log_msg.startswith("w: ") or
                     "FAILURE" in log_msg or
                     "Unresolved reference" in log_msg or
                     "BUILD FAILED" in log_msg or
@@ -145,7 +144,7 @@ jobs:
             final_content = f"=== FAILURE LOG FOR RUN: {target_run_id} ===\n"
             final_content += f"=== FAILED JOB: {job.get('name')} ===\n"
             final_content += f"=== DATE: {os.popen('date -u').read().strip()} ===\n"
-            final_content += f"=== CORE ERROR BLOCK (Ultra-strict filtering, ZERO noise) ===\n\n"
+            final_content += f"=== CORE ERROR BLOCK (Zero false positives, ZERO noise) ===\n\n"
             final_content += "\n".join(filtered_lines).strip() + "\n"
 
             # --- STRICT OVERWRITE LOGIC ---
