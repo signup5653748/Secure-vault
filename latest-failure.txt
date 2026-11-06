@@ -1,261 +1,762 @@
-=== FAILURE LOG FOR RUN: 42223670719 ===
+=== FAILURE LOG FOR RUN: 42229312223 ===
 === FAILED JOB: Build Signed Release APK ===
-=== DATE: Fri Nov  6 13:14:27 UTC 2026 ===
-=== CORE ERROR BLOCK (Stack trace boilerplate removed, all errors kept) ===
+=== DATE: Fri Nov  6 13:56:25 UTC 2026 ===
+=== CORE ERROR BLOCK (Stack trace removed, ALL file/line errors kept) ===
 
-2026-11-06T13:14:11.6944733Z FAILURE: Build failed with an exception.
-2026-11-06T13:14:11.6945145Z 
-2026-11-06T13:14:11.6945440Z 
-2026-11-06T13:14:11.6946325Z [Incubating] Problems report is available at: file:///home/runner/work/Secure-vault/Secure-vault/build/reports/problems/problems-report.html
-2026-11-06T13:14:11.6947870Z * What went wrong:
-2026-11-06T13:14:11.6948143Z 
-2026-11-06T13:14:11.6949099Z Execution failed for task ':app:compileReleaseKotlin' (registered by plugin 'com.android.internal.application').
-2026-11-06T13:14:11.6950477Z Deprecated Gradle features were used in this build, making it incompatible with Gradle 10.
-2026-11-06T13:14:11.6952842Z > A failure occurred while executing org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction
-2026-11-06T13:14:11.6953946Z 
-2026-11-06T13:14:11.6954731Z    > Compilation error. See log for more details
-2026-11-06T13:14:11.6955943Z You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
-2026-11-06T13:14:11.6957245Z 
-2026-11-06T13:14:11.6957254Z 
-2026-11-06T13:14:11.6957712Z * Try:
-2026-11-06T13:14:11.6958894Z For more on this, please refer to https://docs.gradle.org/9.8.2/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
-2026-11-06T13:14:11.6960621Z > Run with --debug option to get more log output.
-2026-11-06T13:14:11.6961514Z 34 actionable tasks: 34 executed
-2026-11-06T13:14:11.6965464Z > Run with --scan to get full insights from a Build Scan (powered by Develocity).
-2026-11-06T13:14:11.6966631Z > Get more help at https://help.gradle.org.
-2026-11-06T13:14:11.6967260Z 
-2026-11-06T13:14:11.6967627Z * Exception is:
-2026-11-06T13:14:11.6969104Z org.gradle.api.tasks.TaskExecutionException: Execution failed for task ':app:compileReleaseKotlin' (registered by plugin 'com.android.internal.application').
-2026-11-06T13:14:11.6971581Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor.lambda$doExecute$1(DefaultTaskNodeExecutor.java:367)
-2026-11-06T13:14:11.6973253Z 	at org.gradle.internal.Try$Failure.ifSuccessfulOrElse(Try.java:288)
-2026-11-06T13:14:11.6974823Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor.doExecute(DefaultTaskNodeExecutor.java:365)
-2026-11-06T13:14:11.6977027Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor.executeTrackingTaskIdentity(DefaultTaskNodeExecutor.java:332)
-2026-11-06T13:14:11.6979481Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor.executeFinalizingProperties(DefaultTaskNodeExecutor.java:318)
-2026-11-06T13:14:11.6982649Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor.executeSkippingWithNoActions(DefaultTaskNodeExecutor.java:289)
-2026-11-06T13:14:11.6985218Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor.executeSkippingOnlyIf(DefaultTaskNodeExecutor.java:272)
-2026-11-06T13:14:11.6987653Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor.executeCatchingFailures(DefaultTaskNodeExecutor.java:228)
-2026-11-06T13:14:11.6990090Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor.executeWithFallbackOperationId(DefaultTaskNodeExecutor.java:197)
-2026-11-06T13:14:11.7018260Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor.executeWithLifecycle(DefaultTaskNodeExecutor.java:171)
-2026-11-06T13:14:11.7020361Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor.access$000(DefaultTaskNodeExecutor.java:67)
-2026-11-06T13:14:11.7022543Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor$1.run(DefaultTaskNodeExecutor.java:136)
-2026-11-06T13:14:11.7024509Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner$1.execute(DefaultBuildOperationRunner.java:30)
-2026-11-06T13:14:11.7026415Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner$1.execute(DefaultBuildOperationRunner.java:27)
-2026-11-06T13:14:11.7028414Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:67)
-2026-11-06T13:14:11.7030457Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:60)
-2026-11-06T13:14:11.7032678Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:167)
-2026-11-06T13:14:11.7034627Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:60)
-2026-11-06T13:14:11.7036420Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner.run(DefaultBuildOperationRunner.java:48)
-2026-11-06T13:14:11.7038231Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor.execute(DefaultTaskNodeExecutor.java:133)
-2026-11-06T13:14:11.7039858Z 	at org.gradle.execution.plan.LocalTaskNode.execute(LocalTaskNode.java:229)
-2026-11-06T13:14:11.7041624Z 	at org.gradle.execution.DefaultBuildWorkExecutor.lambda$executePlan$0(DefaultBuildWorkExecutor.java:153)
-2026-11-06T13:14:11.7043804Z 	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.lambda$execute$0(DefaultPlanExecutor.java:476)
-2026-11-06T13:14:11.7045630Z 	at org.gradle.internal.operations.CurrentBuildOperationRef.with(CurrentBuildOperationRef.java:85)
-2026-11-06T13:14:11.7047366Z 	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.execute(DefaultPlanExecutor.java:475)
-2026-11-06T13:14:11.7049045Z 	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.run(DefaultPlanExecutor.java:392)
-2026-11-06T13:14:11.7050734Z 	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:65)
-2026-11-06T13:14:11.7052769Z 	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
-2026-11-06T13:14:11.7055255Z Caused by: org.gradle.workers.internal.DefaultWorkerExecutor$WorkExecutionException: A failure occurred while executing org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction
-2026-11-06T13:14:11.7058064Z 	at org.gradle.workers.internal.DefaultWorkerExecutor$WorkItemExecution.waitForCompletion(DefaultWorkerExecutor.java:273)
-2026-11-06T13:14:11.7062657Z 	at org.gradle.internal.work.DefaultAsyncWorkTracker.lambda$waitForItemsAndGatherFailures$2(DefaultAsyncWorkTracker.java:132)
-2026-11-06T13:14:11.7064267Z 	at org.gradle.internal.Factories$1.create(Factories.java:30)
-2026-11-06T13:14:11.7065813Z 	at org.gradle.internal.work.DefaultWorkerLeaseService.lambda$withoutLocksBlocking$0(DefaultWorkerLeaseService.java:406)
-2026-11-06T13:14:11.7067590Z 	at org.gradle.internal.work.ResourceLockStatistics$1.measure(ResourceLockStatistics.java:43)
-2026-11-06T13:14:11.7069692Z 	at org.gradle.internal.work.DefaultWorkerLeaseService.withoutLocksBlocking(DefaultWorkerLeaseService.java:401)
-2026-11-06T13:14:11.7071814Z 	at org.gradle.internal.work.DefaultWorkerLeaseService.blocking(DefaultWorkerLeaseService.java:261)
-2026-11-06T13:14:11.7073634Z 	at org.gradle.internal.work.DefaultWorkerLeaseService.blocking(DefaultWorkerLeaseService.java:243)
-2026-11-06T13:14:11.7075577Z 	at org.gradle.internal.work.DefaultAsyncWorkTracker.lambda$waitForItemsAndGatherFailures$1(DefaultAsyncWorkTracker.java:128)
-2026-11-06T13:14:11.7077186Z 	at org.gradle.internal.Factories$1.create(Factories.java:30)
-2026-11-06T13:14:11.7079131Z 	at org.gradle.internal.resources.AbstractResourceLockRegistry.whileDisallowingLockChanges(AbstractResourceLockRegistry.java:51)
-2026-11-06T13:14:11.7081599Z 	at org.gradle.internal.work.DefaultWorkerLeaseService.whileDisallowingProjectLockChanges(DefaultWorkerLeaseService.java:266)
-2026-11-06T13:14:11.7083790Z 	at org.gradle.internal.work.DefaultAsyncWorkTracker.waitForItemsAndGatherFailures(DefaultAsyncWorkTracker.java:127)
-2026-11-06T13:14:11.7085803Z 	at org.gradle.internal.work.DefaultAsyncWorkTracker.waitForItemsAndGatherFailures(DefaultAsyncWorkTracker.java:93)
-2026-11-06T13:14:11.7087620Z 	at org.gradle.internal.work.DefaultAsyncWorkTracker.waitForAll(DefaultAsyncWorkTracker.java:79)
-2026-11-06T13:14:11.7089332Z 	at org.gradle.internal.work.DefaultAsyncWorkTracker.waitForCompletion(DefaultAsyncWorkTracker.java:67)
-2026-11-06T13:14:11.7090941Z 	at org.gradle.api.internal.tasks.execution.TaskExecution$3.run(TaskExecution.java:276)
-2026-11-06T13:14:11.7092846Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner$1.execute(DefaultBuildOperationRunner.java:30)
-2026-11-06T13:14:11.7094725Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner$1.execute(DefaultBuildOperationRunner.java:27)
-2026-11-06T13:14:11.7096565Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:67)
-2026-11-06T13:14:11.7098403Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:60)
-2026-11-06T13:14:11.7100483Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:167)
-2026-11-06T13:14:11.7102589Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:60)
-2026-11-06T13:14:11.7107561Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner.run(DefaultBuildOperationRunner.java:48)
-2026-11-06T13:14:11.7109371Z 	at org.gradle.api.internal.tasks.execution.TaskExecution.executeAction(TaskExecution.java:253)
-2026-11-06T13:14:11.7111422Z 	at org.gradle.api.internal.tasks.execution.TaskExecution.executeActions(TaskExecution.java:236)
-2026-11-06T13:14:11.7113241Z 	at org.gradle.api.internal.tasks.execution.TaskExecution.executeWithPreviousOutputFiles(TaskExecution.java:219)
-2026-11-06T13:14:11.7115035Z 	at org.gradle.api.internal.tasks.execution.TaskExecution.execute(TaskExecution.java:185)
-2026-11-06T13:14:11.7116768Z 	at org.gradle.internal.execution.steps.ExecuteStep.executeInternal(ExecuteStep.java:167)
-2026-11-06T13:14:11.7118597Z 	at org.gradle.internal.execution.steps.ExecuteStep.access$000(ExecuteStep.java:47)
-2026-11-06T13:14:11.7119986Z 	at org.gradle.internal.execution.steps.ExecuteStep$1.call(ExecuteStep.java:137)
-2026-11-06T13:14:11.7121565Z 	at org.gradle.internal.execution.steps.ExecuteStep$1.call(ExecuteStep.java:134)
-2026-11-06T13:14:11.7123422Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:210)
-2026-11-06T13:14:11.7125713Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:205)
-2026-11-06T13:14:11.7127869Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:67)
-2026-11-06T13:14:11.7130041Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:60)
-2026-11-06T13:14:11.7132309Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:167)
-2026-11-06T13:14:11.7134226Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:60)
-2026-11-06T13:14:11.7136049Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:54)
-2026-11-06T13:14:11.7140214Z 	at org.gradle.internal.execution.steps.ExecuteStep.execute(ExecuteStep.java:134)
-2026-11-06T13:14:11.7142370Z 	at org.gradle.internal.execution.steps.ExecuteStep$Mutable.execute(ExecuteStep.java:80)
-2026-11-06T13:14:11.7144118Z 	at org.gradle.internal.execution.steps.CancelExecutionStep.execute(CancelExecutionStep.java:42)
-2026-11-06T13:14:11.7148165Z 	at org.gradle.internal.execution.steps.TimeoutStep.executeWithoutTimeout(TimeoutStep.java:75)
-2026-11-06T13:14:11.7149695Z 	at org.gradle.internal.execution.steps.TimeoutStep.execute(TimeoutStep.java:55)
-2026-11-06T13:14:11.7151665Z 	at org.gradle.internal.execution.steps.PreCreateOutputParentsStep.execute(PreCreateOutputParentsStep.java:51)
-2026-11-06T13:14:11.7153715Z 	at org.gradle.internal.execution.steps.PreCreateOutputParentsStep.execute(PreCreateOutputParentsStep.java:29)
-2026-11-06T13:14:11.7155664Z 	at org.gradle.internal.execution.steps.RemovePreviousOutputsStep.executeMutable(RemovePreviousOutputsStep.java:67)
-2026-11-06T13:14:11.7157751Z 	at org.gradle.internal.execution.steps.RemovePreviousOutputsStep.executeMutable(RemovePreviousOutputsStep.java:39)
-2026-11-06T13:14:11.7159438Z 	at org.gradle.internal.execution.steps.MutableStep.execute(MutableStep.java:26)
-2026-11-06T13:14:11.7161503Z 	at org.gradle.internal.execution.steps.BroadcastChangingOutputsStep.execute(BroadcastChangingOutputsStep.java:42)
-2026-11-06T13:14:11.7163556Z 	at org.gradle.internal.execution.steps.BroadcastChangingOutputsStep.execute(BroadcastChangingOutputsStep.java:24)
-2026-11-06T13:14:11.7165597Z 	at org.gradle.internal.execution.steps.CaptureOutputsAfterExecutionStep.execute(CaptureOutputsAfterExecutionStep.java:69)
-2026-11-06T13:14:11.7167728Z 	at org.gradle.internal.execution.steps.CaptureOutputsAfterExecutionStep.execute(CaptureOutputsAfterExecutionStep.java:46)
-2026-11-06T13:14:11.7169764Z 	at org.gradle.internal.execution.steps.ResolveInputChangesStep.executeMutable(ResolveInputChangesStep.java:39)
-2026-11-06T13:14:11.7172140Z 	at org.gradle.internal.execution.steps.ResolveInputChangesStep.executeMutable(ResolveInputChangesStep.java:28)
-2026-11-06T13:14:11.7177686Z 	at org.gradle.internal.execution.steps.MutableStep.execute(MutableStep.java:26)
-2026-11-06T13:14:11.7179333Z 	at org.gradle.internal.execution.steps.BuildCacheStep.executeWithoutCache(BuildCacheStep.java:189)
-2026-11-06T13:14:11.7181274Z 	at org.gradle.internal.execution.steps.BuildCacheStep.lambda$execute$1(BuildCacheStep.java:76)
-2026-11-06T13:14:11.7182671Z 	at org.gradle.internal.Either$Right.fold(Either.java:176)
-2026-11-06T13:14:11.7183913Z 	at org.gradle.internal.execution.caching.CachingState.fold(CachingState.java:62)
-2026-11-06T13:14:11.7185329Z 	at org.gradle.internal.execution.steps.BuildCacheStep.execute(BuildCacheStep.java:74)
-2026-11-06T13:14:11.7186773Z 	at org.gradle.internal.execution.steps.BuildCacheStep.execute(BuildCacheStep.java:49)
-2026-11-06T13:14:11.7188416Z 	at org.gradle.internal.execution.steps.StoreExecutionStateStep.executeMutable(StoreExecutionStateStep.java:46)
-2026-11-06T13:14:11.7190325Z 	at org.gradle.internal.execution.steps.StoreExecutionStateStep.executeMutable(StoreExecutionStateStep.java:35)
-2026-11-06T13:14:11.7192285Z 	at org.gradle.internal.execution.steps.MutableStep.execute(MutableStep.java:26)
-2026-11-06T13:14:11.7193811Z 	at org.gradle.internal.execution.steps.SkipUpToDateStep.executeBecause(SkipUpToDateStep.java:75)
-2026-11-06T13:14:11.7195504Z 	at org.gradle.internal.execution.steps.SkipUpToDateStep.lambda$execute$2(SkipUpToDateStep.java:53)
-2026-11-06T13:14:11.7197424Z 	at org.gradle.internal.execution.steps.SkipUpToDateStep.execute(SkipUpToDateStep.java:53)
-2026-11-06T13:14:11.7198996Z 	at org.gradle.internal.execution.steps.SkipUpToDateStep.execute(SkipUpToDateStep.java:35)
-2026-11-06T13:14:11.7200914Z 	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsFinishedStep.execute(MarkSnapshottingInputsFinishedStep.java:37)
-2026-11-06T13:14:11.7203607Z 	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsFinishedStep.execute(MarkSnapshottingInputsFinishedStep.java:27)
-2026-11-06T13:14:11.7205854Z 	at org.gradle.internal.execution.steps.ResolveMutableCachingStateStep.executeDelegate(ResolveMutableCachingStateStep.java:70)
-2026-11-06T13:14:11.7208380Z 	at org.gradle.internal.execution.steps.ResolveMutableCachingStateStep.executeDelegate(ResolveMutableCachingStateStep.java:32)
-2026-11-06T13:14:11.7210526Z 	at org.gradle.internal.execution.steps.AbstractResolveCachingStateStep.execute(AbstractResolveCachingStateStep.java:69)
-2026-11-06T13:14:11.7213077Z 	at org.gradle.internal.execution.steps.AbstractResolveCachingStateStep.execute(AbstractResolveCachingStateStep.java:37)
-2026-11-06T13:14:11.7214995Z 	at org.gradle.internal.execution.steps.ResolveChangesStep.executeMutable(ResolveChangesStep.java:63)
-2026-11-06T13:14:11.7216731Z 	at org.gradle.internal.execution.steps.ResolveChangesStep.executeMutable(ResolveChangesStep.java:34)
-2026-11-06T13:14:11.7218258Z 	at org.gradle.internal.execution.steps.MutableStep.execute(MutableStep.java:26)
-2026-11-06T13:14:11.7219731Z 	at org.gradle.internal.execution.steps.ValidateStep$Mutable.executeDelegate(ValidateStep.java:79)
-2026-11-06T13:14:11.7221686Z 	at org.gradle.internal.execution.steps.ValidateStep$Mutable.executeDelegate(ValidateStep.java:65)
-2026-11-06T13:14:11.7223258Z 	at org.gradle.internal.execution.steps.ValidateStep.execute(ValidateStep.java:105)
-2026-11-06T13:14:11.7224760Z 	at org.gradle.internal.execution.steps.ValidateStep$Mutable.execute(ValidateStep.java:65)
-2026-11-06T13:14:11.7226757Z 	at org.gradle.internal.execution.steps.CaptureMutableStateBeforeExecutionStep.executeMutable(CaptureMutableStateBeforeExecutionStep.java:86)
-2026-11-06T13:14:11.7229283Z 	at org.gradle.internal.execution.steps.CaptureMutableStateBeforeExecutionStep.execute(CaptureMutableStateBeforeExecutionStep.java:65)
-2026-11-06T13:14:11.7232141Z 	at org.gradle.internal.execution.steps.CaptureMutableStateBeforeExecutionStep.execute(CaptureMutableStateBeforeExecutionStep.java:45)
-2026-11-06T13:14:11.7234532Z 	at org.gradle.internal.execution.steps.SkipEmptyMutableWorkStep.executeWithNonEmptySources(SkipEmptyMutableWorkStep.java:210)
-2026-11-06T13:14:11.7238565Z 	at org.gradle.internal.execution.steps.SkipEmptyMutableWorkStep.executeMutable(SkipEmptyMutableWorkStep.java:90)
-2026-11-06T13:14:11.7240546Z 	at org.gradle.internal.execution.steps.SkipEmptyMutableWorkStep.executeMutable(SkipEmptyMutableWorkStep.java:53)
-2026-11-06T13:14:11.7242448Z 	at org.gradle.internal.execution.steps.MutableStep.execute(MutableStep.java:26)
-2026-11-06T13:14:11.7244269Z 	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsStartedStep.execute(MarkSnapshottingInputsStartedStep.java:38)
-2026-11-06T13:14:11.7246501Z 	at org.gradle.internal.execution.steps.LoadPreviousExecutionStateStep.executeMutable(LoadPreviousExecutionStateStep.java:36)
-2026-11-06T13:14:11.7248636Z 	at org.gradle.internal.execution.steps.LoadPreviousExecutionStateStep.executeMutable(LoadPreviousExecutionStateStep.java:23)
-2026-11-06T13:14:11.7250386Z 	at org.gradle.internal.execution.steps.MutableStep.execute(MutableStep.java:26)
-2026-11-06T13:14:11.7252310Z 	at org.gradle.internal.execution.steps.HandleStaleOutputsStep.executeMutable(HandleStaleOutputsStep.java:77)
-2026-11-06T13:14:11.7254218Z 	at org.gradle.internal.execution.steps.HandleStaleOutputsStep.executeMutable(HandleStaleOutputsStep.java:43)
-2026-11-06T13:14:11.7255838Z 	at org.gradle.internal.execution.steps.MutableStep.execute(MutableStep.java:26)
-2026-11-06T13:14:11.7257945Z 	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.lambda$executeMutable$0(AssignMutableWorkspaceStep.java:34)
-2026-11-06T13:14:11.7259796Z 	at org.gradle.api.internal.tasks.execution.TaskExecution$4.withWorkspace(TaskExecution.java:314)
-2026-11-06T13:14:11.7261815Z 	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.executeMutable(AssignMutableWorkspaceStep.java:30)
-2026-11-06T13:14:11.7263852Z 	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.executeMutable(AssignMutableWorkspaceStep.java:21)
-2026-11-06T13:14:11.7265514Z 	at org.gradle.internal.execution.steps.MutableStep.execute(MutableStep.java:26)
-2026-11-06T13:14:11.7267293Z 	at org.gradle.internal.execution.steps.ChoosePipelineStep.execute(ChoosePipelineStep.java:40)
-2026-11-06T13:14:11.7268888Z 	at org.gradle.internal.execution.steps.ChoosePipelineStep.execute(ChoosePipelineStep.java:23)
-2026-11-06T13:14:11.7270886Z 	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.lambda$execute$2(ExecuteWorkBuildOperationFiringStep.java:67)
-2026-11-06T13:14:11.7273488Z 	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.execute(ExecuteWorkBuildOperationFiringStep.java:67)
-2026-11-06T13:14:11.7275833Z 	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.execute(ExecuteWorkBuildOperationFiringStep.java:39)
-2026-11-06T13:14:11.7277776Z 	at org.gradle.internal.execution.steps.IdentityCacheStep.execute(IdentityCacheStep.java:46)
-2026-11-06T13:14:11.7279375Z 	at org.gradle.internal.execution.steps.IdentityCacheStep.execute(IdentityCacheStep.java:34)
-2026-11-06T13:14:11.7280856Z 	at org.gradle.internal.execution.steps.IdentifyStep.execute(IdentifyStep.java:56)
-2026-11-06T13:14:11.7282614Z 	at org.gradle.internal.execution.steps.IdentifyStep.execute(IdentifyStep.java:38)
-2026-11-06T13:14:11.7284149Z 	at org.gradle.internal.execution.impl.DefaultExecutionEngine$1.execute(DefaultExecutionEngine.java:68)
-2026-11-06T13:14:11.7285939Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor.doExecute(DefaultTaskNodeExecutor.java:364)
-2026-11-06T13:14:11.7287271Z 	... 25 more
-2026-11-06T13:14:11.7288443Z Caused by: org.jetbrains.kotlin.gradle.tasks.CompilationErrorException: Compilation error. See log for more details
-2026-11-06T13:14:11.7290239Z 	at org.jetbrains.kotlin.gradle.tasks.TasksUtilsKt.throwExceptionIfCompilationFailed(tasksUtils.kt:21)
-2026-11-06T13:14:11.7292251Z 	at org.jetbrains.kotlin.compilerRunner.GradleKotlinCompilerWork.run(GradleKotlinCompilerWork.kt:119)
-2026-11-06T13:14:11.7294394Z 	at org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction.execute(GradleCompilerRunnerWithWorkers.kt:74)
-2026-11-06T13:14:11.7296568Z 	at org.gradle.workers.internal.DefaultWorkerServer.execute(DefaultWorkerServer.java:68)
-2026-11-06T13:14:11.7298192Z 	at org.gradle.workers.internal.NoIsolationWorkerFactory$1$1.create(NoIsolationWorkerFactory.java:64)
-2026-11-06T13:14:11.7299858Z 	at org.gradle.workers.internal.NoIsolationWorkerFactory$1$1.create(NoIsolationWorkerFactory.java:61)
-2026-11-06T13:14:11.7301795Z 	at org.gradle.internal.classloader.ClassLoaderUtils.executeInClassloader(ClassLoaderUtils.java:103)
-2026-11-06T13:14:11.7303534Z 	at org.gradle.workers.internal.NoIsolationWorkerFactory$1.lambda$execute$0(NoIsolationWorkerFactory.java:61)
-2026-11-06T13:14:11.7305085Z 	at org.gradle.workers.internal.AbstractWorker$1.call(AbstractWorker.java:44)
-2026-11-06T13:14:11.7306382Z 	at org.gradle.workers.internal.AbstractWorker$1.call(AbstractWorker.java:41)
-2026-11-06T13:14:11.7308173Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:210)
-2026-11-06T13:14:11.7310434Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:205)
-2026-11-06T13:14:11.7312768Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:67)
-2026-11-06T13:14:11.7314999Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:60)
-2026-11-06T13:14:11.7316888Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:167)
-2026-11-06T13:14:11.7318713Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:60)
-2026-11-06T13:14:11.7320522Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:54)
-2026-11-06T13:14:11.7322618Z 	at org.gradle.workers.internal.AbstractWorker.executeWrappedInBuildOperation(AbstractWorker.java:41)
-2026-11-06T13:14:11.7324624Z 	at org.gradle.workers.internal.NoIsolationWorkerFactory$1.execute(NoIsolationWorkerFactory.java:58)
-2026-11-06T13:14:11.7326335Z 	at org.gradle.workers.internal.DefaultWorkerExecutor.lambda$submitWork$1(DefaultWorkerExecutor.java:169)
-2026-11-06T13:14:11.7328382Z 	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.runExecution(DefaultConditionalExecutionQueue.java:191)
-2026-11-06T13:14:11.7330614Z 	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.access$600(DefaultConditionalExecutionQueue.java:112)
-2026-11-06T13:14:11.7332985Z 	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner$1.run(DefaultConditionalExecutionQueue.java:168)
-2026-11-06T13:14:11.7334546Z 	at org.gradle.internal.Factories$1.create(Factories.java:30)
-2026-11-06T13:14:11.7336072Z 	at org.gradle.internal.work.DefaultWorkerLeaseService.lambda$runAndReleaseLocks$0(DefaultWorkerLeaseService.java:296)
-2026-11-06T13:14:11.7337819Z 	at org.gradle.internal.work.ResourceLockStatistics$1.measure(ResourceLockStatistics.java:43)
-2026-11-06T13:14:11.7339492Z 	at org.gradle.internal.work.DefaultWorkerLeaseService.runAndReleaseLocks(DefaultWorkerLeaseService.java:294)
-2026-11-06T13:14:11.7341514Z 	at org.gradle.internal.work.DefaultWorkerLeaseService.withLocksAcquired(DefaultWorkerLeaseService.java:290)
-2026-11-06T13:14:11.7343263Z 	at org.gradle.internal.work.DefaultWorkerLeaseService.withLocks(DefaultWorkerLeaseService.java:282)
-2026-11-06T13:14:11.7344991Z 	at org.gradle.internal.work.DefaultWorkerLeaseService.runAsWorkerThread(DefaultWorkerLeaseService.java:132)
-2026-11-06T13:14:11.7346829Z 	at org.gradle.internal.work.DefaultWorkerLeaseService.runAsWorkerThread(DefaultWorkerLeaseService.java:138)
-2026-11-06T13:14:11.7348801Z 	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.runBatch(DefaultConditionalExecutionQueue.java:163)
-2026-11-06T13:14:11.7350901Z 	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.run(DefaultConditionalExecutionQueue.java:125)
-2026-11-06T13:14:11.7352546Z 	... 2 more
-2026-11-06T13:14:11.7352959Z 
-2026-11-06T13:14:11.7353139Z 
-2026-11-06T13:14:11.7353529Z BUILD FAILED in 29s
-2026-11-06T13:14:12.0473624Z ##[error]Process completed with exit code 1.
-2026-11-06T13:14:12.0513455Z ##[group]Run rm -f "my-upload-key.jks"
-2026-11-06T13:14:12.0513890Z rm -f "my-upload-key.jks"
-2026-11-06T13:14:12.0534344Z shell: /usr/bin/bash -e {0}
-2026-11-06T13:14:12.0534649Z env:
-2026-11-06T13:14:12.0535020Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.13-9/x64
-2026-11-06T13:14:12.0535619Z   JAVA_HOME_21_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.13-9/x64
-2026-11-06T13:14:12.0536113Z   GRADLE_ACTION_ID: gradle/actions/setup-gradle
-2026-11-06T13:14:12.0536478Z   GRADLE_USER_HOME: /home/runner/.gradle
-2026-11-06T13:14:12.0536821Z   GRADLE_BUILD_ACTION_SETUP_COMPLETED: true
-2026-11-06T13:14:12.0537184Z   GRADLE_BUILD_ACTION_CACHE_RESTORED: true
-2026-11-06T13:14:12.0537697Z   DEVELOCITY_INJECTION_INIT_SCRIPT_NAME: gradle-actions.inject-develocity.init.gradle
-2026-11-06T13:14:12.0538241Z   DEVELOCITY_INJECTION_CUSTOM_VALUE: gradle-actions
-2026-11-06T13:14:12.0538617Z   GITHUB_DEPENDENCY_GRAPH_ENABLED: false
-2026-11-06T13:14:12.0539005Z   DETECTED_KEY_ALIAS: release-key
-2026-11-06T13:14:12.0539318Z ##[endgroup]
-2026-11-06T13:14:12.0802271Z Post job cleanup.
-2026-11-06T13:14:12.3549967Z In post-action step
-2026-11-06T13:14:12.3566242Z ##[group]Stopping Gradle daemons
-2026-11-06T13:14:12.3567018Z Stopping Gradle daemons for /usr/share/gradle-9.8.2
-2026-11-06T13:14:12.3579912Z Stopping Gradle daemons for /home/runner/.gradle/wrapper/dists/gradle-9.8.2-bin/8wepis63pzuhrlfaiy04bagwu/gradle-9.8.2
-2026-11-06T13:14:12.3586999Z [command]/usr/share/gradle-9.8.2/bin/gradle --stop
-2026-11-06T13:14:12.3647345Z [command]/home/runner/.gradle/wrapper/dists/gradle-9.8.2-bin/8wepis63pzuhrlfaiy04bagwu/gradle-9.8.2/bin/gradle --stop
-2026-11-06T13:14:13.4305787Z No Gradle daemons are running.
-2026-11-06T13:14:13.4689435Z No Gradle daemons are running.
-2026-11-06T13:14:13.4910037Z ##[endgroup]
-2026-11-06T13:14:13.4932300Z Not performing cache-cleanup due to build failure
-2026-11-06T13:14:13.4932969Z ##[group]Caching Gradle state
-2026-11-06T13:14:15.2551897Z [command]/usr/bin/tar --posix -cf cache.tzst --exclude cache.tzst -P -C /home/runner/work/Secure-vault/Secure-vault --files-from manifest.txt --use-compress-program zstdmt
-2026-11-06T13:14:15.5639327Z Sent 543297 of 543297 (100.0%), 5.2 MBs/sec
-2026-11-06T13:14:15.6775515Z Saved cache entry with key gradle-home-v1|Linux-X64|build[c4346d2f90cb10f39259e32865a43598]-557e896c2ae57cf2d599da3b0258802720a94716 from /home/runner/.gradle/caches,/home/runner/.gradle/notifications,/home/runner/.gradle/.setup-gradle in 439ms
-2026-11-06T13:14:15.6777812Z ##[endgroup]
-2026-11-06T13:14:15.6782734Z Generating Job Summary
-2026-11-06T13:14:15.6795706Z Completed post-action step
-2026-11-06T13:14:15.7029762Z Post job cleanup.
-2026-11-06T13:14:15.8517791Z (node:3024) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-2026-11-06T13:14:15.8519234Z (Use `node --trace-deprecation ...` to show where the warning was created)
-2026-11-06T13:14:15.8724205Z Post job cleanup.
-2026-11-06T13:14:15.9932017Z [command]/usr/bin/git version
-2026-11-06T13:14:15.9933234Z git version 2.56.0
-2026-11-06T13:14:15.9978254Z Temporarily overriding HOME='/home/runner/work/_temp/27b116cc-b337-4957-b4e6-0149945147ca' before making global git config changes
-2026-11-06T13:14:15.9979711Z Adding repository directory to the temporary git global config as a safe directory
-2026-11-06T13:14:15.9981268Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Secure-vault/Secure-vault
-2026-11-06T13:14:16.0053447Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
-2026-11-06T13:14:16.0106658Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
-2026-11-06T13:14:16.0456549Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
-2026-11-06T13:14:16.0499239Z http.https://github.com/.extraheader
-2026-11-06T13:14:16.0515974Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
-2026-11-06T13:14:16.0564051Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
-2026-11-06T13:14:16.0896875Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
-2026-11-06T13:14:16.0947480Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
-2026-11-06T13:14:16.1359059Z Cleaning up orphan processes
-2026-11-06T13:14:16.1754240Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-java@v4, gradle/actions/setup-gradle@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-11-06T13:55:58.2004329Z 12    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
+2026-11-06T13:55:58.2006086Z 12-->[androidx.biometric:biometric:1.1.0] /home/runner/.gradle/caches/9.8.2/transforms/a6b674bc23ef1151f14a590b914f90dc/transformed/biometric-1.1.0/AndroidManifest.xml:27:5-74
+2026-11-06T13:55:58.2008278Z 12-->[androidx.biometric:biometric:1.1.0] /home/runner/.gradle/caches/9.8.2/transforms/a6b674bc23ef1151f14a590b914f90dc/transformed/biometric-1.1.0/AndroidManifest.xml:27:22-71
+2026-11-06T13:55:58.2009595Z 13
+2026-11-06T13:55:58.2009968Z 14    <permission
+2026-11-06T13:55:58.2011592Z 14-->[androidx.core:core:1.18.0] /home/runner/.gradle/caches/9.8.2/transforms/9b9708a3727c6db0744850523641b29e/transformed/core-1.18.0/AndroidManifest.xml:22:5-24:47
+2026-11-06T13:55:58.2013159Z 15        android:name="com.aistudio.vault.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+2026-11-06T13:55:58.2014667Z 15-->[androidx.core:core:1.18.0] /home/runner/.gradle/caches/9.8.2/transforms/9b9708a3727c6db0744850523641b29e/transformed/core-1.18.0/AndroidManifest.xml:23:9-81
+2026-11-06T13:55:58.2016154Z 16        android:protectionLevel="signature" />
+2026-11-06T13:55:58.2017699Z 16-->[androidx.core:core:1.18.0] /home/runner/.gradle/caches/9.8.2/transforms/9b9708a3727c6db0744850523641b29e/transformed/core-1.18.0/AndroidManifest.xml:24:9-44
+2026-11-06T13:55:58.2018928Z 17
+2026-11-06T13:55:58.2019689Z 18    <uses-permission android:name="com.aistudio.vault.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+2026-11-06T13:55:58.2021331Z 18-->[androidx.core:core:1.18.0] /home/runner/.gradle/caches/9.8.2/transforms/9b9708a3727c6db0744850523641b29e/transformed/core-1.18.0/AndroidManifest.xml:26:5-97
+2026-11-06T13:55:58.2023180Z 18-->[androidx.core:core:1.18.0] /home/runner/.gradle/caches/9.8.2/transforms/9b9708a3727c6db0744850523641b29e/transformed/core-1.18.0/AndroidManifest.xml:26:22-94
+2026-11-06T13:55:58.2024293Z 19
+2026-11-06T13:55:58.2024648Z 20    <application
+2026-11-06T13:55:58.2025337Z 20-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:5:5-86:19
+2026-11-06T13:55:58.2026326Z 21        android:name="com.example.MyApplication"
+2026-11-06T13:55:58.2027177Z 21-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:6:9-49
+2026-11-06T13:55:58.2027987Z 22        android:allowBackup="false"
+2026-11-06T13:55:58.2028759Z 22-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:7:9-36
+2026-11-06T13:55:58.2029906Z 23        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+2026-11-06T13:55:58.2031339Z 23-->[androidx.core:core:1.18.0] /home/runner/.gradle/caches/9.8.2/transforms/9b9708a3727c6db0744850523641b29e/transformed/core-1.18.0/AndroidManifest.xml:28:18-86
+2026-11-06T13:55:58.2032619Z 24        android:extractNativeLibs="false"
+2026-11-06T13:55:58.2033152Z 24-->INJECTED
+2026-11-06T13:55:58.2033556Z 25        android:icon="@mipmap/ic_launcher"
+2026-11-06T13:55:58.2034380Z 25-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:8:9-43
+2026-11-06T13:55:58.2035225Z 26        android:label="@string/app_name"
+2026-11-06T13:55:58.2046652Z 26-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:9:9-41
+2026-11-06T13:55:58.2047655Z 27        android:roundIcon="@mipmap/ic_launcher_round"
+2026-11-06T13:55:58.2048546Z 27-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:10:9-54
+2026-11-06T13:55:58.2049399Z 28        android:supportsRtl="true"
+2026-11-06T13:55:58.2050217Z 28-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:11:9-35
+2026-11-06T13:55:58.2051080Z 29        android:theme="@style/Theme.MyApplication" >
+2026-11-06T13:55:58.2051923Z 29-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:12:9-51
+2026-11-06T13:55:58.2052702Z 30        <activity
+2026-11-06T13:55:58.2053398Z 30-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:13:9-85:20
+2026-11-06T13:55:58.2054265Z 31            android:name="com.example.MainActivity"
+2026-11-06T13:55:58.2055121Z 31-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:14:13-52
+2026-11-06T13:55:58.2056134Z 32            android:clearTaskOnLaunch="true"
+2026-11-06T13:55:58.2056954Z 32-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:18:13-45
+2026-11-06T13:55:58.2057750Z 33            android:exported="true"
+2026-11-06T13:55:58.2058515Z 33-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:15:13-36
+2026-11-06T13:55:58.2059626Z 34            android:label="@string/app_name"
+2026-11-06T13:55:58.2060424Z 34-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:19:13-45
+2026-11-06T13:55:58.2061247Z 35            android:launchMode="singleTask"
+2026-11-06T13:55:58.2062047Z 35-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:16:13-44
+2026-11-06T13:55:58.2062860Z 36            android:taskAffinity=".SecureVault"
+2026-11-06T13:55:58.2063669Z 36-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:17:13-48
+2026-11-06T13:55:58.2064521Z 37            android:theme="@style/Theme.MyApplication" >
+2026-11-06T13:55:58.2065518Z 37-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:20:13-55
+2026-11-06T13:55:58.2066580Z 38            <intent-filter>
+2026-11-06T13:55:58.2067241Z 38-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:21:13-25:29
+2026-11-06T13:55:58.2068104Z 39                <action android:name="android.intent.action.MAIN" />
+2026-11-06T13:55:58.2068963Z 39-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:22:17-69
+2026-11-06T13:55:58.2069963Z 39-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:22:25-66
+2026-11-06T13:55:58.2070682Z 40
+2026-11-06T13:55:58.2071185Z 41                <category android:name="android.intent.category.LAUNCHER" />
+2026-11-06T13:55:58.2072077Z 41-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:24:17-77
+2026-11-06T13:55:58.2073042Z 41-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:24:27-74
+2026-11-06T13:55:58.2073781Z 42            </intent-filter>
+2026-11-06T13:55:58.2074200Z 43            <intent-filter>
+2026-11-06T13:55:58.2074878Z 43-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:26:13-35:29
+2026-11-06T13:55:58.2075903Z 44                <action android:name="android.intent.action.VIEW" />
+2026-11-06T13:55:58.2076786Z 44-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:27:17-69
+2026-11-06T13:55:58.2077778Z 44-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:27:25-66
+2026-11-06T13:55:58.2078516Z 45
+2026-11-06T13:55:58.2079018Z 46                <category android:name="android.intent.category.DEFAULT" />
+2026-11-06T13:55:58.2079877Z 46-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:28:17-76
+2026-11-06T13:55:58.2080798Z 46-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:28:27-73
+2026-11-06T13:55:58.2081671Z 47                <category android:name="android.intent.category.BROWSABLE" />
+2026-11-06T13:55:58.2082665Z 47-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:29:17-78
+2026-11-06T13:55:58.2083691Z 47-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:29:27-75
+2026-11-06T13:55:58.2084375Z 48
+2026-11-06T13:55:58.2084764Z 49                <data android:scheme="content" />
+2026-11-06T13:55:58.2085544Z 49-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:30:17-50
+2026-11-06T13:55:58.2087058Z 49-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:30:23-47
+2026-11-06T13:55:58.2087902Z 50                <data android:scheme="file" />
+2026-11-06T13:55:58.2088727Z 50-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:30:17-50
+2026-11-06T13:55:58.2089802Z 50-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:30:23-47
+2026-11-06T13:55:58.2090721Z 51                <data android:mimeType="application/octet-stream" />
+2026-11-06T13:55:58.2091654Z 51-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:30:17-50
+2026-11-06T13:55:58.2092717Z 51-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:32:23-66
+2026-11-06T13:55:58.2093561Z 52                <data android:pathPattern=".*\\.kdbx" />
+2026-11-06T13:55:58.2094643Z 52-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:30:17-50
+2026-11-06T13:55:58.2095900Z 52-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:33:23-54
+2026-11-06T13:55:58.2096723Z 53                <data android:host="*" />
+2026-11-06T13:55:58.2097523Z 53-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:30:17-50
+2026-11-06T13:55:58.2098592Z 53-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:34:23-39
+2026-11-06T13:55:58.2099391Z 54            </intent-filter>
+2026-11-06T13:55:58.2100148Z 55            <intent-filter>
+2026-11-06T13:55:58.2100918Z 55-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:36:73-46:29
+2026-11-06T13:55:58.2101875Z 56                <action android:name="android.intent.action.VIEW" />
+2026-11-06T13:55:58.2102767Z 56-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:27:17-69
+2026-11-06T13:55:58.2103856Z 56-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:27:25-66
+2026-11-06T13:55:58.2104647Z 57
+2026-11-06T13:55:58.2105190Z 58                <category android:name="android.intent.category.DEFAULT" />
+2026-11-06T13:55:58.2106364Z 58-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:28:17-76
+2026-11-06T13:55:58.2107485Z 58-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:28:27-73
+2026-11-06T13:55:58.2108472Z 59                <category android:name="android.intent.category.BROWSABLE" />
+2026-11-06T13:55:58.2109443Z 59-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:29:17-78
+2026-11-06T13:55:58.2110536Z 59-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:29:27-75
+2026-11-06T13:55:58.2111389Z 60
+2026-11-06T13:55:58.2111785Z 61                <data android:scheme="file" />
+2026-11-06T13:55:58.2112610Z 61-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:30:17-50
+2026-11-06T13:55:58.2113690Z 61-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:30:23-47
+2026-11-06T13:55:58.2114523Z 62                <data android:scheme="content" />
+2026-11-06T13:55:58.2115345Z 62-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:30:17-50
+2026-11-06T13:55:58.2117378Z 62-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:30:23-47
+2026-11-06T13:55:58.2118302Z 63                <data android:mimeType="application/x-keepass2" />
+2026-11-06T13:55:58.2119200Z 63-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:30:17-50
+2026-11-06T13:55:58.2120280Z 63-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:32:23-66
+2026-11-06T13:55:58.2121174Z 64                <data android:mimeType="application/keepass" />
+2026-11-06T13:55:58.2122061Z 64-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:30:17-50
+2026-11-06T13:55:58.2123134Z 64-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:32:23-66
+2026-11-06T13:55:58.2124036Z 65                <data android:mimeType="application/x-keepass" />
+2026-11-06T13:55:58.2124929Z 65-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:30:17-50
+2026-11-06T13:55:58.2126161Z 65-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:32:23-66
+2026-11-06T13:55:58.2127133Z 66                <data android:mimeType="application/x-keepass-databases" />
+2026-11-06T13:55:58.2128091Z 66-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:30:17-50
+2026-11-06T13:55:58.2129183Z 66-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:32:23-66
+2026-11-06T13:55:58.2129978Z 67            </intent-filter>
+2026-11-06T13:55:58.2130446Z 68            <intent-filter>
+2026-11-06T13:55:58.2131448Z 68-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:47:13-59:29
+2026-11-06T13:55:58.2132419Z 69                <action android:name="android.intent.action.VIEW" />
+2026-11-06T13:55:58.2133332Z 69-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:27:17-69
+2026-11-06T13:55:58.2134408Z 69-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:27:25-66
+2026-11-06T13:55:58.2135185Z 70
+2026-11-06T13:55:58.2135853Z 71                <category android:name="android.intent.category.DEFAULT" />
+2026-11-06T13:55:58.2136672Z 71-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:28:17-76
+2026-11-06T13:55:58.2137787Z 71-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:28:27-73
+2026-11-06T13:55:58.2138631Z 72                <category android:name="android.intent.category.BROWSABLE" />
+2026-11-06T13:55:58.2139462Z 72-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:29:17-78
+2026-11-06T13:55:58.2140439Z 72-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:29:27-75
+2026-11-06T13:55:58.2141125Z 73
+2026-11-06T13:55:58.2141492Z 74                <data android:scheme="file" />
+2026-11-06T13:55:58.2142171Z 74-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:30:17-50
+2026-11-06T13:55:58.2143101Z 74-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:30:23-47
+2026-11-06T13:55:58.2143837Z 75                <data android:scheme="content" />
+2026-11-06T13:55:58.2144628Z 75-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:30:17-50
+2026-11-06T13:55:58.2145616Z 75-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:30:23-47
+2026-11-06T13:55:58.2146641Z 76                <data android:host="*" />
+2026-11-06T13:55:58.2147386Z 76-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:30:17-50
+2026-11-06T13:55:58.2148404Z 76-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:34:23-39
+2026-11-06T13:55:58.2149206Z 77                <data android:mimeType="*/*" />
+2026-11-06T13:55:58.2149980Z 77-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:30:17-50
+2026-11-06T13:55:58.2150975Z 77-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:32:23-66
+2026-11-06T13:55:58.2151789Z 78                <data android:pathPattern=".*\\.kdbx" />
+2026-11-06T13:55:58.2152505Z 78-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:30:17-50
+2026-11-06T13:55:58.2153475Z 78-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:33:23-54
+2026-11-06T13:55:58.2154354Z 79                <data android:pathPattern=".*\\..*\\.kdbx" />
+2026-11-06T13:55:58.2155223Z 79-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:30:17-50
+2026-11-06T13:55:58.2156419Z 79-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:33:23-54
+2026-11-06T13:55:58.2157190Z 80                <data android:pathPattern=".*\\..*\\..*\\.kdbx" />
+2026-11-06T13:55:58.2157942Z 80-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:30:17-50
+2026-11-06T13:55:58.2158920Z 80-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:33:23-54
+2026-11-06T13:55:58.2159800Z 81                <data android:pathPattern=".*\\..*\\..*\\..*\\.kdbx" />
+2026-11-06T13:55:58.2160673Z 81-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:30:17-50
+2026-11-06T13:55:58.2161725Z 81-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:33:23-54
+2026-11-06T13:55:58.2162484Z 82            </intent-filter>
+2026-11-06T13:55:58.2162939Z 83            <intent-filter>
+2026-11-06T13:55:58.2163688Z 83-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:60:13-72:29
+2026-11-06T13:55:58.2164601Z 84                <action android:name="android.intent.action.VIEW" />
+2026-11-06T13:55:58.2165944Z 84-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:27:17-69
+2026-11-06T13:55:58.2167055Z 84-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:27:25-66
+2026-11-06T13:55:58.2167810Z 85
+2026-11-06T13:55:58.2168340Z 86                <category android:name="android.intent.category.DEFAULT" />
+2026-11-06T13:55:58.2169300Z 86-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:28:17-76
+2026-11-06T13:55:58.2170303Z 86-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:28:27-73
+2026-11-06T13:55:58.2171493Z 87                <category android:name="android.intent.category.BROWSABLE" />
+2026-11-06T13:55:58.2172423Z 87-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:29:17-78
+2026-11-06T13:55:58.2173430Z 87-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:29:27-75
+2026-11-06T13:55:58.2174206Z 88
+2026-11-06T13:55:58.2174593Z 89                <data android:scheme="file" />
+2026-11-06T13:55:58.2175363Z 89-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:30:17-50
+2026-11-06T13:55:58.2176533Z 89-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:30:23-47
+2026-11-06T13:55:58.2177326Z 90                <data android:scheme="content" />
+2026-11-06T13:55:58.2178128Z 90-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:30:17-50
+2026-11-06T13:55:58.2179161Z 90-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:30:23-47
+2026-11-06T13:55:58.2179870Z 91                <data android:host="*" />
+2026-11-06T13:55:58.2180609Z 91-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:30:17-50
+2026-11-06T13:55:58.2181566Z 91-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:34:23-39
+2026-11-06T13:55:58.2182452Z 92                <data android:mimeType="application/octet-stream" />
+2026-11-06T13:55:58.2183306Z 92-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:30:17-50
+2026-11-06T13:55:58.2184380Z 92-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:32:23-66
+2026-11-06T13:55:58.2185246Z 93                <data android:pathPattern=".*\\.kdbx" />
+2026-11-06T13:55:58.2186207Z 93-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:30:17-50
+2026-11-06T13:55:58.2187150Z 93-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:33:23-54
+2026-11-06T13:55:58.2187934Z 94                <data android:pathPattern=".*\\..*\\.kdbx" />
+2026-11-06T13:55:58.2188712Z 94-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:30:17-50
+2026-11-06T13:55:58.2189638Z 94-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:33:23-54
+2026-11-06T13:55:58.2190446Z 95                <data android:pathPattern=".*\\..*\\..*\\.kdbx" />
+2026-11-06T13:55:58.2191230Z 95-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:30:17-50
+2026-11-06T13:55:58.2192160Z 95-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:33:23-54
+2026-11-06T13:55:58.2192983Z 96                <data android:pathPattern=".*\\..*\\..*\\..*\\.kdbx" />
+2026-11-06T13:55:58.2193767Z 96-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:30:17-50
+2026-11-06T13:55:58.2194817Z 96-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:33:23-54
+2026-11-06T13:55:58.2195604Z 97            </intent-filter>
+2026-11-06T13:55:58.2196255Z 98            <!--
+2026-11-06T13:55:58.2196748Z 99                 MIME-only filter: cloud apps (Drive/Dropbox) serve opaque
+2026-11-06T13:55:58.2197507Z 100                 content:// ids with a generic octet-stream MIME type and no
+2026-11-06T13:55:58.2198259Z 101                 .kdbx in the path. The code side (MainActivity.isKdbxFile)
+2026-11-06T13:55:58.2199229Z 102                 resolves the real file name and rejects non-.kdbx files.
+2026-11-06T13:55:58.2199826Z 103            -->
+2026-11-06T13:55:58.2200231Z 104            <intent-filter>
+2026-11-06T13:55:58.2200957Z 104-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:77:13-84:29
+2026-11-06T13:55:58.2201882Z 105                <action android:name="android.intent.action.VIEW" />
+2026-11-06T13:55:58.2202787Z 105-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:27:17-69
+2026-11-06T13:55:58.2203820Z 105-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:27:25-66
+2026-11-06T13:55:58.2204805Z 106
+2026-11-06T13:55:58.2205317Z 107                <category android:name="android.intent.category.DEFAULT" />
+2026-11-06T13:55:58.2206384Z 107-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:28:17-76
+2026-11-06T13:55:58.2207343Z 107-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:28:27-73
+2026-11-06T13:55:58.2208244Z 108                <category android:name="android.intent.category.BROWSABLE" />
+2026-11-06T13:55:58.2209080Z 108-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:29:17-78
+2026-11-06T13:55:58.2210067Z 108-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:29:27-75
+2026-11-06T13:55:58.2210849Z 109
+2026-11-06T13:55:58.2211250Z 110                <data android:scheme="content" />
+2026-11-06T13:55:58.2212031Z 110-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:30:17-50
+2026-11-06T13:55:58.2213068Z 110-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:30:23-47
+2026-11-06T13:55:58.2213884Z 111                <data android:scheme="file" />
+2026-11-06T13:55:58.2214658Z 111-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:30:17-50
+2026-11-06T13:55:58.2215640Z 111-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:30:23-47
+2026-11-06T13:55:58.2216986Z 112                <data android:mimeType="application/octet-stream" />
+2026-11-06T13:55:58.2217859Z 112-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:30:17-50
+2026-11-06T13:55:58.2218916Z 112-->/home/runner/work/Secure-vault/Secure-vault/app/src/main/AndroidManifest.xml:32:23-66
+2026-11-06T13:55:58.2219754Z 113            </intent-filter>
+2026-11-06T13:55:58.2220234Z 114        </activity>
+2026-11-06T13:55:58.2220604Z 115
+2026-11-06T13:55:58.2220938Z 116        <provider
+2026-11-06T13:55:58.2222057Z 116-->[androidx.emoji2:emoji2:1.3.0] /home/runner/.gradle/caches/9.8.2/transforms/1603bb6f47c00090dd764ce5dc3675e4/transformed/emoji2-1.3.0/AndroidManifest.xml:24:9-32:20
+2026-11-06T13:55:58.2223432Z 117            android:name="androidx.startup.InitializationProvider"
+2026-11-06T13:55:58.2224780Z 117-->[androidx.emoji2:emoji2:1.3.0] /home/runner/.gradle/caches/9.8.2/transforms/1603bb6f47c00090dd764ce5dc3675e4/transformed/emoji2-1.3.0/AndroidManifest.xml:25:13-67
+2026-11-06T13:55:58.2226339Z 118            android:authorities="com.aistudio.vault.androidx-startup"
+2026-11-06T13:55:58.2227706Z 118-->[androidx.emoji2:emoji2:1.3.0] /home/runner/.gradle/caches/9.8.2/transforms/1603bb6f47c00090dd764ce5dc3675e4/transformed/emoji2-1.3.0/AndroidManifest.xml:26:13-68
+2026-11-06T13:55:58.2228972Z 119            android:exported="false" >
+2026-11-06T13:55:58.2230220Z 119-->[androidx.emoji2:emoji2:1.3.0] /home/runner/.gradle/caches/9.8.2/transforms/1603bb6f47c00090dd764ce5dc3675e4/transformed/emoji2-1.3.0/AndroidManifest.xml:27:13-37
+2026-11-06T13:55:58.2231457Z 120            <meta-data
+2026-11-06T13:55:58.2232610Z 120-->[androidx.emoji2:emoji2:1.3.0] /home/runner/.gradle/caches/9.8.2/transforms/1603bb6f47c00090dd764ce5dc3675e4/transformed/emoji2-1.3.0/AndroidManifest.xml:29:13-31:52
+2026-11-06T13:55:58.2233958Z 121                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+2026-11-06T13:55:58.2235647Z 121-->[androidx.emoji2:emoji2:1.3.0] /home/runner/.gradle/caches/9.8.2/transforms/1603bb6f47c00090dd764ce5dc3675e4/transformed/emoji2-1.3.0/AndroidManifest.xml:30:17-75
+2026-11-06T13:55:58.2237055Z 122                android:value="androidx.startup" />
+2026-11-06T13:55:58.2238280Z 122-->[androidx.emoji2:emoji2:1.3.0] /home/runner/.gradle/caches/9.8.2/transforms/1603bb6f47c00090dd764ce5dc3675e4/transformed/emoji2-1.3.0/AndroidManifest.xml:31:17-49
+2026-11-06T13:55:58.2239471Z 123            <meta-data
+2026-11-06T13:55:58.2240842Z 123-->[androidx.lifecycle:lifecycle-process:2.8.7] /home/runner/.gradle/caches/9.8.2/transforms/db8f3d3b3c5f508245d85d7ec3276e1b/transformed/lifecycle-process-2.8.7/AndroidManifest.xml:29:13-31:52
+2026-11-06T13:55:58.2242739Z 124                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+2026-11-06T13:55:58.2244334Z 124-->[androidx.lifecycle:lifecycle-process:2.8.7] /home/runner/.gradle/caches/9.8.2/transforms/db8f3d3b3c5f508245d85d7ec3276e1b/transformed/lifecycle-process-2.8.7/AndroidManifest.xml:30:17-78
+2026-11-06T13:55:58.2246168Z 125                android:value="androidx.startup" />
+2026-11-06T13:55:58.2247617Z 125-->[androidx.lifecycle:lifecycle-process:2.8.7] /home/runner/.gradle/caches/9.8.2/transforms/db8f3d3b3c5f508245d85d7ec3276e1b/transformed/lifecycle-process-2.8.7/AndroidManifest.xml:31:17-49
+2026-11-06T13:55:58.2248940Z 126            <meta-data
+2026-11-06T13:55:58.2250296Z 126-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/runner/.gradle/caches/9.8.2/transforms/c6bee2c1bea746946eb308fe1fee0f20/transformed/profileinstaller-1.4.0/AndroidManifest.xml:29:13-31:52
+2026-11-06T13:55:58.2252012Z 127                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+2026-11-06T13:55:58.2253635Z 127-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/runner/.gradle/caches/9.8.2/transforms/c6bee2c1bea746946eb308fe1fee0f20/transformed/profileinstaller-1.4.0/AndroidManifest.xml:30:17-85
+2026-11-06T13:55:58.2255115Z 128                android:value="androidx.startup" />
+2026-11-06T13:55:58.2256777Z 128-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/runner/.gradle/caches/9.8.2/transforms/c6bee2c1bea746946eb308fe1fee0f20/transformed/profileinstaller-1.4.0/AndroidManifest.xml:31:17-49
+2026-11-06T13:55:58.2258261Z 129        </provider>
+2026-11-06T13:55:58.2258673Z 130
+2026-11-06T13:55:58.2258987Z 131        <receiver
+2026-11-06T13:55:58.2260322Z 131-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/runner/.gradle/caches/9.8.2/transforms/c6bee2c1bea746946eb308fe1fee0f20/transformed/profileinstaller-1.4.0/AndroidManifest.xml:34:9-52:20
+2026-11-06T13:55:58.2262067Z 132            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+2026-11-06T13:55:58.2263753Z 132-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/runner/.gradle/caches/9.8.2/transforms/c6bee2c1bea746946eb308fe1fee0f20/transformed/profileinstaller-1.4.0/AndroidManifest.xml:35:13-76
+2026-11-06T13:55:58.2265097Z 133            android:directBootAware="false"
+2026-11-06T13:55:58.2266828Z 133-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/runner/.gradle/caches/9.8.2/transforms/c6bee2c1bea746946eb308fe1fee0f20/transformed/profileinstaller-1.4.0/AndroidManifest.xml:36:13-44
+2026-11-06T13:55:58.2268247Z 134            android:enabled="true"
+2026-11-06T13:55:58.2269733Z 134-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/runner/.gradle/caches/9.8.2/transforms/c6bee2c1bea746946eb308fe1fee0f20/transformed/profileinstaller-1.4.0/AndroidManifest.xml:37:13-35
+2026-11-06T13:55:58.2271089Z 135            android:exported="true"
+2026-11-06T13:55:58.2272407Z 135-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/runner/.gradle/caches/9.8.2/transforms/c6bee2c1bea746946eb308fe1fee0f20/transformed/profileinstaller-1.4.0/AndroidManifest.xml:38:13-36
+2026-11-06T13:55:58.2273845Z 136            android:permission="android.permission.DUMP" >
+2026-11-06T13:55:58.2276204Z 136-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/runner/.gradle/caches/9.8.2/transforms/c6bee2c1bea746946eb308fe1fee0f20/transformed/profileinstaller-1.4.0/AndroidManifest.xml:39:13-57
+2026-11-06T13:55:58.2277805Z 137            <intent-filter>
+2026-11-06T13:55:58.2279248Z 137-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/runner/.gradle/caches/9.8.2/transforms/c6bee2c1bea746946eb308fe1fee0f20/transformed/profileinstaller-1.4.0/AndroidManifest.xml:40:13-42:29
+2026-11-06T13:55:58.2281006Z 138                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+2026-11-06T13:55:58.2282668Z 138-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/runner/.gradle/caches/9.8.2/transforms/c6bee2c1bea746946eb308fe1fee0f20/transformed/profileinstaller-1.4.0/AndroidManifest.xml:41:17-91
+2026-11-06T13:55:58.2285187Z 138-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/runner/.gradle/caches/9.8.2/transforms/c6bee2c1bea746946eb308fe1fee0f20/transformed/profileinstaller-1.4.0/AndroidManifest.xml:41:25-88
+2026-11-06T13:55:58.2286851Z 139            </intent-filter>
+2026-11-06T13:55:58.2287341Z 140            <intent-filter>
+2026-11-06T13:55:58.2288735Z 140-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/runner/.gradle/caches/9.8.2/transforms/c6bee2c1bea746946eb308fe1fee0f20/transformed/profileinstaller-1.4.0/AndroidManifest.xml:43:13-45:29
+2026-11-06T13:55:58.2290411Z 141                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+2026-11-06T13:55:58.2292075Z 141-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/runner/.gradle/caches/9.8.2/transforms/c6bee2c1bea746946eb308fe1fee0f20/transformed/profileinstaller-1.4.0/AndroidManifest.xml:44:17-85
+2026-11-06T13:55:58.2294469Z 141-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/runner/.gradle/caches/9.8.2/transforms/c6bee2c1bea746946eb308fe1fee0f20/transformed/profileinstaller-1.4.0/AndroidManifest.xml:44:25-82
+2026-11-06T13:55:58.2296155Z 142            </intent-filter>
+2026-11-06T13:55:58.2296626Z 143            <intent-filter>
+2026-11-06T13:55:58.2298051Z 143-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/runner/.gradle/caches/9.8.2/transforms/c6bee2c1bea746946eb308fe1fee0f20/transformed/profileinstaller-1.4.0/AndroidManifest.xml:46:13-48:29
+2026-11-06T13:55:58.2299747Z 144                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+2026-11-06T13:55:58.2301440Z 144-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/runner/.gradle/caches/9.8.2/transforms/c6bee2c1bea746946eb308fe1fee0f20/transformed/profileinstaller-1.4.0/AndroidManifest.xml:47:17-88
+2026-11-06T13:55:58.2303803Z 144-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/runner/.gradle/caches/9.8.2/transforms/c6bee2c1bea746946eb308fe1fee0f20/transformed/profileinstaller-1.4.0/AndroidManifest.xml:47:25-85
+2026-11-06T13:55:58.2305248Z 145            </intent-filter>
+2026-11-06T13:55:58.2305881Z 146            <intent-filter>
+2026-11-06T13:55:58.2307288Z 146-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/runner/.gradle/caches/9.8.2/transforms/c6bee2c1bea746946eb308fe1fee0f20/transformed/profileinstaller-1.4.0/AndroidManifest.xml:49:13-51:29
+2026-11-06T13:55:58.2309072Z 147                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+2026-11-06T13:55:58.2310927Z 147-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/runner/.gradle/caches/9.8.2/transforms/c6bee2c1bea746946eb308fe1fee0f20/transformed/profileinstaller-1.4.0/AndroidManifest.xml:50:17-95
+2026-11-06T13:55:58.2313344Z 147-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/runner/.gradle/caches/9.8.2/transforms/c6bee2c1bea746946eb308fe1fee0f20/transformed/profileinstaller-1.4.0/AndroidManifest.xml:50:25-92
+2026-11-06T13:55:58.2314796Z 148            </intent-filter>
+2026-11-06T13:55:58.2315270Z 149        </receiver>
+2026-11-06T13:55:58.2315878Z 150    </application>
+2026-11-06T13:55:58.2316272Z 151
+2026-11-06T13:55:58.2316619Z 152</manifest>
+2026-11-06T13:55:58.2316849Z 
+2026-11-06T13:55:58.2318048Z Merged manifest saved to /home/runner/work/Secure-vault/Secure-vault/app/build/intermediates/merged_manifest/release/processReleaseMainManifest/AndroidManifest.xml
+2026-11-06T13:55:58.2319764Z Resolve mutations for :app:processReleaseManifest (Thread[#61,Execution worker Thread 3,5,main]) started.
+2026-11-06T13:55:58.2320934Z :app:processReleaseManifest (Thread[#61,Execution worker Thread 3,5,main]) started.
+2026-11-06T13:55:58.2321577Z 
+2026-11-06T13:55:58.2321794Z > Task :app:processReleaseManifest
+2026-11-06T13:55:58.2322477Z Caching disabled for task ':app:processReleaseManifest' because:
+2026-11-06T13:55:58.2323109Z   Build cache is disabled
+2026-11-06T13:55:58.2323915Z Task ':app:processReleaseManifest' is not up-to-date because:
+2026-11-06T13:55:58.2324549Z   No history is available.
+2026-11-06T13:55:58.2325404Z Resolve mutations for :app:processReleaseManifestForPackage (Thread[#58,included builds,5,main]) started.
+2026-11-06T13:55:58.2326782Z :app:processReleaseManifestForPackage (Thread[#60,Execution worker Thread 2,5,main]) started.
+2026-11-06T13:55:58.2327899Z Resolve mutations for :app:extractProguardFiles (Thread[#61,Execution worker Thread 3,5,main]) started.
+2026-11-06T13:55:58.2328887Z :app:extractProguardFiles (Thread[#61,Execution worker Thread 3,5,main]) started.
+2026-11-06T13:55:58.3033084Z 
+2026-11-06T13:55:58.3112025Z > Task :app:extractProguardFiles
+2026-11-06T13:55:58.3144122Z Caching disabled for task ':app:extractProguardFiles' because:
+2026-11-06T13:55:58.3176414Z   Build cache is disabled
+2026-11-06T13:55:58.3176915Z   Fast task
+2026-11-06T13:55:58.3177452Z Task ':app:extractProguardFiles' is not up-to-date because:
+2026-11-06T13:55:58.3178129Z   No history is available.
+2026-11-06T13:55:58.3178983Z Resolve mutations for :app:mergeReleaseStartupProfile (Thread[#61,Execution worker Thread 3,5,main]) started.
+2026-11-06T13:55:58.3180193Z :app:mergeReleaseStartupProfile (Thread[#61,Execution worker Thread 3,5,main]) started.
+2026-11-06T13:55:58.3180816Z 
+2026-11-06T13:55:58.3181028Z > Task :app:mergeReleaseStartupProfile
+2026-11-06T13:55:58.3181761Z Caching disabled for task ':app:mergeReleaseStartupProfile' because:
+2026-11-06T13:55:58.3182452Z   Build cache is disabled
+2026-11-06T13:55:58.3182888Z   Simple merging task
+2026-11-06T13:55:58.3183452Z Task ':app:mergeReleaseStartupProfile' is not up-to-date because:
+2026-11-06T13:55:58.3184108Z   No history is available.
+2026-11-06T13:55:58.3186110Z Dex optimization based on startup profile is enabled, but there are no input baseline profiles found in the baselineProfiles sources. You should add /home/runner/work/Secure-vault/Secure-vault/app/src/main/baselineProfiles/startup-prof.txt, for instance.
+2026-11-06T13:55:58.3188276Z Resolve mutations for :app:generateReleaseAssets (Thread[#61,Execution worker Thread 3,5,main]) started.
+2026-11-06T13:55:58.3189449Z :app:generateReleaseAssets (Thread[#61,Execution worker Thread 3,5,main]) started.
+2026-11-06T13:55:58.3190044Z 
+2026-11-06T13:55:58.3190276Z > Task :app:generateReleaseAssets UP-TO-DATE
+2026-11-06T13:55:58.3191015Z Skipping task ':app:generateReleaseAssets' as it has no actions.
+2026-11-06T13:55:58.3192012Z Resolve mutations for :app:mergeReleaseAssets (Thread[#61,Execution worker Thread 3,5,main]) started.
+2026-11-06T13:55:58.3193004Z :app:mergeReleaseAssets (Thread[#61,Execution worker Thread 3,5,main]) started.
+2026-11-06T13:55:58.4045635Z 
+2026-11-06T13:55:58.4097236Z > Task :app:mergeReleaseAssets
+2026-11-06T13:55:58.4142884Z Caching disabled for task ':app:mergeReleaseAssets' because:
+2026-11-06T13:55:58.4143627Z   Build cache is disabled
+2026-11-06T13:55:58.4144065Z   Simple merging task
+2026-11-06T13:55:58.4144614Z Task ':app:mergeReleaseAssets' is not up-to-date because:
+2026-11-06T13:55:58.4145463Z   No history is available.
+2026-11-06T13:55:58.4176845Z The input changes require a full rebuild for incremental task ':app:mergeReleaseAssets'.
+2026-11-06T13:55:58.4178361Z Resolve mutations for :app:compressReleaseAssets (Thread[#61,Execution worker Thread 3,5,main]) started.
+2026-11-06T13:55:58.4206074Z :app:compressReleaseAssets (Thread[#61,Execution worker Thread 3,5,main]) started.
+2026-11-06T13:55:58.4236151Z 
+2026-11-06T13:55:58.4254563Z > Task :app:compressReleaseAssets
+2026-11-06T13:55:58.4255337Z Caching disabled for task ':app:compressReleaseAssets' because:
+2026-11-06T13:55:58.4256359Z   Build cache is disabled
+2026-11-06T13:55:58.4256963Z Task ':app:compressReleaseAssets' is not up-to-date because:
+2026-11-06T13:55:58.4257641Z   No history is available.
+2026-11-06T13:55:58.4258408Z The input changes require a full rebuild for incremental task ':app:compressReleaseAssets'.
+2026-11-06T13:55:58.4259070Z 
+2026-11-06T13:55:58.4259324Z > Task :app:processReleaseManifestForPackage
+2026-11-06T13:55:58.4260457Z Custom actions are attached to task ':app:processReleaseManifestForPackage'.
+2026-11-06T13:55:58.4261413Z Caching disabled for task ':app:processReleaseManifestForPackage' because:
+2026-11-06T13:55:58.4262147Z   Build cache is disabled
+2026-11-06T13:55:58.4262818Z Task ':app:processReleaseManifestForPackage' is not up-to-date because:
+2026-11-06T13:55:58.4263576Z   No history is available.
+2026-11-06T13:55:58.4264449Z Resolve mutations for :app:processReleaseResources (Thread[#60,Execution worker Thread 2,5,main]) started.
+2026-11-06T13:55:58.4265629Z :app:processReleaseResources (Thread[#60,Execution worker Thread 2,5,main]) started.
+2026-11-06T13:55:58.4266462Z 
+2026-11-06T13:55:58.4266681Z > Task :app:compileReleaseKotlin
+2026-11-06T13:55:58.4267516Z file or directory '/home/runner/work/Secure-vault/Secure-vault/app/src/main/kotlin', not found
+2026-11-06T13:55:58.4268664Z file or directory '/home/runner/work/Secure-vault/Secure-vault/app/src/release/java', not found
+2026-11-06T13:55:58.4269859Z file or directory '/home/runner/work/Secure-vault/Secure-vault/app/src/release/kotlin', not found
+2026-11-06T13:55:58.4271005Z file or directory '/home/runner/work/Secure-vault/Secure-vault/app/src/release/java', not found
+2026-11-06T13:55:58.4272110Z file or directory '/home/runner/work/Secure-vault/Secure-vault/app/src/main/kotlin', not found
+2026-11-06T13:55:58.4273217Z file or directory '/home/runner/work/Secure-vault/Secure-vault/app/src/release/java', not found
+2026-11-06T13:55:58.4274334Z file or directory '/home/runner/work/Secure-vault/Secure-vault/app/src/release/kotlin', not found
+2026-11-06T13:55:58.4275441Z file or directory '/home/runner/work/Secure-vault/Secure-vault/app/src/release/java', not found
+2026-11-06T13:55:58.4286944Z Adding -Xuse-inline-scopes-numbers Kotlin compiler flag for task :app:compileDebugKotlin
+2026-11-06T13:55:58.4288112Z file or directory '/home/runner/work/Secure-vault/Secure-vault/app/src/main/kotlin', not found
+2026-11-06T13:55:58.4289300Z file or directory '/home/runner/work/Secure-vault/Secure-vault/app/src/release/java', not found
+2026-11-06T13:55:58.4290464Z file or directory '/home/runner/work/Secure-vault/Secure-vault/app/src/release/kotlin', not found
+2026-11-06T13:55:58.4291586Z file or directory '/home/runner/work/Secure-vault/Secure-vault/app/src/release/java', not found
+2026-11-06T13:55:58.4292596Z Custom actions are attached to task ':app:compileReleaseKotlin'.
+2026-11-06T13:55:58.4293418Z Caching disabled for task ':app:compileReleaseKotlin' because:
+2026-11-06T13:55:58.4294068Z   Build cache is disabled
+2026-11-06T13:55:58.4294645Z Task ':app:compileReleaseKotlin' is not up-to-date because:
+2026-11-06T13:55:58.4295284Z   No history is available.
+2026-11-06T13:55:58.4326427Z The input changes require a full rebuild for incremental task ':app:compileReleaseKotlin'.
+2026-11-06T13:55:58.4327672Z file or directory '/home/runner/work/Secure-vault/Secure-vault/app/src/main/kotlin', not found
+2026-11-06T13:55:58.4328852Z file or directory '/home/runner/work/Secure-vault/Secure-vault/app/src/main/kotlin', not found
+2026-11-06T13:55:58.4330070Z file or directory '/home/runner/work/Secure-vault/Secure-vault/app/src/release/java', not found
+2026-11-06T13:55:58.4331267Z file or directory '/home/runner/work/Secure-vault/Secure-vault/app/src/release/java', not found
+2026-11-06T13:55:58.4332816Z file or directory '/home/runner/work/Secure-vault/Secure-vault/app/src/release/kotlin', not found
+2026-11-06T13:55:58.4334115Z file or directory '/home/runner/work/Secure-vault/Secure-vault/app/src/release/kotlin', not found
+2026-11-06T13:55:58.4335306Z file or directory '/home/runner/work/Secure-vault/Secure-vault/app/src/release/java', not found
+2026-11-06T13:55:58.4336611Z file or directory '/home/runner/work/Secure-vault/Secure-vault/app/src/release/java', not found
+2026-11-06T13:55:58.4337719Z file or directory '/home/runner/work/Secure-vault/Secure-vault/app/src/main/kotlin', not found
+2026-11-06T13:55:58.4338850Z file or directory '/home/runner/work/Secure-vault/Secure-vault/app/src/release/java', not found
+2026-11-06T13:55:58.4350168Z file or directory '/home/runner/work/Secure-vault/Secure-vault/app/src/release/kotlin', not found
+2026-11-06T13:55:58.4351352Z file or directory '/home/runner/work/Secure-vault/Secure-vault/app/src/release/java', not found
+2026-11-06T13:55:58.4352501Z file or directory '/home/runner/work/Secure-vault/Secure-vault/app/src/main/kotlin', not found
+2026-11-06T13:55:58.4353651Z file or directory '/home/runner/work/Secure-vault/Secure-vault/app/src/main/kotlin', not found
+2026-11-06T13:55:58.4354813Z file or directory '/home/runner/work/Secure-vault/Secure-vault/app/src/release/java', not found
+2026-11-06T13:55:58.4356123Z file or directory '/home/runner/work/Secure-vault/Secure-vault/app/src/release/java', not found
+2026-11-06T13:55:58.4357291Z file or directory '/home/runner/work/Secure-vault/Secure-vault/app/src/release/kotlin', not found
+2026-11-06T13:55:58.4358448Z file or directory '/home/runner/work/Secure-vault/Secure-vault/app/src/release/kotlin', not found
+2026-11-06T13:55:58.4359609Z file or directory '/home/runner/work/Secure-vault/Secure-vault/app/src/release/java', not found
+2026-11-06T13:55:58.4360747Z file or directory '/home/runner/work/Secure-vault/Secure-vault/app/src/release/java', not found
+2026-11-06T13:55:58.4361895Z file or directory '/home/runner/work/Secure-vault/Secure-vault/app/src/main/kotlin', not found
+2026-11-06T13:55:58.4363007Z file or directory '/home/runner/work/Secure-vault/Secure-vault/app/src/main/kotlin', not found
+2026-11-06T13:55:58.4364132Z file or directory '/home/runner/work/Secure-vault/Secure-vault/app/src/release/java', not found
+2026-11-06T13:55:58.4365290Z file or directory '/home/runner/work/Secure-vault/Secure-vault/app/src/release/java', not found
+2026-11-06T13:55:58.4366619Z file or directory '/home/runner/work/Secure-vault/Secure-vault/app/src/release/kotlin', not found
+2026-11-06T13:55:58.4367790Z file or directory '/home/runner/work/Secure-vault/Secure-vault/app/src/release/kotlin', not found
+2026-11-06T13:55:58.4368987Z file or directory '/home/runner/work/Secure-vault/Secure-vault/app/src/release/java', not found
+2026-11-06T13:55:58.4370201Z file or directory '/home/runner/work/Secure-vault/Secure-vault/app/src/release/java', not found
+2026-11-06T13:55:58.4371383Z file or directory '/home/runner/work/Secure-vault/Secure-vault/app/src/main/kotlin', not found
+2026-11-06T13:55:58.4372538Z file or directory '/home/runner/work/Secure-vault/Secure-vault/app/src/main/kotlin', not found
+2026-11-06T13:55:58.4373665Z file or directory '/home/runner/work/Secure-vault/Secure-vault/app/src/release/java', not found
+2026-11-06T13:55:58.4374811Z file or directory '/home/runner/work/Secure-vault/Secure-vault/app/src/release/java', not found
+2026-11-06T13:55:58.4406309Z file or directory '/home/runner/work/Secure-vault/Secure-vault/app/src/release/kotlin', not found
+2026-11-06T13:55:58.4407615Z file or directory '/home/runner/work/Secure-vault/Secure-vault/app/src/release/kotlin', not found
+2026-11-06T13:55:58.4408884Z file or directory '/home/runner/work/Secure-vault/Secure-vault/app/src/release/java', not found
+2026-11-06T13:55:58.4410047Z file or directory '/home/runner/work/Secure-vault/Secure-vault/app/src/release/java', not found
+2026-11-06T13:55:58.4426555Z Kotlin source files: /home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/MyApplication.kt, /home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/viewmodel/KeePassViewModel.kt, /home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/MoveItemDialog.kt, /home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt, /home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AboutScreen.kt, /home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddGroupScreen.kt, /home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/BiometricHelper.kt, /home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddNoteScreen.kt, /home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ColorfulLoadingIndicator.kt, /home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AuthScreen.kt, /home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/TemplatesScreen.kt, /home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/SettingsScreen.kt, /home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/theme/Color.kt, /home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/theme/Type.kt, /home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/theme/Theme.kt, /home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AppNavigation.kt, /home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/CreateDatabaseScreen.kt, /home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/SecureScreen.kt, /home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt, /home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt, /home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/MainActivity.kt, /home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/GlobalExceptionHandler.kt, /home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/data/KeePassHelper.kt, /home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/data/OtpHelper.kt, /home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/data/SettingsRepository.kt, /home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/data/CryptoHelper.kt
+2026-11-06T13:55:58.4473993Z Java source files: /home/runner/work/Secure-vault/Secure-vault/app/build/generated/source/buildConfig/release/com/aistudio/vault/BuildConfig.java
+2026-11-06T13:55:58.4475214Z Script source files: 
+2026-11-06T13:55:58.4475839Z Script file extensions: 
+2026-11-06T13:55:58.4476341Z Using Kotlin/JVM incremental compilation
+2026-11-06T13:55:58.4477167Z [KOTLIN] Kotlin compilation 'jdkHome' argument: /usr/lib/jvm/temurin-21-jdk-amd64
+2026-11-06T13:55:58.5076466Z 
+2026-11-06T13:55:58.5107323Z Resolve mutations for :app:extractReleaseVersionControlInfo (Thread[#58,included builds,5,main]) started.
+2026-11-06T13:55:58.5118824Z :app:extractReleaseVersionControlInfo (Thread[#58,included builds,5,main]) started.
+2026-11-06T13:55:58.6059373Z 
+2026-11-06T13:55:58.6096881Z > Task :app:extractReleaseVersionControlInfo
+2026-11-06T13:55:58.6114568Z Caching disabled for task ':app:extractReleaseVersionControlInfo' because:
+2026-11-06T13:55:58.6157735Z   Build cache is disabled
+2026-11-06T13:55:58.6186307Z   Caching has been disabled for the task
+2026-11-06T13:55:58.6236542Z Task ':app:extractReleaseVersionControlInfo' is not up-to-date because:
+2026-11-06T13:55:58.6256197Z   No history is available.
+2026-11-06T13:55:58.6312629Z Resolve mutations for :app:collectReleaseDependencies (Thread[#61,Execution worker Thread 3,5,main]) started.
+2026-11-06T13:55:58.6356738Z :app:collectReleaseDependencies (Thread[#61,Execution worker Thread 3,5,main]) started.
+2026-11-06T13:55:58.9053074Z 
+2026-11-06T13:55:58.9098759Z > Task :app:collectReleaseDependencies
+2026-11-06T13:55:58.9186723Z Caching disabled for task ':app:collectReleaseDependencies' because:
+2026-11-06T13:55:58.9199268Z   Build cache is disabled
+2026-11-06T13:55:58.9216272Z   Caching has been disabled for the task
+2026-11-06T13:55:58.9246529Z Task ':app:collectReleaseDependencies' is not up-to-date because:
+2026-11-06T13:55:58.9280076Z   No history is available.
+2026-11-06T13:55:58.9299071Z Resolve mutations for :app:sdkReleaseDependencyData (Thread[#61,Execution worker Thread 3,5,main]) started.
+2026-11-06T13:55:58.9320579Z :app:sdkReleaseDependencyData (Thread[#61,Execution worker Thread 3,5,main]) started.
+2026-11-06T13:55:59.2036816Z 
+2026-11-06T13:55:59.2057584Z > Task :app:sdkReleaseDependencyData
+2026-11-06T13:55:59.2126747Z Caching disabled for task ':app:sdkReleaseDependencyData' because:
+2026-11-06T13:55:59.2156277Z   Build cache is disabled
+2026-11-06T13:55:59.2173220Z   Caching has been disabled for the task
+2026-11-06T13:55:59.2239530Z Task ':app:sdkReleaseDependencyData' is not up-to-date because:
+2026-11-06T13:55:59.2276818Z   No history is available.
+2026-11-06T13:55:59.2283554Z Resolve mutations for :app:validateSigningRelease (Thread[#58,included builds,5,main]) started.
+2026-11-06T13:55:59.2285334Z :app:validateSigningRelease (Thread[#61,Execution worker Thread 3,5,main]) started.
+2026-11-06T13:55:59.3036315Z 
+2026-11-06T13:55:59.3056649Z > Task :app:validateSigningRelease
+2026-11-06T13:55:59.3057471Z Caching disabled for task ':app:validateSigningRelease' because:
+2026-11-06T13:55:59.3058210Z   Build cache is disabled
+2026-11-06T13:55:59.3058711Z   Caching has been disabled for the task
+2026-11-06T13:55:59.3059406Z Task ':app:validateSigningRelease' is not up-to-date because:
+2026-11-06T13:55:59.3060123Z   No history is available.
+2026-11-06T13:55:59.3061015Z Resolve mutations for :app:writeReleaseAppMetadata (Thread[#61,Execution worker Thread 3,5,main]) started.
+2026-11-06T13:55:59.3062255Z :app:writeReleaseAppMetadata (Thread[#61,Execution worker Thread 3,5,main]) started.
+2026-11-06T13:55:59.3062896Z 
+2026-11-06T13:55:59.3063114Z > Task :app:writeReleaseAppMetadata
+2026-11-06T13:55:59.3063834Z Caching disabled for task ':app:writeReleaseAppMetadata' because:
+2026-11-06T13:55:59.3064538Z   Build cache is disabled
+2026-11-06T13:55:59.3065020Z   Caching has been disabled for the task
+2026-11-06T13:55:59.3065868Z Task ':app:writeReleaseAppMetadata' is not up-to-date because:
+2026-11-06T13:55:59.3066543Z   No history is available.
+2026-11-06T13:55:59.3067526Z Resolve mutations for :app:writeReleaseSigningConfigVersions (Thread[#61,Execution worker Thread 3,5,main]) started.
+2026-11-06T13:55:59.3068917Z :app:writeReleaseSigningConfigVersions (Thread[#61,Execution worker Thread 3,5,main]) started.
+2026-11-06T13:55:59.3069646Z 
+2026-11-06T13:55:59.3069905Z > Task :app:writeReleaseSigningConfigVersions
+2026-11-06T13:55:59.3070745Z Caching disabled for task ':app:writeReleaseSigningConfigVersions' because:
+2026-11-06T13:55:59.3071518Z   Build cache is disabled
+2026-11-06T13:55:59.3072015Z   Caching has been disabled for the task
+2026-11-06T13:55:59.3072787Z Task ':app:writeReleaseSigningConfigVersions' is not up-to-date because:
+2026-11-06T13:55:59.3073554Z   No history is available.
+2026-11-06T13:55:59.5031833Z 
+2026-11-06T13:55:59.5032872Z > Task :app:processReleaseResources
+2026-11-06T13:55:59.5034188Z Caching disabled for task ':app:processReleaseResources' because:
+2026-11-06T13:55:59.5035234Z   Build cache is disabled
+2026-11-06T13:55:59.5036111Z Task ':app:processReleaseResources' is not up-to-date because:
+2026-11-06T13:55:59.5036796Z   No history is available.
+2026-11-06T13:55:59.5037521Z The input changes require a full rebuild for incremental task ':app:processReleaseResources'.
+2026-11-06T13:55:59.5038488Z AAPT2 aapt2-9.1.1-14792394-linux Daemon #0: starting
+2026-11-06T13:55:59.5040167Z Aapt output file /home/runner/work/Secure-vault/Secure-vault/app/build/intermediates/linked_resources_proto_format/release/processReleaseResources/linked-resources-proto-format-release.ap_
+2026-11-06T13:56:09.4036312Z 
+2026-11-06T13:56:09.4038047Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:149:33 Unresolved reference 'Scan'.
+2026-11-06T13:56:09.4039883Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:151:36 Unresolved reference 'Barcode'.
+2026-11-06T13:56:09.4041251Z > Task :app:compileReleaseKotlin FAILED
+2026-11-06T13:56:09.4042868Z Finished executing kotlin compiler using IN_PROCESS strategy
+2026-11-06T13:56:09.4046610Z AAPT2 aapt2-9.1.1-14792394-linux Daemon #0: shutdown
+2026-11-06T13:56:09.4060737Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:155:34 Unresolved reference 'Video'.
+2026-11-06T13:56:09.4065001Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:162:35 Unresolved reference 'SignalWifi'.
+2026-11-06T13:56:09.4067657Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:273:59 @Composable invocations can only happen from the context of a @Composable function
+2026-11-06T13:56:09.4070314Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:279:59 @Composable invocations can only happen from the context of a @Composable function
+2026-11-06T13:56:09.5060068Z 
+2026-11-06T13:56:09.5061251Z gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__run_5-1793973346219.json
+2026-11-06T13:56:09.5063223Z FAILURE: Build failed with an exception.
+2026-11-06T13:56:09.5091629Z Build 33409706-9876-4724-82c6-687fb58efad1 is closed
+2026-11-06T13:56:09.5092382Z 
+2026-11-06T13:56:09.5092605Z 
+2026-11-06T13:56:09.5092952Z * What went wrong:
+2026-11-06T13:56:09.5094243Z [Incubating] Problems report is available at: file:///home/runner/work/Secure-vault/Secure-vault/build/reports/problems/problems-report.html
+2026-11-06T13:56:09.5096295Z Execution failed for task ':app:compileReleaseKotlin' (registered by plugin 'com.android.internal.application').
+2026-11-06T13:56:09.5097360Z 
+2026-11-06T13:56:09.5098446Z > A failure occurred while executing org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction
+2026-11-06T13:56:09.5100167Z Deprecated Gradle features were used in this build, making it incompatible with Gradle 10.
+2026-11-06T13:56:09.5101217Z    > Compilation error. See log for more details
+2026-11-06T13:56:09.5101783Z 
+2026-11-06T13:56:09.5101946Z 
+2026-11-06T13:56:09.5102862Z You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+2026-11-06T13:56:09.5104115Z * Try:
+2026-11-06T13:56:09.5104503Z 
+2026-11-06T13:56:09.5104924Z > Run with --debug option to get more log output.
+2026-11-06T13:56:09.5108195Z For more on this, please refer to https://docs.gradle.org/9.8.2/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+2026-11-06T13:56:09.5109927Z > Run with --scan to get full insights from a Build Scan (powered by Develocity).
+2026-11-06T13:56:09.5110950Z 34 actionable tasks: 34 executed
+2026-11-06T13:56:09.5111780Z > Get more help at https://help.gradle.org.
+2026-11-06T13:56:09.5116382Z 
+2026-11-06T13:56:09.5116861Z * Exception is:
+2026-11-06T13:56:09.5118328Z org.gradle.api.tasks.TaskExecutionException: Execution failed for task ':app:compileReleaseKotlin' (registered by plugin 'com.android.internal.application').
+2026-11-06T13:56:09.5120487Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor.lambda$doExecute$1(DefaultTaskNodeExecutor.java:367)
+2026-11-06T13:56:09.5122082Z 	at org.gradle.internal.Try$Failure.ifSuccessfulOrElse(Try.java:288)
+2026-11-06T13:56:09.5123580Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor.doExecute(DefaultTaskNodeExecutor.java:365)
+2026-11-06T13:56:09.5125584Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor.executeTrackingTaskIdentity(DefaultTaskNodeExecutor.java:332)
+2026-11-06T13:56:09.5128354Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor.executeFinalizingProperties(DefaultTaskNodeExecutor.java:318)
+2026-11-06T13:56:09.5130581Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor.executeSkippingWithNoActions(DefaultTaskNodeExecutor.java:289)
+2026-11-06T13:56:09.5132772Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor.executeSkippingOnlyIf(DefaultTaskNodeExecutor.java:272)
+2026-11-06T13:56:09.5134918Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor.executeCatchingFailures(DefaultTaskNodeExecutor.java:228)
+2026-11-06T13:56:09.5137351Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor.executeWithFallbackOperationId(DefaultTaskNodeExecutor.java:197)
+2026-11-06T13:56:09.5139817Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor.executeWithLifecycle(DefaultTaskNodeExecutor.java:171)
+2026-11-06T13:56:09.5141792Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor.access$000(DefaultTaskNodeExecutor.java:67)
+2026-11-06T13:56:09.5143620Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor$1.run(DefaultTaskNodeExecutor.java:136)
+2026-11-06T13:56:09.5145394Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner$1.execute(DefaultBuildOperationRunner.java:30)
+2026-11-06T13:56:09.5147384Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner$1.execute(DefaultBuildOperationRunner.java:27)
+2026-11-06T13:56:09.5149157Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:67)
+2026-11-06T13:56:09.5150916Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:60)
+2026-11-06T13:56:09.5152696Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:167)
+2026-11-06T13:56:09.5154498Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:60)
+2026-11-06T13:56:09.5156450Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner.run(DefaultBuildOperationRunner.java:48)
+2026-11-06T13:56:09.5162893Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor.execute(DefaultTaskNodeExecutor.java:133)
+2026-11-06T13:56:09.5164516Z 	at org.gradle.execution.plan.LocalTaskNode.execute(LocalTaskNode.java:229)
+2026-11-06T13:56:09.5166157Z 	at org.gradle.execution.DefaultBuildWorkExecutor.lambda$executePlan$0(DefaultBuildWorkExecutor.java:153)
+2026-11-06T13:56:09.5168694Z 	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.lambda$execute$0(DefaultPlanExecutor.java:476)
+2026-11-06T13:56:09.5170442Z 	at org.gradle.internal.operations.CurrentBuildOperationRef.with(CurrentBuildOperationRef.java:85)
+2026-11-06T13:56:09.5172135Z 	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.execute(DefaultPlanExecutor.java:475)
+2026-11-06T13:56:09.5173800Z 	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.run(DefaultPlanExecutor.java:392)
+2026-11-06T13:56:09.5175478Z 	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:65)
+2026-11-06T13:56:09.5177420Z 	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+2026-11-06T13:56:09.5179892Z Caused by: org.gradle.workers.internal.DefaultWorkerExecutor$WorkExecutionException: A failure occurred while executing org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction
+2026-11-06T13:56:09.5182600Z 	at org.gradle.workers.internal.DefaultWorkerExecutor$WorkItemExecution.waitForCompletion(DefaultWorkerExecutor.java:273)
+2026-11-06T13:56:09.5184650Z 	at org.gradle.internal.work.DefaultAsyncWorkTracker.lambda$waitForItemsAndGatherFailures$2(DefaultAsyncWorkTracker.java:132)
+2026-11-06T13:56:09.5186374Z 	at org.gradle.internal.Factories$1.create(Factories.java:30)
+2026-11-06T13:56:09.5187657Z 	at org.gradle.internal.work.DefaultWorkerLeaseService.lambda$withoutLocksBlocking$0(DefaultWorkerLeaseService.java:406)
+2026-11-06T13:56:09.5189381Z 	at org.gradle.internal.work.ResourceLockStatistics$1.measure(ResourceLockStatistics.java:43)
+2026-11-06T13:56:09.5191058Z 	at org.gradle.internal.work.DefaultWorkerLeaseService.withoutLocksBlocking(DefaultWorkerLeaseService.java:401)
+2026-11-06T13:56:09.5193333Z 	at org.gradle.internal.work.DefaultWorkerLeaseService.blocking(DefaultWorkerLeaseService.java:261)
+2026-11-06T13:56:09.5195025Z 	at org.gradle.internal.work.DefaultWorkerLeaseService.blocking(DefaultWorkerLeaseService.java:243)
+2026-11-06T13:56:09.5197084Z 	at org.gradle.internal.work.DefaultAsyncWorkTracker.lambda$waitForItemsAndGatherFailures$1(DefaultAsyncWorkTracker.java:128)
+2026-11-06T13:56:09.5198888Z 	at org.gradle.internal.Factories$1.create(Factories.java:30)
+2026-11-06T13:56:09.5200622Z 	at org.gradle.internal.resources.AbstractResourceLockRegistry.whileDisallowingLockChanges(AbstractResourceLockRegistry.java:51)
+2026-11-06T13:56:09.5207447Z 	at org.gradle.internal.work.DefaultWorkerLeaseService.whileDisallowingProjectLockChanges(DefaultWorkerLeaseService.java:266)
+2026-11-06T13:56:09.5209629Z 	at org.gradle.internal.work.DefaultAsyncWorkTracker.waitForItemsAndGatherFailures(DefaultAsyncWorkTracker.java:127)
+2026-11-06T13:56:09.5211606Z 	at org.gradle.internal.work.DefaultAsyncWorkTracker.waitForItemsAndGatherFailures(DefaultAsyncWorkTracker.java:93)
+2026-11-06T13:56:09.5213407Z 	at org.gradle.internal.work.DefaultAsyncWorkTracker.waitForAll(DefaultAsyncWorkTracker.java:79)
+2026-11-06T13:56:09.5215117Z 	at org.gradle.internal.work.DefaultAsyncWorkTracker.waitForCompletion(DefaultAsyncWorkTracker.java:67)
+2026-11-06T13:56:09.5216873Z 	at org.gradle.api.internal.tasks.execution.TaskExecution$3.run(TaskExecution.java:276)
+2026-11-06T13:56:09.5218483Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner$1.execute(DefaultBuildOperationRunner.java:30)
+2026-11-06T13:56:09.5220292Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner$1.execute(DefaultBuildOperationRunner.java:27)
+2026-11-06T13:56:09.5222109Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:67)
+2026-11-06T13:56:09.5223922Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:60)
+2026-11-06T13:56:09.5232927Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:167)
+2026-11-06T13:56:09.5234806Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:60)
+2026-11-06T13:56:09.5236801Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner.run(DefaultBuildOperationRunner.java:48)
+2026-11-06T13:56:09.5238467Z 	at org.gradle.api.internal.tasks.execution.TaskExecution.executeAction(TaskExecution.java:253)
+2026-11-06T13:56:09.5240030Z 	at org.gradle.api.internal.tasks.execution.TaskExecution.executeActions(TaskExecution.java:236)
+2026-11-06T13:56:09.5264177Z 	at org.gradle.api.internal.tasks.execution.TaskExecution.executeWithPreviousOutputFiles(TaskExecution.java:219)
+2026-11-06T13:56:09.5282882Z 	at org.gradle.api.internal.tasks.execution.TaskExecution.execute(TaskExecution.java:185)
+2026-11-06T13:56:09.5289176Z 	at org.gradle.internal.execution.steps.ExecuteStep.executeInternal(ExecuteStep.java:167)
+2026-11-06T13:56:09.5291223Z 	at org.gradle.internal.execution.steps.ExecuteStep.access$000(ExecuteStep.java:47)
+2026-11-06T13:56:09.5293151Z 	at org.gradle.internal.execution.steps.ExecuteStep$1.call(ExecuteStep.java:137)
+2026-11-06T13:56:09.5299706Z 	at org.gradle.internal.execution.steps.ExecuteStep$1.call(ExecuteStep.java:134)
+2026-11-06T13:56:09.5301645Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:210)
+2026-11-06T13:56:09.5303890Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:205)
+2026-11-06T13:56:09.5306348Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:67)
+2026-11-06T13:56:09.5308095Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:60)
+2026-11-06T13:56:09.5309832Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:167)
+2026-11-06T13:56:09.5311572Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:60)
+2026-11-06T13:56:09.5313302Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:54)
+2026-11-06T13:56:09.5314815Z 	at org.gradle.internal.execution.steps.ExecuteStep.execute(ExecuteStep.java:134)
+2026-11-06T13:56:09.5316526Z 	at org.gradle.internal.execution.steps.ExecuteStep$Mutable.execute(ExecuteStep.java:80)
+2026-11-06T13:56:09.5317995Z 	at org.gradle.internal.execution.steps.CancelExecutionStep.execute(CancelExecutionStep.java:42)
+2026-11-06T13:56:09.5319553Z 	at org.gradle.internal.execution.steps.TimeoutStep.executeWithoutTimeout(TimeoutStep.java:75)
+2026-11-06T13:56:09.5330693Z 	at org.gradle.internal.execution.steps.TimeoutStep.execute(TimeoutStep.java:55)
+2026-11-06T13:56:09.5332321Z 	at org.gradle.internal.execution.steps.PreCreateOutputParentsStep.execute(PreCreateOutputParentsStep.java:51)
+2026-11-06T13:56:09.5334222Z 	at org.gradle.internal.execution.steps.PreCreateOutputParentsStep.execute(PreCreateOutputParentsStep.java:29)
+2026-11-06T13:56:09.5336295Z 	at org.gradle.internal.execution.steps.RemovePreviousOutputsStep.executeMutable(RemovePreviousOutputsStep.java:67)
+2026-11-06T13:56:09.5338377Z 	at org.gradle.internal.execution.steps.RemovePreviousOutputsStep.executeMutable(RemovePreviousOutputsStep.java:39)
+2026-11-06T13:56:09.5339867Z 	at org.gradle.internal.execution.steps.MutableStep.execute(MutableStep.java:26)
+2026-11-06T13:56:09.5341269Z 	at org.gradle.internal.execution.steps.BroadcastChangingOutputsStep.execute(BroadcastChangingOutputsStep.java:42)
+2026-11-06T13:56:09.5343118Z 	at org.gradle.internal.execution.steps.BroadcastChangingOutputsStep.execute(BroadcastChangingOutputsStep.java:24)
+2026-11-06T13:56:09.5344858Z 	at org.gradle.internal.execution.steps.CaptureOutputsAfterExecutionStep.execute(CaptureOutputsAfterExecutionStep.java:69)
+2026-11-06T13:56:09.5346906Z 	at org.gradle.internal.execution.steps.CaptureOutputsAfterExecutionStep.execute(CaptureOutputsAfterExecutionStep.java:46)
+2026-11-06T13:56:09.5348629Z 	at org.gradle.internal.execution.steps.ResolveInputChangesStep.executeMutable(ResolveInputChangesStep.java:39)
+2026-11-06T13:56:09.5350286Z 	at org.gradle.internal.execution.steps.ResolveInputChangesStep.executeMutable(ResolveInputChangesStep.java:28)
+2026-11-06T13:56:09.5351696Z 	at org.gradle.internal.execution.steps.MutableStep.execute(MutableStep.java:26)
+2026-11-06T13:56:09.5352962Z 	at org.gradle.internal.execution.steps.BuildCacheStep.executeWithoutCache(BuildCacheStep.java:189)
+2026-11-06T13:56:09.5354330Z 	at org.gradle.internal.execution.steps.BuildCacheStep.lambda$execute$1(BuildCacheStep.java:76)
+2026-11-06T13:56:09.5355400Z 	at org.gradle.internal.Either$Right.fold(Either.java:176)
+2026-11-06T13:56:09.5357128Z 	at org.gradle.internal.execution.caching.CachingState.fold(CachingState.java:62)
+2026-11-06T13:56:09.5358362Z 	at org.gradle.internal.execution.steps.BuildCacheStep.execute(BuildCacheStep.java:74)
+2026-11-06T13:56:09.5359565Z 	at org.gradle.internal.execution.steps.BuildCacheStep.execute(BuildCacheStep.java:49)
+2026-11-06T13:56:09.5360998Z 	at org.gradle.internal.execution.steps.StoreExecutionStateStep.executeMutable(StoreExecutionStateStep.java:46)
+2026-11-06T13:56:09.5362683Z 	at org.gradle.internal.execution.steps.StoreExecutionStateStep.executeMutable(StoreExecutionStateStep.java:35)
+2026-11-06T13:56:09.5364110Z 	at org.gradle.internal.execution.steps.MutableStep.execute(MutableStep.java:26)
+2026-11-06T13:56:09.5365383Z 	at org.gradle.internal.execution.steps.SkipUpToDateStep.executeBecause(SkipUpToDateStep.java:75)
+2026-11-06T13:56:09.5371839Z 	at org.gradle.internal.execution.steps.SkipUpToDateStep.lambda$execute$2(SkipUpToDateStep.java:53)
+2026-11-06T13:56:09.5373376Z 	at org.gradle.internal.execution.steps.SkipUpToDateStep.execute(SkipUpToDateStep.java:53)
+2026-11-06T13:56:09.5374656Z 	at org.gradle.internal.execution.steps.SkipUpToDateStep.execute(SkipUpToDateStep.java:35)
+2026-11-06T13:56:09.5384755Z 	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsFinishedStep.execute(MarkSnapshottingInputsFinishedStep.java:37)
+2026-11-06T13:56:09.5395226Z 	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsFinishedStep.execute(MarkSnapshottingInputsFinishedStep.java:27)
+2026-11-06T13:56:09.5397648Z 	at org.gradle.internal.execution.steps.ResolveMutableCachingStateStep.executeDelegate(ResolveMutableCachingStateStep.java:70)
+2026-11-06T13:56:09.5399543Z 	at org.gradle.internal.execution.steps.ResolveMutableCachingStateStep.executeDelegate(ResolveMutableCachingStateStep.java:32)
+2026-11-06T13:56:09.5401398Z 	at org.gradle.internal.execution.steps.AbstractResolveCachingStateStep.execute(AbstractResolveCachingStateStep.java:69)
+2026-11-06T13:56:09.5403184Z 	at org.gradle.internal.execution.steps.AbstractResolveCachingStateStep.execute(AbstractResolveCachingStateStep.java:37)
+2026-11-06T13:56:09.5404810Z 	at org.gradle.internal.execution.steps.ResolveChangesStep.executeMutable(ResolveChangesStep.java:63)
+2026-11-06T13:56:09.5412544Z 	at org.gradle.internal.execution.steps.ResolveChangesStep.executeMutable(ResolveChangesStep.java:34)
+2026-11-06T13:56:09.5413941Z 	at org.gradle.internal.execution.steps.MutableStep.execute(MutableStep.java:26)
+2026-11-06T13:56:09.5415236Z 	at org.gradle.internal.execution.steps.ValidateStep$Mutable.executeDelegate(ValidateStep.java:79)
+2026-11-06T13:56:09.5416871Z 	at org.gradle.internal.execution.steps.ValidateStep$Mutable.executeDelegate(ValidateStep.java:65)
+2026-11-06T13:56:09.5418176Z 	at org.gradle.internal.execution.steps.ValidateStep.execute(ValidateStep.java:105)
+2026-11-06T13:56:09.5419399Z 	at org.gradle.internal.execution.steps.ValidateStep$Mutable.execute(ValidateStep.java:65)
+2026-11-06T13:56:09.5421120Z 	at org.gradle.internal.execution.steps.CaptureMutableStateBeforeExecutionStep.executeMutable(CaptureMutableStateBeforeExecutionStep.java:86)
+2026-11-06T13:56:09.5423242Z 	at org.gradle.internal.execution.steps.CaptureMutableStateBeforeExecutionStep.execute(CaptureMutableStateBeforeExecutionStep.java:65)
+2026-11-06T13:56:09.5425345Z 	at org.gradle.internal.execution.steps.CaptureMutableStateBeforeExecutionStep.execute(CaptureMutableStateBeforeExecutionStep.java:45)
+2026-11-06T13:56:09.5428081Z 	at org.gradle.internal.execution.steps.SkipEmptyMutableWorkStep.executeWithNonEmptySources(SkipEmptyMutableWorkStep.java:210)
+2026-11-06T13:56:09.5429903Z 	at org.gradle.internal.execution.steps.SkipEmptyMutableWorkStep.executeMutable(SkipEmptyMutableWorkStep.java:90)
+2026-11-06T13:56:09.5431561Z 	at org.gradle.internal.execution.steps.SkipEmptyMutableWorkStep.executeMutable(SkipEmptyMutableWorkStep.java:53)
+2026-11-06T13:56:09.5432982Z 	at org.gradle.internal.execution.steps.MutableStep.execute(MutableStep.java:26)
+2026-11-06T13:56:09.5434530Z 	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsStartedStep.execute(MarkSnapshottingInputsStartedStep.java:38)
+2026-11-06T13:56:09.5436666Z 	at org.gradle.internal.execution.steps.LoadPreviousExecutionStateStep.executeMutable(LoadPreviousExecutionStateStep.java:36)
+2026-11-06T13:56:09.5438558Z 	at org.gradle.internal.execution.steps.LoadPreviousExecutionStateStep.executeMutable(LoadPreviousExecutionStateStep.java:23)
+2026-11-06T13:56:09.5440053Z 	at org.gradle.internal.execution.steps.MutableStep.execute(MutableStep.java:26)
+2026-11-06T13:56:09.5441441Z 	at org.gradle.internal.execution.steps.HandleStaleOutputsStep.executeMutable(HandleStaleOutputsStep.java:77)
+2026-11-06T13:56:09.5443063Z 	at org.gradle.internal.execution.steps.HandleStaleOutputsStep.executeMutable(HandleStaleOutputsStep.java:43)
+2026-11-06T13:56:09.5444728Z 	at org.gradle.internal.execution.steps.MutableStep.execute(MutableStep.java:26)
+2026-11-06T13:56:09.5446452Z 	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.lambda$executeMutable$0(AssignMutableWorkspaceStep.java:34)
+2026-11-06T13:56:09.5448047Z 	at org.gradle.api.internal.tasks.execution.TaskExecution$4.withWorkspace(TaskExecution.java:314)
+2026-11-06T13:56:09.5449587Z 	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.executeMutable(AssignMutableWorkspaceStep.java:30)
+2026-11-06T13:56:09.5451346Z 	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.executeMutable(AssignMutableWorkspaceStep.java:21)
+2026-11-06T13:56:09.5453090Z 	at org.gradle.internal.execution.steps.MutableStep.execute(MutableStep.java:26)
+2026-11-06T13:56:09.5454363Z 	at org.gradle.internal.execution.steps.ChoosePipelineStep.execute(ChoosePipelineStep.java:40)
+2026-11-06T13:56:09.5455918Z 	at org.gradle.internal.execution.steps.ChoosePipelineStep.execute(ChoosePipelineStep.java:23)
+2026-11-06T13:56:09.5457644Z 	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.lambda$execute$2(ExecuteWorkBuildOperationFiringStep.java:67)
+2026-11-06T13:56:09.5459641Z 	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.execute(ExecuteWorkBuildOperationFiringStep.java:67)
+2026-11-06T13:56:09.5461600Z 	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.execute(ExecuteWorkBuildOperationFiringStep.java:39)
+2026-11-06T13:56:09.5463206Z 	at org.gradle.internal.execution.steps.IdentityCacheStep.execute(IdentityCacheStep.java:46)
+2026-11-06T13:56:09.5464499Z 	at org.gradle.internal.execution.steps.IdentityCacheStep.execute(IdentityCacheStep.java:34)
+2026-11-06T13:56:09.5465890Z 	at org.gradle.internal.execution.steps.IdentifyStep.execute(IdentifyStep.java:56)
+2026-11-06T13:56:09.5467023Z 	at org.gradle.internal.execution.steps.IdentifyStep.execute(IdentifyStep.java:38)
+2026-11-06T13:56:09.5468389Z 	at org.gradle.internal.execution.impl.DefaultExecutionEngine$1.execute(DefaultExecutionEngine.java:68)
+2026-11-06T13:56:09.5469927Z 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor.doExecute(DefaultTaskNodeExecutor.java:364)
+2026-11-06T13:56:09.5470987Z 	... 25 more
+2026-11-06T13:56:09.5471930Z Caused by: org.jetbrains.kotlin.gradle.tasks.CompilationErrorException: Compilation error. See log for more details
+2026-11-06T13:56:09.5473507Z 	at org.jetbrains.kotlin.gradle.tasks.TasksUtilsKt.throwExceptionIfCompilationFailed(tasksUtils.kt:21)
+2026-11-06T13:56:09.5474998Z 	at org.jetbrains.kotlin.compilerRunner.GradleKotlinCompilerWork.run(GradleKotlinCompilerWork.kt:119)
+2026-11-06T13:56:09.5477353Z 	at org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction.execute(GradleCompilerRunnerWithWorkers.kt:74)
+2026-11-06T13:56:09.5479100Z 	at org.gradle.workers.internal.DefaultWorkerServer.execute(DefaultWorkerServer.java:68)
+2026-11-06T13:56:09.5480423Z 	at org.gradle.workers.internal.NoIsolationWorkerFactory$1$1.create(NoIsolationWorkerFactory.java:64)
+2026-11-06T13:56:09.5481815Z 	at org.gradle.workers.internal.NoIsolationWorkerFactory$1$1.create(NoIsolationWorkerFactory.java:61)
+2026-11-06T13:56:09.5483245Z 	at org.gradle.internal.classloader.ClassLoaderUtils.executeInClassloader(ClassLoaderUtils.java:103)
+2026-11-06T13:56:09.5484717Z 	at org.gradle.workers.internal.NoIsolationWorkerFactory$1.lambda$execute$0(NoIsolationWorkerFactory.java:61)
+2026-11-06T13:56:09.5486171Z 	at org.gradle.workers.internal.AbstractWorker$1.call(AbstractWorker.java:44)
+2026-11-06T13:56:09.5487217Z 	at org.gradle.workers.internal.AbstractWorker$1.call(AbstractWorker.java:41)
+2026-11-06T13:56:09.5488749Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:210)
+2026-11-06T13:56:09.5490774Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:205)
+2026-11-06T13:56:09.5492825Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:67)
+2026-11-06T13:56:09.5494555Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:60)
+2026-11-06T13:56:09.5496277Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:167)
+2026-11-06T13:56:09.5497811Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:60)
+2026-11-06T13:56:09.5499343Z 	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:54)
+2026-11-06T13:56:09.5501015Z 	at org.gradle.workers.internal.AbstractWorker.executeWrappedInBuildOperation(AbstractWorker.java:41)
+2026-11-06T13:56:09.5502455Z 	at org.gradle.workers.internal.NoIsolationWorkerFactory$1.execute(NoIsolationWorkerFactory.java:58)
+2026-11-06T13:56:09.5503888Z 	at org.gradle.workers.internal.DefaultWorkerExecutor.lambda$submitWork$1(DefaultWorkerExecutor.java:169)
+2026-11-06T13:56:09.5505559Z 	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.runExecution(DefaultConditionalExecutionQueue.java:191)
+2026-11-06T13:56:09.5509409Z 	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.access$600(DefaultConditionalExecutionQueue.java:112)
+2026-11-06T13:56:09.5511280Z 	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner$1.run(DefaultConditionalExecutionQueue.java:168)
+2026-11-06T13:56:09.5512639Z 	at org.gradle.internal.Factories$1.create(Factories.java:30)
+2026-11-06T13:56:09.5513916Z 	at org.gradle.internal.work.DefaultWorkerLeaseService.lambda$runAndReleaseLocks$0(DefaultWorkerLeaseService.java:296)
+2026-11-06T13:56:09.5515456Z 	at org.gradle.internal.work.ResourceLockStatistics$1.measure(ResourceLockStatistics.java:43)
+2026-11-06T13:56:09.5517099Z 	at org.gradle.internal.work.DefaultWorkerLeaseService.runAndReleaseLocks(DefaultWorkerLeaseService.java:294)
+2026-11-06T13:56:09.5518680Z 	at org.gradle.internal.work.DefaultWorkerLeaseService.withLocksAcquired(DefaultWorkerLeaseService.java:290)
+2026-11-06T13:56:09.5520157Z 	at org.gradle.internal.work.DefaultWorkerLeaseService.withLocks(DefaultWorkerLeaseService.java:282)
+2026-11-06T13:56:09.5521625Z 	at org.gradle.internal.work.DefaultWorkerLeaseService.runAsWorkerThread(DefaultWorkerLeaseService.java:132)
+2026-11-06T13:56:09.5523178Z 	at org.gradle.internal.work.DefaultWorkerLeaseService.runAsWorkerThread(DefaultWorkerLeaseService.java:138)
+2026-11-06T13:56:09.5524898Z 	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.runBatch(DefaultConditionalExecutionQueue.java:163)
+2026-11-06T13:56:09.5526889Z 	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.run(DefaultConditionalExecutionQueue.java:125)
+2026-11-06T13:56:09.5528030Z 	... 2 more
+2026-11-06T13:56:09.5528252Z 
+2026-11-06T13:56:09.5528258Z 
+2026-11-06T13:56:09.5528438Z BUILD FAILED in 26s
+2026-11-06T13:56:09.7922182Z ##[error]Process completed with exit code 1.
+2026-11-06T13:56:09.8056277Z ##[group]Run rm -f "my-upload-key.jks"
+2026-11-06T13:56:09.8056710Z rm -f "my-upload-key.jks"
+2026-11-06T13:56:09.8078467Z shell: /usr/bin/bash -e {0}
+2026-11-06T13:56:09.8078797Z env:
+2026-11-06T13:56:09.8079188Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.13-9/x64
+2026-11-06T13:56:09.8079770Z   JAVA_HOME_21_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.13-9/x64
+2026-11-06T13:56:09.8080260Z   GRADLE_ACTION_ID: gradle/actions/setup-gradle
+2026-11-06T13:56:09.8080640Z   GRADLE_USER_HOME: /home/runner/.gradle
+2026-11-06T13:56:09.8080995Z   GRADLE_BUILD_ACTION_SETUP_COMPLETED: true
+2026-11-06T13:56:09.8081378Z   GRADLE_BUILD_ACTION_CACHE_RESTORED: true
+2026-11-06T13:56:09.8081884Z   DEVELOCITY_INJECTION_INIT_SCRIPT_NAME: gradle-actions.inject-develocity.init.gradle
+2026-11-06T13:56:09.8082448Z   DEVELOCITY_INJECTION_CUSTOM_VALUE: gradle-actions
+2026-11-06T13:56:09.8082830Z   GITHUB_DEPENDENCY_GRAPH_ENABLED: false
+2026-11-06T13:56:09.8083215Z   DETECTED_KEY_ALIAS: release-key
+2026-11-06T13:56:09.8083541Z ##[endgroup]
+2026-11-06T13:56:09.8980429Z Post job cleanup.
+2026-11-06T13:56:10.1425294Z In post-action step
+2026-11-06T13:56:10.1437182Z ##[group]Stopping Gradle daemons
+2026-11-06T13:56:10.1437956Z Stopping Gradle daemons for /usr/share/gradle-9.8.2
+2026-11-06T13:56:10.1448997Z Stopping Gradle daemons for /home/runner/.gradle/wrapper/dists/gradle-9.8.2-bin/8wepis63pzuhrlfaiy04bagwu/gradle-9.8.2
+2026-11-06T13:56:10.1455077Z [command]/usr/share/gradle-9.8.2/bin/gradle --stop
+2026-11-06T13:56:10.1507715Z [command]/home/runner/.gradle/wrapper/dists/gradle-9.8.2-bin/8wepis63pzuhrlfaiy04bagwu/gradle-9.8.2/bin/gradle --stop
+2026-11-06T13:56:11.1399300Z No Gradle daemons are running.
+2026-11-06T13:56:11.2132907Z No Gradle daemons are running.
+2026-11-06T13:56:11.2240352Z ##[endgroup]
+2026-11-06T13:56:11.2248216Z Not performing cache-cleanup due to build failure
+2026-11-06T13:56:11.2249166Z ##[group]Caching Gradle state
+2026-11-06T13:56:12.8153741Z [command]/usr/bin/tar --posix -cf cache.tzst --exclude cache.tzst -P -C /home/runner/work/Secure-vault/Secure-vault --files-from manifest.txt --use-compress-program zstdmt
+2026-11-06T13:56:13.2607695Z Sent 542049 of 542049 (100.0%), 2.1 MBs/sec
+2026-11-06T13:56:13.4292132Z Saved cache entry with key gradle-home-v1|Linux-X64|build[c4346d2f90cb10f39259e32865a43598]-9354ef778037a8cba2964ab4849799baaa42f4bf from /home/runner/.gradle/caches,/home/runner/.gradle/notifications,/home/runner/.gradle/.setup-gradle in 629ms
+2026-11-06T13:56:13.4294220Z ##[endgroup]
+2026-11-06T13:56:13.4297983Z Generating Job Summary
+2026-11-06T13:56:13.4310430Z Completed post-action step
+2026-11-06T13:56:13.4842864Z Post job cleanup.
+2026-11-06T13:56:13.6262429Z (node:3044) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-06T13:56:13.6263271Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-06T13:56:13.6840173Z Post job cleanup.
+2026-11-06T13:56:13.7713235Z [command]/usr/bin/git version
+2026-11-06T13:56:13.7762221Z git version 2.56.0
+2026-11-06T13:56:13.7804613Z Temporarily overriding HOME='/home/runner/work/_temp/f9491c0f-bd9c-465c-ba57-e2b141b4d772' before making global git config changes
+2026-11-06T13:56:13.7805632Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-06T13:56:13.7811017Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Secure-vault/Secure-vault
+2026-11-06T13:56:13.7854473Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-06T13:56:13.7895510Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-06T13:56:13.8180538Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-06T13:56:13.8213316Z http.https://github.com/.extraheader
+2026-11-06T13:56:13.8226157Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-11-06T13:56:13.8277574Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-06T13:56:13.8606934Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-06T13:56:13.8638102Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-06T13:56:13.9163777Z Cleaning up orphan processes
+2026-11-06T13:56:13.9513454Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-java@v4, gradle/actions/setup-gradle@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
