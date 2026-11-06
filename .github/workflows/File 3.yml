@@ -1,14 +1,24 @@
 name: Publish Failure Log
 
 on:
+  # Automatically runs when the build workflow fails
   workflow_run:
     workflows: ["Build Release APK"]
     types:
       - completed
+      
+  # Allows you to run it manually for any past failed build
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: 'Run ID of the failed build (e.g., 1234567890). Found in the URL of the failed run. Leave empty to auto-detect the latest failure.'
+        required: false
+        type: string
 
 jobs:
   publish-log:
-    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    # Run if triggered by a failed workflow_run, OR if manually triggered
+    if: ${{ github.event.workflow_run.conclusion == 'failure' || github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -18,18 +28,23 @@ jobs:
     - name: Fetch & Simplify Failed Step Logs
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        GITHUB_RUN_ID: ${{ github.event.workflow_run.id }}
+        # Use the manually provided run_id, or fall back to the workflow_run trigger's ID
+        TARGET_RUN_ID: ${{ inputs.run_id || github.event.workflow_run.id }}
         DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
       run: |
         cat << 'EOF' > fetch_failure_logs.py
-        import os, json, urllib.request, urllib.error, re, base64
+        import os, json, urllib.request, urllib.error, re, base64, sys
 
-        repo = os.environ["GITHUB_REPOSITORY"]
-        token = os.environ["GITHUB_TOKEN"]
-        run_id = os.environ["GITHUB_RUN_ID"]
+        repo = os.environ.get("GITHUB_REPOSITORY", "")
+        token = os.environ.get("GITHUB_TOKEN", "")
+        target_run_id = os.environ.get("TARGET_RUN_ID", "").strip()
         default_branch = os.environ.get("DEFAULT_BRANCH") or "main"
         log_branch = "ci-logs"
         log_path = "latest-failure.txt"
+
+        if not repo or not token:
+            print("::error:: Missing required environment variables")
+            sys.exit(1)
 
         base = "https://api.github.com/repos/" + repo
         headers = {"Authorization": "Bearer " + token, "Accept": "application/vnd.github+json"}
@@ -44,145 +59,4 @@ jobs:
             req = urllib.request.Request(url, headers=headers)
             try:
                 with no_redirect_opener.open(req) as r:
-                    return r.read()
-            except urllib.error.HTTPError as e:
-                if e.code in (301, 302, 303, 307, 308):
-                    location = e.headers.get("Location")
-                    if location:
-                        with urllib.request.urlopen(location) as r2:
-                            return r2.read()
-                raise
-
-        def api_json(url, data=None, method=None):
-            body = json.dumps(data).encode() if data is not None else None
-            req = urllib.request.Request(url, data=body, headers=headers, method=method)
-            if body:
-                req.add_header("Content-Type", "application/json")
-            with urllib.request.urlopen(req) as r:
-                return json.load(r)
-
-        jobs_data = api_json(base + "/actions/runs/" + run_id + "/jobs")
-        failed_jobs = [j for j in jobs_data.get("jobs", []) if j.get("conclusion") == "failure"]
-        if not failed_jobs:
-            failed_jobs = [j for j in jobs_data.get("jobs", []) if j.get("conclusion") != "success"]
-
-        combined = []
-        for job in failed_jobs:
-            combined.append(f"===== FAILED JOB: {job['name']} =====\n")
-            
-            try:
-                log_bytes = api_get(base + "/actions/jobs/" + str(job["id"]) + "/logs")
-                log_text = log_bytes.decode("utf-8", errors="replace")
-                
-                # Split log into individual steps
-                parts = re.split(r'(?m)^##\[group\]', log_text)
-                failed_steps_output = []
-                
-                for part in parts:
-                    if not part.strip():
-                        continue
-                    
-                    lines = part.split('\n', 1)
-                    step_name = lines[0].strip()
-                    step_log = lines[1] if len(lines) > 1 else ""
-                    
-                    # Skip steps that don't contain obvious failure markers
-                    if not any(marker in step_log for marker in ["##[error]", "FAILED", "Exception", "FAILURE:", "Caused by:"]):
-                        continue
-                    
-                    step_lines = step_log.split('\n')
-                    error_indices = []
-                    
-                    for i, line in enumerate(step_lines):
-                        # Strip ANSI color codes for clean matching
-                        clean_line = re.sub(r'\x1b\[[0-9;]*m', '', line)
-                        
-                        # Identify critical error lines
-                        is_critical = (
-                            "##[error]" in clean_line or
-                            "FAILURE:" in clean_line or
-                            "Execution failed for task" in clean_line or
-                            "Caused by:" in clean_line or
-                            "Exception" in clean_line or
-                            "error:" in clean_line.lower() or
-                            ("> Task" in clean_line and "FAILED" in clean_line) or
-                            "* What went wrong:" in clean_line or
-                            "* Try:" in clean_line
-                        )
-                        
-                        if is_critical:
-                            error_indices.append(i)
-                
-                    if error_indices:
-                        # Extract only 2 lines of context before and after the error
-                        context_lines = []
-                        for i in error_indices:
-                            start = max(0, i - 2)
-                            end = min(len(step_lines), i + 3)
-                            context_lines.extend(step_lines[start:end])
-                        
-                        # Deduplicate while preserving order
-                        seen = set()
-                        cleaned_lines = []
-                        for line in context_lines:
-                            clean = re.sub(r'\x1b\[[0-9;]*m', '', line).strip()
-                            if clean and clean not in seen:
-                                seen.add(clean)
-                                cleaned_lines.append(line)
-                        
-                        failed_steps_output.append(f"\n--- FAILED STEP: {step_name} ---\n" + "\n".join(cleaned_lines) + "\n")
-                    else:
-                        # Fallback: just the last 30 lines of the step
-                        failed_steps_output.append(f"\n--- FAILED STEP: {step_name} (Last 30 lines) ---\n" + "\n".join(step_lines[-30:]) + "\n")
-                
-                if failed_steps_output:
-                    combined.append("".join(failed_steps_output))
-                else:
-                    combined.append("\n--- NO SPECIFIC ERROR FOUND, LAST 50 LINES OF JOB ---\n")
-                    combined.append("\n".join(log_text.splitlines()[-50:]))
-                    
-            except Exception as e:
-                combined.append(f"[Could not fetch log: {str(e)}]\n")
-            
-            combined.append("\n" + "="*50 + "\n\n")
-
-        full_log = "".join(combined)
-
-        # --- GitHub API Branch/File Logic (Unchanged) ---
-        branch_exists = True
-        try:
-            api_json(base + "/git/refs/heads/" + log_branch)
-        except urllib.error.HTTPError as e:
-            if e.code == 404:
-                branch_exists = False
-            else:
-                raise
-
-        if not branch_exists:
-            main_ref = api_json(base + "/git/refs/heads/" + default_branch)
-            sha = main_ref["object"]["sha"]
-            api_json(base + "/git/refs", data={"ref": "refs/heads/" + log_branch, "sha": sha}, method="POST")
-
-        existing_sha = None
-        try:
-            existing = api_json(base + "/contents/" + log_path + "?ref=" + log_branch)
-            existing_sha = existing.get("sha")
-        except urllib.error.HTTPError as e:
-            if e.code != 404:
-                raise
-
-        b64content = base64.b64encode(full_log.encode("utf-8")).decode()
-        payload = {
-            "message": "Update latest CI failure log (run " + run_id + ")", 
-            "content": b64content, 
-            "branch": log_branch
-        }
-        if existing_sha:
-            payload["sha"] = existing_sha
-
-        result = api_json(base + "/contents/" + log_path, data=payload, method="PUT")
-        print("Published simplified failure log: " + result["content"]["html_url"])
-        print("Raw URL: https://raw.githubusercontent.com/" + repo + "/" + log_branch + "/" + log_path)
-        EOF
-        
-        python3 fetch_failure_logs.py
+                    return
