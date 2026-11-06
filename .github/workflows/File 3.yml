@@ -112,18 +112,18 @@ jobs:
                 # Split off the GitHub Actions timestamp to check the pure log message
                 log_msg = stripped.split("Z ", 1)[-1] if "Z " in stripped else stripped
                 
-                # STRICT FILTERING: ONLY keep lines with actual error signals
+                # ULTRA-STRICT FILTERING: ONLY keep lines with actual compiler/gradle error signals
                 is_error_line = (
                     "e: file://" in log_msg or
                     "e: " in log_msg or
                     "w: " in log_msg or
                     "FAILURE" in log_msg or
                     "Unresolved reference" in log_msg or
-                    "error:" in log_msg.lower() or
                     "BUILD FAILED" in log_msg or
                     "* What went wrong:" in log_msg or
                     "* Try:" in log_msg or
-                    ("> Task " in log_msg and "FAILED" in log_msg)
+                    ("> Task " in log_msg and "FAILED" in log_msg) or
+                    "Compilation error" in log_msg
                 )
                 
                 if is_error_line:
@@ -140,12 +140,12 @@ jobs:
             filtered_lines = final_filtered
 
             if not filtered_lines:
-                filtered_lines = ["::warning:: No specific error keywords found in the log. The build may have failed for an uncaptured reason."]
+                filtered_lines = ["::warning:: No specific error keywords found. The build may have failed for an uncaptured reason."]
 
             final_content = f"=== FAILURE LOG FOR RUN: {target_run_id} ===\n"
             final_content += f"=== FAILED JOB: {job.get('name')} ===\n"
             final_content += f"=== DATE: {os.popen('date -u').read().strip()} ===\n"
-            final_content += f"=== CORE ERROR BLOCK (Strict filtering applied, ALL noise removed) ===\n\n"
+            final_content += f"=== CORE ERROR BLOCK (Ultra-strict filtering, ZERO noise) ===\n\n"
             final_content += "\n".join(filtered_lines).strip() + "\n"
 
             # --- STRICT OVERWRITE LOGIC ---
