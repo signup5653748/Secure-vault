@@ -1,39 +1,18 @@
-=== FAILURE LOG FOR RUN: 42245864835 ===
+=== FAILURE LOG FOR RUN: 42246675726 ===
 === FAILED JOB: Build Signed Release APK ===
-=== DATE: Fri Nov  6 15:46:04 UTC 2026 ===
-=== CORE ERROR BLOCK (Ultra-strict filtering, ZERO noise) ===
+=== DATE: Fri Nov  6 15:51:51 UTC 2026 ===
+=== CORE ERROR BLOCK (Zero false positives, ZERO noise) ===
 
-2026-11-06T15:44:47.4123832Z Build Date: 2026-10-28T21:51:42Z
-2026-11-06T15:44:47.4131847Z Image: ubuntu-24.04
-2026-11-06T15:44:47.4133651Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261101.360/images/ubuntu/Ubuntu2404-Readme.md
-2026-11-06T15:44:47.4135008Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261101.360
-2026-11-06T15:44:47.4143493Z Secret source: Actions
-2026-11-06T15:44:47.4144365Z Cache mode: write
-2026-11-06T15:44:49.3057801Z Complete job name: Build Signed Release APK
-2026-11-06T15:44:49.3994701Z   sparse-checkout-cone-mode: true
-2026-11-06T15:44:51.0776977Z   java-package: jdk
-2026-11-06T15:44:51.0777656Z   server-username: GITHUB_ACTOR
-2026-11-06T15:44:51.3034162Z   dependency-graph-continue-on-failure: true
-2026-11-06T15:44:53.0137473Z Cache Size: ~1 MB (540387 B)
-2026-11-06T15:44:53.3051823Z Cache Size: ~0 MB (76381 B)
-2026-11-06T15:44:53.3851538Z Cache Size: ~0 MB (60945 B)
-2026-11-06T15:44:53.3866888Z Cache Size: ~0 MB (91924 B)
-2026-11-06T15:44:54.6323256Z Cache Size: ~144 MB (150818571 B)
-2026-11-06T15:44:54.8398299Z Cache Size: ~169 MB (176825046 B)
-2026-11-06T15:44:54.9496440Z Cache Size: ~239 MB (250409931 B)
-2026-11-06T15:45:21.8027221Z The client will now receive all logging from the daemon (pid: 2849). The daemon log file: /home/runner/.gradle/daemon/9.8.2/daemon-2849.out.log
-2026-11-06T15:45:31.9170330Z Unable to strip the following libraries, packaging them as they are: libandroidx.graphics.path.so. Run with --info option to learn more.
-2026-11-06T15:45:49.3047708Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:149:33 Unresolved reference 'Scan'.
-2026-11-06T15:45:49.3049984Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:151:36 Unresolved reference 'Barcode'.
-2026-11-06T15:45:49.3051180Z > Task :app:compileReleaseKotlin FAILED
-2026-11-06T15:45:49.3080670Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:155:34 Unresolved reference 'Video'.
-2026-11-06T15:45:49.3107131Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:162:35 Unresolved reference 'SignalWifi'.
-2026-11-06T15:45:49.3137414Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:273:59 @Composable invocations can only happen from the context of a @Composable function
-2026-11-06T15:45:49.3140562Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:279:59 @Composable invocations can only happen from the context of a @Composable function
-2026-11-06T15:45:49.4106365Z FAILURE: Build failed with an exception.
-2026-11-06T15:45:49.4196498Z * What went wrong:
-2026-11-06T15:45:49.4233714Z    > Compilation error. See log for more details
-2026-11-06T15:45:49.4234054Z * Try:
-2026-11-06T15:45:49.4839917Z Caused by: org.jetbrains.kotlin.gradle.tasks.CompilationErrorException: Compilation error. See log for more details
-2026-11-06T15:45:49.5002260Z BUILD FAILED in 29s
-2026-11-06T15:45:53.2834610Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-java@v4, gradle/actions/setup-gradle@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-11-06T15:51:37.7230028Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:149:33 Unresolved reference 'Scan'.
+2026-11-06T15:51:37.7231226Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:151:36 Unresolved reference 'Barcode'.
+2026-11-06T15:51:37.7232209Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:155:34 Unresolved reference 'Video'.
+2026-11-06T15:51:37.7233043Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:162:35 Unresolved reference 'SignalWifi'.
+2026-11-06T15:51:37.7234059Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:273:59 @Composable invocations can only happen from the context of a @Composable function
+2026-11-06T15:51:37.7235412Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:279:59 @Composable invocations can only happen from the context of a @Composable function
+2026-11-06T15:51:37.7236709Z > Task :app:compileReleaseKotlin FAILED
+2026-11-06T15:51:37.8257890Z FAILURE: Build failed with an exception.
+2026-11-06T15:51:37.8259565Z * What went wrong:
+2026-11-06T15:51:37.8262456Z    > Compilation error. See log for more details
+2026-11-06T15:51:37.8263057Z * Try:
+2026-11-06T15:51:37.8555775Z Caused by: org.jetbrains.kotlin.gradle.tasks.CompilationErrorException: Compilation error. See log for more details
+2026-11-06T15:51:37.8583302Z BUILD FAILED in 19s
