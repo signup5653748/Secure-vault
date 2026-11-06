@@ -21,7 +21,7 @@ jobs:
       actions: read
 
     steps:
-    - name: Extract Failed Module Log & Overwrite File
+    - name: Extract Core Failure Block & Overwrite File
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         TARGET_RUN_ID: ${{ inputs.run_id || github.event.workflow_run.id }}
@@ -99,51 +99,63 @@ jobs:
                 sys.exit(1)
 
             job = failed_jobs[0]
-            print(f"::notice:: Extracting failed module block from job: {job.get('name')}")
+            print(f"::notice:: Extracting core failure block from job: {job.get('name')}")
             
             log_bytes = api_get(base + "/actions/jobs/" + str(job["id"]) + "/logs")
             clean_log = re.sub(r'\x1b\[[0-9;]*m', '', log_bytes.decode("utf-8", errors="replace"))
             lines = clean_log.split('\n')
 
-            # --- SMART EXTRACTION: Find the exact start and end of the failing module ---
-            failure_indices = [i for i, line in enumerate(lines) if any(marker in line for marker in ["FAILURE:", "BUILD FAILED", "Execution failed for task", "* What went wrong:"])]
+            # --- SMART EXTRACTION: Guarantee no missing errors, but remove stack trace clutter ---
+            fail_idx = next((i for i, line in enumerate(lines) if "FAILURE: Build failed" in line or "Execution failed for task" in line), -1)
             
-            if not failure_indices:
-                # Fallback: If no standard markers, just grab the last 60 lines
-                start_idx = max(0, len(lines) - 60)
+            if fail_idx == -1:
+                start_idx = max(0, len(lines) - 100)
                 end_idx = len(lines)
             else:
-                first_fail = failure_indices[0]
-                last_fail = failure_indices[-1]
-                
-                # 1. Find the START: Scan backwards to find the "> Task :module:taskName" header
-                start_idx = first_fail
-                for i in range(first_fail, max(0, first_fail - 40), -1):
+                # 1. START: Scan backwards up to 300 lines to find the exact "> Task " header. 
+                # This guarantees we catch ALL "e: " and "w: " compiler errors for this task.
+                start_idx = fail_idx
+                for i in range(fail_idx, max(0, fail_idx - 300), -1):
                     if lines[i].strip().startswith("> Task "):
                         start_idx = i
                         break
-                        
-                # 2. Find the END: Scan forwards to capture the "* What went wrong:" and "* Try:" sections
-                end_idx = last_fail
-                for i in range(last_fail, min(len(lines), last_fail + 40)):
-                    # Stop if we hit a new successful task, the deprecated warning, or end of log
-                    if (lines[i].strip().startswith("> Task ") and "FAILED" not in lines[i]) or \
-                       lines[i].strip().startswith("Deprecated Gradle features") or \
-                       lines[i].strip().startswith("BUILD FAILED"):
-                        end_idx = i + 1 # Include this line
-                        break
-                    end_idx = i + 1 # Keep extending through the error block
+                
+                # 2. END: Find the "BUILD FAILED" summary line
+                end_idx = next((i for i in range(fail_idx, min(len(lines), fail_idx + 200)) if "BUILD FAILED in" in lines[i]), len(lines))
 
-            extracted_lines = lines[start_idx:end_idx]
+            # Extract the raw block
+            raw_extracted = lines[start_idx:end_idx]
             
-            # Build the final clean output
+            # 3. SMART FILTER: Keep all important errors, DELETE useless Java stack trace lines
+            filtered_lines = []
+            for line in raw_extracted:
+                stripped = line.strip()
+                # KEEP: Task headers, Kotlin errors/warnings, Gradle summaries, and "Caused by" chains
+                if stripped.startswith("> Task ") or \
+                   stripped.startswith("e: ") or \
+                   stripped.startswith("w: ") or \
+                   stripped.startswith("FAILURE:") or \
+                   stripped.startswith("*") or \
+                   stripped.startswith("Caused by:") or \
+                   stripped.startswith("BUILD FAILED") or \
+                   "CompilationErrorException" in stripped or \
+                   "TaskExecutionException" in stripped:
+                    filtered_lines.append(line)
+                # DISCARD: Pure Java stack trace boilerplate (e.g., "	at org.gradle...")
+                elif re.match(r'^\s+at\s+', line):
+                    continue
+                # KEEP: Any other meaningful text (e.g., "A failure occurred while executing...")
+                elif stripped:
+                    filtered_lines.append(line)
+
+            # Build the final, ultra-clean output
             final_content = f"=== FAILURE LOG FOR RUN: {target_run_id} ===\n"
             final_content += f"=== FAILED JOB: {job.get('name')} ===\n"
             final_content += f"=== DATE: {os.popen('date -u').read().strip()} ===\n"
-            final_content += f"=== EXTRACTED MODULE FAILURE BLOCK (Start to End) ===\n\n"
-            final_content += "\n".join(extracted_lines).strip() + "\n"
+            final_content += f"=== CORE ERROR BLOCK (Stack trace boilerplate removed, all errors kept) ===\n\n"
+            final_content += "\n".join(filtered_lines).strip() + "\n"
 
-            # --- OVERWRITE LOGIC ---
+            # --- STRICT OVERWRITE LOGIC ---
             branch_exists = True
             try:
                 api_json(base + "/git/refs/heads/" + log_branch)
@@ -174,10 +186,10 @@ jobs:
                 "branch": log_branch
             }
             if existing_sha:
-                payload["sha"] = existing_sha # This is the magic key that forces GitHub to REPLACE, not create new
+                payload["sha"] = existing_sha # Forces GitHub to REPLACE, not create new
 
             result = api_json(base + "/contents/" + log_path, data=payload, method="PUT")
-            print("::notice:: SUCCESS! Old log deleted, new module failure block saved.")
+            print("::notice:: SUCCESS! Old log deleted, new clean failure block saved.")
             print("::notice:: View it here: " + result["content"]["html_url"])
 
         except Exception as e:
