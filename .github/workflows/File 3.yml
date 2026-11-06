@@ -105,32 +105,49 @@ jobs:
             clean_log = re.sub(r'\x1b\[[0-9;]*m', '', log_bytes.decode("utf-8", errors="replace"))
             lines = clean_log.split('\n')
 
-            # --- SMART EXTRACTION: Guarantee no missing errors, but remove stack trace clutter ---
+            # --- SMART EXTRACTION: Guarantee NO missing file/line details ---
             fail_idx = next((i for i, line in enumerate(lines) if "FAILURE: Build failed" in line or "Execution failed for task" in line), -1)
             
             if fail_idx == -1:
-                start_idx = max(0, len(lines) - 100)
+                start_idx = max(0, len(lines) - 200)
                 end_idx = len(lines)
             else:
-                # 1. START: Scan backwards up to 300 lines to find the exact "> Task " header. 
-                # This guarantees we catch ALL "e: " and "w: " compiler errors for this task.
+                # 1. Extract the failing task name (e.g., ":app:compileReleaseKotlin")
+                task_match = re.search(r"Execution failed for task '([^']+)'", lines[fail_idx])
+                task_name = task_match.group(1) if task_match else None
+                
                 start_idx = fail_idx
-                for i in range(fail_idx, max(0, fail_idx - 300), -1):
-                    if lines[i].strip().startswith("> Task "):
+                # 2. Search backwards up to 2000 lines to find the EXACT start of this task's output
+                search_limit = max(0, fail_idx - 2000)
+                
+                for i in range(fail_idx, search_limit, -1):
+                    line_stripped = lines[i].strip()
+                    if task_name and f"> Task {task_name}" in line_stripped:
                         start_idx = i
                         break
-                
-                # 2. END: Find the "BUILD FAILED" summary line
+                    elif line_stripped.startswith("> Task ") and "FAILED" in line_stripped:
+                        start_idx = i
+                        break
+                        
+                # Fallback: if still not found, go back 500 lines
+                if start_idx == fail_idx:
+                    start_idx = max(0, fail_idx - 500)
+
+                # 3. Find the end: the "BUILD FAILED in Xs" line
                 end_idx = next((i for i in range(fail_idx, min(len(lines), fail_idx + 200)) if "BUILD FAILED in" in lines[i]), len(lines))
 
-            # Extract the raw block
             raw_extracted = lines[start_idx:end_idx]
             
-            # 3. SMART FILTER: Keep all important errors, DELETE useless Java stack trace lines
+            # 4. SMART FILTER: Keep file/line errors, DELETE stack trace boilerplate
             filtered_lines = []
             for line in raw_extracted:
                 stripped = line.strip()
-                # KEEP: Task headers, Kotlin errors/warnings, Gradle summaries, and "Caused by" chains
+                
+                # SKIP pure stack trace lines
+                if re.match(r'^\s+at\s+', line) or re.match(r'^\.\.\.\s+\d+\s+more', stripped) or stripped in ("... 25 more", "... 2 more"):
+                    continue
+                
+                # KEEP important lines (Task headers, Kotlin errors/warnings, Gradle summaries)
                 if stripped.startswith("> Task ") or \
                    stripped.startswith("e: ") or \
                    stripped.startswith("w: ") or \
@@ -138,21 +155,18 @@ jobs:
                    stripped.startswith("*") or \
                    stripped.startswith("Caused by:") or \
                    stripped.startswith("BUILD FAILED") or \
+                   "Compilation error" in stripped or \
                    "CompilationErrorException" in stripped or \
                    "TaskExecutionException" in stripped:
                     filtered_lines.append(line)
-                # DISCARD: Pure Java stack trace boilerplate (e.g., "	at org.gradle...")
-                elif re.match(r'^\s+at\s+', line):
-                    continue
-                # KEEP: Any other meaningful text (e.g., "A failure occurred while executing...")
-                elif stripped:
+                elif stripped: # Keep any other meaningful non-empty line
                     filtered_lines.append(line)
 
             # Build the final, ultra-clean output
             final_content = f"=== FAILURE LOG FOR RUN: {target_run_id} ===\n"
             final_content += f"=== FAILED JOB: {job.get('name')} ===\n"
             final_content += f"=== DATE: {os.popen('date -u').read().strip()} ===\n"
-            final_content += f"=== CORE ERROR BLOCK (Stack trace boilerplate removed, all errors kept) ===\n\n"
+            final_content += f"=== CORE ERROR BLOCK (Stack trace removed, ALL file/line errors kept) ===\n\n"
             final_content += "\n".join(filtered_lines).strip() + "\n"
 
             # --- STRICT OVERWRITE LOGIC ---
