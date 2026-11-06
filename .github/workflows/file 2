@@ -1,0 +1,124 @@
+name: Publish Release
+
+on:
+  workflow_run:
+    workflows: ["Build Release APK"]
+    types:
+      - completed
+
+jobs:
+  publish:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+    - name: Download APK Artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: release-apk
+        path: build-artifacts
+        run-id: ${{ github.event.workflow_run.id }}
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Set Release Info
+      run: |
+        echo "BUILD_TIME=$(date -u +'%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_ENV
+        echo "RELEASE_TAG=v${{ github.event.workflow_run.run_number }}" >> $GITHUB_ENV
+
+    - name: Create Release
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: ${{ env.RELEASE_TAG }}
+        name: "latest ${{ env.RELEASE_TAG }}"
+        body: |
+          ### 🚀 What's Changed:
+          ${{ github.event.workflow_run.head_commit.message || 'Manual triggering / Maintenance updates' }}
+
+          ### 📅 Build Details:
+          - **Build Time:** ${{ env.BUILD_TIME }}
+          - **Triggered By:** @${{ github.event.workflow_run.actor.login }}
+          - **Commit SHA:** ${{ github.event.workflow_run.head_sha }}
+        draft: false
+        prerelease: false
+        files: build-artifacts/*.apk
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Build Release History
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        cat << 'EOF' > build_history.py
+        import os, json, urllib.request, datetime
+
+        repo = os.environ["GITHUB_REPOSITORY"]
+        token = os.environ["GITHUB_TOKEN"]
+
+        req = urllib.request.Request(
+            "https://api.github.com/repos/" + repo + "/releases?per_page=100",
+            headers={"Authorization": "Bearer " + token, "Accept": "application/vnd.github+json"}
+        )
+        try:
+            with urllib.request.urlopen(req) as resp:
+                releases = json.load(resp)
+        except Exception as e:
+            print("::warning::Could not fetch releases: " + str(e))
+            releases = []
+
+        releases = [r for r in releases if r.get("tag_name") != "latest"]
+
+        def primary_asset(assets):
+            for a in assets:
+                if a.get("name", "").lower().endswith(".apk"):
+                    return a
+            return assets[0] if assets else None
+
+        def fmt_date(iso):
+            try:
+                d = datetime.datetime.strptime(iso, "%Y-%m-%dT%H:%M:%SZ")
+                return d.strftime("%b %d, %Y")
+            except Exception:
+                return iso or ""
+
+        def first_line(body):
+            if not body: return "_No message_"
+            for line in body.splitlines():
+                line = line.strip().lstrip("#").strip()
+                if not line: continue
+                lower = line.lower()
+                if lower.startswith("**"): continue
+                if "what's changed" in lower or "whats changed" in lower: continue
+                if "build time" in lower or "triggered by" in lower or "commit sha" in lower or "build details" in lower: continue
+                return line[:90]
+            return "_No message_"
+
+        rows = []
+        for r in releases:
+            asset = primary_asset(r.get("assets", []))
+            dl = asset["browser_download_url"] if asset else None
+            dl_cell = "[Download](" + dl + ")" if dl else "_no asset_"
+            rows.append("| " + r.get("tag_name", "") + " | " + fmt_date(r.get("published_at", "")) + " | " + first_line(r.get("body", "")) + " | " + dl_cell + " |")
+
+        table = "\n".join(rows) if rows else "| _none yet_ | | | |"
+
+        body = "### 🚀 This release always points to the newest build.\n\n### 📜 Full Build History\n| Version | Date | Commit Message | Download |\n|---|---|---|---|\n" + table
+
+        with open("latest_body.md", "w") as f:
+            f.write(body)
+        print("Wrote history for " + str(len(releases)) + " release(s) to latest_body.md")
+        EOF
+        python3 build_history.py
+
+    - name: Update Rolling "latest" Release
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: latest
+        name: "latest — Latest Build"
+        body_path: latest_body.md
+        draft: false
+        prerelease: false
+        files: build-artifacts/*.apk
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
