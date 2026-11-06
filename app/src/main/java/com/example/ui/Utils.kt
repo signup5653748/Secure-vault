@@ -83,7 +83,7 @@ fun parseIcon(iconName: String): ImageVector {
         "credit_card" -> Icons.Default.CreditCard
         "id" -> Icons.Default.Badge
         "badge" -> Icons.Default.Badge
-        "passport" -> Icons.Default.Passport
+        "passport" -> Icons.Default.Badge
         "license" -> Icons.Default.DriveFileRenameOutline
         "certificate" -> Icons.Default.LocalLibrary
         "ticket" -> Icons.Default.ConfirmReservation

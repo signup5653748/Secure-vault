@@ -29,7 +29,7 @@ import androidx.compose.ui.platform.testTag
 import com.example.data.OtpParser
 import com.example.data.OtpConfig
 import dev.turingcomplete.kotlinonetimepassword.HmacAlgorithm
-import androidx.compose.ui.text.TextAlign
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -831,9 +831,9 @@ fun AddEntryScreen(
                                     MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
                                     RoundedCornerShape(8.dp)
                                 )
+                                .padding(4.dp)
                                 .testTag("otp_mode_toggle"),
-                            horizontalArrangement = Arrangement.spacedBy(4.dp),
-                            padding = PaddingValues(4.dp)
+                            horizontalArrangement = Arrangement.spacedBy(4.dp)
                         ) {
                             listOf(
                                 OtpInputMode.URI to "otpauth URI",
