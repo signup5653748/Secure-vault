@@ -1,0 +1,150 @@
+name: Publish Failure Log
+
+on:
+  workflow_run:
+    workflows: ["Build Release APK"]
+    types:
+      - completed
+
+jobs:
+  publish-log:
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: read
+
+    steps:
+    - name: Fetch Failed Step Logs and Publish to ci-logs Branch
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_RUN_ID: ${{ github.event.workflow_run.id }}
+        DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+      run: |
+        cat << 'EOF' > fetch_failure_logs.py
+        import os, json, urllib.request, urllib.error, re, base64
+
+        repo = os.environ["GITHUB_REPOSITORY"]
+        token = os.environ["GITHUB_TOKEN"]
+        run_id = os.environ["GITHUB_RUN_ID"]
+        default_branch = os.environ.get("DEFAULT_BRANCH") or "main"
+        log_branch = "ci-logs"
+        log_path = "latest-failure.txt"
+
+        base = "https://api.github.com/repos/" + repo
+        headers = {"Authorization": "Bearer " + token, "Accept": "application/vnd.github+json"}
+
+        class NoRedirect(urllib.request.HTTPRedirectHandler):
+            def redirect_request(self, req, fp, code, msg, hdrs, newurl):
+                return None
+
+        no_redirect_opener = urllib.request.build_opener(NoRedirect)
+
+        def api_get(url):
+            req = urllib.request.Request(url, headers=headers)
+            try:
+                with no_redirect_opener.open(req) as r:
+                    return r.read()
+            except urllib.error.HTTPError as e:
+                if e.code in (301, 302, 303, 307, 308):
+                    location = e.headers.get("Location")
+                    if location:
+                        with urllib.request.urlopen(location) as r2:
+                            return r2.read()
+                raise
+
+        def api_json(url, data=None, method=None):
+            body = json.dumps(data).encode() if data is not None else None
+            req = urllib.request.Request(url, data=body, headers=headers, method=method)
+            if body:
+                req.add_header("Content-Type", "application/json")
+            with urllib.request.urlopen(req) as r:
+                return json.load(r)
+
+        jobs_data = api_json(base + "/actions/runs/" + run_id + "/jobs")
+
+        failed_jobs = [j for j in jobs_data.get("jobs", []) if j.get("conclusion") == "failure"]
+        if not failed_jobs:
+            failed_jobs = [j for j in jobs_data.get("jobs", []) if j.get("conclusion") != "success"]
+
+        combined = []
+        for job in failed_jobs:
+            job_name = job["name"]
+            combined.append(f"===== FAILED JOB: {job_name} =====\n")
+            
+            try:
+                log_bytes = api_get(base + "/actions/jobs/" + str(job["id"]) + "/logs")
+                log_text = log_bytes.decode("utf-8", errors="replace")
+                
+                parts = re.split(r'(?m)^##\[group\]', log_text)
+                
+                failed_steps_output = []
+                for part in parts:
+                    if not part.strip():
+                        continue
+                    
+                    lines = part.split('\n', 1)
+                    step_name = lines[0].strip()
+                    step_log = lines[1] if len(lines) > 1 else ""
+                    
+                    is_failed_step = (
+                        "##[error]" in step_log or 
+                        "FAILURE:" in step_log or 
+                        "Execution failed for task" in step_log or
+                        "Process completed with exit code" in step_log
+                    )
+                    
+                    if is_failed_step:
+                        step_log = step_log.split("##[endgroup]")[0]
+                        failed_steps_output.append(f"\n--- FAILED STEP: {step_name} ---\n{step_log}\n")
+                
+                if failed_steps_output:
+                    combined.append("".join(failed_steps_output))
+                else:
+                    combined.append("\n--- LAST 100 LINES OF JOB LOG ---\n")
+                    combined.append("\n".join(log_text.splitlines()[-100:]))
+                    
+            except Exception as e:
+                combined.append(f"[Could not fetch log: {str(e)}]\n")
+            
+            combined.append("\n\n")
+
+        full_log = "".join(combined)
+
+        branch_exists = True
+        try:
+            api_json(base + "/git/refs/heads/" + log_branch)
+        except urllib.error.HTTPError as e:
+            if e.code == 404:
+                branch_exists = False
+            else:
+                raise
+
+        if not branch_exists:
+            main_ref = api_json(base + "/git/refs/heads/" + default_branch)
+            sha = main_ref["object"]["sha"]
+            api_json(base + "/git/refs", data={"ref": "refs/heads/" + log_branch, "sha": sha}, method="POST")
+
+        existing_sha = None
+        try:
+            existing = api_json(base + "/contents/" + log_path + "?ref=" + log_branch)
+            existing_sha = existing.get("sha")
+        except urllib.error.HTTPError as e:
+            if e.code != 404:
+                raise
+
+        b64content = base64.b64encode(full_log.encode("utf-8")).decode()
+        payload = {
+            "message": "Update latest CI failure log (run " + run_id + ")", 
+            "content": b64content, 
+            "branch": log_branch
+        }
+        if existing_sha:
+            payload["sha"] = existing_sha
+
+        result = api_json(base + "/contents/" + log_path, data=payload, method="PUT")
+        print("Published failure log: " + result["content"]["html_url"])
+        print("Raw URL: https://raw.githubusercontent.com/" + repo + "/" + log_branch + "/" + log_path)
+        EOF
+        
+        python3 fetch_failure_logs.py
