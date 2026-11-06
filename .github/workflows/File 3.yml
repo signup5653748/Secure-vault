@@ -1,100 +1,203 @@
-import os
-import json
-import urllib.request
-import urllib.error
-import re
+name: Publish Failure Log
 
-def get_github_token():
-    # Try to read from git credentials first
-    cred_file = os.path.expanduser("~/.git-credentials")
-    if os.path.exists(cred_file):
-        with open(cred_file, "r") as f:
-            content = f.read()
-            # Format: https://<token>@github.com/
-            match = re.search(r"https://([^@]+)@github\.com/", content)
-            if match:
-                return match.group(1)
-    
-    # Fallback to environment variable if git credentials aren't found
-    return os.environ.get("GITHUB_TOKEN")
+on:
+  workflow_run:
+    workflows: ["Build Release APK"]
+    types:
+      - completed
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: 'Run ID of the failed build (e.g., 1234567890). Leave empty to auto-detect latest failure.'
+        required: false
+        type: string
 
-def api_get(url, headers=None):
-    req = urllib.request.Request(url, headers=headers or {})
-    try:
-        with urllib.request.urlopen(req) as r:
-            return r.read()
-    except urllib.error.HTTPError as e:
-        if e.code in (301, 302, 303, 307, 308):
-            location = e.headers.get("Location")
-            if location:
-                # CRITICAL: Do NOT forward Authorization header to the redirect URL.
-                # GitHub's signed blob URLs will reject requests with an Auth header.
-                with urllib.request.urlopen(location) as r2:
-                    return r2.read()
-        raise
+jobs:
+  publish-log:
+    if: ${{ github.event.workflow_run.conclusion == 'failure' || github.event_name == 'workflow_dispatch' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: read
 
-def api_json(url, headers=None):
-    req = urllib.request.Request(url, headers=headers or {})
-    with urllib.request.urlopen(req) as r:
-        return json.load(r)
+    steps:
+    - name: Extract Core Failure Block & Overwrite File
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        TARGET_RUN_ID: ${{ inputs.run_id || github.event.workflow_run.id }}
+        DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+      run: |
+        cat << 'EOF' > fetch_failure_logs.py
+        import os, json, urllib.request, urllib.error, re, base64, sys
 
-def main():
-    token = get_github_token()
-    if not token:
-        print("Error: Could not find GitHub token in ~/.git-credentials or $GITHUB_TOKEN")
-        print("Please ensure you are logged in via 'gh auth login' or set the GITHUB_TOKEN env var.")
-        return
+        repo = os.environ.get("GITHUB_REPOSITORY", "")
+        token = os.environ.get("GITHUB_TOKEN", "")
+        target_run_id = os.environ.get("TARGET_RUN_ID", "").strip()
+        default_branch = os.environ.get("DEFAULT_BRANCH") or "main"
+        log_branch = "ci-logs"
+        log_path = "latest-failure.txt"
 
-    headers = {
-        "Authorization": f"token {token}",
-        "Accept": "application/vnd.github.v3+json",
-        "User-Agent": "Python-Log-Fetcher"
-    }
+        if not repo or not token:
+            print("::error:: Missing required environment variables")
+            sys.exit(1)
 
-    owner = "signup5653748"
-    repo = "Secure-vault"
+        base = "https://api.github.com/repos/" + repo
+        headers = {"Authorization": "Bearer " + token, "Accept": "application/vnd.github+json"}
 
-    # 1. Get latest workflow run
-    runs_url = f"https://api.github.com/repos/{owner}/{repo}/actions/runs?per_page=1"
-    runs_data = api_json(runs_url, headers)
-    
-    if not runs_data.get("workflow_runs"):
-        print("No workflow runs found.")
-        return
+        class NoRedirect(urllib.request.HTTPRedirectHandler):
+            def redirect_request(self, req, fp, code, msg, hdrs, newurl):
+                return None
 
-    latest_run = runs_data["workflow_runs"][0]
-    run_id = latest_run["id"]
-    print(f"Latest run ID: {run_id} (Conclusion: {latest_run.get('conclusion')})")
+        no_redirect_opener = urllib.request.build_opener(NoRedirect)
 
-    # 2. Get jobs for this run
-    jobs_url = f"https://api.github.com/repos/{owner}/{repo}/actions/runs/{run_id}/jobs"
-    jobs_data = api_json(jobs_url, headers)
-
-    found_errors = False
-    for job in jobs_data.get("jobs", []):
-        if job.get("conclusion") == "failure":
-            print(f"\n--- Fetching log for failed job: {job['name']} ---")
-            job_id = job["id"]
-            log_url = f"https://api.github.com/repos/{owner}/{repo}/actions/jobs/{job_id}/logs"
-            
+        def api_get(url):
+            req = urllib.request.Request(url, headers=headers)
             try:
-                log_bytes = api_get(log_url, headers)
-                log_text = log_bytes.decode("utf-8", errors="replace")
-                
-                # 3. Filter lines for actual signal
-                keywords = ["e: file://", "FAILURE", "Unresolved reference", "error:", "BUILD FAILED"]
-                for line in log_text.split("\n"):
-                    if any(kw in line for kw in keywords):
-                        # Strip ANSI color codes for clean terminal output
-                        clean_line = re.sub(r'\x1b\[[0-9;]*m', '', line).strip()
-                        if clean_line:
-                            print(clean_line)
-                            found_errors = True
-                
-                if not found_errors:
-                    print("No specific error keywords found in this job's log.")
-            except Exception as e:
-                print(f"Error fetching log for job {job_id}: {e}")
+                with no_redirect_opener.open(req) as r:
+                    return r.read()
+            except urllib.error.HTTPError as e:
+                if e.code in (301, 302, 303, 307, 308):
+                    location = e.headers.get("Location")
+                    if location:
+                        with urllib.request.urlopen(location) as r2:
+                            return r2.read()
+                raise
 
-if __name__ == "__main__":
-    main()
+        def api_json(url, data=None, method=None):
+            body = json.dumps(data).encode() if data is not None else None
+            req = urllib.request.Request(url, data=body, headers=headers, method=method)
+            if body:
+                req.add_header("Content-Type", "application/json")
+            try:
+                with urllib.request.urlopen(req) as r:
+                    return json.load(r)
+            except urllib.error.HTTPError as e:
+                print(f"::error:: API request failed to {url}: {e.code} {e.reason}", file=sys.stderr)
+                raise
+
+        try:
+            if not target_run_id:
+                print("::notice:: No Run ID provided. Searching for latest failed 'Build Release APK' run...")
+                runs_data = api_json(base + "/actions/runs?per_page=50")
+                found_run = next((run for run in runs_data.get("workflow_runs", []) if run.get("name") == "Build Release APK" and run.get("conclusion") == "failure"), None)
+                
+                if found_run:
+                    target_run_id = str(found_run["id"])
+                    print(f"::notice:: Auto-detected latest failed run ID: {target_run_id}")
+                else:
+                    print("::error:: No failed run found in the last 50 runs. Please provide a Run ID manually.")
+                    sys.exit(1)
+
+            print(f"::notice:: Fetching log for Run ID: {target_run_id}")
+            jobs_data = api_json(base + "/actions/runs/" + target_run_id + "/jobs")
+            failed_jobs = [j for j in jobs_data.get("jobs", []) if j.get("conclusion") == "failure"]
+            if not failed_jobs:
+                failed_jobs = [j for j in jobs_data.get("jobs", []) if j.get("conclusion") not in ("success", "skipped")]
+
+            if not failed_jobs:
+                print("::error:: No failed jobs found in this run.")
+                sys.exit(1)
+
+            job = failed_jobs[0]
+            print(f"::notice:: Extracting core failure block from job: {job.get('name')}")
+            
+            log_bytes = api_get(base + "/actions/jobs/" + str(job["id"]) + "/logs")
+            clean_log = re.sub(r'\x1b\[[0-9;]*m', '', log_bytes.decode("utf-8", errors="replace"))
+            lines = clean_log.split('\n')
+
+            # --- BRUTE-FORCE, GUARANTEED EXTRACTION ---
+            # Find the main failure line
+            fail_idx = next((i for i, line in enumerate(lines) if "FAILURE: Build failed" in line or "Execution failed for task" in line), -1)
+            
+            if fail_idx == -1:
+                # Fallback: last 100 lines of the whole log
+                start_idx = max(0, len(lines) - 100)
+                end_idx = len(lines)
+            else:
+                # Grab 500 lines BEFORE the failure, and 50 lines AFTER it.
+                # This guarantees we catch the 'e: ' compiler errors that precede the summary.
+                start_idx = max(0, fail_idx - 500)
+                end_idx = min(len(lines), fail_idx + 50)
+            
+            filtered_lines = []
+            for i in range(start_idx, end_idx):
+                line = lines[i]
+                stripped = line.strip()
+                
+                # Split off the GitHub Actions timestamp to check the pure log message
+                log_msg = stripped.split("Z ", 1)[-1] if "Z " in stripped else stripped
+                
+                # 1. AGGRESSIVELY DROP pure stack trace lines
+                if log_msg.startswith("at ") or re.search(r'^\.\.\.\s+\d+\s+more', log_msg):
+                    continue
+                
+                # 2. DROP known Gradle noise (be specific to avoid dropping real errors)
+                if "Caching disabled for task" in log_msg or \
+                   "is not up-to-date because" in log_msg or \
+                   "Resolve mutations for" in log_msg:
+                    continue
+                
+                # 3. KEEP everything else in this window
+                filtered_lines.append(line)
+
+            # 4. Remove duplicates while preserving order
+            seen = set()
+            final_filtered = []
+            for line in filtered_lines:
+                clean = re.sub(r'\x1b\[[0-9;]*m', '', line).strip()
+                if clean and clean not in seen:
+                    seen.add(clean)
+                    final_filtered.append(line)
+            filtered_lines = final_filtered
+
+            final_content = f"=== FAILURE LOG FOR RUN: {target_run_id} ===\n"
+            final_content += f"=== FAILED JOB: {job.get('name')} ===\n"
+            final_content += f"=== DATE: {os.popen('date -u').read().strip()} ===\n"
+            final_content += f"=== CORE ERROR BLOCK (500 lines of context, ALL stack traces removed) ===\n\n"
+            final_content += "\n".join(filtered_lines).strip() + "\n"
+
+            # --- STRICT OVERWRITE LOGIC ---
+            branch_exists = True
+            try:
+                api_json(base + "/git/refs/heads/" + log_branch)
+            except urllib.error.HTTPError as e:
+                if e.code == 404:
+                    branch_exists = False
+                else:
+                    raise
+
+            if not branch_exists:
+                print("::notice:: Creating 'ci-logs' branch...")
+                main_ref = api_json(base + "/git/refs/heads/" + default_branch)
+                api_json(base + "/git/refs", data={"ref": "refs/heads/" + log_branch, "sha": main_ref["object"]["sha"]}, method="POST")
+
+            existing_sha = None
+            try:
+                existing = api_json(base + "/contents/" + log_path + "?ref=" + log_branch)
+                existing_sha = existing.get("sha")
+                print("::notice:: Existing file found. It will be COMPLETELY OVERWRITTEN.")
+            except urllib.error.HTTPError as e:
+                if e.code != 404:
+                    raise
+
+            b64content = base64.b64encode(final_content.encode("utf-8")).decode()
+            payload = {
+                "message": "Overwrite latest CI failure log (run " + target_run_id + ")", 
+                "content": b64content, 
+                "branch": log_branch
+            }
+            if existing_sha:
+                payload["sha"] = existing_sha
+
+            result = api_json(base + "/contents/" + log_path, data=payload, method="PUT")
+            print("::notice:: SUCCESS! Old log deleted, new clean failure block saved.")
+            print("::notice:: View it here: " + result["content"]["html_url"])
+
+        except Exception as e:
+            print(f"::error:: Fatal script error: {str(e)}", file=sys.stderr)
+            import traceback
+            traceback.print_exc()
+            sys.exit(1)
+        EOF
+        
+        python3 fetch_failure_logs.py
