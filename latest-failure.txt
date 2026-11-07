@@ -1,83 +1,13 @@
-=== FAILURE LOG FOR RUN: 42350241076 ===
+=== FAILURE LOG FOR RUN: 42395036231 ===
 === FAILED JOB: Build Signed Release APK ===
-=== DATE: Sat Nov  7 07:13:22 UTC 2026 ===
+=== DATE: Sat Nov  7 17:12:23 UTC 2026 ===
 === CORE ERROR BLOCK (Zero false positives, ZERO noise) ===
 
-2026-11-07T07:13:08.0799343Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:404:19 Unresolved reference 'fieldOrder'.
-2026-11-07T07:13:08.0801740Z > Task :app:compileReleaseKotlin FAILED
-2026-11-07T07:13:08.0803454Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:405:29 Unresolved reference 'fieldOrder'.
-2026-11-07T07:13:08.0806485Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:405:29 Cannot infer type for this parameter. Specify it explicitly.
-2026-11-07T07:13:08.0808928Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:428:92 Unresolved reference 'fieldOrder'.
-2026-11-07T07:13:08.0810858Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:429:72 Unresolved reference 'fieldOrder'.
-2026-11-07T07:13:08.0813019Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:430:64 Cannot infer type for this parameter. Specify it explicitly.
-2026-11-07T07:13:08.0815105Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:430:64 Not enough information to infer type argument for 'V'.
-2026-11-07T07:13:08.0817188Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:431:53 Cannot infer type for this parameter. Specify it explicitly.
-2026-11-07T07:13:08.0819622Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:431:53 Not enough information to infer type argument for 'V'.
-2026-11-07T07:13:08.0821647Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:431:79 Cannot infer type for this parameter. Specify it explicitly.
-2026-11-07T07:13:08.0823680Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:431:79 Not enough information to infer type argument for 'V'.
-2026-11-07T07:13:08.0825597Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:433:53 Unresolved reference 'fieldOrder'.
-2026-11-07T07:13:08.0827547Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:436:72 Unresolved reference 'fieldOrder'.
-2026-11-07T07:13:08.0829519Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:437:64 Cannot infer type for this parameter. Specify it explicitly.
-2026-11-07T07:13:08.0831572Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:437:64 Not enough information to infer type argument for 'V'.
-2026-11-07T07:13:08.0833649Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:438:53 Cannot infer type for this parameter. Specify it explicitly.
-2026-11-07T07:13:08.0835689Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:438:53 Not enough information to infer type argument for 'V'.
-2026-11-07T07:13:08.0837896Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:438:79 Cannot infer type for this parameter. Specify it explicitly.
-2026-11-07T07:13:08.0839851Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:438:79 Not enough information to infer type argument for 'V'.
-2026-11-07T07:13:08.0841688Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:440:53 Unresolved reference 'fieldOrder'.
-2026-11-07T07:13:08.0843421Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:493:92 Unresolved reference 'fieldOrder'.
-2026-11-07T07:13:08.0845151Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:494:72 Unresolved reference 'fieldOrder'.
-2026-11-07T07:13:08.0847210Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:495:64 Cannot infer type for this parameter. Specify it explicitly.
-2026-11-07T07:13:08.0849476Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:495:64 Not enough information to infer type argument for 'V'.
-2026-11-07T07:13:08.0851394Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:496:53 Cannot infer type for this parameter. Specify it explicitly.
-2026-11-07T07:13:08.0853430Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:496:53 Not enough information to infer type argument for 'V'.
-2026-11-07T07:13:08.0855591Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:496:79 Cannot infer type for this parameter. Specify it explicitly.
-2026-11-07T07:13:08.0857732Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:496:79 Not enough information to infer type argument for 'V'.
-2026-11-07T07:13:08.0859429Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:498:53 Unresolved reference 'fieldOrder'.
-2026-11-07T07:13:08.0861228Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:501:72 Unresolved reference 'fieldOrder'.
-2026-11-07T07:13:08.0863148Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:502:64 Cannot infer type for this parameter. Specify it explicitly.
-2026-11-07T07:13:08.0865106Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:502:64 Not enough information to infer type argument for 'V'.
-2026-11-07T07:13:08.0866980Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:503:53 Cannot infer type for this parameter. Specify it explicitly.
-2026-11-07T07:13:08.0869021Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:503:53 Not enough information to infer type argument for 'V'.
-2026-11-07T07:13:08.0870659Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:503:79 Cannot infer type for this parameter. Specify it explicitly.
-2026-11-07T07:13:08.0872584Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:503:79 Not enough information to infer type argument for 'V'.
-2026-11-07T07:13:08.0874355Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:505:53 Unresolved reference 'fieldOrder'.
-2026-11-07T07:13:08.0876237Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:573:92 Unresolved reference 'fieldOrder'.
-2026-11-07T07:13:08.0878230Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:574:72 Unresolved reference 'fieldOrder'.
-2026-11-07T07:13:08.0880193Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:575:64 Cannot infer type for this parameter. Specify it explicitly.
-2026-11-07T07:13:08.0882189Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:575:64 Not enough information to infer type argument for 'V'.
-2026-11-07T07:13:08.0884189Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:576:53 Cannot infer type for this parameter. Specify it explicitly.
-2026-11-07T07:13:08.0886176Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:576:53 Not enough information to infer type argument for 'V'.
-2026-11-07T07:13:08.0888605Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:576:79 Cannot infer type for this parameter. Specify it explicitly.
-2026-11-07T07:13:08.0890654Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:576:79 Not enough information to infer type argument for 'V'.
-2026-11-07T07:13:08.0892521Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:578:53 Unresolved reference 'fieldOrder'.
-2026-11-07T07:13:08.0894297Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:581:72 Unresolved reference 'fieldOrder'.
-2026-11-07T07:13:08.0896184Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:582:64 Cannot infer type for this parameter. Specify it explicitly.
-2026-11-07T07:13:08.0898486Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:582:64 Not enough information to infer type argument for 'V'.
-2026-11-07T07:13:08.0900492Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:583:53 Cannot infer type for this parameter. Specify it explicitly.
-2026-11-07T07:13:08.0902618Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:583:53 Not enough information to infer type argument for 'V'.
-2026-11-07T07:13:08.0904632Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:583:79 Cannot infer type for this parameter. Specify it explicitly.
-2026-11-07T07:13:08.0906645Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:583:79 Not enough information to infer type argument for 'V'.
-2026-11-07T07:13:08.0908739Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:585:53 Unresolved reference 'fieldOrder'.
-2026-11-07T07:13:08.0910577Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:623:92 Unresolved reference 'fieldOrder'.
-2026-11-07T07:13:08.0912375Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:624:72 Unresolved reference 'fieldOrder'.
-2026-11-07T07:13:08.0914296Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:625:64 Cannot infer type for this parameter. Specify it explicitly.
-2026-11-07T07:13:08.0916310Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:625:64 Not enough information to infer type argument for 'V'.
-2026-11-07T07:13:08.0918416Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:626:53 Cannot infer type for this parameter. Specify it explicitly.
-2026-11-07T07:13:08.0920410Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:626:53 Not enough information to infer type argument for 'V'.
-2026-11-07T07:13:08.0922423Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:626:79 Cannot infer type for this parameter. Specify it explicitly.
-2026-11-07T07:13:08.0924366Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:626:79 Not enough information to infer type argument for 'V'.
-2026-11-07T07:13:08.0926236Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:628:53 Unresolved reference 'fieldOrder'.
-2026-11-07T07:13:08.0928224Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:631:72 Unresolved reference 'fieldOrder'.
-2026-11-07T07:13:08.0930139Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:632:64 Cannot infer type for this parameter. Specify it explicitly.
-2026-11-07T07:13:08.0932376Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:632:64 Not enough information to infer type argument for 'V'.
-2026-11-07T07:13:08.0934344Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:633:53 Cannot infer type for this parameter. Specify it explicitly.
-2026-11-07T07:13:08.0936550Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:633:53 Not enough information to infer type argument for 'V'.
-2026-11-07T07:13:08.0939024Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:633:79 Cannot infer type for this parameter. Specify it explicitly.
-2026-11-07T07:13:08.0941001Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:633:79 Not enough information to infer type argument for 'V'.
-2026-11-07T07:13:08.0942835Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:635:53 Unresolved reference 'fieldOrder'.
-2026-11-07T07:13:08.2798875Z FAILURE: Build failed with an exception.
-2026-11-07T07:13:08.2799861Z * What went wrong:
-2026-11-07T07:13:08.2803539Z    > Compilation error. See log for more details
-2026-11-07T07:13:08.2804257Z * Try:
-2026-11-07T07:13:08.3176261Z Caused by: org.jetbrains.kotlin.gradle.tasks.CompilationErrorException: Compilation error. See log for more details
-2026-11-07T07:13:08.3254982Z BUILD FAILED in 27s
+2026-11-07T17:12:09.8126019Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/GlobalExceptionHandler.kt:71:16 Return type mismatch: expected 'String', actual 'String?'.
+2026-11-07T17:12:09.8127450Z > Task :app:compileReleaseKotlin FAILED
+2026-11-07T17:12:09.9135857Z FAILURE: Build failed with an exception.
+2026-11-07T17:12:09.9137151Z * What went wrong:
+2026-11-07T17:12:09.9141118Z    > Compilation error. See log for more details
+2026-11-07T17:12:09.9142573Z * Try:
+2026-11-07T17:12:09.9267036Z Caused by: org.jetbrains.kotlin.gradle.tasks.CompilationErrorException: Compilation error. See log for more details
+2026-11-07T17:12:09.9290490Z BUILD FAILED in 20s
