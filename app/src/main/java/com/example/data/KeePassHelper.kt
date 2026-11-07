@@ -19,6 +19,9 @@ object KeePassHelper {
                 context.contentResolver.openInputStream(uri)?.use { inputStream ->
                     KeePassDatabase.decode(inputStream, credentials)
                 }
+            } catch (e: SecurityException) {
+                // Re-throw SecurityException so caller can distinguish permission loss from bad password
+                throw e
             } catch (e: Exception) {
                 e.printStackTrace()
                 null

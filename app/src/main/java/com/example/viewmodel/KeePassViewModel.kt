@@ -140,8 +140,21 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
     }
 
     private fun checkExistingUri() {
-        settings.databaseUri.value?.let {
-            _dbUri.value = Uri.parse(it)
+        settings.databaseUri.value?.let { uriString ->
+            val uri = Uri.parse(uriString)
+            _dbUri.value = uri
+            // Re-acquire persistable URI permission on app restart.
+            // The permission from takePersistableUriPermission() should survive restarts,
+            // but many document providers don't honor it reliably. Attempting to re-take
+            // the permission is a no-op if we already have it, and restores access if lost.
+            try {
+                val takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                context.contentResolver.takePersistableUriPermission(uri, takeFlags)
+            } catch (e: Exception) {
+                // Permission might not be persistable (e.g. cloud providers), or already revoked.
+                // We'll still try to open the DB; loadDatabase will surface a clear error.
+                e.printStackTrace()
+            }
         }
     }
 
@@ -214,8 +227,12 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
                     } else {
                         _error.value = "Failed to unlock database. Incorrect password or invalid file."
                     }
+                } catch (e: SecurityException) {
+                    // Permission lost - URI is no longer accessible.
+                    // This commonly happens after app restart when persistable permission wasn't retained.
+                    _error.value = "Permission to access the database file was lost. Please re-select the file."
                 } catch (e: Exception) {
-                    _error.value = "Unable to open database. Please check your master password or file permissions."
+                    _error.value = "Unable to open database: ${e.message ?: "unknown error"}"
                 } finally {
                     _isLoading.value = false
                 }
