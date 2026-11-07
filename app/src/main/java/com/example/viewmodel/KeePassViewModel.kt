@@ -214,11 +214,12 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
         _dbUri.value = uri
         if (persistable) {
             settings.setDatabaseUri(uri.toString())
+            _error.value = null  // Only clear error on success
         } else {
             // Clear any previously saved URI since this one won't survive a restart
             settings.setDatabaseUri(null)
+            // Keep the error message visible to user
         }
-        _error.value = null
     }
 
     fun unlockDatabase(password: String) {
