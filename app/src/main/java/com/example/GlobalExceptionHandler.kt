@@ -69,7 +69,7 @@ class GlobalExceptionHandler(private val context: Context) : Thread.UncaughtExce
 
     private fun getAppVersionName(): String {
         return try {
-            context.packageManager.getPackageInfo(context.packageName, 0).versionName
+            context.packageManager.getPackageInfo(context.packageName, 0).versionName ?: "unknown"
         } catch (e: PackageManager.NameNotFoundException) {
             "unknown"
         }
