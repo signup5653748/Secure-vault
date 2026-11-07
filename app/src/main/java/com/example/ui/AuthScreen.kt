@@ -19,6 +19,7 @@ import com.example.viewmodel.KeePassViewModel
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.material.icons.filled.Fingerprint
 import com.example.ui.BiometricHelper
+import com.example.ui.debounced
 
 
 @Composable
@@ -59,7 +60,7 @@ fun AuthScreen(viewModel: KeePassViewModel, onNavigateToCreate: () -> Unit) {
     var password by remember { mutableStateOf("") }
 
     val filePickerLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.OpenDocument()
+        contract = ActivityResultContracts.GetContent()
     ) { uri ->
         if (uri != null) {
             viewModel.importFile(uri)
@@ -87,7 +88,7 @@ fun AuthScreen(viewModel: KeePassViewModel, onNavigateToCreate: () -> Unit) {
             
             Spacer(modifier = Modifier.height(16.dp))
             Button(
-                onClick = { filePickerLauncher.launch(arrayOf("*/*")) }
+                onClick = debounced { filePickerLauncher.launch("*/*") }
             ) {
                 Icon(Icons.Default.FolderOpen, contentDescription = null)
                 Spacer(modifier = Modifier.width(8.dp))
@@ -144,7 +145,7 @@ fun AuthScreen(viewModel: KeePassViewModel, onNavigateToCreate: () -> Unit) {
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
                 TextButton(
-                    onClick = { filePickerLauncher.launch(arrayOf("*/*")) }
+                    onClick = debounced { filePickerLauncher.launch("*/*") }
                 ) {
                     Text("Select different")
                 }
