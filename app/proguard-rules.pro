@@ -31,7 +31,12 @@
 # AndroidX Biometric & Security Crypto
 -keep class androidx.biometric.** { *; }
 -keep class androidx.security.crypto.** { *; }
--dontwarn androidx.security.crypto.**
+-keep class com.google.crypto.tink.** { *; }
+-keep interface com.google.crypto.tink.** { *; }
+-keepclassmembers class com.google.crypto.tink.** { *; }
+-keep class com.google.crypto.tink.proto.** { *; }
+-keepclassmembers class com.google.crypto.tink.proto.** { *; }
+-keep class androidx.security.crypto.** { *; }
 -dontwarn com.google.crypto.tink.**
 -dontwarn com.google.errorprone.annotations.**
 -dontwarn javax.annotation.**
