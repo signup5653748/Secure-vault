@@ -150,9 +150,13 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
             try {
                 val takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
                 context.contentResolver.takePersistableUriPermission(uri, takeFlags)
+            } catch (e: SecurityException) {
+                // Persistable permission was revoked or never granted (common with cloud providers).
+                // Clear the stale URI so the user is prompted to re-select the file.
+                _dbUri.value = null
+                settings.setDatabaseUri(null)
+                _error.value = "Permission to access the saved database was lost. Please re-select the file."
             } catch (e: Exception) {
-                // Permission might not be persistable (e.g. cloud providers), or already revoked.
-                // We'll still try to open the DB; loadDatabase will surface a clear error.
                 e.printStackTrace()
             }
         }
@@ -182,27 +186,37 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
         allEntriesCache = emptyList()
         _currentGroup.value = null
         _currentEntry.value = null
-        // Attempt to take a persistable permission so the file can be re-opened
-        // from the "recent databases" list on a later launch. ACTION_VIEW grants
-        // are not persistable by default, so this can fail — only persist the URI
-        // if we actually hold a durable grant (or the URI is a plain file:// path,
-        // which needs no permission). Otherwise the next launch would restore a
-        // stale, unopenable URI.
+
+        // Try to make the URI permission persistable so the file can be re-opened
+        // on a later launch. This requires the original grant to include
+        // FLAG_GRANT_PERSISTABLE_URI_PERMISSION (not guaranteed with OpenDocument).
+        // If it fails, we still keep the URI in memory for the current session,
+        // but we don't persist it to settings to avoid restoring a stale URI later.
         val persistable = if (uri.scheme == "file") {
+            // file:// URIs need no permission grant
             true
         } else {
             try {
-                val takeFlags: Int = Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                val takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
                 context.contentResolver.takePersistableUriPermission(uri, takeFlags)
                 true
-            } catch (e: Throwable) {
+            } catch (e: SecurityException) {
+                // Provider refuses to make the permission persistable (common with cloud providers).
+                // Keep the URI for this session only; don't save to settings.
+                _error.value = "App does not have persistent permission to access this file. It will work for this session only."
+                false
+            } catch (e: Exception) {
                 e.printStackTrace()
                 false
             }
         }
+
         _dbUri.value = uri
         if (persistable) {
             settings.setDatabaseUri(uri.toString())
+        } else {
+            // Clear any previously saved URI since this one won't survive a restart
+            settings.setDatabaseUri(null)
         }
         _error.value = null
     }
@@ -245,18 +259,31 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
 
     fun createDatabase(uri: Uri, password: String, onComplete: (Boolean, String?) -> Unit) {
         viewModelScope.launch {
-            // Take persistable permission
-            try {
-                val takeFlags: Int = Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-                context.contentResolver.takePersistableUriPermission(uri, takeFlags)
-            } catch (e: Throwable) {
-                e.printStackTrace()
+            // Try to make the URI permission persistable for future launches
+            val persistable = if (uri.scheme == "file") {
+                true
+            } else {
+                try {
+                    val takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                    context.contentResolver.takePersistableUriPermission(uri, takeFlags)
+                    true
+                } catch (e: SecurityException) {
+                    _error.value = "App does not have persistent permission to access this file. It will work for this session only."
+                    false
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    false
+                }
             }
             
             val (success, errorMsg) = KeePassHelper.createNewDatabase(context, uri, password)
             if (success) {
                 _dbUri.value = uri
-                settings.setDatabaseUri(uri.toString())
+                if (persistable) {
+                    settings.setDatabaseUri(uri.toString())
+                } else {
+                    settings.setDatabaseUri(null)
+                }
                 
                 try {
                     val db = KeePassHelper.loadDatabase(context, uri, password)
@@ -273,8 +300,10 @@ class KeePassViewModel(application: Application) : AndroidViewModel(application)
                     } else {
                         _error.value = "Failed to unlock database after creation."
                     }
+                } catch (e: SecurityException) {
+                    _error.value = "Permission to access the database file was lost. Please re-select the file."
                 } catch (e: Exception) {
-                    _error.value = "Unable to access the newly created database."
+                    _error.value = "Unable to access the newly created database: ${e.message ?: "unknown error"}"
                 }
             }
             onComplete(success, errorMsg)
