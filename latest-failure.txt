@@ -1,169 +1,55 @@
-=== FAILURE LOG FOR RUN: 42262040805 ===
+=== FAILURE LOG FOR RUN: 42344766634 ===
 === FAILED JOB: Build Signed Release APK ===
-=== DATE: Fri Nov  6 17:30:51 UTC 2026 ===
+=== DATE: Sat Nov  7 05:57:25 UTC 2026 ===
 === CORE ERROR BLOCK (Zero false positives, ZERO noise) ===
 
-2026-11-06T17:30:34.8307025Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:38:47 Unresolved reference 'DragHandle'.
-2026-11-06T17:30:34.8309423Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:105:30 Smart cast to 'Entry' is impossible, because 'currentEntry' is a delegated property.
-2026-11-06T17:30:34.8311904Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:110:32 Smart cast to 'Entry' is impossible, because 'currentEntry' is a delegated property.
-2026-11-06T17:30:34.8314026Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:275:48 Unresolved reference 'AttachFile'.
-2026-11-06T17:30:34.8315825Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:291:68 Unresolved reference 'TextFields'.
-2026-11-06T17:30:34.8317357Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:300:68 Unresolved reference 'Timer'.
-2026-11-06T17:30:34.8318804Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:390:44 Unresolved reference 'Palette'.
-2026-11-06T17:30:34.8320363Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:417:47 Unresolved reference 'DragHandle'.
-2026-11-06T17:30:34.8321910Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:482:47 Unresolved reference 'DragHandle'.
-2026-11-06T17:30:34.8323539Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:527:85 Unresolved reference 'VisibilityOff'.
-2026-11-06T17:30:34.8325028Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:527:118 Unresolved reference 'Visibility'.
-2026-11-06T17:30:34.8326360Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:530:68 Unresolved reference 'ContentCopy'.
-2026-11-06T17:30:34.8327290Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:562:47 Unresolved reference 'DragHandle'.
-2026-11-06T17:30:34.8328213Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:612:47 Unresolved reference 'DragHandle'.
-2026-11-06T17:30:34.8329137Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:691:50 Unresolved reference 'Timer'.
-2026-11-06T17:30:34.8330060Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:698:75 Unresolved reference 'VisibilityOff'.
-2026-11-06T17:30:34.8331005Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:698:108 Unresolved reference 'Visibility'.
-2026-11-06T17:30:34.8332186Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:817:39 Unresolved reference 'Timer'.
-2026-11-06T17:30:34.8333145Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:1306:64 Unresolved reference 'InsertDriveFile'.
-2026-11-06T17:30:34.8334096Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddGroupScreen.kt:39:47 Unresolved reference 'Palette'.
-2026-11-06T17:30:34.8335212Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddGroupScreen.kt:58:100 Smart cast to 'Group' is impossible, because 'currentGroup' is a delegated property.
-2026-11-06T17:30:34.8336418Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddGroupScreen.kt:59:103 Smart cast to 'Group' is impossible, because 'currentGroup' is a delegated property.
-2026-11-06T17:30:34.8337594Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddGroupScreen.kt:60:100 Smart cast to 'Group' is impossible, because 'currentGroup' is a delegated property.
-2026-11-06T17:30:34.8338773Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddGroupScreen.kt:92:89 Smart cast to 'Group' is impossible, because 'currentGroup' is a delegated property.
-2026-11-06T17:30:34.8339826Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddGroupScreen.kt:135:40 Unresolved reference 'Palette'.
-2026-11-06T17:30:34.8340740Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AuthScreen.kt:8:47 Unresolved reference 'FolderOpen'.
-2026-11-06T17:30:34.8353575Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AuthScreen.kt:20:47 Unresolved reference 'Fingerprint'.
-2026-11-06T17:30:34.8355145Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AuthScreen.kt:92:36 Unresolved reference 'FolderOpen'.
-2026-11-06T17:30:34.8359149Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AuthScreen.kt:136:40 Unresolved reference 'Fingerprint'.
-2026-11-06T17:30:34.8360659Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/MoveItemDialog.kt:10:60 Unresolved reference 'DriveFileMove'.
-2026-11-06T17:30:34.8362480Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/MoveItemDialog.kt:49:57 Unresolved reference 'DriveFileMove'.
-2026-11-06T17:30:34.8363915Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/SecureScreen.kt:31:47 Unresolved reference 'Sort'.
-2026-11-06T17:30:34.8365310Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/SecureScreen.kt:259:43 Unresolved reference 'Storage'.
-2026-11-06T17:30:34.8366709Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/SecureScreen.kt:273:63 Unresolved reference 'ExpandLess'.
-2026-11-06T17:30:34.8368092Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/SecureScreen.kt:273:93 Unresolved reference 'ExpandMore'.
-2026-11-06T17:30:34.8369488Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/SecureScreen.kt:294:53 Unresolved reference 'VpnKey'.
-2026-11-06T17:30:34.8370944Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/SecureScreen.kt:324:88 Unresolved reference 'VisibilityOff'.
-2026-11-06T17:30:34.8372599Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/SecureScreen.kt:324:121 Unresolved reference 'Visibility'.
-2026-11-06T17:30:34.8374085Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/SecureScreen.kt:340:92 Unresolved reference 'VisibilityOff'.
-2026-11-06T17:30:34.8375599Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/SecureScreen.kt:340:125 Unresolved reference 'Visibility'.
-2026-11-06T17:30:34.8377031Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/SecureScreen.kt:375:88 Unresolved reference 'VisibilityOff'.
-2026-11-06T17:30:34.8378475Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/SecureScreen.kt:375:121 Unresolved reference 'Visibility'.
-2026-11-06T17:30:34.8379955Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/SecureScreen.kt:425:49 Unresolved reference 'FolderOpen'.
-2026-11-06T17:30:34.8382006Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/SecureScreen.kt:449:61 Unresolved reference 'LibraryBooks'.
-2026-11-06T17:30:34.8383596Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/SecureScreen.kt:469:49 Unresolved reference 'HelpOutline'.
-2026-11-06T17:30:34.8385106Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/SecureScreen.kt:489:61 Unresolved reference 'VpnKey'.
-2026-11-06T17:30:34.8386597Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/SecureScreen.kt:500:61 Unresolved reference 'ContentPaste'.
-2026-11-06T17:30:34.8388106Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/SecureScreen.kt:511:61 Unresolved reference 'Folder'.
-2026-11-06T17:30:34.8389603Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/SecureScreen.kt:568:56 Unresolved reference 'Save'.
-2026-11-06T17:30:34.8391049Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/SecureScreen.kt:571:52 Unresolved reference 'Save'.
-2026-11-06T17:30:34.8392926Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/SecureScreen.kt:576:52 Unresolved reference 'Sort'.
-2026-11-06T17:30:34.8394124Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/SecureScreen.kt:650:48 Unresolved reference 'Folder'.
-2026-11-06T17:30:34.8395455Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/SecureScreen.kt:668:48 Unresolved reference 'VpnKey'.
-2026-11-06T17:30:34.8396811Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/SecureScreen.kt:850:68 Unresolved reference 'DriveFileMove'.
-2026-11-06T17:30:34.8398381Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/SecureScreen.kt:858:56 Unresolved reference 'ContentCopy'.
-2026-11-06T17:30:34.8399770Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/SecureScreen.kt:976:72 Unresolved reference 'DriveFileMove'.
-2026-11-06T17:30:34.8401226Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/SecureScreen.kt:984:60 Unresolved reference 'ContentCopy'.
-2026-11-06T17:30:34.8402744Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/SettingsScreen.kt:9:47 Unresolved reference 'DeleteOutline'.
-2026-11-06T17:30:34.8404183Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/SettingsScreen.kt:176:36 Unresolved reference 'DeleteOutline'.
-2026-11-06T17:30:34.8405674Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/SettingsScreen.kt:185:44 Unresolved reference 'DeleteOutline'.
-2026-11-06T17:30:34.8406976Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:51:35 Unresolved reference 'Folder'.
-2026-11-06T17:30:34.8408316Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:52:40 Unresolved reference 'FolderOpen'.
-2026-11-06T17:30:34.8409614Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:53:37 Unresolved reference 'Description'.
-2026-11-06T17:30:34.8411015Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:54:40 Unresolved reference 'Description'.
-2026-11-06T17:30:34.8412622Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:57:35 Unresolved reference 'LockOpen'.
-2026-11-06T17:30:34.8414015Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:62:32 Unresolved reference 'Web'.
-2026-11-06T17:30:34.8415302Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:63:36 Unresolved reference 'Web'.
-2026-11-06T17:30:34.8416644Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:66:33 Unresolved reference 'Note'.
-2026-11-06T17:30:34.8418027Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:67:33 Unresolved reference 'Note'.
-2026-11-06T17:30:34.8419375Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:68:37 Unresolved reference 'CalendarToday'.
-2026-11-06T17:30:34.8420776Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:69:33 Unresolved reference 'CalendarToday'.
-2026-11-06T17:30:34.8422277Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:70:34 Unresolved reference 'AccessTime'.
-2026-11-06T17:30:34.8423509Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:71:33 Unresolved reference 'AccessTime'.
-2026-11-06T17:30:34.8424769Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:72:32 Unresolved reference 'VpnKey'.
-2026-11-06T17:30:34.8426330Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:79:37 Unresolved reference 'Security'.
-2026-11-06T17:30:34.8428104Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:80:35 Unresolved reference 'Security'.
-2026-11-06T17:30:34.8429557Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:81:35 Unresolved reference 'AccountBalanceWallet'.
-2026-11-06T17:30:34.8431273Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:82:33 Unresolved reference 'CreditCard'.
-2026-11-06T17:30:34.8433165Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:83:40 Unresolved reference 'CreditCard'.
-2026-11-06T17:30:34.8435014Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:84:31 Unresolved reference 'Badge'.
-2026-11-06T17:30:34.8436636Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:85:34 Unresolved reference 'Badge'.
-2026-11-06T17:30:34.8444522Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:86:37 Unresolved reference 'Badge'.
-2026-11-06T17:30:34.8446185Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:87:36 Unresolved reference 'DriveFileRenameOutline'.
-2026-11-06T17:30:34.8447651Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:88:40 Unresolved reference 'LocalLibrary'.
-2026-11-06T17:30:34.8449052Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:89:35 Unresolved reference 'LocalOffer'.
-2026-11-06T17:30:34.8450463Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:90:39 Unresolved reference 'Group'.
-2026-11-06T17:30:34.8451958Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:91:34 Unresolved reference 'Group'.
-2026-11-06T17:30:34.8453159Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:92:38 Unresolved reference 'Security'.
-2026-11-06T17:30:34.8454563Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:93:36 Unresolved reference 'LocalHospital'.
-2026-11-06T17:30:34.8455964Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:94:37 Unresolved reference 'LocalHospital'.
-2026-11-06T17:30:34.8457383Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:96:35 Unresolved reference 'AccountBalance'.
-2026-11-06T17:30:34.8458846Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:97:36 Unresolved reference 'AccountBalanceWallet'.
-2026-11-06T17:30:34.8460669Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:98:37 Unresolved reference 'AccountBalance'.
-2026-11-06T17:30:34.8462140Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:99:34 Unresolved reference 'Help'.
-2026-11-06T17:30:34.8463394Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:100:33 Unresolved reference 'Help'.
-2026-11-06T17:30:34.8464635Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:103:34 Unresolved reference 'Error'.
-2026-11-06T17:30:34.8465937Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:113:33 Unresolved reference 'Save'.
-2026-11-06T17:30:34.8467204Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:114:33 Unresolved reference 'ContentCopy'.
-2026-11-06T17:30:34.8468514Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:115:34 Unresolved reference 'ContentPaste'.
-2026-11-06T17:30:34.8470039Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:116:32 Unresolved reference 'ContentCut'.
-2026-11-06T17:30:34.8471640Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:119:35 Unresolved reference 'FilterList'.
-2026-11-06T17:30:34.8472956Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:120:33 Unresolved reference 'Sort'.
-2026-11-06T17:30:34.8474301Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:123:36 Unresolved reference 'Inbox'.
-2026-11-06T17:30:34.8475810Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:124:34 Unresolved reference 'Inbox'.
-2026-11-06T17:30:34.8477123Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:125:35 Unresolved reference 'Outbox'.
-2026-11-06T17:30:34.8478432Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:126:35 Unresolved reference 'CloudUpload'.
-2026-11-06T17:30:34.8479831Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:127:37 Unresolved reference 'CloudDownload'.
-2026-11-06T17:30:34.8481232Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:128:34 Unresolved reference 'Cloud'.
-2026-11-06T17:30:34.8482729Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:129:33 Unresolved reference 'Sync'.
-2026-11-06T17:30:34.8484065Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:131:33 Unresolved reference 'Undo'.
-2026-11-06T17:30:34.8485186Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:132:33 Unresolved reference 'Redo'.
-2026-11-06T17:30:34.8486490Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:135:31 Unresolved reference 'ArrowUpward'.
-2026-11-06T17:30:34.8487762Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:136:33 Unresolved reference 'ArrowDownward'.
-2026-11-06T17:30:34.8488946Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:137:33 Unresolved reference 'ArrowLeft'.
-2026-11-06T17:30:34.8490308Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:138:34 Unresolved reference 'ArrowRight'.
-2026-11-06T17:30:34.8491283Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:148:34 Unresolved reference 'Print'.
-2026-11-06T17:30:34.8492424Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:149:33 Unresolved reference 'QrCode'.
-2026-11-06T17:30:34.8493481Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:150:31 Unresolved reference 'QrCode'.
-2026-11-06T17:30:34.8494426Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:151:36 Unresolved reference 'QrCode'.
-2026-11-06T17:30:34.8495346Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:152:35 Unresolved reference 'Camera'.
-2026-11-06T17:30:34.8496267Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:153:34 Unresolved reference 'Image'.
-2026-11-06T17:30:34.8497169Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:154:34 Unresolved reference 'Image'.
-2026-11-06T17:30:34.8498080Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:155:34 Unresolved reference 'Camera'.
-2026-11-06T17:30:34.8499091Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:156:34 Unresolved reference 'MusicNote'.
-2026-11-06T17:30:34.8500171Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:157:34 Unresolved reference 'MusicNote'.
-2026-11-06T17:30:34.8501029Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:158:32 Unresolved reference 'Mic'.
-2026-11-06T17:30:34.8502100Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:159:35 Unresolved reference 'VolumeUp'.
-2026-11-06T17:30:34.8503016Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:160:33 Unresolved reference 'VolumeOff'.
-2026-11-06T17:30:34.8504181Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:161:33 Unresolved reference 'Wifi'.
-2026-11-06T17:30:34.8505102Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:162:35 Unresolved reference 'Wifi'.
-2026-11-06T17:30:34.8506044Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:163:36 Unresolved reference 'BatteryFull'.
-2026-11-06T17:30:34.8506962Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:164:34 Unresolved reference 'Power'.
-2026-11-06T17:30:34.8507872Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:166:35 Unresolved reference 'LockOpen'.
-2026-11-06T17:30:34.8508910Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:168:35 Unresolved reference 'Public'.
-2026-11-06T17:30:34.8509806Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:172:36 Unresolved reference 'ThumbDown'.
-2026-11-06T17:30:34.8510716Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:174:39 Unresolved reference 'ThumbDown'.
-2026-11-06T17:30:34.8511875Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:177:32 Unresolved reference 'LocalOffer'.
-2026-11-06T17:30:34.8512790Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:178:34 Unresolved reference 'Label'.
-2026-11-06T17:30:34.8513706Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:179:37 Unresolved reference 'Category'.
-2026-11-06T17:30:34.8514625Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:180:33 Unresolved reference 'Category'.
-2026-11-06T17:30:34.8515543Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:181:33 Unresolved reference 'Category'.
-2026-11-06T17:30:34.8516435Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/Utils.kt:182:31 Unresolved reference 'Folder'.
-2026-11-06T17:30:34.8517378Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:9:47 Unresolved reference 'Label'.
-2026-11-06T17:30:34.8518372Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:10:47 Unresolved reference 'Attachment'.
-2026-11-06T17:30:34.8519371Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:95:56 Unresolved reference 'DriveFileMove'.
-2026-11-06T17:30:34.8520366Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:169:43 Unresolved reference 'VpnKey'.
-2026-11-06T17:30:34.8521426Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:202:68 Unresolved reference 'VisibilityOff'.
-2026-11-06T17:30:34.8522444Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:202:101 Unresolved reference 'Visibility'.
-2026-11-06T17:30:34.8523532Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:211:48 Unresolved reference 'ContentCopy'.
-2026-11-06T17:30:34.8524539Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:253:44 Unresolved reference 'QrCode'.
-2026-11-06T17:30:34.8525513Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:302:48 Unresolved reference 'ContentCopy'.
-2026-11-06T17:30:34.8526511Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:346:75 Unresolved reference 'VisibilityOff'.
-2026-11-06T17:30:34.8527924Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:346:108 Unresolved reference 'Visibility'.
-2026-11-06T17:30:34.8529425Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:352:60 Unresolved reference 'ContentCopy'.
-2026-11-06T17:30:34.8530923Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:404:76 Unresolved reference 'Label'.
-2026-11-06T17:30:34.8532558Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:432:51 Unresolved reference 'Attachment'.
-2026-11-06T17:30:34.8534295Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:468:32 Unresolved reference 'ContentCopy'.
-2026-11-06T17:30:34.8535413Z > Task :app:compileReleaseKotlin FAILED
-2026-11-06T17:30:34.9326482Z FAILURE: Build failed with an exception.
-2026-11-06T17:30:34.9372250Z * What went wrong:
-2026-11-06T17:30:34.9385813Z    > Compilation error. See log for more details
-2026-11-06T17:30:34.9386570Z * Try:
-2026-11-06T17:30:34.9570584Z Caused by: org.jetbrains.kotlin.gradle.tasks.CompilationErrorException: Compilation error. See log for more details
-2026-11-06T17:30:34.9615562Z BUILD FAILED in 27s
+2026-11-07T05:57:09.8177905Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:87:100 Smart cast to 'Entry' is impossible, because 'currentEntry' is a delegated property.
+2026-11-07T05:57:09.8198119Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:88:103 Smart cast to 'Entry' is impossible, because 'currentEntry' is a delegated property.
+2026-11-07T05:57:09.8208141Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:89:103 Smart cast to 'Entry' is impossible, because 'currentEntry' is a delegated property.
+2026-11-07T05:57:09.8210898Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:90:98 Smart cast to 'Entry' is impossible, because 'currentEntry' is a delegated property.
+2026-11-07T05:57:09.8213651Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:91:100 Smart cast to 'Entry' is impossible, because 'currentEntry' is a delegated property.
+2026-11-07T05:57:09.8216644Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:92:103 Smart cast to 'Entry' is impossible, because 'currentEntry' is a delegated property.
+2026-11-07T05:57:09.8219371Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:93:100 Smart cast to 'Entry' is impossible, because 'currentEntry' is a delegated property.
+2026-11-07T05:57:09.8222076Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:94:105 Smart cast to 'Entry' is impossible, because 'currentEntry' is a delegated property.
+2026-11-07T05:57:09.8224781Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:97:107 Smart cast to 'Entry' is impossible, because 'currentEntry' is a delegated property.
+2026-11-07T05:57:09.8227752Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:97:197 Smart cast to 'Entry' is impossible, because 'currentEntry' is a delegated property.
+2026-11-07T05:57:09.8230469Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:98:107 Smart cast to 'Entry' is impossible, because 'currentEntry' is a delegated property.
+2026-11-07T05:57:09.8233159Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:98:197 Smart cast to 'Entry' is impossible, because 'currentEntry' is a delegated property.
+2026-11-07T05:57:09.8235892Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:99:102 Smart cast to 'Entry' is impossible, because 'currentEntry' is a delegated property.
+2026-11-07T05:57:09.8238851Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:99:187 Smart cast to 'Entry' is impossible, because 'currentEntry' is a delegated property.
+2026-11-07T05:57:09.8241564Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:100:104 Smart cast to 'Entry' is impossible, because 'currentEntry' is a delegated property.
+2026-11-07T05:57:09.8244297Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:100:191 Smart cast to 'Entry' is impossible, because 'currentEntry' is a delegated property.
+2026-11-07T05:57:09.8247298Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:105:30 Smart cast to 'Entry' is impossible, because 'currentEntry' is a delegated property.
+2026-11-07T05:57:09.8250055Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:110:32 Smart cast to 'Entry' is impossible, because 'currentEntry' is a delegated property.
+2026-11-07T05:57:09.8253044Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddGroupScreen.kt:58:100 Smart cast to 'Group' is impossible, because 'currentGroup' is a delegated property.
+2026-11-07T05:57:09.8255821Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddGroupScreen.kt:59:103 Smart cast to 'Group' is impossible, because 'currentGroup' is a delegated property.
+2026-11-07T05:57:09.8259215Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddGroupScreen.kt:60:100 Smart cast to 'Group' is impossible, because 'currentGroup' is a delegated property.
+2026-11-07T05:57:09.8261905Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddGroupScreen.kt:92:89 Smart cast to 'Group' is impossible, because 'currentGroup' is a delegated property.
+2026-11-07T05:57:09.8264699Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:63:61 Argument type mismatch: actual type is 'Entry?', but 'Entry' was expected.
+2026-11-07T05:57:09.8267714Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:65:21 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'Entry?'.
+2026-11-07T05:57:09.8270431Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:72:37 Argument type mismatch: actual type is 'Entry?', but 'Entry' was expected.
+2026-11-07T05:57:09.8273166Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:117:41 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'Entry?'.
+2026-11-07T05:57:09.8275982Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:118:41 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'Entry?'.
+2026-11-07T05:57:09.8279091Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:152:30 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'Entry?'.
+2026-11-07T05:57:09.8282009Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:152:78 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'Entry?'.
+2026-11-07T05:57:09.8284824Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:155:37 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'Entry?'.
+2026-11-07T05:57:09.8287898Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:156:82 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'Entry?'.
+2026-11-07T05:57:09.8290706Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:175:58 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'Entry?'.
+2026-11-07T05:57:09.8293529Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:207:39 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'Entry?'.
+2026-11-07T05:57:09.8296599Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:218:33 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'Entry?'.
+2026-11-07T05:57:09.8299452Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:312:37 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'Entry?'.
+2026-11-07T05:57:09.8302402Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:349:59 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'Entry?'.
+2026-11-07T05:57:09.8305639Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:365:19 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'Entry?'.
+2026-11-07T05:57:09.8308759Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:379:37 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'Entry?'.
+2026-11-07T05:57:09.8311785Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:387:22 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'Entry?'.
+2026-11-07T05:57:09.8314631Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:400:32 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'Entry?'.
+2026-11-07T05:57:09.8317785Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:410:22 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'Entry?'.
+2026-11-07T05:57:09.8320589Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:424:30 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'Entry?'.
+2026-11-07T05:57:09.8323365Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:439:46 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'Entry?'.
+2026-11-07T05:57:09.9197195Z > Task :app:compileReleaseKotlin FAILED
+2026-11-07T05:57:10.0177555Z FAILURE: Build failed with an exception.
+2026-11-07T05:57:10.0187484Z * What went wrong:
+2026-11-07T05:57:10.0192426Z    > Compilation error. See log for more details
+2026-11-07T05:57:10.0193369Z * Try:
+2026-11-07T05:57:10.0538400Z Caused by: org.jetbrains.kotlin.gradle.tasks.CompilationErrorException: Compilation error. See log for more details
+2026-11-07T05:57:10.0603829Z BUILD FAILED in 28s
