@@ -1,55 +1,83 @@
-=== FAILURE LOG FOR RUN: 42344766634 ===
+=== FAILURE LOG FOR RUN: 42350241076 ===
 === FAILED JOB: Build Signed Release APK ===
-=== DATE: Sat Nov  7 05:57:25 UTC 2026 ===
+=== DATE: Sat Nov  7 07:13:22 UTC 2026 ===
 === CORE ERROR BLOCK (Zero false positives, ZERO noise) ===
 
-2026-11-07T05:57:09.8177905Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:87:100 Smart cast to 'Entry' is impossible, because 'currentEntry' is a delegated property.
-2026-11-07T05:57:09.8198119Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:88:103 Smart cast to 'Entry' is impossible, because 'currentEntry' is a delegated property.
-2026-11-07T05:57:09.8208141Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:89:103 Smart cast to 'Entry' is impossible, because 'currentEntry' is a delegated property.
-2026-11-07T05:57:09.8210898Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:90:98 Smart cast to 'Entry' is impossible, because 'currentEntry' is a delegated property.
-2026-11-07T05:57:09.8213651Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:91:100 Smart cast to 'Entry' is impossible, because 'currentEntry' is a delegated property.
-2026-11-07T05:57:09.8216644Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:92:103 Smart cast to 'Entry' is impossible, because 'currentEntry' is a delegated property.
-2026-11-07T05:57:09.8219371Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:93:100 Smart cast to 'Entry' is impossible, because 'currentEntry' is a delegated property.
-2026-11-07T05:57:09.8222076Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:94:105 Smart cast to 'Entry' is impossible, because 'currentEntry' is a delegated property.
-2026-11-07T05:57:09.8224781Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:97:107 Smart cast to 'Entry' is impossible, because 'currentEntry' is a delegated property.
-2026-11-07T05:57:09.8227752Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:97:197 Smart cast to 'Entry' is impossible, because 'currentEntry' is a delegated property.
-2026-11-07T05:57:09.8230469Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:98:107 Smart cast to 'Entry' is impossible, because 'currentEntry' is a delegated property.
-2026-11-07T05:57:09.8233159Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:98:197 Smart cast to 'Entry' is impossible, because 'currentEntry' is a delegated property.
-2026-11-07T05:57:09.8235892Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:99:102 Smart cast to 'Entry' is impossible, because 'currentEntry' is a delegated property.
-2026-11-07T05:57:09.8238851Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:99:187 Smart cast to 'Entry' is impossible, because 'currentEntry' is a delegated property.
-2026-11-07T05:57:09.8241564Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:100:104 Smart cast to 'Entry' is impossible, because 'currentEntry' is a delegated property.
-2026-11-07T05:57:09.8244297Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:100:191 Smart cast to 'Entry' is impossible, because 'currentEntry' is a delegated property.
-2026-11-07T05:57:09.8247298Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:105:30 Smart cast to 'Entry' is impossible, because 'currentEntry' is a delegated property.
-2026-11-07T05:57:09.8250055Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:110:32 Smart cast to 'Entry' is impossible, because 'currentEntry' is a delegated property.
-2026-11-07T05:57:09.8253044Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddGroupScreen.kt:58:100 Smart cast to 'Group' is impossible, because 'currentGroup' is a delegated property.
-2026-11-07T05:57:09.8255821Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddGroupScreen.kt:59:103 Smart cast to 'Group' is impossible, because 'currentGroup' is a delegated property.
-2026-11-07T05:57:09.8259215Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddGroupScreen.kt:60:100 Smart cast to 'Group' is impossible, because 'currentGroup' is a delegated property.
-2026-11-07T05:57:09.8261905Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddGroupScreen.kt:92:89 Smart cast to 'Group' is impossible, because 'currentGroup' is a delegated property.
-2026-11-07T05:57:09.8264699Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:63:61 Argument type mismatch: actual type is 'Entry?', but 'Entry' was expected.
-2026-11-07T05:57:09.8267714Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:65:21 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'Entry?'.
-2026-11-07T05:57:09.8270431Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:72:37 Argument type mismatch: actual type is 'Entry?', but 'Entry' was expected.
-2026-11-07T05:57:09.8273166Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:117:41 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'Entry?'.
-2026-11-07T05:57:09.8275982Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:118:41 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'Entry?'.
-2026-11-07T05:57:09.8279091Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:152:30 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'Entry?'.
-2026-11-07T05:57:09.8282009Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:152:78 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'Entry?'.
-2026-11-07T05:57:09.8284824Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:155:37 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'Entry?'.
-2026-11-07T05:57:09.8287898Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:156:82 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'Entry?'.
-2026-11-07T05:57:09.8290706Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:175:58 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'Entry?'.
-2026-11-07T05:57:09.8293529Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:207:39 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'Entry?'.
-2026-11-07T05:57:09.8296599Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:218:33 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'Entry?'.
-2026-11-07T05:57:09.8299452Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:312:37 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'Entry?'.
-2026-11-07T05:57:09.8302402Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:349:59 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'Entry?'.
-2026-11-07T05:57:09.8305639Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:365:19 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'Entry?'.
-2026-11-07T05:57:09.8308759Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:379:37 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'Entry?'.
-2026-11-07T05:57:09.8311785Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:387:22 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'Entry?'.
-2026-11-07T05:57:09.8314631Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:400:32 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'Entry?'.
-2026-11-07T05:57:09.8317785Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:410:22 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'Entry?'.
-2026-11-07T05:57:09.8320589Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:424:30 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'Entry?'.
-2026-11-07T05:57:09.8323365Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/ViewEntryScreen.kt:439:46 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'Entry?'.
-2026-11-07T05:57:09.9197195Z > Task :app:compileReleaseKotlin FAILED
-2026-11-07T05:57:10.0177555Z FAILURE: Build failed with an exception.
-2026-11-07T05:57:10.0187484Z * What went wrong:
-2026-11-07T05:57:10.0192426Z    > Compilation error. See log for more details
-2026-11-07T05:57:10.0193369Z * Try:
-2026-11-07T05:57:10.0538400Z Caused by: org.jetbrains.kotlin.gradle.tasks.CompilationErrorException: Compilation error. See log for more details
-2026-11-07T05:57:10.0603829Z BUILD FAILED in 28s
+2026-11-07T07:13:08.0799343Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:404:19 Unresolved reference 'fieldOrder'.
+2026-11-07T07:13:08.0801740Z > Task :app:compileReleaseKotlin FAILED
+2026-11-07T07:13:08.0803454Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:405:29 Unresolved reference 'fieldOrder'.
+2026-11-07T07:13:08.0806485Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:405:29 Cannot infer type for this parameter. Specify it explicitly.
+2026-11-07T07:13:08.0808928Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:428:92 Unresolved reference 'fieldOrder'.
+2026-11-07T07:13:08.0810858Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:429:72 Unresolved reference 'fieldOrder'.
+2026-11-07T07:13:08.0813019Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:430:64 Cannot infer type for this parameter. Specify it explicitly.
+2026-11-07T07:13:08.0815105Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:430:64 Not enough information to infer type argument for 'V'.
+2026-11-07T07:13:08.0817188Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:431:53 Cannot infer type for this parameter. Specify it explicitly.
+2026-11-07T07:13:08.0819622Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:431:53 Not enough information to infer type argument for 'V'.
+2026-11-07T07:13:08.0821647Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:431:79 Cannot infer type for this parameter. Specify it explicitly.
+2026-11-07T07:13:08.0823680Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:431:79 Not enough information to infer type argument for 'V'.
+2026-11-07T07:13:08.0825597Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:433:53 Unresolved reference 'fieldOrder'.
+2026-11-07T07:13:08.0827547Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:436:72 Unresolved reference 'fieldOrder'.
+2026-11-07T07:13:08.0829519Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:437:64 Cannot infer type for this parameter. Specify it explicitly.
+2026-11-07T07:13:08.0831572Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:437:64 Not enough information to infer type argument for 'V'.
+2026-11-07T07:13:08.0833649Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:438:53 Cannot infer type for this parameter. Specify it explicitly.
+2026-11-07T07:13:08.0835689Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:438:53 Not enough information to infer type argument for 'V'.
+2026-11-07T07:13:08.0837896Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:438:79 Cannot infer type for this parameter. Specify it explicitly.
+2026-11-07T07:13:08.0839851Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:438:79 Not enough information to infer type argument for 'V'.
+2026-11-07T07:13:08.0841688Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:440:53 Unresolved reference 'fieldOrder'.
+2026-11-07T07:13:08.0843421Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:493:92 Unresolved reference 'fieldOrder'.
+2026-11-07T07:13:08.0845151Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:494:72 Unresolved reference 'fieldOrder'.
+2026-11-07T07:13:08.0847210Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:495:64 Cannot infer type for this parameter. Specify it explicitly.
+2026-11-07T07:13:08.0849476Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:495:64 Not enough information to infer type argument for 'V'.
+2026-11-07T07:13:08.0851394Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:496:53 Cannot infer type for this parameter. Specify it explicitly.
+2026-11-07T07:13:08.0853430Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:496:53 Not enough information to infer type argument for 'V'.
+2026-11-07T07:13:08.0855591Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:496:79 Cannot infer type for this parameter. Specify it explicitly.
+2026-11-07T07:13:08.0857732Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:496:79 Not enough information to infer type argument for 'V'.
+2026-11-07T07:13:08.0859429Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:498:53 Unresolved reference 'fieldOrder'.
+2026-11-07T07:13:08.0861228Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:501:72 Unresolved reference 'fieldOrder'.
+2026-11-07T07:13:08.0863148Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:502:64 Cannot infer type for this parameter. Specify it explicitly.
+2026-11-07T07:13:08.0865106Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:502:64 Not enough information to infer type argument for 'V'.
+2026-11-07T07:13:08.0866980Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:503:53 Cannot infer type for this parameter. Specify it explicitly.
+2026-11-07T07:13:08.0869021Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:503:53 Not enough information to infer type argument for 'V'.
+2026-11-07T07:13:08.0870659Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:503:79 Cannot infer type for this parameter. Specify it explicitly.
+2026-11-07T07:13:08.0872584Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:503:79 Not enough information to infer type argument for 'V'.
+2026-11-07T07:13:08.0874355Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:505:53 Unresolved reference 'fieldOrder'.
+2026-11-07T07:13:08.0876237Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:573:92 Unresolved reference 'fieldOrder'.
+2026-11-07T07:13:08.0878230Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:574:72 Unresolved reference 'fieldOrder'.
+2026-11-07T07:13:08.0880193Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:575:64 Cannot infer type for this parameter. Specify it explicitly.
+2026-11-07T07:13:08.0882189Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:575:64 Not enough information to infer type argument for 'V'.
+2026-11-07T07:13:08.0884189Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:576:53 Cannot infer type for this parameter. Specify it explicitly.
+2026-11-07T07:13:08.0886176Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:576:53 Not enough information to infer type argument for 'V'.
+2026-11-07T07:13:08.0888605Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:576:79 Cannot infer type for this parameter. Specify it explicitly.
+2026-11-07T07:13:08.0890654Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:576:79 Not enough information to infer type argument for 'V'.
+2026-11-07T07:13:08.0892521Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:578:53 Unresolved reference 'fieldOrder'.
+2026-11-07T07:13:08.0894297Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:581:72 Unresolved reference 'fieldOrder'.
+2026-11-07T07:13:08.0896184Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:582:64 Cannot infer type for this parameter. Specify it explicitly.
+2026-11-07T07:13:08.0898486Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:582:64 Not enough information to infer type argument for 'V'.
+2026-11-07T07:13:08.0900492Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:583:53 Cannot infer type for this parameter. Specify it explicitly.
+2026-11-07T07:13:08.0902618Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:583:53 Not enough information to infer type argument for 'V'.
+2026-11-07T07:13:08.0904632Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:583:79 Cannot infer type for this parameter. Specify it explicitly.
+2026-11-07T07:13:08.0906645Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:583:79 Not enough information to infer type argument for 'V'.
+2026-11-07T07:13:08.0908739Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:585:53 Unresolved reference 'fieldOrder'.
+2026-11-07T07:13:08.0910577Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:623:92 Unresolved reference 'fieldOrder'.
+2026-11-07T07:13:08.0912375Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:624:72 Unresolved reference 'fieldOrder'.
+2026-11-07T07:13:08.0914296Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:625:64 Cannot infer type for this parameter. Specify it explicitly.
+2026-11-07T07:13:08.0916310Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:625:64 Not enough information to infer type argument for 'V'.
+2026-11-07T07:13:08.0918416Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:626:53 Cannot infer type for this parameter. Specify it explicitly.
+2026-11-07T07:13:08.0920410Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:626:53 Not enough information to infer type argument for 'V'.
+2026-11-07T07:13:08.0922423Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:626:79 Cannot infer type for this parameter. Specify it explicitly.
+2026-11-07T07:13:08.0924366Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:626:79 Not enough information to infer type argument for 'V'.
+2026-11-07T07:13:08.0926236Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:628:53 Unresolved reference 'fieldOrder'.
+2026-11-07T07:13:08.0928224Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:631:72 Unresolved reference 'fieldOrder'.
+2026-11-07T07:13:08.0930139Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:632:64 Cannot infer type for this parameter. Specify it explicitly.
+2026-11-07T07:13:08.0932376Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:632:64 Not enough information to infer type argument for 'V'.
+2026-11-07T07:13:08.0934344Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:633:53 Cannot infer type for this parameter. Specify it explicitly.
+2026-11-07T07:13:08.0936550Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:633:53 Not enough information to infer type argument for 'V'.
+2026-11-07T07:13:08.0939024Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:633:79 Cannot infer type for this parameter. Specify it explicitly.
+2026-11-07T07:13:08.0941001Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:633:79 Not enough information to infer type argument for 'V'.
+2026-11-07T07:13:08.0942835Z e: file:///home/runner/work/Secure-vault/Secure-vault/app/src/main/java/com/example/ui/AddEntryScreen.kt:635:53 Unresolved reference 'fieldOrder'.
+2026-11-07T07:13:08.2798875Z FAILURE: Build failed with an exception.
+2026-11-07T07:13:08.2799861Z * What went wrong:
+2026-11-07T07:13:08.2803539Z    > Compilation error. See log for more details
+2026-11-07T07:13:08.2804257Z * Try:
+2026-11-07T07:13:08.3176261Z Caused by: org.jetbrains.kotlin.gradle.tasks.CompilationErrorException: Compilation error. See log for more details
+2026-11-07T07:13:08.3254982Z BUILD FAILED in 27s
