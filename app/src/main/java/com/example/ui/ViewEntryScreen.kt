@@ -49,6 +49,7 @@ fun ViewEntryScreen(
     onNavigateToEdit: () -> Unit
 ) {
     val currentEntry by viewModel.currentEntry.collectAsState()
+    val entry = currentEntry  // capture once at top
     val clipboardManager: ClipboardManager = LocalClipboardManager.current
     val context = androidx.compose.ui.platform.LocalContext.current
     var passwordVisible by remember { mutableStateOf(false) }
@@ -57,8 +58,7 @@ fun ViewEntryScreen(
     val scope = rememberCoroutineScope()
     var showMoveDialog by remember { mutableStateOf(false) }
 
-    if (showMoveDialog && currentEntry != null) {
-        val entry = currentEntry
+    if (showMoveDialog && entry != null) {
         val destinations = remember(entry) {
             viewModel.getAvailableGroupDestinationsForEntry(entry)
         }
@@ -107,13 +107,12 @@ fun ViewEntryScreen(
             )
         }
     ) { paddingValues ->
-        if (currentEntry == null) {
+        if (entry == null) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 CircularProgressIndicator()
             }
             return@Scaffold
         }
-        val entry = currentEntry
         val iconColor = parseColor(entry.customData["ThemeColor"]?.value)
         val iconVector = parseIcon(entry.icon.name)
 

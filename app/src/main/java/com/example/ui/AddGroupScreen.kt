@@ -55,9 +55,10 @@ fun AddGroupScreen(
     isEdit: Boolean = false
 ) {
     val currentGroup by viewModel.currentGroup.collectAsState()
-    var title by remember(currentGroup?.uuid) { mutableStateOf(if (isEdit && currentGroup != null) currentGroup.name else "") }
-    var iconName by remember(currentGroup?.uuid) { mutableStateOf(if (isEdit && currentGroup != null) currentGroup.icon.name else "Folder") }
-    var color by remember(currentGroup?.uuid) { mutableStateOf(if (isEdit && currentGroup != null) currentGroup.customData["ThemeColor"]?.value ?: "Blue" else "Blue") }
+    val group = currentGroup  // capture once at top
+    var title by remember(group?.uuid) { mutableStateOf(if (isEdit && group != null) group.name else "") }
+    var iconName by remember(group?.uuid) { mutableStateOf(if (isEdit && group != null) group.icon.name else "Folder") }
+    var color by remember(group?.uuid) { mutableStateOf(if (isEdit && group != null) group.customData["ThemeColor"]?.value ?: "Blue" else "Blue") }
     
     var showIconDialog by remember { mutableStateOf(false) }
     var isSaving by remember { mutableStateOf(false) }
@@ -89,7 +90,9 @@ fun AddGroupScreen(
                     onClick = {
                         if (!isSaving) {
                             isSaving = true
-                            if (isEdit && currentGroup != null) { viewModel.updateGroup(currentGroup, title, iconName, color) } else { viewModel.createGroup(title, iconName, color) }
+                            if (isEdit && group != null) {
+                                viewModel.updateGroup(group, title, iconName, color)
+                            } else { viewModel.createGroup(title, iconName, color) }
                             onNavigateBack()
                         }
                     },
