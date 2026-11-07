@@ -84,20 +84,20 @@ fun AddEntryScreen(
         val selectedTemplate by viewModel.selectedTemplate.collectAsState()
     
     
-    var title by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry!![app.keemobile.kotpass.constants.BasicField.Title]?.content ?: "" else "") }
-    var username by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry!![app.keemobile.kotpass.constants.BasicField.UserName]?.content ?: "" else "") }
-    var password by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry!![app.keemobile.kotpass.constants.BasicField.Password]?.content ?: "" else "") }
-    var url by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry!![app.keemobile.kotpass.constants.BasicField.Url]?.content ?: "" else "") }
-    var notes by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry!![app.keemobile.kotpass.constants.BasicField.Notes]?.content ?: "" else "") }
-    var iconName by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry!!.icon.name else "Key") }
-    var color by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry!!.customData["ThemeColor"]?.value ?: "Blue" else "Blue") }
-    var tagsString by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry!!.tags.joinToString(", ") else "") }
+    var title by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry[app.keemobile.kotpass.constants.BasicField.Title]?.content ?: "" else "") }
+    var username by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry[app.keemobile.kotpass.constants.BasicField.UserName]?.content ?: "" else "") }
+    var password by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry[app.keemobile.kotpass.constants.BasicField.Password]?.content ?: "" else "") }
+    var url by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry[app.keemobile.kotpass.constants.BasicField.Url]?.content ?: "" else "") }
+    var notes by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry[app.keemobile.kotpass.constants.BasicField.Notes]?.content ?: "" else "") }
+    var iconName by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry.icon.name else "Key") }
+    var color by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry.customData["ThemeColor"]?.value ?: "Blue" else "Blue") }
+    var tagsString by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry.tags.joinToString(", ") else "") }
     var fieldOrder by remember(currentEntry?.uuid) { mutableStateOf(listOf("Username", "Password", "URL", "Notes")) }
 
-    var showUsername by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry!!.fields.containsKey(app.keemobile.kotpass.constants.BasicField.UserName()) && currentEntry!!.customData["Hide_UserName"]?.value != "true" else !isTemplate) }
-    var showPassword by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry!!.fields.containsKey(app.keemobile.kotpass.constants.BasicField.Password()) && currentEntry!!.customData["Hide_Password"]?.value != "true" else !isTemplate) }
-    var showUrl by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry!!.fields.containsKey(app.keemobile.kotpass.constants.BasicField.Url()) && currentEntry!!.customData["Hide_Url"]?.value != "true" else !isTemplate) }
-    var showNotes by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry!!.fields.containsKey(app.keemobile.kotpass.constants.BasicField.Notes()) && currentEntry!!.customData["Hide_Notes"]?.value != "true" else !isTemplate) }
+    var showUsername by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry.fields.containsKey(app.keemobile.kotpass.constants.BasicField.UserName()) && currentEntry.customData["Hide_UserName"]?.value != "true" else !isTemplate) }
+    var showPassword by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry.fields.containsKey(app.keemobile.kotpass.constants.BasicField.Password()) && currentEntry.customData["Hide_Password"]?.value != "true" else !isTemplate) }
+    var showUrl by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry.fields.containsKey(app.keemobile.kotpass.constants.BasicField.Url()) && currentEntry.customData["Hide_Url"]?.value != "true" else !isTemplate) }
+    var showNotes by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) currentEntry.fields.containsKey(app.keemobile.kotpass.constants.BasicField.Notes()) && currentEntry.customData["Hide_Notes"]?.value != "true" else !isTemplate) }
     
     var customFields by remember(currentEntry?.uuid) { mutableStateOf(if (isEdit && currentEntry != null) {
         val newCustomFields = mutableListOf<CustomFieldData>()

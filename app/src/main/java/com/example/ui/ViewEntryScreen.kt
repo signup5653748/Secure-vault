@@ -58,7 +58,7 @@ fun ViewEntryScreen(
     var showMoveDialog by remember { mutableStateOf(false) }
 
     if (showMoveDialog && currentEntry != null) {
-        val entry = currentEntry!!
+        val entry = currentEntry
         val destinations = remember(entry) {
             viewModel.getAvailableGroupDestinationsForEntry(entry)
         }
@@ -113,7 +113,7 @@ fun ViewEntryScreen(
             }
             return@Scaffold
         }
-        val entry = currentEntry!!
+        val entry = currentEntry
         val iconColor = parseColor(entry.customData["ThemeColor"]?.value)
         val iconVector = parseIcon(entry.icon.name)
 
