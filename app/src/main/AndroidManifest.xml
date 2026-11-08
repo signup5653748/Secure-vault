@@ -3,21 +3,21 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application
-        android:name="com.example.MyApplication"
+        android:name="com.aistudio.vault.MyApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MyApplication">
+        android:theme="@style/Theme.SecureVault">
         <activity
-            android:name="com.example.MainActivity"
+            android:name="com.aistudio.vault.MainActivity"
             android:exported="true"
             android:launchMode="singleTask"
             android:taskAffinity=".SecureVault"
             android:clearTaskOnLaunch="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.MyApplication">
+            android:theme="@style/Theme.SecureVault">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -83,6 +83,14 @@
                 <data android:mimeType="application/octet-stream" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name="com.aistudio.vault.GlobalExceptionHandler$CrashDialogActivity"
+            android:theme="@android:style/Theme.Material.Dialog.Alert"
+            android:exported="false"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:taskAffinity=":crash_dialog" />
     </application>
 
 </manifest>
