@@ -90,6 +90,7 @@ dependencies {
   implementation(libs.androidx.core.ktx)
 
   implementation("androidx.biometric:biometric:1.1.0")
+  implementation("androidx.fragment:fragment-ktx:1.8.9")
   implementation("androidx.security:security-crypto:1.1.0")
   // Kotpass 0.13.0 is published on Maven Central under app.keemobile.
   implementation("app.keemobile:kotpass:0.13.0")
